@@ -1,0 +1,9 @@
+---
+- name: Delete existing A Record
+  route53:
+    state: absent
+    zone: "{{ route53_top_level_domain }}"
+    record: "{{ oldA.set.record }}"
+    value: "{{ oldA.set.value }}"
+    ttl: "{{ oldA.set.ttl }}"
+    type: A

@@ -1,0 +1,18 @@
+---
+- name: End play unprompted
+  fail:
+    msg: "Ending play, was NOT prompted"
+  when: not prompt_for_end_play
+
+- pause: 
+    prompt: "Enter 'Yes' to end the play 'No' to continue" 
+  register: prompt  
+  when: prompt_for_end_play
+
+- set_fact:
+    end_play_now: "{{ prompt.user_input }}"
+
+- name: End play prompted
+  fail: 
+    msg: "Ending play, was prompted" 
+  when: end_play_now

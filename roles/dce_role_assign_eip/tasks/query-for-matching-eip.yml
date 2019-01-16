@@ -1,0 +1,21 @@
+---
+- name: Query for eip matching ec2 name
+  ec2_eip_facts:
+    filters:
+      "tag:Name": "{{ ec2_fqdn }}"
+    region: "{{ aws_region }}"
+  register: eip_facts
+
+- name: Set ec2 eip if found
+  set_fact:
+    ec2_eip: "{{ eip_facts|json_query('addresses[0].public_ip') }}"
+
+- name: Set ec2 eip conditionals
+  set_fact:
+    eip_found: "{{ 'false' if (ec2_eip =='') else 'true' }}"
+
+- include_tasks: assign-eip.yml
+  when: eip_found
+
+- include_tasks: refresh-inventory-add-host.yml
+  when: eip_found

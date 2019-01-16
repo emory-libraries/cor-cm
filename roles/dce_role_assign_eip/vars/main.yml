@@ -1,0 +1,5 @@
+---
+# vars file for dce_role_assign_eip
+#Uncomment below lines to manually set the eip
+#manual_eip: true
+#ec2_eip: #Required if above is uncommented!

@@ -1,0 +1,8 @@
+---
+- meta: refresh_inventory
+
+- name: Create new ansible group
+  add_host:
+    name: "{{ ec2_eip }}"
+    ansible_ssh_private_key_file: "{{ ec2_ssh_private_key_path }}"
+    groups: ec2_group

@@ -1,0 +1,9 @@
+---
+
+python_base_packages:
+  - python
+  - python-setuptools
+  - python-devel
+
+pip_install_packages:
+  - pexpect

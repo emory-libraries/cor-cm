@@ -1,0 +1,25 @@
+---
+# tasks file for emorylib_role_install_ruby_scl
+
+- name: Install Ruby from SCL
+  yum:
+    name: "{{ item }}"
+    state: present
+  loop: ['{{ ruby_version }}', '{{ ruby_version }}-ruby-devel']
+
+- name: Place file to enable Ruby in path
+  template:
+    src: enable-rh-ruby.j2
+    dest: /etc/profile.d/enable-{{ ruby_version }}.sh
+    owner: "root"
+    group: "root"
+    mode: 0644
+
+- name: Place gemrc for no docs
+  copy:
+    src: gemrc
+    dest: ~/.gemrc
+
+- name: Install/Update Base Ruby Gems
+  shell: >
+   gem install rails;

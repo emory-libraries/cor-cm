@@ -1,0 +1,20 @@
+---
+- name: Create new A Record
+  route53:
+    state: "{{ route53_state }}"
+    zone: "{{ route53_top_level_domain }}"
+    record: "{{ route53_A_record }}"
+    value: "{{ route53_IP_address }}"
+    ttl: "{{ route53_ttl }}"
+    type: A
+  when: route53_A_record is defined
+
+- name: Create new CNAME(s)
+  route53: 
+    state: "{{ route53_state }}"
+    zone: "{{ route53_top_level_domain }}"
+    ttl: "{{ route53_ttl }}"
+    record: "{{ item }}"
+    value: "{{ route53_A_record }}"
+  loop: "{{ route53_CNAME }}"
+  when: route53_CNAME is defined

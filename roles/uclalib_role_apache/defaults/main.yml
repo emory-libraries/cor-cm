@@ -1,0 +1,17 @@
+---
+
+# Apache packages to be installed via yum
+apache_packages:
+  - httpd
+  - mod_ssl
+
+httpd_base_path: /etc/httpd
+
+httpd_conf_path: "{{ httpd_base_path }}/conf"
+
+httpd_vhost_path: "{{ httpd_base_path }}/vhosts.d"
+
+ssl_conf_path: "{{ httpd_base_path }}/conf.d"
+
+# Does this install of httpd need SSL
+use_ssl_config: "yes"

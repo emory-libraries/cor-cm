@@ -1,0 +1,24 @@
+---
+- name: Set facts after loading project vars
+  block:
+    - set_fact:
+        route53_A_record: "{{ ec2_fqdn | regex_search('^(?:www\\.)?([^.]+)') }}.{{ route53_top_level_domain }}"
+        route53_IP_address: "{{ ec2_ip }}"
+  when: ec2_fqdn is defined and ec2_fqdn != ""
+
+- name: Set CNAMEs if they exists
+  block:
+    - set_fact:
+        route53_CNAME:  "{{ item | regex_search('^(?:www\\.)?([^.]+)') }}.{{ route53_top_level_domain  }}"
+      loop: "{{ ec2_CNAME }}"
+      register: CNAMEs
+
+    - set_fact:
+        route53_CNAMEs: "{{ CNAMEs | json_query('results[*].ansible_facts.route53_CNAME') | list}}"
+
+  when: ec2_CNAME is defined and ec2_CNAME != ""
+
+- name: Skip later tasks if tagged for delete
+  set_fact:
+    delete_only: yes
+  tags: [ delete-dns, delete-all, never ]

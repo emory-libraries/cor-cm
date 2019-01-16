@@ -1,0 +1,14 @@
+---
+# defaults file for dce_role_route53_cm
+route53_state: get
+route53_top_level_domain: testdce.com
+route53_record_type: A
+route53_ttl: 300
+
+
+route53_IP_address: ""
+route53_A_Record: ""
+route53_CNAME: ""
+
+delete_only: no
+old_cnames_found: no

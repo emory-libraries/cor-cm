@@ -1,0 +1,6 @@
+---
+
+- name: Install the ImageMagick package
+  yum:
+    name: "ImageMagick"
+    state: latest

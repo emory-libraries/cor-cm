@@ -1,0 +1,52 @@
+# UCLA Roles for Samvera Cap Deploy
+##### Replace these with forked DCE Versions #################################
+- src: https://github.com/UCLALibrary/uclalib_role_samvera_capdeploy
+#- src: https://github.com/UCLALibrary/uclalib_role_ruby
+#- src: https://github.com/UCLALibrary/uclalib_role_rhel7repos
+- src: https://github.com/UCLALibrary/uclalib_role_java
+##- src: https://github.com/UCLALibrary/uclalib_role_tomcat
+- src: https://github.com/UCLALibrary/uclalib_role_fedora4
+##############################################################################
+- src: https://github.com/UCLALibrary/uclalib_role_epel
+#- src: https://github.com/UCLALibrary/uclalib_role_uclalibrepo
+- src: https://github.com/UCLALibrary/uclalib_role_samvera_basepackages
+- src: https://github.com/UCLALibrary/uclalib_role_apache
+- src: https://github.com/UCLALibrary/uclalib_role_clamav
+- src: https://github.com/UCLALibrary/uclalib_role_pip
+- src: https://github.com/UCLALibrary/uclalib_role_imagemagick
+- src: https://github.com/UCLALibrary/uclalib_role_libreoffice
+- src: https://github.com/UCLALibrary/uclalib_role_ffmpeg
+- src: https://github.com/UCLALibrary/uclalib_role_fits
+- src: https://github.com/UCLALibrary/uclalib_role_passenger
+- src: https://github.com/UCLALibrary/uclalib_role_nodejs
+- src: https://github.com/UCLALibrary/uclalib_role_redis
+- src: https://github.com/UCLALibrary/uclalib_role_solr7
+- src: https://github.com/UCLALibrary/uclalib_role_yarn
+- src: https://github.com/UCLALibrary/uclalib_role_cantaloupe
+# Forked from DCE repo
+#- src: https://github.com/curationexperts/uclalib_role_fedora4.git
+#  version: use-fedora_server_fqdn
+- src: https://github.com/curationexperts/uclalib_role_tomcat
+  version: add-ubuntu-functionality
+#- src: https://github.com/curationexperts/uclalib_role_cantaloupe
+#  version: add-Ubuntu-functionality
+#- src: https://github.com/curationexperts/uclalib_role_samvera_capdeploy
+#  version: add-geonames-honeybadger
+#- src: https://github.com/curationexperts/uclalib_role_java
+- src: https://github.com/curationexperts/uclalib_role_rhel7repos
+#- src: https://github.com/curationexperts/uclalib_role_ruby 
+  #  version: use-s3
+# AWS Management
+- src: https://github.com/curationexperts/dce_role_provision_rds
+- src: https://github.com/curationexperts/dce_role_provision_ec2
+- src: https://github.com/curationexperts/dce_role_rds_mysql
+#- src: https://github.com/emory-libraries/emorylib_role_local_mysqldb
+- src: https://github.com/curationexperts/dce_role_route53_cm
+# Utility Roles
+- src: https://github.com/curationexperts/dce_role_project_env
+- src: https://github.com/curationexperts/dce_role_selinux_reboot
+- src: https://github.com/curationexperts/dce_role_wait_for_gatherfacts
+- src: https://github.com/curationexperts/dce_role_end_play
+- src: https://github.com/curationexperts/dce_role_assign_eip
+#######
+- src: https://github.com/emory-libraries/emorylib_role_install_ruby_scl

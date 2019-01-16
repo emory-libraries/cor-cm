@@ -1,0 +1,9 @@
+- name: Delete existing CNAMES
+  route53:
+    state: absent
+    zone: "{{ route53_top_level_domain }}"
+    record: "{{ item.set.record }}"
+    value: "{{ item.set.value }}"
+    ttl:  "{{ item.set.ttl }}"
+    type: CNAME
+  loop: "{{ oldCNAME.results }}"

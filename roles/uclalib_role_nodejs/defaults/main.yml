@@ -1,0 +1,9 @@
+---
+
+nodejs_version: 8
+
+nodejs_setup_script: "setup_{{ nodejs_version }}.x"
+
+nodejs_setup_url: "https://rpm.nodesource.com/{{ nodejs_setup_script }}"
+
+nodejs_repo_path: "/etc/yum.repos.d/nodesource-el7.repo"

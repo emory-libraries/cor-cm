@@ -1,0 +1,22 @@
+## Tomcat Environment Variables ##
+
+# User account that will run the Tomcat server process
+TOMCAT_USER={{ item.app_name }}
+
+# Base directory of Java installation to be used with this Tomcat instance
+export JAVA_HOME={{ java_home }}
+
+# Java options specific to the application running within Tomcat
+#export JAVA_OPTS="$JAVA_OPTS -Djava.awt.headless=true -Dfile.encoding=UTF-8 -server -Xms512m -Xmx2048m -XX:NewSize=256m -XX:MaxNewSize=256m -XX:PermSize=256m -XX:MaxPermSize=256m -XX:+DisableExplicitGC"
+
+# Path to the common Tomcat binaries and libraries shared by all Tomcat instances
+export CATALINA_HOME={{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}
+
+# Path to this Tomcat instance
+export CATALINA_BASE={{ tomcatapp_install_path }}/{{ item.app_name }}
+
+# Set the location of the Catalina PID file
+export CATALINA_PID=$CATALINA_BASE/work/catalina.pid
+
+# Set the location of the Tomcat process lock file
+LOCKFILE=/var/lock/subsys/{{ item.app_name }}

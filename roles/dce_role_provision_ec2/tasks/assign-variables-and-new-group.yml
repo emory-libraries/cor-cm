@@ -1,0 +1,12 @@
+- name: Assign singular varibles for ec2 instance
+  set_fact:
+    ec2_ip: "{{ ec2|json_query('tagged_instances[0].public_ip') }}"
+    ec2_id: "{{ ec2|json_query('tagged_instances[0].id') }}"
+    host: "{{ host }}"
+    cacheable: yes
+
+- name: Create new ansible group
+  add_host:
+    name: "{{ ec2_ip }}"
+    ansible_ssh_private_key_file: "{{ ec2_ssh_private_key_path }}"
+    groups: ec2_group

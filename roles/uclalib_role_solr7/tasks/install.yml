@@ -1,0 +1,39 @@
+---
+
+- name: Unpack Solr installation script from Solr archive
+  shell: >
+    tar xzf {{ solr_install_dir }}/solr-{{ solr_version }}.tgz
+    -C {{ solr_install_dir }}
+    solr-{{ solr_version }}/bin/install_solr_service.sh
+    --strip-components=2
+    creates={{ solr_install_dir }}/install_solr_service.sh
+  args:
+    warn: no
+
+- name: Put in place Solr limits.d configuraiton
+  copy:
+    src: solr_limits.conf
+    dest: /etc/security/limits.d/solr.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Execute Solr installation script
+  shell: >
+    {{ solr_install_dir }}/install_solr_service.sh
+    {{ solr_install_dir }}/solr-{{ solr_version }}.tgz
+    -i {{ solr_install_dir }}
+    -d {{ solr_data_dir }}
+    -u {{ solr_user }}
+    -s {{ solr_service_name }}
+    -p {{ solr_port }}
+    -n 
+    creates={{ solr_base_dir }}/bin/solr
+
+- name: Clean-up install files
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ solr_install_dir }}/install_solr_service.sh"
+    - "{{ solr_install_dir }}/solr-{{ solr_version }}.tgz"

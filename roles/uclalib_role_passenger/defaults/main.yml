@@ -1,0 +1,10 @@
+---
+
+passenger_version: 5.3.3
+
+apachemod_build_packages:
+  - httpd-devel
+  - apr-devel
+  - apr-util-devel
+
+passenger_inst_reg_dir: "/var/run"

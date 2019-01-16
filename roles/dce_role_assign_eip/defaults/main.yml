@@ -1,0 +1,3 @@
+---
+# defaults file for dce_role_assign_eip
+manual_eip: false

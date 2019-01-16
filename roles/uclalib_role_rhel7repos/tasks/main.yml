@@ -1,0 +1,22 @@
+---
+- name: Check if running in AWS 
+  lineinfile:
+    path: /sys/hypervisor/uuid
+    regexp: '^ec2' 
+    state: absent
+  check_mode: yes
+  register: aws_check
+
+- name: Change repos if AWS
+  set_fact:
+    repos: "{{ aws_repos }}"
+    repo_path: "{{ aws_repo_path }}"
+#  when: aws_check.changed
+
+- name: Enable RHEL7 repos 
+  ini_file:
+    dest: "{{ repo_path }}"
+    section: "{{ item }}"
+    option: enabled
+    value: 1
+  loop: "{{ repos }}"

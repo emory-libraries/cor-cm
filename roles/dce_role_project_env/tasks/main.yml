@@ -1,0 +1,19 @@
+---
+# tasks file for dce_role_project_env
+- name: Change vararible if using absolute paths
+  set_fact:
+    project_env_path: "{{ project_env_absolute_paths }}"
+  when: use_absolute_paths
+
+- name: Determine if the project-specific vars file exists
+  local_action:
+    module: stat
+    path: "{{ item }}"
+  loop: "{{ project_env_path }}"
+  register: project_vars_file
+
+- name: Set-up project-specific environment variables
+  include_vars: "{{ item.stat.path }}"
+  when: item.stat.exists
+  loop: "{{ project_vars_file.results }}"
+  no_log: True

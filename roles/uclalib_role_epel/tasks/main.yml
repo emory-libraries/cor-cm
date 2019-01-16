@@ -1,0 +1,12 @@
+---
+
+- name: Determine if EPEL repo is already set-up
+  stat:
+    path: "{{ epel_repo_file }}"
+  register: epel_repo_file_status
+
+- name: Add EPEL Repo
+  yum:
+    name: "{{ epel_repo_url }}"
+    state: present
+  when: epel_repo_file_status.stat.exists == False

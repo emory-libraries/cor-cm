@@ -1,0 +1,17 @@
+---
+
+dependencies: []
+
+galaxy_info:
+  author: "Stephen Gurnick - https://github.com/sgurnick/"
+  description: "Enable base set of RHEL7 yum repositories"
+  company: "UCLA Library"
+  license: "reference license.txt"
+  min_ansible_version:
+  platforms:
+  - name: EL
+    versions:
+    - 7
+  galaxy_tags:
+    - rhel
+    - repository

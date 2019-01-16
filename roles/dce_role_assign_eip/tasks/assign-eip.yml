@@ -1,0 +1,10 @@
+---
+- name: Associate ec2 with elastic ip address
+  ec2_eip:
+    device_id: "{{ ec2_id }}"
+    ip: "{{ ec2_eip }}"
+    region: "{{ aws_region }}"
+
+- name: Replace EC2 logically
+  set_fact:
+    ec2_ip: "{{ ec2_eip }}"

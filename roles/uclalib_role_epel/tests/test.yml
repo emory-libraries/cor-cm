@@ -1,0 +1,6 @@
+---
+
+- hosts: all
+
+  roles:
+    - uclalib_role_epel

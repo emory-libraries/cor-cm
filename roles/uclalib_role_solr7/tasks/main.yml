@@ -1,0 +1,27 @@
+---
+
+- name: Determine if solr is installed
+  stat:
+    path: "{{ solr_base_dir }}"
+  register: solr_path
+  changed_when: False
+
+- name: Download Solr
+  get_url:
+    url: "{{ solr_url }}"
+    dest: "/{{ solr_install_dir }}/solr-{{ solr_version }}.tgz"
+  when: solr_path.stat.exists == False
+  register: solr_download_status
+
+- name: Install and Configure Solr
+  block:
+    - include_tasks: install.yml
+
+    - include_tasks: config_env.yml
+
+    - include_tasks: vhost_config.yml
+  when: solr_download_status.changed
+
+- name: Set-up Solr Cores
+  include_tasks: cores.yml
+  when: solr_cores is defined

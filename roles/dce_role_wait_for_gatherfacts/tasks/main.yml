@@ -1,0 +1,9 @@
+---
+# tasks file for dce_role_wait_for_gatherfacts
+- name: Wait for server to become available
+  wait_for_connection:
+    delay: 2
+    sleep: 3
+
+- name: gather facts
+  setup:

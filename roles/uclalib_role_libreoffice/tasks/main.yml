@@ -1,0 +1,38 @@
+---
+
+- name: Download and Unarchive the LibreOffice install files
+  unarchive:
+    src: "{{ libreoffice_download_url }}"
+    dest: "{{ libreoffice_temp_dir }}"
+    remote_src: yes
+    list_files: yes
+  register: libreoffice_file_list
+
+- name: Generate list of LibreOffice RPMs to be installed
+  find:
+    paths: "{{ libreoffice_temp_dir }}/{{ libreoffice_file_list.files[0] }}/RPMS"
+    patterns: "*.rpm"
+  register: libreoffice_rpms
+  no_log: true
+
+- name: Convert the LibreOffice RPM list into a format to be used by yum
+  set_fact:
+    libreoffice_rpm_list: "{{ libreoffice_rpms.files | map(attribute='path') | list }}"
+  no_log: true
+
+- name: Install LibreOffice RPMS
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ libreoffice_rpm_list }}"
+
+- name: Create LibreOffice symblink in user path
+  file:
+    src: "{{ libreoffice_install_path}}/program/soffice"
+    path: "/usr/local/bin/soffice"
+    state: link
+
+- name: Clean-up LibreOffice RPM files
+  file:
+    path: "{{ libreoffice_temp_dir }}/{{ libreoffice_file_list.files[0] }}"
+    state: absent

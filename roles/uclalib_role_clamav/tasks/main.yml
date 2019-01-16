@@ -1,0 +1,23 @@
+---
+
+- name: Install the ClamAV packages
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - clamd
+    - clamav-data
+
+- name: Put in place the Clamd configuration file
+  copy:
+    src: "scan.conf"
+    dest: "/etc/clamd.d/scan.conf"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Ensure the Clamd services are enabled and started
+  service:
+    name: clamd@scan
+    enabled: yes
+    state: started

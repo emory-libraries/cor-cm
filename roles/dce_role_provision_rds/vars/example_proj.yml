@@ -1,0 +1,29 @@
+#DB instance identifier is case insensitive, but stored as all lower-case, as in "mydbinstance". Must contain from 1 to 63 alphanumeric characters or hyphens (1 to 15 for SQL Server).
+#First character must be a letter. Cannot end with a hyphen or contain two consecutive hyphens
+rds_instance_name: 
+
+rds_master_username:            #Master Username must start with a letter. Must contain 1 to 16 alphanumeric characters.
+
+rds_master_password:            #Master Password must be at least eight characters long, as in "mypassword". Can be any printable ASCII character except "/", """, or "@".
+
+rds_db_engine:                # Pick from mariadb, MySQL, oracle-se1, oracle-se2, oracle-se, oracle-ee, sqlserver-ee, sqlserver-se, sqlserver-ex, sqlserver-web, postgres, aurora
+
+rds_subnet:
+
+rds_security_groups: []       #Up to 5, must use the sg-XXXXXXXX format
+
+
+
+
+
+
+
+
+## Override defaults here ####
+
+#rds_instance_type: db.t2.small
+#rds_db_engine: MySQL
+#rds_engine_version: 5.6.39
+#rds_size: 20
+#rds_publicly_accessible: no
+

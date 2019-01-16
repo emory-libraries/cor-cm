@@ -1,0 +1,18 @@
+---
+# tasks file for dce_role_selinux_reboot
+- name: Change selinux enforcement
+  lineinfile:
+    path: /etc/selinux/config
+    regexp: '^SELINUX='
+    line: "{{ selinux_enforcement }}" 
+  register: selinux_result
+
+- name: Reboot when Selinux changes
+  shell: "sleep 7 && reboot"
+  async: 1
+  poll: 0
+  when: selinux_result is changed
+
+- include_role:
+    name: dce_role_wait_for_gatherfacts 
+  when: selinux_result is changed

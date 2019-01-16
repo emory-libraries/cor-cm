@@ -1,0 +1,31 @@
+## Fedora Environment Variables ##
+
+# User account that will run the Fedora Tomcat server process
+TOMCAT_USER={{ fedora_tomcat_user }}
+
+# Java options specific for Fedora
+JAVA_OPTS="-Dfcrepo.home={{ fedora_data_dir }} ${JAVA_OPTS}"
+JAVA_OPTS="-Dfcrepo.spring.configuration=file:{{ fedora_config_dir }}/fcrepo-config.xml ${JAVA_OPTS}"
+JAVA_OPTS="-Dfcrepo.modeshape.configuration=file:{{ fedora_config_dir }}/repository.json ${JAVA_OPTS}"
+JAVA_OPTS="-Dlogback.configurationFile={{ fedora_config_dir }}/logback.xml ${JAVA_OPTS}"
+JAVA_OPTS="-Dfcrepo.mysql.username={{ fedora_db_user }} ${JAVA_OPTS}"
+JAVA_OPTS="-Dfcrepo.mysql.password={{ fedora_db_password }} ${JAVA_OPTS}"
+JAVA_OPTS="-Dfcrepo.mysql.host={{ fedora_db_host }} ${JAVA_OPTS}"
+JAVA_OPTS="-Dfcrepo.mysql.port={{ fedora_db_port }} ${JAVA_OPTS}"
+JAVA_OPTS="-Djava.awt.headless=true -Dfile.encoding=UTF-8 -server ${JAVA_OPTS}"
+JAVA_OPTS="-Xms{{ fedora_min_mem }} -Xmx{{ Fedora_max_mem }} ${JAVA_OPTS}"
+JAVA_OPTS="-XX:+UseG1GC -XX:+DisableExplicitGC ${JAVA_OPTS}"
+JAVA_OPTS="-XX:MaxMetaspaceSize=512m ${JAVA_OPTS}"
+export JAVA_OPTS
+
+# Path to the common Tomcat binaries and libraries shared by all Tomcat instances
+export CATALINA_HOME=/usr/local/tomcat7
+
+# Path to this Fedora Tomcat instance
+export CATALINA_BASE={{ fedora_base_dir }}
+
+# Set the location of the Catalina PID file
+export CATALINA_PID=$CATALINA_BASE/work/catalina.pid
+
+# Set the location of the Tomcat process lock file
+LOCKFILE=/var/lock/subsys/{{ fedora_tomcat_user }}

@@ -1,0 +1,13 @@
+---
+
+- name: Download and Configure the Yarn yum repository
+  get_url:
+    url: "{{ yarn_repo_url }}"
+    dest: "{{ yarn_repo_path }}"
+    mode: 0644
+
+- name: Install the Yarn Package Manager
+  yum:
+    name: yarn
+    state: present
+    update_cache: yes

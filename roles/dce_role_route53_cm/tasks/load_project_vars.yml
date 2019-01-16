@@ -1,0 +1,6 @@
+---
+- name: Load role for project envs
+  include_role:
+    name: dce_role_project_env
+  vars:
+    use_absolute_paths: yes

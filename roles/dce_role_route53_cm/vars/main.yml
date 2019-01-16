@@ -1,0 +1,4 @@
+---
+# Overwrite default values here
+#route53_top_level_domain: testdce.com
+#route53_ttl: 300

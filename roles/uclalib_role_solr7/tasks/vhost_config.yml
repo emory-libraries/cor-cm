@@ -1,0 +1,22 @@
+---
+
+- name: Put in place the Solr Apache HTTPD vhost configuration
+  template:
+    src: vhost_solr.j2
+    dest: /etc/httpd/vhosts.d/solr.httpd.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Create the Apache HTTPD Solr log directory
+  file:
+    path: "/var/log/httpd/solr"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Restart Apache HTTPD
+  service:
+    name: httpd
+    state: restarted

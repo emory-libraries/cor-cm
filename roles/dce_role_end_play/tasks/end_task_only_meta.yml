@@ -1,0 +1,8 @@
+---
+- name: Reset control variable
+  set_fact:
+    use_meta: no
+
+- set_fact:
+- name: Soft exit, will not stop entire play
+  meta: end_play

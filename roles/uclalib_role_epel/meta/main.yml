@@ -1,0 +1,16 @@
+---
+
+dependencies: []
+
+galaxy_info:
+  author: Anthony Vuong
+  description: Ansible role to install the EPEL repository
+  license: reference LICENSE file
+  min_ansible_version: 1.9
+  platforms:
+  - name: EL
+    versions:
+    - 6
+  galaxy_tags:
+    - epel
+    - repository

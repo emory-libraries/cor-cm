@@ -1,0 +1,109 @@
+---
+
+# This allows for making the {{ project_name }}_{{ env_name }}.yml vars file optional.
+# If this vars file is _not_ included in the role, the variables should be defined
+# elsehwere - e.g. in the playbook file
+- name: Determine if the project-specific vars file exists
+  local_action:
+    module: stat
+    path: "{{ role_path }}/vars/{{ project_name }}_{{ env_name }}.yml"
+  register: project_vars_file
+
+- name: Set environment variables for this project and environment
+  include_vars: "{{ project_name }}_{{ env_name }}.yml"
+  when: project_vars_file.stat.exists
+  no_log: True
+
+- name: Create Fedora data directory
+  file:
+    path: "{{ fedora_data_dir }}"
+    owner: "{{ fedora_tomcat_user }}"
+    group: "{{ fedora_tomcat_user }}"
+    state: "directory"
+
+- name: Put in place the Fedora WAR file in the webapps directory
+  get_url:
+    url: "{{ fedora_url }}"
+    dest: "{{ fedora_base_dir }}/webapps/fcrepo.war"
+    force: "no"
+
+- name: Set correct ownership of the Fedora WAR file
+  file:
+    path: "{{ fedora_base_dir }}/webapps/fcrepo.war"
+    owner: "{{ fedora_tomcat_user }}"
+    group: "{{ fedora_tomcat_user }}"
+    state: "file"
+
+- name: Put in place the tomcat-users.xml file for Fedora Authentication
+  template:
+    src: "tomcat-users.j2"
+    dest: "{{ fedora_base_dir }}/conf/tomcat-users.xml"
+    owner: "{{ fedora_tomcat_user }}"
+    group: "{{ fedora_tomcat_user }}"
+
+- name: Put in place the Fedora tomcat environment variables file
+  template:
+    src: "fedora_env.j2"
+    dest: "/etc/sysconfig/fedora"
+    owner: "root"
+    group: "root"
+
+- name: Create the Fedora external configuration directory
+  file:
+    path: "{{ fedora_config_dir }}"
+    state: directory
+    owner: root
+    group: "{{ fedora_tomcat_user }}"
+    mode: 0755
+
+- name: Put in place the fcrepo-config file
+  copy:
+    src: "fcrepo-config.xml"
+    dest: "{{ fedora_config_dir }}/fcrepo-config.xml"
+    owner: root
+    group: "{{ fedora_tomcat_user }}"
+    mode: 0644
+
+- name: Put in place the Fedora MySQL repository config file
+  template:
+    src: "mysql_repo_json.j2"
+    dest: "{{ fedora_config_dir }}/repository.json"
+    owner: root
+    group: "{{ fedora_tomcat_user }}"
+    mode: 0644
+
+- name: Put in place the Fedora logging configuraiton file
+  template:
+    src: "logback_xml.j2"
+    dest: "{{ fedora_config_dir }}/logback.xml"
+    owner: root
+    group: "{{ fedora_tomcat_user }}"
+    mode: 0644
+
+- name: Create the Fedora logging directory
+  file:
+    path: "{{ fedora_log_dir }}"
+    state: directory
+    owner: "{{ fedora_tomcat_user }}"
+    group: "{{ fedora_tomcat_user }}"
+    mode: 0750
+
+- name: Start and enable the Fedora tomcat service
+  service:
+    name: fedora
+    state: started
+    enabled: yes
+
+- name: Set-up MySQL yum repository
+  include_tasks: setup_mysql_yumrepo.yml
+
+- name: Install MySQL packages
+  include_tasks: install_mysql_packages.yml
+
+- name: Put in place fedora specific my.cnf file
+  template:
+    src: fedora_my_cnf.j2
+    dest: /root/.my.fedora.cnf
+    owner: root
+    group: root
+    mode: 0600

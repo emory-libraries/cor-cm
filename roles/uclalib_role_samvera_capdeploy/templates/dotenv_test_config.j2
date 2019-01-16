@@ -1,0 +1,50 @@
+
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# THIS IS AN ANSIBLE-MANAGED FILE. ALL CHANGES WILL BE OVERRIDDEN IF CONFIG
+# MANAGER IS RUN. MAKE SURE YOU REFLECT CHANGES IN THE ANSIBLE SCRIPTS IF
+# THEY SHOULD BE MADE PERMANENT.
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+SIDEKIQ_WORKERS="{{ sidekiq_num_threads }}"
+
+RAILS_HOST="{{ rails_host_fqdn }}"
+
+PROJECT_NAME="{{ project_name }}"
+
+DATABASE_ADAPTER="{{ rails_db_adapter }}"
+DATABASE_POOL="{{ rails_db_pool }}"
+DATABASE_HOST="{{ rails_db_host }}"
+DATABASE_NAME="{{ rails_db_name }}-test"
+DATABASE_USERNAME="{{ rails_db_user }}"
+DATABASE_PASSWORD="{{ rails_db_pass }}"
+
+ADMIN_PASSWORD="{{ project_default_admin_password }}"
+UPLOAD_PATH="{{ capistrano_base }}/uploads-test"
+CACHE_PATH="{{ capistrano_base }}/uploads-test/cache"
+WORKING_PATH="{{ capistrano_base }}/uploads-test"
+DERIVATIVES_PATH="{{ capistrano_base }}/derivatives-test"
+
+CONTACT_US_EMAIL="{{ contact_email_addr }}"
+
+FEDORA_URL="http://127.0.0.1:8986/rest"
+FEDORA_USER="{{ fedora_repo_user}}"
+FEDORA_PASSWORD="{{ fedora_repo_password }}"
+
+SOLR_URL="http://127.0.0.1:8985/solr/hydra-test"
+
+REDIS_HOST="localhost"
+REDIS_PORT="6379"
+
+{% if external_iiif_server_url != "empty" %}
+IIIF_SERVER_URL={{ external_iiif_server_url }}
+{% endif %}
+
+CSV_FILE={{ csv_file_path }}
+IMPORT_FILE_PATH={{ import_file_path }}
+
+{% if google_tag_manager_id != "empty" %}
+GOOGLE_TAG_MGR_ID={{ google_tag_manager_id }}
+{% endif %}
+
+{% if rollbar_api_token != "empty" %}
+ROLLBAR_ACCESS_TOKEN={{ rollbar_api_token }}
+{% endif %}

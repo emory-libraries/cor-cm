@@ -1,0 +1,15 @@
+---
+
+# Must specific the version in the play file
+# Example: "5.4.7"
+libreoffice_version: ""
+
+libreoffice_base_url: "http://download.documentfoundation.org/libreoffice/stable"
+
+libreoffice_archive_name: "LibreOffice_{{ libreoffice_version }}_Linux_x86-64_rpm.tar.gz"
+
+libreoffice_download_url: "{{ libreoffice_base_url }}/{{ libreoffice_version }}/rpm/x86_64/{{ libreoffice_archive_name }}"
+
+libreoffice_temp_dir: /tmp
+
+libreoffice_install_path: "/opt/libreoffice{{ libreoffice_version.split('.')[0]}}.{{ libreoffice_version.split('.')[1]}}"

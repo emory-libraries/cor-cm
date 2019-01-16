@@ -1,0 +1,28 @@
+- name: Set fact to destroy ec2
+  set_fact:
+    ec2_exact_count: 0
+  tags: [ delete-ec2, delete-all, never ]
+
+- name: Provision EC2
+  ec2:
+    region: "{{ aws_region }}"
+    key_name: "{{ ec2_key_name }}"
+    group: "{{ ec2_security_groups }}"
+    instance_type: "{{ ec2_instance_type }}"
+    image: "{{ ec2_image }}"
+    wait: yes
+    wait_timeout: 500
+    volumes:
+      - device_name: "{{ ec2_volume_device_name }}"
+        volume_type: "{{ ec2_volume_type }}"
+        volume_size: "{{ ec2_volume_size }}"
+        delete_on_termination: "{{ ec2_volume_delete_on_termination }}"
+    vpc_subnet_id: "{{ ec2_vpc_subnet_id }}"
+    assign_public_ip: "{{ ec2_assign_public_ip }}"
+    instance_tags:
+      Name: "{{ ec2_fqdn }}"
+    count_tag:
+      Name: "{{ ec2_fqdn }}"
+    user_data: "{{ lookup('template', 'user_data.j2') }}"
+    exact_count: "{{ ec2_exact_count }}"
+  register: ec2

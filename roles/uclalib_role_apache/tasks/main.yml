@@ -1,0 +1,64 @@
+---
+- name: Install Apache HTTPD
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ apache_packages }}"
+
+- name: Get the version of Apache HTTPD installed
+  command: >
+    /usr/sbin/httpd -v
+  changed_when: false
+  register: httpd_version
+
+# Example for how the split function works:
+# Split 1: Apache/2.2.15
+# Split 2: 2.2.15
+# Split 3: 2 - this is the middle 2
+- name: Determine HTTPD Minor Version
+  set_fact:
+    httpd_minor_version: "{{ httpd_version.stdout.split()[2].split('/')[1].split('.')[1] }}"
+
+- name: Put our httpd.conf file in place
+  copy:
+    src: "httpd_2{{ httpd_minor_version }}.conf"
+    dest: "{{ httpd_conf_path }}/httpd.conf"
+    owner: "root"
+    group: "root"
+    mode: 0644
+    backup: "yes"
+
+- name: Put our ssl.conf file in place
+  template:
+    src: "ssl_conf2{{ httpd_minor_version }}.j2"
+    dest: "{{ ssl_conf_path }}/ssl.conf"
+    owner: "root"
+    group: "root"
+    mode: 0644
+    backup: "yes"
+
+- name: Ensure virtual host path exists within the httpd path
+  file:
+    path: "{{ httpd_vhost_path }}"
+    state: directory
+
+- name: Set up custom vhost files if defined
+  template:
+    src: "http_vhost.j2"
+    dest: "{{ httpd_vhost_path }}/{{ item.key }}.conf"
+  with_dict: "{{ vhosts }}"
+  when: vhosts is defined
+
+- name: Create up empty directorys for each directory root
+  file:
+    path: "{{ item.value.vhost_root }}" 
+    state: directory
+    mode: 0755
+  with_dict: "{{ vhosts }}"
+  when: vhosts is defined
+
+- name: Enable HTTPD service
+  service:
+    name: httpd
+    state: started
+    enabled: yes

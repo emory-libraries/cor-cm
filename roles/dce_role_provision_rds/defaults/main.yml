@@ -1,0 +1,8 @@
+---
+# defaults file for dce_role_provision_rds
+rds_command: create
+rds_instance_type: db.t2.small
+rds_db_engine: MySQL 
+rds_engine_version: 5.6.39
+rds_size: 20
+rds_publicly_accessible: no

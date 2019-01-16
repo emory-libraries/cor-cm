@@ -1,0 +1,8 @@
+---
+# defaults file for dce_role_provision_ec2
+# Volume defaults tuned for RHEL7
+ec2_volume_device_name: /dev/sda1
+ec2_volume_type: gp2
+ec2_volume_size: 14
+ec2_volume_delete_on_termination: yes
+ec2_exact_count: 1

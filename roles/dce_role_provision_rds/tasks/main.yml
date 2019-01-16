@@ -1,0 +1,39 @@
+---
+# tasks file for dce_role_provision_rds
+# Project_env files no longer needed
+#- name: Set relative path for calling role
+#  set_fact:
+#    relative_role_path: "{{ role_path }}"
+
+#- name: Import local project enviroment vars
+#  include_role:
+#    name: dce_role_project_env
+
+- name: Include vars for target RDS host
+  include_vars:
+    file: "{{ playbook_dir }}/host_vars/rds_host/{{ rds_host }}"
+
+- name: Set fact to delete RDS instance
+  set_fact:
+    rds_command: delete
+  tags: [ delete-rds, delete-all, never ]
+
+- name: Provision RDS
+  rds:
+    command: "{{ rds_command }}"
+    instance_name: "{{ rds_instance_name }}"
+    instance_type: "{{ rds_instance_type }}"
+    db_engine: "{{ rds_db_engine }}"
+    engine_version: "{{ rds_engine_version }}"
+    size: "{{ rds_size }}"
+    username: "{{ rds_master_username }}"
+    password: "{{ rds_master_password }}"
+    subnet: "{{ rds_subnet }}"
+    vpc_security_groups: "{{ rds_security_groups }}"
+    publicly_accessible: "{{ rds_publicly_accessible }}"
+    region: "{{ aws_region }}"
+  register: rds
+
+- set_fact:
+    rds_endpoint: "{{ rds.instance['endpoint'] }}"
+    cacheable: yes

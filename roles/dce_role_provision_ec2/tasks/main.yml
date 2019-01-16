@@ -1,0 +1,8 @@
+---
+# tasks file for dce_role_provision_ec2
+- include_tasks: load-variables.yml
+
+- include_tasks: create-or-destroy-ec2.yml
+
+- include_tasks: assign-variables-and-new-group.yml
+  when: ec2_exact_count != 0

@@ -1,0 +1,42 @@
+---
+
+devtools_group: "Development tools"
+
+base_packages:
+  - curl
+  - openssl
+  - openssl-devel
+  - readline
+  - readline-devel
+  - zlib
+  - zlib-devel
+  - libyaml-devel
+  - libxml2-devel
+  - libxslt-devel
+  - gmp-devel
+  - glibc-devel
+  - ncurses-devel
+  - libcurl-devel
+  - xfsprogs
+  - sqlite-devel
+  - yasm
+  - prelink
+  - gdbm-devel
+  - libffi-devel
+  - qt5-qtwebkit-devel
+  - yum-utils
+
+
+# MySQL packages
+mysql_defaultrepo_version: "80"
+
+mysql_yumrepo_rpm: "https://dev.mysql.com/get/mysql{{ mysql_defaultrepo_version }}-community-release-el7-1.noarch.rpm"
+
+mysql_install_version: "5.6"
+
+mysql_installrepo_version: "{{ mysql_install_version.split('.')[0] }}{{ mysql_install_version.split('.')[1] }}"
+
+mysql_packages:
+  - mysql-community-client
+  - mysql-community-devel
+  - mysql-community-libs

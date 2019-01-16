@@ -1,0 +1,18 @@
+---
+
+- name: Install 'Development tools' package group
+  yum:
+    name: "@{{ devtools_group }}"
+    state: present
+
+- name: Install required Samvera base packages and libraries
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ base_packages }}"
+
+- name: Set-up MySQL yum repository
+  include_tasks: setup_mysql_yumrepo.yml
+
+- name: Install MySQL packages
+  include_tasks: install_mysql_packages.yml

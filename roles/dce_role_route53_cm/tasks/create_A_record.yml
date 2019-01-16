@@ -1,0 +1,8 @@
+- name: Create new A Record
+  route53:
+    state: present
+    zone: "{{ route53_top_level_domain }}"
+    record: "{{ route53_A_record }}"
+    value: "{{ route53_IP_address }}"
+    ttl: "{{ route53_ttl }}"
+    type: A

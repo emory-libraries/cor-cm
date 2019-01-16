@@ -1,0 +1,11 @@
+---
+#tasks file for dce_role_assign_eip
+
+- include_tasks: query-for-matching-eip.yml
+  when: not manual_eip
+
+- include_tasks: assign-eip.yml
+  when: manual_eip
+
+- include_tasks: refresh-inventory-add-host.yml
+  when: manual_eip

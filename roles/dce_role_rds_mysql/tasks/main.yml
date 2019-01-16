@@ -1,0 +1,7 @@
+---
+# tasks file for dce_role_rds_mysql
+- include_tasks: load_project_envs_from_other_roles.yml
+#- include_tasks: rds_gather_facts.yml
+- include_tasks: pip_install_mysql_python.yml
+- include_tasks: set_dict.yml
+- include_tasks: create_mysql_db_and_user.yml 

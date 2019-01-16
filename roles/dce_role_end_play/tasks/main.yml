@@ -1,0 +1,8 @@
+---
+# tasks file for dce_role_end_play
+
+- include_tasks: full_stop_with_fail.yml
+  when: not use_meta
+
+- include_tasks: end_task_only_meta.yml
+  when: use_meta

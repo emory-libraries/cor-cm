@@ -1,0 +1,71 @@
+{% if tomcat_enable_ssl == "yes" %}
+<VirtualHost *:80>
+  ServerName {{ tomcat_server_name }}
+
+  ErrorLog {{ apache_log_path }}/tomcatapps/error_log
+  CustomLog {{ apache_log_path }}/tomcatapps/access_log combined
+
+  # don't loose time with IP address lookups
+  HostnameLookups Off
+
+  UseCanonicalName On
+
+  Redirect permanent / https://{{ tomcat_server_name }}/
+
+</VirtualHost>
+
+<VirtualHost *:443>
+{% else %}
+<VirtualHost *:80>
+{% endif %}
+  ServerName {{ tomcat_server_name }}
+
+  RequestReadTimeout header=30
+  ErrorLog {{ apache_log_path }}/tomcatapps/error_log
+  CustomLog {{ apache_log_path }}/tomcatapps/access_log combined
+
+  # don't loose time with IP address lookups
+  HostnameLookups Off
+
+  UseCanonicalName On
+
+  ProxyRequests Off
+  <Proxy *>
+    Require all granted
+  </Proxy>
+
+  ProxyPreserveHost On
+
+  ########################################
+  ### Proxies to Tomcat Apps ###
+
+{% for app in tomcat_applications %}
+  # {{ app.app_name }} tomcat app
+{% if app.proxypass_extra_params is defined %}
+  ProxyPass /{{ app.rproxy_path }} http://localhost:{{ app.conn_port }}/{{ app.rproxy_path }} {{ app.proxypass_extra_params }}
+{% else %}
+  ProxyPass /{{ app.rproxy_path }} http://localhost:{{ app.conn_port }}/{{ app.rproxy_path }}
+{% endif %}
+  ProxyPassReverse /{{ app.rproxy_path }} http://localhost:{{ app.conn_port }}/{{ app.rproxy_path }}
+  ProxyTimeout 300
+  <Location /{{ app.rproxy_path }}>
+    Require all granted
+  </Location>
+
+{% endfor %}
+
+  ########################################
+
+{% if tomcat_enable_ssl == "yes" %}
+  # Protocol, CipherSuite, and OCSP config in /etc/httpd/conf.d/ssl.conf
+  SSLEngine on
+  SSLCertificateFile      {{ ssl_cert_file_path }}/{{ tomcat_server_name }}_cert.cer
+{% if ssl_files.self_signed == "no" %}
+  SSLCertificateChainFile {{ ssl_cert_file_path }}/{{ tomcat_server_name }}_interm.cer
+{% endif %}
+  SSLCertificateKeyFile   {{ ssl_key_file_path }}/{{ tomcat_server_name }}.key
+
+  CustomLog {{ apache_log_path }}/tomcatapps/ssl_request_log   ssl_combined
+{% endif %}
+
+</VirtualHost>

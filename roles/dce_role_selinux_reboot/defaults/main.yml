@@ -1,0 +1,3 @@
+---
+# defaults file for dce_role_selinux_reboot
+selinux_enforcement: 'SELINUX=permissive'

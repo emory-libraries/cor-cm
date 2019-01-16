@@ -1,0 +1,25 @@
+---
+- name:  Check if A record already exists
+  route53:
+    state: get
+    zone: "{{ route53_top_level_domain }}"
+    record: "{{ route53_A_record }}"
+    type: A
+  register: oldA
+
+- name: Check if CNAMES already exist
+  route53:
+    state: get
+    zone: "{{ route53_top_level_domain }}"
+    record: "{{ item }}"
+    type: CNAME
+  loop: "{{ route53_CNAMEs }}"
+  when: ec2_CNAME is defined
+  register: oldCNAME
+
+- name:
+  block:
+    - set_fact:
+        old_cnames_found: yes
+      when: not oldCNAME.skipped
+  when: oldCNAME.results is defined

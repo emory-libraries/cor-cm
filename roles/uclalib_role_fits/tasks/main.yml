@@ -1,0 +1,36 @@
+---
+
+- name: Ensure FITS Install Path Exists
+  file:
+    path: "{{ fits_install_path }}"
+    state: directory
+    mode: 0755
+
+- name: Download and Unarchive FITS
+  unarchive:
+    src: "{{ fits_download_url }}"
+    dest: "{{ fits_install_path }}"
+    remote_src: yes
+    creates: "{{ fits_install_path }}/fits.sh"
+
+- name: Create FITS Symblink in User Path
+  file:
+    src: "{{ fits_install_path }}/fits.sh"
+    path: "{{ fits_user_path }}/fits.sh"
+    state: link
+
+- name: Ensure FITS is executable
+  file:
+    path: "{{ fits_install_path }}/fits.sh"
+    state: file
+    mode: 0755
+
+- name: Put in place FITS configuration file
+  template:
+    src: "fits_xml.j2"
+    dest: "{{ fits_install_path}}/xml/fits.xml"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  tags:
+    - fits-xml-config

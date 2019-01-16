@@ -1,0 +1,17 @@
+{% for app in tomcat_applications %}
+/usr/local/{{ app.app_name }}/logs/catalina.out
+{% endfor %}
+{
+        copytruncate
+        dateext
+        daily
+        rotate 6
+        compress
+        delaycompress
+        missingok
+        lastaction
+{% for app in tomcat_applications %}
+            /bin/find /usr/local/{{ app.app_name }}/logs -type f -name "*.????-??-??*" -mtime +30 | xargs rm -f
+{% endfor %}
+        endscript
+}

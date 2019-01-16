@@ -1,0 +1,18 @@
+---
+
+# project_name: exampleproj
+# env_name: test
+
+# Fedora Database Variables
+fedora_db_user: fedoradbuser
+fedora_db_password: password
+fedora_db_host: db-server.library.ucla.edu
+fedora_db_port: 3306
+fedora_db_name: fedora_db
+
+# Fedora Admin Credentails
+fedora_admin_user: fedorausername
+fedora_admin_password: password
+
+# Fedora Server FQDN
+fedora_server_fqdn: "fedora-server.library.ucla.edu"

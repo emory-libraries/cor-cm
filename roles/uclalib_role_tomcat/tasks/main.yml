@@ -1,0 +1,151 @@
+---
+
+- name: Install rsync
+  package:
+    name: rsync
+    state: present
+
+- name: Load Ubuntu defaults
+  include_vars:
+    file: Ubuntu.yml
+  when: ansible_distribution == "Ubuntu"
+
+- name: Determine if Tomcat needs to be downloaded/unarchived
+  stat: path=/usr/local/apache-tomcat-{{ tomcat_version }}
+  register: tomcat_path
+
+- name: Download Tomcat into /usr/local directory
+  get_url:
+    url: "{{ tomcat_download_url }}"
+    dest: "{{ tomcat_install_path }}/apache-tomcat-{{ tomcat_version }}.tar.gz"
+  when: tomcat_path.stat.exists == False
+
+- name: Unpack Tomcat Download
+  unarchive:
+    src: "{{ tomcat_install_path }}/apache-tomcat-{{ tomcat_version }}.tar.gz"
+    dest: "{{ tomcat_install_path }}"
+    copy: "no"
+  when: tomcat_path.stat.exists == False
+
+- name: Create tomcatapp group
+  group:
+    name: "tomcatapp"
+    state: "present"
+
+- name: Set ownership in CATALINA_HOME
+  file:
+    path: "{{ tomcat_install_path }}/apache-tomcat-{{ tomcat_version }}"
+    owner: "root"
+    group: "tomcatapp"
+    recurse: "yes"
+    state: "directory"
+
+- name: Create symbolic link for the CATALINA_HOME directory
+  file:
+    src: "{{ tomcat_install_path }}/apache-tomcat-{{ tomcat_version }}"
+    dest: "{{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}"
+    state: "link"
+
+- name: Create dedicated user accounts for each Tomcat application
+  user:
+    name: "{{ item.app_name }}"
+    comment: "{{ item.app_name }} User"
+    shell: "/bin/bash"
+    home: "{{ tomcatapp_install_path }}/{{ item.app_name }}"
+    groups: "tomcatapp"
+  with_items: "{{ tomcat_applications }}"
+
+- name: Include tasks to set-up Logical Volume Filesystems
+  include: setup_lvm.yml
+  when: use_lvm == "yes"
+
+- name: Create the CATALINA_BASE paths for each Tomcat application and set ownership
+  file:
+    path: "{{ tomcatapp_install_path }}/{{ item.app_name }}"
+    owner: "{{ item.app_name }}"
+    group: "{{ item.app_name }}"
+    state: "directory"
+  with_items: "{{ tomcat_applications }}"
+
+- name: Copy sub-directories from CATALINA_HOME to each CATALINA_BASE
+  command: >
+    rsync --ignore-existing -a
+    {{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}/{{ item[1] }}
+    {{ tomcatapp_install_path }}/{{ item[0].app_name }}
+  with_nested:
+    - "{{ tomcat_applications }}"
+    - "{{ tomcat_subdirs }}"
+
+- name: Create empty lib directory in CATALINA_BASE to store applicaiton specific libraries
+  file:
+    path: "{{ tomcatapp_install_path }}/{{ item.app_name }}/lib"
+    owner: "{{ item.app_name }}"
+    group: "{{ item.app_name }}"
+    state: "directory"
+  with_items: "{{ tomcat_applications }}"
+
+- name: Remove default Tomcat applications from the webapps subdir
+  file:
+    path: "{{ tomcatapp_install_path }}/{{ item[0].app_name }}/webapps/{{ item[1] }}"
+    state: "absent"
+  with_nested:
+    - "{{ tomcat_applications }}"
+    - "{{ default_webapps }}"
+
+- name: Ensure correct file/directory ownership for each tomcat application
+  file:
+    path: "{{ tomcatapp_install_path }}/{{ item.app_name }}"
+    owner: "{{ item.app_name }}"
+    group: "{{ item.app_name }}"
+    recurse: "yes"
+    state: "directory"
+  with_items: "{{ tomcat_applications }}"
+
+- name: Put in place the tomcat init script
+  template:
+    src: "tomcat_init"
+    dest: "/etc/init.d/tomcat"
+    mode: 0755
+
+- name: Create init script symbolic links for each app
+  file:
+    src: "/etc/init.d/tomcat"
+    dest: "/etc/init.d/{{ item.app_name }}"
+    state: "link"
+  with_items: "{{ tomcat_applications }}"
+
+- name: Put in place the tomcat app environment variables file
+  template:
+    src: "tomcat_env.j2"
+    dest: "{{ environment_var_path }}/{{ item.app_name }}"
+  with_items: "{{ tomcat_applications }}"
+
+- name: Put in place the tomcat app server.xml file
+  template:
+    src: "tomcat{{ tomcat_major_version }}_server_xml.j2"
+    dest: "{{ tomcatapp_install_path }}/{{ item.app_name }}/conf/server.xml"
+    owner: "{{ item.app_name }}"
+    group: "{{ item.app_name }}"
+  with_items: "{{ tomcat_applications }}"
+
+- name: Put in place the tomcat logroate configuration file
+  template:
+    src: "tomcat_logrotate.j2"
+    dest: "/etc/logrotate.d/tomcat"
+
+- name: Ensure log path exists for the Apache HTTPD reverse proxy
+  file:
+    path: "{{ apache_log_path }}/tomcatapps"
+    mode: 0755
+    state: "directory"
+
+- name: Set-up SSL Certs and Keys
+  include_tasks: ssl_cert_setup.yml
+  when: tomcat_enable_ssl == "yes"
+
+- name: Put in place the Apache HTTPD reverse proxy vhost configs for each tomcat app
+  template:
+    src: "tomcat_revproxy_vhost.j2"
+    dest: "{{ apache_vhosts_path }}/tomcatapps.httpd.conf"
+  notify:
+    - "{{ ansible_os_family | lower }} restart httpd"
