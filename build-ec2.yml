@@ -1,0 +1,5 @@
+- hosts: localhost
+  
+  roles: 
+    - { role: dce_role_provision_ec2 }
+    - { role: dce_role_assign_eip }
