@@ -1,0 +1,19 @@
+- hosts: "{{ host }}"  
+  gather_facts: no
+  become: yes
+
+  roles:
+    - { role: dce_role_wait_for_gatherfacts }
+    - { role: dce_role_selinux_reboot }
+    - { role: dce_role_wait_for_gatherfacts }
+    - { role: uclalib_role_rhel7repos }
+    - { role: uclalib_role_epel }
+    - { role: uclalib_role_samvera_basepackages }
+    - { role: uclalib_role_pip }
+#    - { role: emorylib_role_local_mysqldb }
+#    - { role: dce_role_rds_mysql }
+    - { role: uclalib_role_java, oracle_java_version: '1.8.0_181' }
+    - { role: uclalib_role_apache }
+    - { role: uclalib_role_tomcat }
+    - { role: uclalib_role_fedora4, fedora_version: '4.7.5' }
+    - { role: uclalib_role_solr7, solr_fqdn: "{{ host }}" }
