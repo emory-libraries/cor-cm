@@ -6,3 +6,20 @@ ec2_volume_type: gp2
 ec2_volume_size: 14
 ec2_volume_delete_on_termination: yes
 ec2_exact_count: 1
+
+# EC2 instance variables
+# project_name
+# env_name
+ec2_key_name: ""
+ec2_security_groups: []
+ec2_instance_type: ""
+ec2_image:
+
+ec2_vpc_subnet_id: ""
+ec2_assign_public_ip: "" #Boolean
+
+ec2_fqdn: ""
+ec2_CNAME: [ ] #This requires ec2-fqdn to work
+
+ec2_ssh_private_key_path: ""
+

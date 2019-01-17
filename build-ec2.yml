@@ -1,5 +1,12 @@
-- hosts: localhost
+- hosts: "{{ host }}"
+  gather_facts: false
+#  vars_files:
+#    - "{{ playbook_dir }}/host_vars/{{ host }}"
   
+#  pre_tasks:
+#    - name: Load host vars
+#      include_vars:
+#        file: "{{ playbook_dir }}/host_vars/{{ host }}"
   roles: 
-    - { role: dce_role_provision_ec2 }
-    - { role: dce_role_assign_eip }
+    - { role: dce_role_provision_ec2, delegate_to: localhost }
+    - { role: dce_role_assign_eip, delegate_to: localhost }
