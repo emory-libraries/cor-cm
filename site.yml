@@ -1,2 +1,3 @@
 - import_playbook: build-ec2.yml
+- import_playbook: build-rds.yml
 - import_playbook: fedora.yml

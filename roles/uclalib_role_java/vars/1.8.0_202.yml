@@ -4,4 +4,4 @@ oracle_java_url: "{{ 'http://pkgs.library.ucla.edu/oracle-java/jdk-8u191-linux-x
 
 java_rpm_filename: "jdk-8u202-linux-x64.rpm"
 
-java_rpm_md5: "fc6f805f93148cb396ca73989d7c9ea5"
+java_rpm_md5: "104E6D129C12C62B4E9A3115DEE41CC9"
