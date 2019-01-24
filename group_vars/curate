@@ -1,0 +1,18 @@
+project_name: dlp-curate
+rails_db_adapter: mysql2
+rails_db_pool: 5
+rails_db_host: "{{ rds_endpoint }}"
+rails_db_user_host: "{{ ec2_private_ip }}"
+project_default_admin_password: "{{ vault_project_default_admin_password }}"
+redis_host: localhost
+redis_port: 6379
+#enable_ssl: no
+sidekiq_num_threads: 5
+aws_region: us-west-1
+ssh_pub_keys:
+  - https://github.com/devanshu-m.keys
+  - https://github.com/mprefer.keys
+  - https://github.com/alexBLR.keys
+  - https://github.com/rotated8.keys
+  - https://github.com/laurenhamel.keys
+  - https://github.com/SolomonHD.keys

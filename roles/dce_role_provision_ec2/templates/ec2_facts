@@ -1,0 +1,3 @@
+ec2_ip: {{ ec2_ip }}
+ec2_id: {{ ec2_id }}
+ec2_private_ip: {{ ec2_private_ip }}

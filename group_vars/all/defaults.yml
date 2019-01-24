@@ -1,3 +1,7 @@
+ec2_fqdn: "{{ host }}"
+rails_host_fqdn: "{{ host }}"
+fedora_server_fqdn: "{{ host }}"
+
 tomcat_enable_ssl: no
 tomcat_applications:
   - app_name: fedora
@@ -5,3 +9,7 @@ tomcat_applications:
     conn_port: 8081
     rproxy_path: fcrepo
     proxypass_extra_params: "nocanon keepalive=on retry=0.5"
+
+solr_cores:
+  - ident: curatecore
+    type: hyrax

@@ -2,7 +2,7 @@
   set_fact:
     ec2_ip: "{{ ec2|json_query('tagged_instances[0].public_ip') }}"
     ec2_id: "{{ ec2|json_query('tagged_instances[0].id') }}"
-    host: "{{ host }}"
+    ec2_private_ip: "{{ ec2|json_query('tagged_instances[0].private_ip') }}"
     cacheable: yes
 
 - name: Create new ansible group
@@ -10,3 +10,9 @@
     name: "{{ ec2_ip }}"
     ansible_ssh_private_key_file: "{{ ec2_ssh_private_key_path }}"
     groups: ec2_group
+
+- name: Create ec2_facts.yml
+  template:
+    src: ec2_facts
+    dest: "{{ playbook_dir }}/facts.d/ec2_facts.yml"
+

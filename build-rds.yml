@@ -1,4 +1,4 @@
 - hosts: "{{ rds_host }}"
-  gather_facts: no
+  gather_facts: false
   roles:
     - { role: dce_role_provision_rds, delegate_to: localhost }

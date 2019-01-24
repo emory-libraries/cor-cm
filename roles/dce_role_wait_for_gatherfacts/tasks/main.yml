@@ -2,8 +2,9 @@
 # tasks file for dce_role_wait_for_gatherfacts
 - name: Wait for server to become available
   wait_for_connection:
-    delay: 2
-    sleep: 3
+    delay: 0 
+    sleep: 2
 
-- name: gather facts
+- name: Gather Facts
   setup:
+    fact_path: "{{ playbook_dir }}/facts.d"

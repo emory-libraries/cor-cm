@@ -4,11 +4,12 @@
 rails_db_name: "placeholderdb"
 rails_db_user: "placeholderuser"
 rails_db_pass: "placepass"
+rails_db_user_host: "localhost"
 
 fedora_db_name: "placeholderdb"
 fedora_db_user: "placeholderuser"
 fedora_db_password: "placepass"
-
+fedora_db_user_host: "localhost"
 
 rds_endpoint: "{{ hostvars['localhost']['rds_endpoint'] }}"
 rds_master_username: "{{ hostvars['localhost']['rds_master_username'] }}"

@@ -1,8 +1,13 @@
 ---
+- name: Install 1.17.3 bundler
+  shell: >
+    gem install bundler -v 1.17.3
+  args:
+    chdir: "/home/{{ ansible_username }}/{{ project_name }}"
 
 - name: Install required project gems
   bundler:
-    state: present
+    state: latest
     chdir: "/home/{{ ansible_username }}/{{ project_name }}"
 
 - name: Execute capistrano deployment of project

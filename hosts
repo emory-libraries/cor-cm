@@ -4,6 +4,12 @@ fedora-cor-test.library.emory.edu
 [us-west-1]
 fedora-cor-test.library.emory.edu
 cor-test-mysql-db
+curate-test.library.emory.edu
+
+
 
 [rds]
 cor-test-mysql-db
+
+[curate]
+curate-test.library.emory.edu
