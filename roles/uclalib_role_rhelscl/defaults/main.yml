@@ -1,0 +1,6 @@
+---
+
+# Define list of SCL packages to install and enable 
+#scl_packages:
+#  - pkg_name: ""
+#    scl_enable: ""

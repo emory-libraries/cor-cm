@@ -11,7 +11,7 @@
   when: ansible_distribution == "Ubuntu"
 
 - name: Determine if Tomcat needs to be downloaded/unarchived
-  stat: path=/usr/local/apache-tomcat-{{ tomcat_version }}
+  stat: path={{ tomcat_install_path }}/apache-tomcat-{{ tomcat_version }}
   register: tomcat_path
 
 - name: Download Tomcat into /usr/local directory
@@ -139,6 +139,8 @@
     mode: 0755
     state: "directory"
 
+- debug:
+    msg: "{{ tomcat_enable_ssl }}"
 - name: Set-up SSL Certs and Keys
   include_tasks: ssl_cert_setup.yml
   when: tomcat_enable_ssl == "yes"

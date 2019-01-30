@@ -1,9 +1,11 @@
-project_name: dlp-curate
-rails_db_adapter: mysql2
+
+project_name: "dlp-curate"
+rails_db_adapter: "mysql2"
 rails_db_pool: 5
 rails_db_host: "{{ rds_endpoint }}"
 rails_db_user_host: "{{ ec2_private_ip }}"
 project_default_admin_password: "{{ vault_project_default_admin_password }}"
+contact_email_addr: "test@emory.edu"
 redis_host: localhost
 redis_port: 6379
 #enable_ssl: no
@@ -16,3 +18,6 @@ ssh_pub_keys:
   - https://github.com/rotated8.keys
   - https://github.com/laurenhamel.keys
   - https://github.com/SolomonHD.keys
+#scl_packages:
+#  - pkg_name: "rh-ruby25"
+#    scl_enable: "yes"

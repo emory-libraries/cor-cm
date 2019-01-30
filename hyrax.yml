@@ -2,10 +2,8 @@
 - hosts: "{{ host }}"
   become: yes
   gather_facts: false
-  vars_files:
-    - "roles/emorylib_role_install_ruby_scl/defaults/main.yml"
-#    - "facts/{{ host }}"
-#    - "facts/{{ rds_host }}"
+#  vars_files:
+#    - "roles/emorylib_role_install_ruby_scl/defaults/main.yml"
  
   environment:
     PATH: "{{ ruby_path }}"
@@ -17,7 +15,8 @@
   pre_tasks:
     - name: Include facts.d folder
       include_vars:
-        dir: "{{ playbook_dir }}/facts.d"
+        dir: "{{ playbook_dir }}/facts.d/"
+        ignore_files: [.gitignore] 
 
   roles:
     - { role: dce_role_wait_for_gatherfacts }
@@ -26,6 +25,7 @@
     - { role: uclalib_role_epel }
     - { role: uclalib_role_samvera_basepackages }
     - { role: uclalib_role_java, oracle_java_version: '1.8.0_202' }
+    - { role: uclalib_role_apache }
     - { role: uclalib_role_clamav }
     - { role: uclalib_role_pip }
     - { role: dce_role_rds_mysql }
@@ -33,11 +33,11 @@
     - { role: uclalib_role_libreoffice, libreoffice_version: '6.1.4' }
     - { role: uclalib_role_ffmpeg }
     - { role: uclalib_role_fits, fits_version: '1.4.0' }
+    - { role: uclalib_role_nodejs, nodejs_version: '8' }
+#    - { role: uclalib_role_rhelscl }
     - { role: emorylib_role_install_ruby_scl }
 #    - { role: uclalib_role_ruby, ruby_version: '2.5.1' }
-    - { role: uclalib_role_apache }
     - { role: uclalib_role_passenger, passenger_version: '5.3.7' }
-    - { role: uclalib_role_nodejs, nodejs_version: '8' }
     - { role: uclalib_role_yarn }
     - { role: uclalib_role_redis }
     - { role: uclalib_role_samvera_capdeploy }

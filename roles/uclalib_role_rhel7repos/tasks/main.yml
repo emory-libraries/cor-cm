@@ -20,3 +20,11 @@
     option: enabled
     value: 1
   loop: "{{ repos }}"
+
+- name: Install {{ item }}
+  package:
+    name: "{{ item }}"
+  loop:
+    - unzip
+    - screen
+    - vim

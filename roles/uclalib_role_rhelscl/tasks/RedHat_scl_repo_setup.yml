@@ -1,0 +1,7 @@
+---
+
+- name: Enable RHEL Software Collection (SCL) repository
+  command: >
+    subscription-manager repos
+    --enable=rhui-REGION-rhel-server-rhscl
+    --enable=rhui-REGION-rhel-server-optional

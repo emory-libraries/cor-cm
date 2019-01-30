@@ -1,0 +1,25 @@
+tomcat_enable_ssl: "yes"
+enable_ssl: "yes"
+tomcat_major_version: 8
+tomcat_version: 8.5.34
+tomcat_applications:
+  - app_name: cantaloupe
+    shut_port: 8008
+    conn_port: 8081
+    rproxy_path: cantaloupe
+
+
+
+cantaloupe_version: "4.0.2"
+cantaloupe_temp_pathname: "/tmp"
+cantaloupe_delegate_script_enabled: "true"
+cantaloupe_delegate_script_url: "https://raw.githubusercontent.com/UCLALibrary/cantaloupe-delegate/master/lib/delegates.rb"
+#"https://gist.githubusercontent.com/SolomonHD/cd751d24d8d245394720d1c2a44f7915/raw/c488972846a8c2d2c29566c08581d7d1290fbf9d/delegates.rb" # Delegate with CGI unescape enabled
+#"https://raw.githubusercontent.com/UCLALibrary/cantaloupe-delegate/master/lib/delegates.rb" OG Delegates file
+cantaloupe_fedora_url: "http://fedora-cor-test.library.emory.edu/fcrepo/rest"
+cantaloupe_fedora_base_path: "/prod"
+cantaloupe_endpoint_admin_enabled: "true"
+cantaloupe_source_static: "HttpSource"
+cantaloupe_source_delegate: "true"
+cantaloupe_FilesystemSource_lookup_strategy: "ScriptLookupStrategy"
+cantaloupe_HttpSource_lookup_strategy: "ScriptLookupStrategy"

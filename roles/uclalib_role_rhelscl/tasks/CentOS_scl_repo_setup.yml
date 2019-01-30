@@ -1,0 +1,6 @@
+---
+
+- name: Enable CentOS Software Collection repository
+  yum:
+    name: centos-release-scl
+    state: present

@@ -2,3 +2,4 @@
 - import_playbook: build-rds.yml
 #- import_playbook: fedora.yml
 - import_playbook: hyrax.yml
+#- import_playbook: cantaloupe.yml

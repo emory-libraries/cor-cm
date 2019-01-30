@@ -19,7 +19,7 @@
 
 - name: Update /etc/fstab with LVM mount point
   mount:
-    name: "/usr/local/{{ item.app_name }}"
+    name: "{{ tomcat_install_path }}/{{ item.app_name }}"
     src: "{{ lvm_base_path }}-lv_{{ item.app_name }}"
     fstype: "ext4"
     opts: "defaults"
@@ -30,7 +30,7 @@
 
 - name: Mount the LVM filesystems
   mount:
-    name: "/usr/local/{{ item.app_name }}"
+    name: "{{ tomcat_install_path }}/{{ item.app_name }}"
     src: "{{ lvm_base_path }}-lv_{{ item.app_name }}"
     fstype: "ext4"
     state: "mounted"

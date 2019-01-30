@@ -1,0 +1,3 @@
+#!/bin/bash
+source /opt/rh/{{ item.pkg_name }}/enable
+export X_SCLS="`scl enable {{ item.pkg_name }} 'echo $X_SCLS'`"
