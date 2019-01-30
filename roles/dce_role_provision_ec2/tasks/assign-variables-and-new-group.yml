@@ -5,11 +5,11 @@
     ec2_private_ip: "{{ ec2|json_query('tagged_instances[0].private_ip') }}"
     cacheable: yes
 
-- name: Create new ansible group
-  add_host:
-    name: "{{ ec2_ip }}"
-    ansible_ssh_private_key_file: "{{ ec2_ssh_private_key_path }}"
-    groups: ec2_group
+#- name: Create new ansible group
+#  add_host:
+#    name: "{{ ec2_ip }}"
+#    ansible_ssh_private_key_file: "{{ ec2_ssh_private_key_path }}"
+#    groups: ec2_group
 
 - name: Create ec2_facts.yml
   template:

@@ -7,4 +7,8 @@
 
 - name: Gather Facts
   setup:
-    fact_path: "{{ playbook_dir }}/facts.d"
+
+- name: Include facts.d folder
+  include_vars:
+    dir: "{{ playbook_dir }}/facts.d"
+    ignore_unknown_extensions: yes

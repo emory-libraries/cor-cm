@@ -21,10 +21,6 @@
     value: 1
   loop: "{{ repos }}"
 
-- name: Install {{ item }}
+- name: Install {{ packages | to_nice_yaml }} 
   package:
-    name: "{{ item }}"
-  loop:
-    - unzip
-    - screen
-    - vim
+    name: "{{ packages }}"
