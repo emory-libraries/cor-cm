@@ -1,7 +1,7 @@
 ---
 
-#- name: Run OS-specific SCL repository setup
-#  include_tasks: "{{ ansible_distribution }}_scl_repo_setup.yml"
+- name: Run OS-specific SCL repository setup
+  include_tasks: "{{ ansible_distribution }}_scl_repo_setup.yml"
 
 - block:
   - name: Ensure SCL utility is installed

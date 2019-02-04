@@ -3,5 +3,5 @@
 - name: Enable RHEL Software Collection (SCL) repository
   command: >
     subscription-manager repos
-    --enable=rhui-REGION-rhel-server-rhscl
-    --enable=rhui-REGION-rhel-server-optional
+    --enable=rhel-server-rhscl-{{ ansible_distribution_major_version }}-rpms
+    --enable=rhel-{{ ansible_distribution_major_version }}-server-optional-rpms

@@ -34,7 +34,7 @@
 #- src: https://github.com/curationexperts/uclalib_role_samvera_capdeploy
 #  version: add-geonames-honeybadger
 #- src: https://github.com/curationexperts/uclalib_role_java
-#- src: https://github.com/curationexperts/uclalib_role_rhel7repos
+- src: https://github.com/curationexperts/uclalib_role_rhel7repos
 #- src: https://github.com/curationexperts/uclalib_role_ruby 
   #  version: use-s3
 # AWS Management
