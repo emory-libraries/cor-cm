@@ -1,0 +1,38 @@
+---
+- name: Put in place the tomcat init script
+  template:
+    src: "tomcat_init"
+    dest: "/etc/init.d/tomcat"
+    mode: 0755
+
+- name: Create init script symbolic links for each app
+  file:
+    src: "/etc/init.d/tomcat"
+    dest: "/etc/init.d/{{ item.app_name }}"
+    state: "link"
+  with_items: "{{ tomcat_applications }}"
+
+- name: Put in place the tomcat app environment variables file
+  template:
+    src: "tomcat_env.j2"
+    dest: "{{ environment_var_path }}/{{ item.app_name }}"
+  with_items: "{{ tomcat_applications }}"
+
+- name: Put in place the tomcat app server.xml file
+  template:
+    src: "tomcat{{ tomcat_major_version }}_server_xml.j2"
+    dest: "{{ tomcatapp_install_path }}/{{ item.app_name }}/conf/server.xml"
+    owner: "{{ item.app_name }}"
+    group: "{{ item.app_name }}"
+  with_items: "{{ tomcat_applications }}"
+
+- name: Put in place the tomcat logroate configuration file
+  template:
+    src: "tomcat_logrotate.j2"
+    dest: "/etc/logrotate.d/tomcat"
+
+- name: Ensure log path exists for the Apache HTTPD reverse proxy
+  file:
+    path: "{{ apache_log_path }}/tomcatapps"
+    mode: 0755
+    state: "directory"

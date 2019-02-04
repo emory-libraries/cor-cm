@@ -1,0 +1,25 @@
+---
+- name: Check if Solr conf exists
+  stat:
+    path: "{{ apache_vhosts_path }}/solr.httpd.conf"
+  register: solr_conf
+
+- name: Create disabled Solr httpd conf
+  copy:
+    src: "{{ apache_vhosts_path }}/solr.httpd.conf"
+    dest: "{{ apache_vhosts_path }}/solr.httpd.disabled"
+    remote_src: yes
+  when: solr_conf.stat.exists
+
+- name: Delete old Solr conf
+  file:
+    path: "{{ apache_vhosts_path }}/solr.httpd.conf"
+    state: absent
+  when: solr_conf.stat.exists
+
+- name: Put in place the Apache HTTPD reverse proxy vhost configs for each tomcat app
+  template:
+    src: "tomcat_revproxy_vhost.j2"
+    dest: "{{ apache_vhosts_path }}/tomcatapps.httpd.conf"
+  notify:
+    - "{{ ansible_os_family | lower }} restart httpd"

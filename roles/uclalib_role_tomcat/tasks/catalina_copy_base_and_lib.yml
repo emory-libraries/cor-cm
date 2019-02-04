@@ -1,0 +1,25 @@
+---
+- name: Create the CATALINA_BASE paths for each Tomcat application and set ownership
+  file:
+    path: "{{ tomcatapp_install_path }}/{{ item.app_name }}"
+    owner: "{{ item.app_name }}"
+    group: "{{ item.app_name }}"
+    state: "directory"
+  with_items: "{{ tomcat_applications }}"
+
+- name: Copy sub-directories from CATALINA_HOME to each CATALINA_BASE
+  command: >
+    rsync --ignore-existing -a
+    {{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}/{{ item[1] }}
+    {{ tomcatapp_install_path }}/{{ item[0].app_name }}
+  with_nested:
+    - "{{ tomcat_applications }}"
+    - "{{ tomcat_subdirs }}"
+
+- name: Create empty lib directory in CATALINA_BASE to store applicaiton specific libraries
+  file:
+    path: "{{ tomcatapp_install_path }}/{{ item.app_name }}/lib"
+    owner: "{{ item.app_name }}"
+    group: "{{ item.app_name }}"
+    state: "directory"
+  with_items: "{{ tomcat_applications }}"

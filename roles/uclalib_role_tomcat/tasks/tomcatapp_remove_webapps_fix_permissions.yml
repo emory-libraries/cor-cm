@@ -1,0 +1,17 @@
+---
+- name: Remove default Tomcat applications from the webapps subdir
+  file:
+    path: "{{ tomcatapp_install_path }}/{{ item[0].app_name }}/webapps/{{ item[1] }}"
+    state: "absent"
+  with_nested:
+    - "{{ tomcat_applications }}"
+    - "{{ default_webapps }}"
+
+- name: Ensure correct file/directory ownership for each tomcat application
+  file:
+    path: "{{ tomcatapp_install_path }}/{{ item.app_name }}"
+    owner: "{{ item.app_name }}"
+    group: "{{ item.app_name }}"
+    recurse: "yes"
+    state: "directory"
+  with_items: "{{ tomcat_applications }}"

@@ -8,7 +8,7 @@ tomcat_applications:
     conn_port: 8081
     rproxy_path: cantaloupe
 
-
+proxy_solr_tomcat_conf: "yes"
 
 cantaloupe_version: "4.0.2"
 cantaloupe_temp_pathname: "/tmp"

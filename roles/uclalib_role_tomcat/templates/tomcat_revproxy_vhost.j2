@@ -53,9 +53,18 @@
   </Location>
 
 {% endfor %}
+{% if proxy_solr_tomcat_conf == "yes" %}
+  ### Proxy Solr
+  ProxyPass /solr http://localhost:8983/solr
+  ProxyPassReverse /solr http://localhost:8983/solr
+  ProxyTimeout 300
+  <Location /solr>
+    Require all granted
+  </Location>
 
+{% endif %}
   ########################################
-
+ 
 {% if tomcat_enable_ssl == "yes" %}
   # Protocol, CipherSuite, and OCSP config in /etc/httpd/conf.d/ssl.conf
   SSLEngine on

@@ -1,12 +1,6 @@
 - hosts: "{{ host }}"
   gather_facts: false
   become: yes
-
-  pre_tasks:
-    - name: Include facts.d folder
-      include_vars:
-        dir: "{{ playbook_dir }}/facts.d/"
-        ignore_files: [.gitignore]
         
   roles:
     - { role: dce_role_wait_for_gatherfacts }
@@ -15,6 +9,7 @@
     - { role: uclalib_role_epel }
     - { role: uclalib_role_java, oracle_java_version: '1.8.0_202' }
     - { role: uclalib_role_apache }
+    - { role: uclalib_role_solr7 }
     - { role: uclalib_role_tomcat }
     - { role: uclalib_role_cantaloupe }
 

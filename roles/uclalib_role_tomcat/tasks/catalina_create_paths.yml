@@ -1,0 +1,14 @@
+---
+- name: Set ownership in CATALINA_HOME
+  file:
+    path: "{{ tomcat_install_path }}/apache-tomcat-{{ tomcat_version }}"
+    owner: "root"
+    group: "tomcatapp"
+    recurse: "yes"
+    state: "directory"
+
+- name: Create symbolic link for the CATALINA_HOME directory
+  file:
+    src: "{{ tomcat_install_path }}/apache-tomcat-{{ tomcat_version }}"
+    dest: "{{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}"
+    state: "link"
