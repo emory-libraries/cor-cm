@@ -1,7 +1,13 @@
 - hosts: "{{ host }}"
   gather_facts: false
   become: yes
-        
+  
+  pre_tasks:
+    - file:
+        path: /usr/local/webapps
+        state: directory
+        mode: 0777
+
   roles:
     - { role: dce_role_wait_for_gatherfacts }
     - { role: dce_role_selinux_reboot }
