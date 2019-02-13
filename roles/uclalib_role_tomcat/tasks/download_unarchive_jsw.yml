@@ -1,0 +1,19 @@
+---
+#- name: Download Java Service Wrapper from Tanuki website
+#  get_url:
+#    url: "{{ jsw_download_url }}"
+#    dest: /tmp
+#    mode: 0644
+#  register: jsw_archive
+ 
+- name: Unarchive JSW to folder
+  unarchive:
+    src: "{{ jsw_download_url }}"
+    dest: /tmp
+    mode: 0644
+    remote_src: yes
+  register: archive_test
+
+
+- debug:
+    var: archive_test

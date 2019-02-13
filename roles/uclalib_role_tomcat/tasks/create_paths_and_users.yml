@@ -12,3 +12,12 @@
     src: "{{ tomcat_install_path }}/apache-tomcat-{{ tomcat_version }}"
     dest: "{{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}"
     state: "link"
+
+- name: Create dedicated user accounts for each Tomcat application
+  user:
+    name: "{{ item.app_name }}"
+    comment: "{{ item.app_name }} User"
+    shell: "/bin/bash"
+    home: "{{ tomcatapp_install_path }}/{{ item.app_name }}"
+    groups: "tomcatapp"
+  with_items: "{{ tomcat_applications }}"

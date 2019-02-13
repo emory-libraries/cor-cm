@@ -2,27 +2,22 @@
 - name: Include pre tasks for Tomcat role
   include: pre_tasks.yml
 
+- include: download_unarchive_jsw.yml 
+
+- meta: end_play
+
 - name: Include tasks to download Tomcat and create the Tomcat group 
   include: download_tomcat_and_create_group.yml
 
-- name: Include tasks to create paths for CATALINA
-  include: catalina_create_paths.yml
-
-- name: Create dedicated user accounts for each Tomcat application
-  user:
-    name: "{{ item.app_name }}"
-    comment: "{{ item.app_name }} User"
-    shell: "/bin/bash"
-    home: "{{ tomcatapp_install_path }}/{{ item.app_name }}"
-    groups: "tomcatapp"
-  with_items: "{{ tomcat_applications }}"
+- name: Include tasks to create paths for Tomcat 
+  include: create_paths_and_users.yml 
 
 - name: Include tasks to set-up Logical Volume Filesystems
   include: setup_lvm.yml
   when: use_lvm == "yes"
 
-- name: Include tasks for coping CATALINA webapps and lib directories
-  include: catalina_copy_base_and_lib.yml
+- name: Include tasks for coping webapps and lib directories
+  include: copy_base_and_lib.yml
 
 - name: Include tasks for setting Tomcat Apps permissions and remove default webapps
   include: tomcatapp_remove_webapps_fix_permissions.yml

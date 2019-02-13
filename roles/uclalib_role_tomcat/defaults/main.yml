@@ -126,3 +126,12 @@ tomcatapp_install_path: "/usr/local"
 java_home: "/usr/lib/jvm/java"
 basename_path: "/bin"
 proxy_solr_tomcat_conf: "no"
+
+jsw_base_url: https://download.tanukisoftware.com/wrapper
+jsw_version: 3.5.37
+jsw_os: linux
+jsw_cpu: x86
+jsw_bit: 64 #32 or 64
+jsw_edition: "" # "-st" for Standard Edition, "-pro" for Professional, leave blank for Community
+
+jsw_download_url: "{{ jsw_base_url }}/{{ jsw_version }}/wrapper-{{ jsw_os }}-{{ jsw_cpu }}-{{ jsw_bit }}-{{ jsw_version }}{{ jsw_edition }}.tar.gz"
