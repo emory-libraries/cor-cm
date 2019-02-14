@@ -1,0 +1,7 @@
+- name: Replace lines in demoapp with app specific values
+  lineinfile:
+    path: "{{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}/bin/{{ outer_item.app_name }}"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  loop: "{{ demoapp_values }}"
+

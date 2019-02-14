@@ -14,6 +14,46 @@
     remote_src: yes
   register: archive_test
 
+- name: Put in place jsw binaries from /tmp to {{ tomcat_install_path }}
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    remote_src: yes
+  loop: "{{ jsw_binaries | flatten(levels=1) }}"
 
-- debug:
-    var: archive_test
+- name: Put in place demoapp for each Tomcat App
+  copy:
+    src: "/tmp/{{ jsw_file_name }}/bin/demoapp"
+    dest: "{{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}/bin/{{ item.app_name }}"
+    remote_src: yes
+  loop: "{{ tomcat_applications | flatten(levels=1) }}"
+
+
+- name: Include demoapp loop
+  include: template_demoapp.yml
+  loop: "{{ tomcat_applications }}"
+  loop_control:
+    loop_var: outer_item
+   
+#- name: Replace lines in demoapp with app specific values
+#  lineinfile:
+#    path: "{{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}/bin/{{ item.0.app_name }}"
+#    regexp: "{{ item.1.regexp }}"
+#    line: "{{ item.1.line }}"
+#  loop: "{{ tomcat_applications | subelements(demoapp_values) }}"
+
+#- name: Replace lines in demoapp with app specific values
+#  lineinfile:
+#    path: "{{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}/bin/{{ item[0]['app_name'] }}"
+#    regexp: "{{ item[1]['regexp'] }}"
+#    line: "{{ item[1]['line'] }}"
+#  loop: "{{ tomcat_applications | product(demoapp_values) | list }}"
+
+#- name: Replace lines in demoapp with app specific values
+#  lineinfile:
+#    path: "{{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}/bin/{{ outer_item.app_name }}"
+#    regexp: "{{ item.regexp }}"
+#    line: "{{ item.line }}"
+#  loop: "{{ demoapp_values }}"
+#  loop_control: 
+#  loop: [jsw_archive, archive_test] 

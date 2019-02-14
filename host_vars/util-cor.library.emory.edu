@@ -11,6 +11,7 @@ tomcat_applications:
     shut_port: 8008
     conn_port: 8081
     rproxy_path: cantaloupe
+    app_long_name: Cantaloupe Server via JSW
 
 proxy_solr_tomcat_conf: "yes"
 
