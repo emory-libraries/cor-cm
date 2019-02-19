@@ -15,7 +15,8 @@ tomcat_applications:
 
 proxy_solr_tomcat_conf: "yes"
 
-#tomcat_install_path:  "/opt/apache-tomcat-{{ tomcat_version }}"
+java_home: "/bin/java"
+tomcat_install_path:  "/opt"
 tomcatapp_install_path: "/usr/local/webapps"
 cantaloupe_install_path: "{{ tomcatapp_install_path }}"
 cantaloupe_base_dir: "{{ tomcatapp_install_path }}/cantaloupe"

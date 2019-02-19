@@ -1,11 +1,4 @@
 ---
-#- name: Download Java Service Wrapper from Tanuki website
-#  get_url:
-#    url: "{{ jsw_download_url }}"
-#    dest: /tmp
-#    mode: 0644
-#  register: jsw_archive
- 
 - name: Unarchive JSW to folder
   unarchive:
     src: "{{ jsw_download_url }}"
@@ -18,6 +11,8 @@
   copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
+    owner: "root"
+    group: "tomcatapp"
     remote_src: yes
   loop: "{{ jsw_binaries | flatten(levels=1) }}"
 
@@ -25,35 +20,8 @@
   copy:
     src: "/tmp/{{ jsw_file_name }}/bin/demoapp"
     dest: "{{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}/bin/{{ item.app_name }}"
+    owner: "root"
+    group: "tomcatapp"
+    mode: 0770
     remote_src: yes
   loop: "{{ tomcat_applications | flatten(levels=1) }}"
-
-
-- name: Include demoapp loop
-  include: template_demoapp.yml
-  loop: "{{ tomcat_applications }}"
-  loop_control:
-    loop_var: outer_item
-   
-#- name: Replace lines in demoapp with app specific values
-#  lineinfile:
-#    path: "{{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}/bin/{{ item.0.app_name }}"
-#    regexp: "{{ item.1.regexp }}"
-#    line: "{{ item.1.line }}"
-#  loop: "{{ tomcat_applications | subelements(demoapp_values) }}"
-
-#- name: Replace lines in demoapp with app specific values
-#  lineinfile:
-#    path: "{{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}/bin/{{ item[0]['app_name'] }}"
-#    regexp: "{{ item[1]['regexp'] }}"
-#    line: "{{ item[1]['line'] }}"
-#  loop: "{{ tomcat_applications | product(demoapp_values) | list }}"
-
-#- name: Replace lines in demoapp with app specific values
-#  lineinfile:
-#    path: "{{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}/bin/{{ outer_item.app_name }}"
-#    regexp: "{{ item.regexp }}"
-#    line: "{{ item.line }}"
-#  loop: "{{ demoapp_values }}"
-#  loop_control: 
-#  loop: [jsw_archive, archive_test] 

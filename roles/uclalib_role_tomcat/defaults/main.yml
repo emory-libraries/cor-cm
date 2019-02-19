@@ -127,6 +127,7 @@ java_home: "/usr/lib/jvm/java"
 basename_path: "/bin"
 proxy_solr_tomcat_conf: "no"
 
+use_jsw: no
 jsw_base_url: https://download.tanukisoftware.com/wrapper
 jsw_version: 3.5.37
 jsw_os: linux
@@ -145,7 +146,11 @@ jsw_binaries:
     dest: /{{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}/bin
 
 demoapp_values:
-  - regexp: "^APP_NAME"
+  - regexp: '^APP_NAME'
     line: 'APP_NAME="{{ outer_item.app_name }}"'
   - regexp: '^APP_LONG_NAME'
-    line: 'APP_LONG_NAME="{{ outer_item.app_long_name }}"'
+    line: 'APP_LONG_NAME="{{ outer_item.app_long_name | default ("") }}"'
+  - regexp: '^WRAPPER_CONF'
+    line: 'WRAPPER_CONF="{{ tomcatapp_install_path }}/{{ outer_item.app_name }}/conf/wrapper.conf"'
+  - regexp: 'RUN_AS_USER'
+    line: 'RUN_AS_USER="{{ outer_item.app_name }}"'

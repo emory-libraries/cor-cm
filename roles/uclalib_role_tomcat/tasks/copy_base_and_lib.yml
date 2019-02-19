@@ -23,3 +23,12 @@
     group: "{{ item.app_name }}"
     state: "directory"
   with_items: "{{ tomcat_applications }}"
+
+- name: Create empty ext directory in CATALINA_BASE for jsw usage
+  file:
+    path: "{{ tomcatapp_install_path }}/{{ item.app_name }}/ext"
+    owner: "{{ item.app_name }}"
+    group: "{{ item.app_name }}"
+    state: "directory"
+  loop: "{{ tomcat_applications }}"
+  when: use_jsw

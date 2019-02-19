@@ -2,10 +2,6 @@
 - name: Include pre tasks for Tomcat role
   include: pre_tasks.yml
 
-- include: download_unarchive_jsw.yml 
-
-- meta: end_play
-
 - name: Include tasks to download Tomcat and create the Tomcat group 
   include: download_tomcat_and_create_group.yml
 
@@ -24,6 +20,15 @@
 
 - name: Include tasks for tomcat init script, environment variables and logrotate 
   include: tomcatapp_init_env_logs.yml
+  when: not use_jsw
+
+- name: Include tasks for tomcat JSW binaries
+  include: download_unarchive_jsw.yml
+  when: use_jsw
+
+- name: Include tasks for tomcat JSW init and other files
+  include: setup_jsw_files.yml
+  when: use_jsw
 
 - name: Set-up SSL Certs and Keys
   include_tasks: ssl_cert_setup.yml

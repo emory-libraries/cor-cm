@@ -2,19 +2,13 @@
   gather_facts: false
   become: yes
   
-  pre_tasks:
-    - file:
-        path: /usr/local/webapps
-        state: directory
-        mode: 0777
-
   roles:
     - { role: dce_role_wait_for_gatherfacts }
-#    - { role: dce_role_selinux_reboot }
-#    - { role: uclalib_role_rhel7repos }
-#    - { role: uclalib_role_epel }
-#    - { role: uclalib_role_java, oracle_java_version: '1.8.0_202' }
-#    - { role: uclalib_role_apache }
+    - { role: dce_role_selinux_reboot }
+    - { role: uclalib_role_rhel7repos }
+    - { role: uclalib_role_epel }
+    - { role: uclalib_role_java, oracle_java_version: '1.8.0_202' }
+    - { role: uclalib_role_apache }
 #    - { role: uclalib_role_solr7 }
     - { role: uclalib_role_tomcat }
 #    - { role: uclalib_role_cantaloupe }
