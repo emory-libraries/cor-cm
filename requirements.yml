@@ -27,8 +27,8 @@
 # Forked from DCE repo
 #- src: https://github.com/curationexperts/uclalib_role_fedora4.git
 #  version: use-fedora_server_fqdn
-- src: https://github.com/curationexperts/uclalib_role_tomcat
-  version: add-ubuntu-functionality
+#- src: https://github.com/curationexperts/uclalib_role_tomcat
+#  version: add-ubuntu-functionality
 #- src: https://github.com/curationexperts/uclalib_role_cantaloupe
 #  version: add-Ubuntu-functionality
 #- src: https://github.com/curationexperts/uclalib_role_samvera_capdeploy
@@ -51,3 +51,4 @@
 #- src: https://github.com/curationexperts/dce_role_assign_eip
 #######
 #- src: https://github.com/emory-libraries/emorylib_role_install_ruby_scl
+- include: "{{ inventory_dir }}/requirements/emory_wh.yml"
