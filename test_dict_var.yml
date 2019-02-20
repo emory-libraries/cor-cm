@@ -1,0 +1,14 @@
+default_dict:
+  options:
+    value1: default1
+    list_value:
+      - default list 1
+      - default list 2
+      - default list 3
+    lastvalue: defaultlast
+
+custom_dict:
+  options:
+     lastvalue: customvalue
+     list_value:
+       - custom list 1

@@ -1,0 +1,22 @@
+- hosts: localhost
+  vars_files: test_dict_var.yml
+
+  tasks:
+    - name: Combine Dictionaries
+      set_fact:
+        new_dict:
+          options: "{{ default_dict['options'] | combine(custom_dict['options']) }}" 
+#      set_fact:
+#        new_dict: { options: default_dict['options'] | combine(custom_dict['options'])  } 
+#    - name: Combine dictionaries
+#      set_fact:
+#        new_dict: "{{ default_dict['options'] | combine({ item.key: item.value}) }}"
+#      loop: "{{ custom_dict['options'] | dict2items }}"
+#      when: item.value != ""
+    - name: output dictionary
+      debug:
+        var: new_dict
+
+    - name: OG Dict
+      debug:
+        var: default_dict
