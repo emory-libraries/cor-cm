@@ -1,0 +1,55 @@
+---
+
+  vars_prompt:
+    - name: idp_version
+    prompt: "Which IdP are you using (QA/Prod)?"
+    default: QA
+
+  tasks:
+    - name: Check IdP version variable value
+      assert:
+        that:
+          - idp_version == "Prod" or idp_version == "QA"
+        fail_msg: "IdP version must be Prod or QA"
+
+# Add shib repo to /etc/yum.repos.d and then install shibd from that repo (should enable the repo, then disable once done)
+    - name: copy shib repo to /etc/yum.repos.d
+      copy:
+        src: files/shib_repo
+        dest: /etc/yum.repos.d/shibbolethSP.repo
+      become: true
+
+# Install shib from repo - hit error when trying to enable repo - bug in Ansible 2.7, upgraded to 2.7.1 and fixed
+    - name: install shibd from repo
+      yum:
+        name: shibboleth.x86_64
+        state: present
+        enablerepo: security_shibboleth
+      become: true
+
+# Shibboleth configurations - IdP dependent (Prod v QA)
+    - name: modify QA Shibboleth2.xml and copy to /etc/shibboleth/shibboleth2.xml
+      template:
+        src: templates/shibboleth2_qa.xml.j2
+        dest: /etc/shibboleth/shibboleth2.xml
+        backup: yes
+      become: yes
+      when: idp_version == "QA"
+
+    - name: modify Prod Shibboleth2.xml and copy to /etc/shibboleth/shibboleth2.xml
+      template:
+        src: templates/shibboleth2_prod.xml.j2
+        dest: /etc/shibboleth/shibboleth2.xml
+        backup: yes
+      become: yes
+      when: idp_version == "Prod"
+
+    - name: import QA and prod metadata files (so that way we have both for eventual move to prod)
+      copy:
+        src: "{{ item }}"
+        dest: /etc/shibboleth/
+        backup: yes
+      become: true
+      with_items:
+        - 'files/QA-login-metadata.xml'
+        - 'files/login-metadata.xml'

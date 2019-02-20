@@ -1,3 +1,5 @@
 ---
 - src: git@github.service.emory.edu:LITS/wm_role_tomcat.git
   scm: git
+- src: git@github.service.emory.edu:LITS/wm_role_confluence.git
+  scm: git

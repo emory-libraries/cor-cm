@@ -1,0 +1,21 @@
+---
+- hosts:
+  - localhost
+
+  tasks:
+
+  # Create Group and User
+  - name: create group
+    group:
+      name: "{{ app_group_name }}"
+      gid: "{{ app_gid }}"
+      system: yes
+    become: true
+
+  - name: create user
+    user:
+      name: "{{ app_user_name }}"
+      group: "{{ app_group_name }}"
+      system: yes
+      uid: "{{ app_user_id }}"
+    become: true

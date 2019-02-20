@@ -1,0 +1,8 @@
+---
+# vars file for wm_role_confluence
+
+#Set app group and user
+app_group_name: confluence
+app_gid: 1001
+app_user_name: confluence
+app_user_id: 511
