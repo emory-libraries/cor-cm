@@ -1,0 +1,84 @@
+default_jsw_options:
+  set:
+    java_home: "{{ java_home }}"
+    tomcat_home: "{{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}"
+    app_home:  "{{ tomcatapp_install_path }}/{{ item.app_name }}"
+  wrapper:
+    check:
+      deadlock:
+        _value: true
+        interval: 10
+        action: "RESTART"
+        output: "FULL"
+    console:
+      format: "LTPM"
+      loglevel: "INFO"
+    event:
+      jvm_restart:
+        email:
+          body: "The JVM was restarted.\\n\\nPlease check on its status.\\n"
+    logfile:
+      _value: "%APP_HOME%/logs/wrapper.log"
+      format: "LTPM"
+      loglevel: "INFO"
+      maxsize: "100m"
+      maxfiles: 10
+      rollmode: "SIZE"
+    filter:
+      trigger:
+        - "java.lang.OutOfMemoryError"
+      action:
+        - "RESTART"
+      message:
+        - "The JVM has run out of memory."
+    java:
+      additional:
+        _value:
+          - "D{{ item.app_name | upper }}"
+          - "server"
+          - "Dfile.encoding=UTF-8"
+          - "Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager"
+          - "Djava.util.logging.config.file=%APP_HOME%/conf/logging.properties"
+          - "Dcatalina.home=%TOMCAT_HOME%"
+          - "Dcatalina.base=%APP_HOME%"
+          - "Dsun.rmi.dgc.client.gcInterval=3600000"
+          - "Dsun.rmi.dgc.server.gcInterval=3600000"
+          - "Djava.net.preferIPv4Stack=true"
+          - "Djava.endorsed.dirs=%TOMCAT_HOME%/lib/ext"
+          - "Dorg.tanukisoftware.wrapper.WrapperManager.mbean=true"
+          - "Djava.util.prefs.systemRoot=%JAVA_HOME%/.java"
+          - "XX:+UseCompressedOops"
+          - "XX:+TieredCompilation"
+          - "XX:+CMSClassUnloadingEnabled"
+          - "XX:+UseCompressedOops"
+          - "XX:+TieredCompilation"
+          - "XX:+DisableExplicitGC"
+          - "XX:NewSize=256m"
+          - "XX:MaxNewSize=256m"
+          - "XX:+UseG1GC"
+          - "XX:InitiatingHeapOccupancyPercent=50"
+          - "XX:ParallelGCThreads=2"
+          - "XX:+PrintGCDateStamps"
+        auto_bits: yes # true or false
+      command:
+        _value: "%JAVA_HOME%"
+        loglevel: INFO
+      initmemory: 1024
+      maxmemory: 1024
+      mainclass: "org.tanukisoftware.wrapper.WrapperSimpleApp"
+      classpath:
+        - "%TOMCAT_HOME%/bin/bootstrap.jar"
+        - "%TOMCAT_HOME%/bin/tomcat-juli.jar"
+        - "%TOMCAT_HOME%/lib/wrapper.jar"
+      library:
+        path:
+          - "%TOMCAT_HOME%/lib"
+    pidfile:
+      _value: "%TOMCAT_HOME%/bin/{{ item.app_name }}.pid"
+      strict: true
+    ignore_sequence_gaps: true
+    app:
+      parameter:
+        - "org.apache.catalina.startup.Bootstrap"
+    syslog:
+      loglevel: "NONE"

@@ -12,11 +12,16 @@ tomcat_applications:
     conn_port: 8081
     rproxy_path: cantaloupe
     app_long_name: Cantaloupe Server via JSW
+  - app_name: fedora
+    shut_port: 8009
+    conn_port: 8083
+    rproxy_path: fedora
 
-proxy_solr_tomcat_conf: "yes"
+proxy_solr_tomcat_conf: "no"
 
-java_home: "/bin/java"
+java_home: "/usr/java/latest"
 tomcat_install_path:  "/opt"
 tomcatapp_install_path: "/usr/local/webapps"
-cantaloupe_install_path: "{{ tomcatapp_install_path }}"
+#cantaloupe_install_path: "{{ tomcatapp_install_path }}"
 cantaloupe_base_dir: "{{ tomcatapp_install_path }}/cantaloupe"
+use_jsw: yes

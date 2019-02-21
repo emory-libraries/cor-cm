@@ -3,26 +3,34 @@
 - name: Put in place the cantaloupe tomcat environment variables file
   template:
     src: "cantaloupe_env.j2"
-    dest: "/etc/sysconfig/cantaloupe"
+    dest: "{{ environment_var_path }}/cantaloupe"
     owner: "root"
     group: "root"
   notify:
     - restart cantaloupe
+  when: not use_jsw
 
 - name: Put in place the cantaloupe vhost custom configuration file
   copy:
     src: "cantaloupe_vhost_include.conf"
-    dest: "/etc/httpd/conf.d/cantaloupe.conf"
+    dest: "{{ apache_conf_path }}/cantaloupe.conf"
     owner: "root"
     group: "root"
     mode: "0644"
   notify:
     - restart httpd
 
+- name: Symblink for Ubuntu apache2 vhost
+  file:
+    src: "{{ apache_vhosts_path }}/tomcatapps.httpd.conf"
+    path: "{{ apache_vhost_enabled_path }}/tomcatapps.httpd.conf"
+    state: link
+  when: ansible_distribution == "Ubuntu"
+
 - name: Include the cantaloupe vhost custom configuration in the tomcat vhost file
   lineinfile:
-    path: "/etc/httpd/vhosts.d/tomcatapps.httpd.conf"
-    line: "  Include conf.d/cantaloupe.conf"
+    path: "{{ apache_vhosts_path }}/tomcatapps.httpd.conf"
+    line: "Include {{ apache_conf_path }}/cantaloupe.conf"
     insertafter: "ServerName"
   notify:
     - restart httpd

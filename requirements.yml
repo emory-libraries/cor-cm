@@ -1,7 +1,7 @@
-- include: playbooks/requirements/ucla-samvera.yml
+#- include: playbooks/requirements/ucla-samvera.yml
 - include: playbooks/requirements/dce-forks.yml
-- include: playbooks/requirements/aws-management.yml
-- include: playbooks/requirements/dce-utility.yml
+#- include: playbooks/requirements/aws-management.yml
+#- include: playbooks/requirements/dce-utility.yml
 
 #- src: https://github.com/emory-libraries/emorylib_role_install_ruby_scl #Experimental
 #- include: playbooks/requirements/

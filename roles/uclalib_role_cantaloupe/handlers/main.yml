@@ -6,8 +6,18 @@
     state: restarted
     enabled: yes
 
-- name: restart httpd
+- name: redhat restart httpd
+  listen: restart httpd
   service:
     name: httpd
     state: restarted
     enabled: yes
+  when: ansible_distribution == "RedHat"
+
+- name: ubuntu restart httpd
+  listen: restart httpd
+  service:
+    name: apache2
+    state: restarted
+    enabled: yes
+  when: ansible_distribution == "Ubuntu"

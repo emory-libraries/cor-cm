@@ -5,6 +5,12 @@
   loop_control:
     loop_var: outer_item
 
+- name: Combine application specific dictionary if defined
+  set_fact:
+    "__{{ item.app_name }}_jsw_options": "{{ default_jsw_options | combine(lookup('vars', item.app_name + '_jsw_options')) }}"
+  loop: "{{ tomcat_applications }}"
+  when: lookup('vars', item.app_name + '_jsw_options', default = false)
+
 - name: Put in place wrapper.conf file
   template:
     src: wrapper_conf.j2

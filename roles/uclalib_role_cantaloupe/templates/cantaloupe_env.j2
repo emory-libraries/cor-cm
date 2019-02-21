@@ -11,7 +11,7 @@ JAVA_OPTS="-Xms{{ cantaloupe_min_mem }} -Xmx{{ cantaloupe_max_mem }} ${JAVA_OPTS
 export JAVA_OPTS
 
 # Path to the common Tomcat binaries and libraries shared by all Tomcat instances
-export CATALINA_HOME=/usr/local/tomcat{{ tomcat_major_version }}
+export CATALINA_HOME={{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}
 
 # Path to this Fedora Tomcat instance
 export CATALINA_BASE={{ cantaloupe_base_dir }}

@@ -11,4 +11,4 @@
     - { role: uclalib_role_apache }
 #    - { role: uclalib_role_solr7 }
     - { role: uclalib_role_tomcat }
-#    - { role: uclalib_role_cantaloupe }
+    - { role: uclalib_role_cantaloupe }
