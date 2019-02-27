@@ -7,7 +7,7 @@
 
 - name: Combine application specific dictionary if defined
   set_fact:
-    "__{{ item.app_name }}_jsw_options": "{{ default_jsw_options | combine(lookup('vars', item.app_name + '_jsw_options')) }}"
+    "__{{ item.app_name }}_jsw_options": "{{ default_jsw_options | combine(lookup('vars', item.app_name + '_jsw_options'), recursive = True) }}"
   loop: "{{ tomcat_applications }}"
   when: lookup('vars', item.app_name + '_jsw_options', default = false)
 

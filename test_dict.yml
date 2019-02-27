@@ -4,8 +4,7 @@
   tasks:
     - name: Combine Dictionaries
       set_fact:
-        new_dict:
-          options: "{{ default_dict['options'] | combine(custom_dict['options']) }}" 
+        new_dict: "{{ default_dict | combine(custom_dict2, recursive=True) }}" 
 #      set_fact:
 #        new_dict: { options: default_dict['options'] | combine(custom_dict['options'])  } 
 #    - name: Combine dictionaries

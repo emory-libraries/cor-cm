@@ -17,7 +17,7 @@ tomcat_applications:
     conn_port: 8083
     rproxy_path: fedora
 
-proxy_solr_tomcat_conf: "no"
+#proxy_solr_tomcat_conf: "no"
 
 java_home: "/usr/java/latest"
 tomcat_install_path:  "/opt"

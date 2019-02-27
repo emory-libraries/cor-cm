@@ -1,14 +1,22 @@
 default_dict:
-  options:
-    value1: default1
-    list_value:
-      - default list 1
-      - default list 2
-      - default list 3
-    lastvalue: defaultlast
+  key1:
+    subkey1:
+      value1: defaultvalue1
+      value2: defaultvalue2
+    subkey2:
+      value1: defaultvalue1
+      value2: defaultvalue2
+  key2: defaultkey2value
+  key3: defaultkey3value
+  
 
-custom_dict:
-  options:
-     lastvalue: customvalue
-     list_value:
-       - custom list 1
+custom_dict1:
+  key2: custom1key2value
+  
+custom_dict2:
+  key1:
+    subkey1:
+      value2: customsubkey2value
+    subkey2:
+      value3: Test
+  key3: anothercustomvalue

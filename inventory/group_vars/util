@@ -9,9 +9,11 @@ tomcat_applications:
     rproxy_path: cantaloupe
     app_long_name: Cantaloupe Server via JSW
 
+oracle_java_version: '1.8.0_202'
+
 proxy_solr_tomcat_conf: "yes"
 
-cantaloupe_version: "4.0.2"
+cantaloupe_version: "4.0.3"
 cantaloupe_temp_pathname: "/tmp"
 cantaloupe_delegate_script_enabled: "true"
 cantaloupe_delegate_script_url: "https://raw.githubusercontent.com/UCLALibrary/cantaloupe-delegate/master/lib/delegates.rb"
@@ -25,3 +27,7 @@ cantaloupe_source_delegate: "true"
 cantaloupe_FilesystemSource_lookup_strategy: "ScriptLookupStrategy"
 cantaloupe_HttpSource_lookup_strategy: "ScriptLookupStrategy"
 cantaloupe_install_path: "{{ tomcatapp_install_path }}/cantaloupe/ext"
+
+solr_cores:
+  - ident: curatecore
+    type: hyrax

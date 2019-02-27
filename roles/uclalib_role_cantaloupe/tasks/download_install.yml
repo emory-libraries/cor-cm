@@ -33,7 +33,7 @@
     group: "{{ cantaloupe_tomcat_user }}"
     mode: "0750"
     state: "directory"
-#  when: not use_jsw
+  when: not use_jsw
 
 - name: Put in place the cantaloupe WAR file in the webapps directory
   copy:
@@ -54,4 +54,4 @@
     - "{{ cantaloupe_FilesystemCache_pathname }}"
     - "{{ cantaloupe_temp_pathname }}"
     - "{{ cantaloupe_log_dir }}"
-#  when: not use_jsw
+  when: not use_jsw
