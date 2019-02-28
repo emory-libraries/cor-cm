@@ -1,4 +1,6 @@
 ---
+- name: Check if solr group and install directory exists
+  include: check_group_and_directory.yml
 
 - name: Determine if solr is installed
   stat:

@@ -34,6 +34,20 @@ If you have project-specific Solr configuration files, they should be placed in 
       * the naming convention for solr configuration files is: `projname_solr-conf`
       * for example, if your `type` is set to drupal, then the custom solr config file dir should be named: `drupal_solr-conf`
 
+## Solr Download URL Note
+
+The default value for the `solr_url` variable is:
+
+`http://archive.apache.org/dist/lucene/solr/{{ solr_version }}/solr-{{ solr_version }}.tgz`
+
+If you are affiliated with UCLA, you have the option of overriding this default url value with:
+
+`http://pkgs.library.ucla.edu/apache-solr/solr-{{ solr_version }}.tgz`
+
+Versions of Solr available via the UCLA URL are:
+
+* `7.4.0`
+
 ## Dependencies
 
 * uclalib_role_rhel7repos

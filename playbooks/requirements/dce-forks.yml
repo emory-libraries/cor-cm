@@ -6,6 +6,8 @@
   version: add-ubuntu-functionality
 - src: https://github.com/curationexperts/uclalib_role_cantaloupe
   version: add-Ubuntu-functionality
+- src: https://github.com/curationexperts/uclalib_role_solr7
+  version: add-geoblacklight-functionality
 #- src: https://github.com/curationexperts/uclalib_role_samvera_capdeploy ##Don't think this is needed anymore
 #  version: add-geonames-honeybadger
 #- src: https://github.com/curationexperts/uclalib_role_java # Shouldn't be needed anymore

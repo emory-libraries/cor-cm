@@ -37,3 +37,25 @@
   with_items:
     - "{{ solr_install_dir }}/install_solr_service.sh"
     - "{{ solr_install_dir }}/solr-{{ solr_version }}.tgz"
+
+- name: Ensure {{ solr_user }} is in {{ solr_user_group }}
+  user:
+    name: "{{ solr_user }}"
+    group: "{{ solr_user_group }}"
+
+- name: Ensure solr dir has proper ownership
+  file:
+    path: "{{ solr_install_dir }}/solr-{{ solr_version }}"
+    state: directory
+    recurse: yes
+    mode: 0744
+    owner: "{{ solr_user }}"
+    group: "{{ solr_user_group }}"
+
+- name: Ensure log folder exists and has proper permissions
+  file:
+    path: "{{ solr_install_dir }}/solr/server/logs"
+    state: directory
+    mode: 0774
+    owner: "{{ solr_user }}"
+    group: "{{ solr_user_group }}"

@@ -1,0 +1,12 @@
+---
+- name: Ensure {{ solr_user_group }} exists
+  group:
+    name: "{{ solr_user_group }}"
+
+- name: Ensure {{ solr_install_dir }} exists
+  file:
+    path: "{{ solr_install_dir }}"
+    state: directory
+    owner: root 
+    group: "{{ solr_user_group }}"
+    mode: 0774

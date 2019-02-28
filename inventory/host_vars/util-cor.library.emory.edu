@@ -1,6 +1,8 @@
 solr_install_dir: /usr/local/webapps
+solr_user_group: tomcatapp
+
 solr_data_dir: "/opt/data/{{ solr_version }}"
-solr_version: 7.6.0
+solr_version: 7.7.0
 
 tomcat_enable_ssl: "yes"
 enable_ssl: "yes"
