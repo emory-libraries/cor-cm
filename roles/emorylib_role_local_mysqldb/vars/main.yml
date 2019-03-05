@@ -1,0 +1,5 @@
+---
+# vars file for emorylib_role_local_mysqldb
+db_state: present
+db_user_state: present
+

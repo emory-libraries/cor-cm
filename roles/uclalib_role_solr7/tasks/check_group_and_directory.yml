@@ -1,12 +1,14 @@
 ---
-- name: Ensure {{ solr_user_group }} exists
+- name: Ensure {{ additional_solr_groups }} exists
   group:
-    name: "{{ solr_user_group }}"
+    name: "{{ item }}" 
+  loop: "{{ additional_solr_groups }}"
+  when: additional_solr_groups
 
 - name: Ensure {{ solr_install_dir }} exists
   file:
     path: "{{ solr_install_dir }}"
     state: directory
-    owner: root 
-    group: "{{ solr_user_group }}"
+    owner: "{{ solr_install_dir_owner }}" 
+    group: "{{ solr_install_dir_group }}" 
     mode: 0774

@@ -49,3 +49,8 @@ solr_replication_master_url: ""
 solr_cores:
   - ident: "core1"
     type: "default"
+
+#### Vars added for fork
+solr_install_dir_owner: solr
+solr_install_dir_group: solr
+additional_solr_groups: []

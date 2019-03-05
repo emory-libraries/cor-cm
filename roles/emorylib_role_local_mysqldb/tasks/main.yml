@@ -1,0 +1,8 @@
+---
+# tasks file for emorylib_role_local_mysqldb
+
+- include_tasks: install_server.yml
+- include_tasks: pip_install_mysql_python.yml
+- include_tasks: load_project_env.yml
+- include_tasks: set_dict.yml
+- include_tasks: create_mysql_db_and_user.yml

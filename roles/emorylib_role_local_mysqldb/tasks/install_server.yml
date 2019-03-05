@@ -1,0 +1,10 @@
+- name: Install MySQL server
+  yum:
+    name: mysql-community-server
+    state: present
+
+- name: Start and enable MySQL server
+  systemd:
+    name: mysql
+    state: started
+    enabled: yes
