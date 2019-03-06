@@ -1,0 +1,5 @@
+- hosts: "{{ host }}"
+  become: yes
+
+  roles:
+    - { role: wm_role_Shibboleth_SP }
