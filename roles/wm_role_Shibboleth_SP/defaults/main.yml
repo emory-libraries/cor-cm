@@ -1,75 +1,33 @@
----
-# defaults file for wm_role_Shibboleth_SP
-#
-# This is a best guess; should be changed to what you want the SP entityID to really be.
-SP_EntityID:  "https://{{ ansible_hostname }}"
+state: "present"
+sp_home: "/etc/shibboleth"
+sp_entity_id: "https://{{ ansible_hostname }}"
+
+idp_attribute_map_src: "https://login.emory.edu/client-config/attribute-map.xml"
+sp_attribute_map:
+  name: "{{ ansible_hostname }}"
+  url: 
+
+archive_urls:
+  - src: "https://secure.web.emory.edu/advtest/SpConfFiles.zip" 
+    dest: "{{ sp_home }}/html"
+    extra_opts:
+      - "-j"
+    create_dir: yes
+
+metadata_endpoints:
+  - name: "prod"
+    entity_id: "https://login.emory.edu/idp/shibboleth"
+    url: "https://login.emory.edu/idp/shibboleth"
+  - name: "qa"
+    entity_id: "https://login.emory.edu:443/idp/shibboleth"
+    url: "https://login.emory.edu:4443/idp/shibboleth"
+  - name: "dev"
+    entity_id: "https://login.emory.edu:444/idp/shibboleth"
+    url: "https://login.emory.edu:4444/idp/shibboleth"
+
+metadata_name: "qa"
 
 
-SP_Home: /etc/shibboleth
-Shib_Repo:  http://download.opensuse.org/repositories/security://shibboleth/CentOS_7/security:shibboleth.repo
-# RHEL7 or CentOS7
-RHEL7:  http://download.opensuse.org/repositories/security://shibboleth/CentOS_7/security:shibboleth.repo
-CentOS7:  http://download.opensuse.org/repositories/security://shibboleth/CentOS_7/security:shibboleth.repo
-# RHEL6 or CentOS6
-RHEL6:  http://download.opensuse.org/repositories/security://shibboleth/RHEL_6/security:shibboleth.repo
-CentOS6:  http://download.opensuse.org/repositories/security://shibboleth/CentOS_CentOS-6/security:shibboleth.repo
+support_contact: "test@emory.edu"
 
-#  Defalt Install of SP
-IdP_Default_EntityID:  "https://idp.example.org/idp/shibboleth"
-SP_Default_EntityID:  "https://sp.example.org/shibboleth"
-
-
-#  PROD IdP
-Prod_IdP_EntityID:  "https://login.emory.edu/idp/shibboleth"
-Prod_IdP_MetadataURL:  "https://login.emory.edu/idp/shibboleth"
-Prod_IdP_MetadataFile:  "/etc/shibboleth/PROD-idp-metadata.xml"
-
-#  QA IdP
-Qa_IdP_EntityID:  "https://login.emory.edu:443/idp/shibboleth"
-Qa_IdP_MetadataURL:  "https://login.emory.edu:4443/idp/shibboleth"
-Qa_IdP_MetadataFile: "/etc/shibboleth/QA-idp-metadata.xml"
-
-#  DEV IdP
-Dev_IdP_EntityID:  "https://login.emory.edu:444/idp/shibboleth"
-Dev_IdP_MetadataURL:  "https://login.emory.edu:4444/idp/shibboleth"
-Dev_IdP_MetadataFile: "/etc/shibboleth/DEV-idp-metadata.xml"
-
-#  Same for PROD, QA and DEV
-Emory_AttributeMapUrl:  "https://login.emory.edu/client-config/attribute-map.xml"
-Emory_AttributeMap:  "/etc/shibboleth/Emory_attribute-map.xml"
-AttributeMap:  "/etc/shibboleth/attribute-map.xml"
-Emory_SPConfFiles:  "https://secure.web.emory.edu/advtest/SpConfFiles.zip"
-YumRepo: "/etc/yum.repos.d/"
-
-
-PROD_IdP_MetadataProvider:  "\n\t<MetadataProvider type=\"Chaining\">\n
-                         \t\t<MetadataProvider type=\"XML\" url=\"https://login.emory.edu/idp/shibboleth\"\n
-                         \t\t\tbackingFilePath=\"PROD-idp-metadata.xml\" reloadInterval=\"28800\">\n
-                         \t\t</MetadataProvider>\n
-                         \t</MetadataProvider>\n"
-
-
-QA_IdP_MetadataProvider:  "\n\t<MetadataProvider type=\"Chaining\">\n
-                         \t\t<MetadataProvider type=\"XML\" url=\"https://login.emory.edu:4443/idp/shibboleth\"\n
-                         \t\t\tbackingFilePath=\"PROD-idp-metadata.xml\" reloadInterval=\"28800\">\n
-                         \t\t</MetadataProvider>\n
-                         \t</MetadataProvider>\n"
-
-
-DEV_IdP__MetadataProvider:  "\n\t<MetadataProvider type=\"Chaining\">\n
-                         \t\t<MetadataProvider type=\"XML\" url=\"https://login.emory.edu:4444/idp/shibboleth\"\n
-                         \t\t\tbackingFilePath=\"PROD-idp-metadata.xml\" reloadInterval=\"28800\">\n
-                         \t\t</MetadataProvider>\n
-                         \t</MetadataProvider>\n"
-
-
-#  Playbook Defaults
-State: "present"
-IdP_EntityID: "{{ Prod_IdP_EntityID }}" 
-IdP_MetadataURL:  "{{ Prod_IdP_MetadataURL }}"
-IdP_MetadataProvider: "{{ PROD_IdP_MetadataProvider }}"
-IdP_MetadataFile: "{{ Prod_IdP_Metadata_File }}"
-RemoteUser: "uid eppn subject-id pairwise-id persistent-id"
-# This should be changed to the email address of the actual support contact.
-SupportContact: "XXXXX@emory.edu"
-
+remote_user: "uid eppn subject-id pairwise-id persistent-id"

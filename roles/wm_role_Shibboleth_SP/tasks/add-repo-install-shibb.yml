@@ -1,0 +1,20 @@
+---
+- name: Include vars for repo
+  include_vars:
+    file: "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}-repo.yml"
+
+- name: Add shibboleth repository
+  yum_repository:
+    name: security_shibboleth
+    description: "Shibboleth ({{ ansible_distribution }})"
+    enabled: no
+    baseurl: "{{ repo_base_url }}"
+    gpgcheck: yes
+    gpgkey: "{{ repo_base_url }}/repodata/repomd.xml.key"
+
+
+- name: Install or update shibboleth
+  yum:
+    name: shibboleth.x86_64
+    enablerepo: security_shibboleth
+    state: "{{ state }}"

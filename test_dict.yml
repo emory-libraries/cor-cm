@@ -2,20 +2,15 @@
   vars_files: test_dict_var.yml
 
   tasks:
-    - name: Combine Dictionaries
-      set_fact:
-        new_dict: "{{ default_dict | combine(custom_dict2, recursive=True) }}" 
-#      set_fact:
-#        new_dict: { options: default_dict['options'] | combine(custom_dict['options'])  } 
-#    - name: Combine dictionaries
-#      set_fact:
-#        new_dict: "{{ default_dict['options'] | combine({ item.key: item.value}) }}"
-#      loop: "{{ custom_dict['options'] | dict2items }}"
-#      when: item.value != ""
-    - name: output dictionary
-      debug:
-        var: new_dict
+    - set_fact:
+        __idp_meta: "{{ meta_end | selectattr('name', 'eq', meta_name) | list }}"
+    - set_fact:
+        idp_meta: "{{ idp_meta|default({}) | combine( {'url': item.url}, {'name': item.name}, {'id': item.id}  ) }}"
+      loop: "{{ meta_end | selectattr('name', 'eq', meta_name) | list }}"
 
-    - name: OG Dict
+#    - name: Test filters
+#      debug:
+#        msg: "{{ meta_end | selectattr('name', 'eq', meta_name) | list }}"
+    - name:
       debug:
-        var: default_dict
+        msg: "{{ idp_meta }}"

@@ -5,3 +5,4 @@
 
 - src: git@github.service.emory.edu:LITS/wm_role_Shibboleth_SP.git 
   scm: git
+  version: alternative-role

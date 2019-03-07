@@ -1,0 +1,16 @@
+---
+- name: Enable Services
+  service: 
+    name: "{{ item }}"
+    enabled: yes
+  loop:
+    - shibd
+    - httpd
+
+- name: Restart Services
+  service:
+    name: "{{ item }}"
+    state: restarted
+  loop:
+    - shibd
+    - httpd
