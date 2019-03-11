@@ -9,3 +9,5 @@
 
 - include_tasks: refresh-inventory-add-host.yml
   when: manual_eip
+
+- include_tasks: wait-for-ec2.yml

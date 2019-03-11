@@ -4,4 +4,3 @@
 - src: https://github.com/curationexperts/dce_role_selinux_reboot
 - src: https://github.com/curationexperts/dce_role_wait_for_gatherfacts
 - src: https://github.com/curationexperts/dce_role_end_play
-- src: https://github.com/curationexperts/dce_role_assign_eip

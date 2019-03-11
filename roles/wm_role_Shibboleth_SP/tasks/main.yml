@@ -1,4 +1,9 @@
 ---
-- include: add-repo-install-shibb.yml
-- include: download-files-metadata.yml
-- include: enable-start-shibb.yml
+- include_tasks: add-repo-install-shibb.yml
+
+- include_tasks: download-files-metadata.yml
+
+- include_tasks: setup-ssl-files.yml
+  when: sp_ssl_files
+
+- include_tasks: enable-start-shibb.yml

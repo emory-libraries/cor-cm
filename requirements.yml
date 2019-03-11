@@ -1,6 +1,6 @@
 #- include: playbooks/requirements/ucla-samvera.yml
 #- include: playbooks/requirements/dce-forks.yml
-#- include: playbooks/requirements/aws-management.yml
+- include: playbooks/requirements/aws-management.yml
 #- include: playbooks/requirements/dce-utility.yml
 
 - src: git@github.service.emory.edu:LITS/wm_role_Shibboleth_SP.git 

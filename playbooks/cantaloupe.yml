@@ -1,9 +1,7 @@
 - hosts: "{{ host }}"
-  gather_facts: false
   become: yes
   
   roles:
-    - { role: dce_role_wait_for_gatherfacts }
     - { role: dce_role_selinux_reboot }
     - { role: uclalib_role_rhel7repos }
     - { role: uclalib_role_epel }

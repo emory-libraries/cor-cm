@@ -1,7 +1,6 @@
 ---
 - hosts: "{{ host }}"
   become: yes
-  gather_facts: false
 #  vars_files:
 #    - "roles/emorylib_role_install_ruby_scl/defaults/main.yml"
  
@@ -19,7 +18,6 @@
         ignore_files: [.gitignore] 
 
   roles:
-    - { role: dce_role_wait_for_gatherfacts }
     - { role: dce_role_selinux_reboot }
     - { role: uclalib_role_rhel7repos }
     - { role: uclalib_role_epel }

@@ -5,3 +5,4 @@
 - src: https://github.com/curationexperts/dce_role_rds_mysql
 - src: https://github.com/emory-libraries/emorylib_role_local_mysqldb
 - src: https://github.com/curationexperts/dce_role_route53_cm
+- src: https://github.com/curationexperts/dce_role_assign_eip

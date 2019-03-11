@@ -1,0 +1,6 @@
+---
+- name: Wait for EC2
+  wait_for:
+    host: "{{ ec2_ip }}"
+    delay: 1
+    port: 22

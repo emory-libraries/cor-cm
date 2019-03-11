@@ -33,3 +33,5 @@ tomcatapp_install_path: "/usr/local/webapps"
 #cantaloupe_install_path: "{{ tomcatapp_install_path }}"
 cantaloupe_base_dir: "{{ tomcatapp_install_path }}/cantaloupe"
 use_jsw: yes
+
+

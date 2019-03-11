@@ -1,0 +1,67 @@
+---
+- name: Create directory for automatically generated keys
+  file:
+    path: "{{ sp_home }}/auto-generated-ssl-files"
+    state: directory
+    owner: shibd
+    group: shibd
+
+- name: Copy automatically generated keys to directory
+  copy:
+    src: "{{ item }}"
+    dest: "{{ sp_home }}/auto-generated-ssl-files"
+    remote_src: yes
+  loop:
+    - "{{ sp_home }}/sp-encrypt-cert.pem"
+    - "{{ sp_home }}/sp-encrypt-key.pem"
+    - "{{ sp_home }}/sp-signing-cert.pem"
+    - "{{ sp_home }}/sp-signing-key.pem"
+
+- name: Put in place SP encrypt key
+  copy:
+    content: "{{ sp_ssl_files.encrypt_key }}"
+    dest: "{{ sp_home }}/sp-encrypt-key.pem"
+    owner: shibd
+    group: shibd
+    mode: 0400
+  no_log: yes
+  when:
+    - sp_ssl_files.encrypt_key
+    - sp_ssl_files.encrypt_cert
+
+- name: Put in place SP encrypt cert
+  copy:
+    content: "{{ sp_ssl_files.encrypt_cert }}"
+    dest: "{{ sp_home }}/sp-encrypt-cert.pem"
+    owner: shibd
+    group: shibd
+    mode: 0644
+  no_log: yes
+  when:
+    - sp_ssl_files.encrypt_key
+    - sp_ssl_files.encrypt_cert
+
+- name: Put in place SP signing key
+  copy:
+    content: "{{ sp_ssl_files.signing_key }}"
+    dest: "{{ sp_home }}/sp-signing-key.pem"
+    owner: shibd
+    group: shibd
+    mode: 0400
+  no_log: yes
+  when:
+    - sp_ssl_files.signing_key
+    - sp_ssl_files.signing_cert
+
+- name: Put in place SP signing cert
+  copy:
+    content: "{{ sp_ssl_files.signing_cert }}"
+    dest: "{{ sp_home }}/sp-signing-cert.pem"
+    owner: shibd
+    group: shibd
+    mode: 0644
+  no_log: yes
+  when:
+    - sp_ssl_files.signing_key
+    - sp_ssl_files.signing_cert
+

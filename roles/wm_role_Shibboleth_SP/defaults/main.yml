@@ -1,11 +1,11 @@
 state: "present"
 sp_home: "/etc/shibboleth"
-sp_entity_id: "https://{{ ansible_hostname }}"
+sp_entity_id: "https://{{ ansible_fqdn }}"
 
 idp_attribute_map_src: "https://login.emory.edu/client-config/attribute-map.xml"
-sp_attribute_map:
-  name: "{{ ansible_hostname }}"
-  url: 
+#sp_attribute_map:
+#  name: "{{ ansible_hostname }}"
+#  url: 
 
 archive_urls:
   - src: "https://secure.web.emory.edu/advtest/SpConfFiles.zip" 
@@ -19,10 +19,10 @@ metadata_endpoints:
     entity_id: "https://login.emory.edu/idp/shibboleth"
     url: "https://login.emory.edu/idp/shibboleth"
   - name: "qa"
-    entity_id: "https://login.emory.edu:443/idp/shibboleth"
+    entity_id: "https://login.emory.edu:4443/idp/shibboleth"
     url: "https://login.emory.edu:4443/idp/shibboleth"
   - name: "dev"
-    entity_id: "https://login.emory.edu:444/idp/shibboleth"
+    entity_id: "https://login.emory.edu:4444/idp/shibboleth"
     url: "https://login.emory.edu:4444/idp/shibboleth"
 
 metadata_name: "qa"
@@ -30,4 +30,4 @@ metadata_name: "qa"
 
 support_contact: "test@emory.edu"
 
-remote_user: "uid eppn subject-id pairwise-id persistent-id"
+remote__user: "uid eppn subject-id pairwise-id persistent-id"
