@@ -21,3 +21,13 @@ ssh_pub_keys:
 #scl_packages:
 #  - pkg_name: "rh-ruby25"
 #    scl_enable: "yes"
+#
+
+dlp_curate_linked_files:
+  - content: "{{ lookup('file', admins.yml) }}"
+    dest: "{{ capistrano_base }}/{{ project_name }}/shared/config/emory"
+    mode: 0644
+  - content: "{{ lookup('template', dotenv_dict.j2) }}"
+    dest: "{{ capistrano_base }}/{{ project_name }}/shared/.env.production"
+    mode: 0644
+

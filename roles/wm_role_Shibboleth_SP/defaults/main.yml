@@ -27,6 +27,10 @@ metadata_endpoints:
 
 metadata_name: "qa"
 
+metadata_download:
+  download: yes
+  url: "https://{{ host }}/Shibboleth.sso/Metadata"
+  dest: "/tmp/{{ ansible_fqdn }}-metadata.xml"
 
 support_contact: "test@emory.edu"
 

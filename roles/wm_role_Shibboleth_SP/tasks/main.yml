@@ -7,3 +7,6 @@
   when: sp_ssl_files
 
 - include_tasks: enable-start-shibb.yml
+
+- include_tasks: metadata-download.yml
+  when: metadata_download.download 

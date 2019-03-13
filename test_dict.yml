@@ -2,15 +2,21 @@
   vars_files: test_dict_var.yml
 
   tasks:
-    - set_fact:
-        __idp_meta: "{{ meta_end | selectattr('name', 'eq', meta_name) | list }}"
-    - set_fact:
-        idp_meta: "{{ idp_meta|default({}) | combine( {'url': item.url}, {'name': item.name}, {'id': item.id}  ) }}"
-      loop: "{{ meta_end | selectattr('name', 'eq', meta_name) | list }}"
+    - debug:
+        msg: "{{ test_path.path | basename }}"
+
+#    - debug:
+#        msg: "{{ project_name | regex_replace('[^0-9a-zA-Z]+', '_') }}"
+
+#    - set_fact:
+#        __idp_meta: "{{ meta_end | selectattr('name', 'eq', meta_name) | list }}"
+#    - set_fact:
+#        idp_meta: "{{ idp_meta|default({}) | combine( {'url': item.url}, {'name': item.name}, {'id': item.id}  ) }}"
+#      loop: "{{ meta_end | selectattr('name', 'eq', meta_name) | list }}"
 
 #    - name: Test filters
 #      debug:
 #        msg: "{{ meta_end | selectattr('name', 'eq', meta_name) | list }}"
-    - name:
-      debug:
-        msg: "{{ idp_meta }}"
+#    - name:
+#      debug:
+#        msg: "{{ idp_meta }}"

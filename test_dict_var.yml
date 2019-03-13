@@ -11,3 +11,11 @@ meta_end:
 
 __idp_meta: "{{ meta_end | selectattr('name', 'eq', meta_name) | list }}"
 meta_name: "qa"
+
+project_name: dlp-curate
+
+dlp_curate_dotenv:
+  database_url: "http://"
+
+test_path:
+  path: "/tmp/path/file/"
