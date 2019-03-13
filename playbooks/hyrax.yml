@@ -14,8 +14,8 @@
   pre_tasks:
     - name: Include facts.d folder
       include_vars:
-        dir: "{{ playbook_dir }}/facts.d/"
-        ignore_files: [.gitignore] 
+        dir: "{{ playbook_dir }}/facts.d"
+        ignore_unknown_extensions: yes
 
   roles:
     - { role: dce_role_selinux_reboot }
@@ -28,14 +28,14 @@
     - { role: uclalib_role_pip }
     - { role: dce_role_rds_mysql }
     - { role: uclalib_role_imagemagick }
-    - { role: uclalib_role_libreoffice, libreoffice_version: '6.1.4' }
+    - { role: uclalib_role_libreoffice, libreoffice_version: '6.2.1' }
     - { role: uclalib_role_ffmpeg }
     - { role: uclalib_role_fits, fits_version: '1.4.0' }
     - { role: uclalib_role_nodejs, nodejs_version: '8' }
 #    - { role: uclalib_role_rhelscl }
     - { role: emorylib_role_install_ruby_scl }
 #    - { role: uclalib_role_ruby, ruby_version: '2.5.1' }
-    - { role: uclalib_role_passenger, passenger_version: '5.3.7' }
+    - { role: uclalib_role_passenger, passenger_version: '6.0.2' }
     - { role: uclalib_role_yarn }
     - { role: uclalib_role_redis }
     - { role: uclalib_role_samvera_capdeploy }

@@ -8,7 +8,7 @@ project_default_admin_password: "{{ vault_project_default_admin_password }}"
 contact_email_addr: "test@emory.edu"
 redis_host: localhost
 redis_port: 6379
-#enable_ssl: no
+enable_ssl: "yes"
 sidekiq_num_threads: 5
 aws_region: us-west-1
 ssh_pub_keys:
@@ -24,10 +24,31 @@ ssh_pub_keys:
 #
 
 dlp_curate_linked_files:
-  - content: "{{ lookup('file', admins.yml) }}"
-    dest: "{{ capistrano_base }}/{{ project_name }}/shared/config/emory"
+  - content: "{{ lookup('file', './playbooks/resources/admins.yml') }}"
+    dest: "{{ capistrano_base }}/{{ project_name }}/shared/config/emory/"
     mode: 0644
   - content: "{{ lookup('template', dotenv_dict.j2) }}"
     dest: "{{ capistrano_base }}/{{ project_name }}/shared/.env.production"
     mode: 0644
+
+dlp_curate_env_vars:
+  admin_password:
+  contact_us_email: "test@emory.edu"
+  cache_path: "/opt/uploads/cache"
+  upload_path: "/opt/uploads"
+  working_path: "/opt/uploads"
+  derivatives_path: "/opt/derivatives"
+  database_auth: true
+  database_adapter:
+  database_pool:
+  database_name:
+  database_username:
+  database_password:
+  project_name: "dlp-curate"
+  sidekiq_workers: 5
+  fedora_url:
+  fedora_user:
+  fedora_password:
+  solr_url:
+  redis_host:
 
