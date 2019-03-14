@@ -1,4 +1,7 @@
 ---
+- name: Replace non-alphanumeric characters in {{ project_name }} with underscores
+  set_fact:
+    _project_name: "{{ project_name | regex_replace('[^0-9a-zA-Z]+', '_') }}"
 
 # This allows for making the {{ project_name }}_{{ env_name }}.yml vars file optional.
 # If this vars file is _not_ included in the role, the variables should be defined
@@ -15,7 +18,11 @@
   no_log: True
 
 - name: Set-up the Capistrano environment
-  import_tasks: cap_setup.yml
+  include_tasks: 
+    file: cap_setup.yml
+    apply:
+      tags:
+        - cap-setup
   tags:
     - cap-setup
 
@@ -24,10 +31,19 @@
   tags:
     - sidekiq-setup
 
-- name: Set-up the dotenv environment variables file
-  import_tasks: dotenv_setup.yml
+- name: Setup linked files (including dotenv)
+  include_tasks: 
+    file: linked_files_setup.yml
+    apply:
+      tags:
+        - linked-file-setup
+  when: lookup('vars', _project_name + '_linked_files', default = False )
   tags:
-    - dotenv-setup
+    - linked-file-setup
+#- name: Set-up the dotenv environment variables file
+#  import_tasks: dotenv_setup.yml
+#  tags:
+#    - dotenv-setup
 
 - name: Set-up the rails application secret key
   import_tasks: rails_secretkey_setup.yml

@@ -24,10 +24,10 @@ ssh_pub_keys:
 #
 
 dlp_curate_linked_files:
-  - content: "{{ lookup('file', './playbooks/resources/admins.yml') }}"
-    dest: "{{ capistrano_base }}/{{ project_name }}/shared/config/emory/"
+  - content: "{{ lookup('file', 'resources/admins.yml') }}"
+    dest: "{{ capistrano_base }}/{{ project_name }}/shared/config/emory/admins.yml"
     mode: 0644
-  - content: "{{ lookup('template', dotenv_dict.j2) }}"
+  - content: "{{ lookup('template', 'dotenv_dict.j2') }}"
     dest: "{{ capistrano_base }}/{{ project_name }}/shared/.env.production"
     mode: 0644
 

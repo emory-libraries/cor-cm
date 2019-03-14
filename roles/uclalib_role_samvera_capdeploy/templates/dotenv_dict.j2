@@ -1,0 +1,5 @@
+{{ ansible_managed | comment }}
+{% set env_dict = lookup('vars', _project_name + '_env_vars') %}
+{% for key, value in env_dict | dictsort %}
+{{ key | upper }}={{ value }}
+{% endfor %} 

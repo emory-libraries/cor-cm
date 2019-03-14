@@ -1,0 +1,9 @@
+---
+- name: Put in place linked files
+  copy:
+    content: "{{ item.content }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+    owner: "{{ capistrano_user }}"
+    group: "{{ capistrano_user }}"
+  loop: "{{ lookup('vars', _project_name + '_linked_files', default = False ) }}"
