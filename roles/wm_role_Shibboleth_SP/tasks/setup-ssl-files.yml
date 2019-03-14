@@ -26,8 +26,8 @@
     mode: 0400
   no_log: yes
   when:
-    - sp_ssl_files.encrypt_key
-    - sp_ssl_files.encrypt_cert
+    - sp_ssl_files.encrypt_key is defined
+    - sp_ssl_files.encrypt_cert is defined
 
 - name: Put in place SP encrypt cert
   copy:
@@ -38,8 +38,8 @@
     mode: 0644
   no_log: yes
   when:
-    - sp_ssl_files.encrypt_key
-    - sp_ssl_files.encrypt_cert
+    - sp_ssl_files.encrypt_key is defined
+    - sp_ssl_files.encrypt_cert is defined
 
 - name: Put in place SP signing key
   copy:
@@ -50,8 +50,8 @@
     mode: 0400
   no_log: yes
   when:
-    - sp_ssl_files.signing_key
-    - sp_ssl_files.signing_cert
+    - sp_ssl_files.signing_key is defined
+    - sp_ssl_files.signing_cert is defined
 
 - name: Put in place SP signing cert
   copy:
@@ -62,6 +62,5 @@
     mode: 0644
   no_log: yes
   when:
-    - sp_ssl_files.signing_key
-    - sp_ssl_files.signing_cert
-
+    - sp_ssl_files.signing_key is defined
+    - sp_ssl_files.signing_cert is defined

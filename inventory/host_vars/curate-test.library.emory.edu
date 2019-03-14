@@ -9,3 +9,26 @@ fedora_repo_password: "{{ vault_fedora_admin_password }}"
 git_repo_url: "https://github.com/emory-libraries/dlp-curate"
 git_repo_branch: "setup-cap-deploy"
 enable_ssl: "yes"
+
+dlp_curate_env_vars:
+  admin_password: "{{ vault_project_default_admin_password }}"
+  contact_us_email: "test@emory.edu"
+  cache_path: "/opt/uploads/cache"
+  upload_path: "/opt/uploads"
+  working_path: "/opt/uploads"
+  derivatives_path: "/opt/derivatives"
+  database_auth: true
+  database_adapter: "mysql2"
+  database_pool: 5
+  database_name: "{{ vault_test_rails_db_name }}"
+  database_username: "{{ vault_test_rails_db_user }}"
+  database_host: "{{ rds_endpoint }}"
+  database_password: "{{ vault_test_rails_db_pass }}"
+  project_name: "dlp-curate"
+  sidekiq_workers: 5
+  fedora_url: "http://fedora-cor-test.library.emory.edu/fcrepo/rest"
+  fedora_user: "{{ vault_fedora_admin_user }}"
+  fedora_password: "{{ vault_fedora_admin_password }}"
+  solr_url: "https://util-cor-test.library.emory.edu/solr/curatecore"
+  redis_host: localhost
+  redis_port: 6379

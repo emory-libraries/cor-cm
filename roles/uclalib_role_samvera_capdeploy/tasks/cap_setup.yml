@@ -1,10 +1,7 @@
 ---
-#- name: Replace non-alphanumeric characters in {{ project_name }} with underscores
-#  set_fact:
-#    _project_name: "{{ project_name | regex_replace('[^0-9a-zA-Z]+', '_') }}"
-
-#- set_fact:
-#    __linked_files: "{{ query('vars', _project_name + '_linked_files', default = False) }}"
+- name: Replace non-alphanumeric characters in {{ project_name }} with underscores
+  set_fact:
+    _project_name: "{{ project_name | regex_replace('[^0-9a-zA-Z]+', '_') }}"
 
 - name: Create Capistrano system group
   group:
@@ -37,8 +34,6 @@
     group: "{{ capistrano_user }}"
   loop: "{{ lookup('vars', _project_name + '_linked_files') }}"
   when: lookup('vars', _project_name + '_linked_files', default = False)
-#    - dlp_curate_linked_files
- #   - lookup('vars', _project_name + '_linked_files', default = False).dest
 
 - name: Add ssh public keys to the Capistrano user account
   authorized_key:

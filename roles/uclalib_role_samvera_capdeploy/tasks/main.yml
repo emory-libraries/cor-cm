@@ -1,7 +1,4 @@
 ---
-- name: Replace non-alphanumeric characters in {{ project_name }} with underscores
-  set_fact:
-    _project_name: "{{ project_name | regex_replace('[^0-9a-zA-Z]+', '_') }}"
 
 # This allows for making the {{ project_name }}_{{ env_name }}.yml vars file optional.
 # If this vars file is _not_ included in the role, the variables should be defined

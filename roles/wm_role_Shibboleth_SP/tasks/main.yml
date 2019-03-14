@@ -4,7 +4,7 @@
 - include_tasks: download-files-metadata.yml
 
 - include_tasks: setup-ssl-files.yml
-  when: sp_ssl_files
+  when: sp_ssl_files is defined
 
 - include_tasks: enable-start-shibb.yml
 
