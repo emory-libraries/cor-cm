@@ -1,0 +1,17 @@
+---
+- name: Check if passenger module is enabled
+  shell: httpd -M
+  register: apache_modules
+
+- name: Set fact if passenger module found
+  set_fact:
+    passenger_module_enabled: yes
+  when: apache_modules.stdout.find('passenger_module') != -1
+
+- name: Append shibd.conf
+  lineinfile:
+    path: "{{ shib_vhost_path }}/shib.conf"
+    line: "  PassengerEnabled off"
+    insertafter: '/Shibboleth.sso'
+    backup: yes
+  when: passenger_module_enabled is defined and true

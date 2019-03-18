@@ -1,0 +1,61 @@
+---
+- name: Set fact delete only
+  set_fact:
+    skip_create_db: yes
+  tags:
+    - delete-db
+    - delete-db-user
+    - delete-db-all
+    - never
+
+- name: Set fact to apply user delete to all host
+  set_fact:
+    mysql_host_all: yes
+  tags:
+    - delete-db-user
+    - delete-db-all
+    - refresh-db-user
+    - refresh-db-all
+
+- name: Include task to delete db
+  include_tasks:
+    file: create-mysql-db-user.yml
+    apply:
+      db_state: absent
+      tags:
+        - delete-db
+        - refresh-db
+        - never
+  tags: 
+    - delete-db
+    - refresh-db
+    - never
+
+- name: Include task to delete db user
+  include_tasks:
+    file: create-mysql-db-user.yml
+    apply:
+      db_user_state: absent
+      tags:
+        - delete-db-user
+        - refresh-db-user
+        - never
+  tags:
+    - delete-db-user
+    - refresh-db-user
+    - never
+
+- name: Include task to delete db and db user
+  include_tasks:
+    file: create-mysql-db-user.yml
+    apply:
+      db_state: absent
+      db_user_state: absent
+      tags:
+        - delete-db-all
+        - refresh-db-all
+        - never
+  tags:
+    - delete-db-all
+    - refresh-db-all
+    - never

@@ -1,0 +1,8 @@
+---
+- name: Replace non-alphanumeric characters in {{ project_name }} with underscores
+  set_fact:
+    _project_name: "{{ project_name | regex_replace('[^0-9a-zA-Z]+', '_') }}"
+
+- name: Install MySQL-Python via Pip
+  pip:
+    name: MySQL-python

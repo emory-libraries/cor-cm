@@ -1,6 +1,30 @@
 ---
 # tasks file for dce_role_rds_mysql
-#- include_tasks: rds_gather_facts.yml
-- include_tasks: pip_install_mysql_python.yml
-- include_tasks: set_dict.yml
-- include_tasks: create_mysql_db_and_user.yml 
+- include_tasks:
+    file: pip-install-mysql-python.yml
+    apply:
+      tags: install-mysql-python
+  tags: 
+    - install-mysql-python
+    - always
+
+- include_tasks: delete-mysql-db-or-user.yml
+  tags:
+    - delete-db
+    - delete-db-user
+    - delete-db-all
+    - refresh-db
+    - refresh-db-user
+    - refresh-db-all
+    - never
+
+- include_tasks: 
+    file: create-mysql-db-user.yml 
+    apply:
+      tags:
+        - create-db
+        - create-db-user
+  tags:
+    - create-db
+    - create-db-user
+  when: skip_create_db is undefined 

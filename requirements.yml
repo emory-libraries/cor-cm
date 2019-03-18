@@ -2,7 +2,8 @@
 #- include: playbooks/requirements/dce-forks.yml
 #- include: playbooks/requirements/aws-management.yml
 #- include: playbooks/requirements/dce-utility.yml
-- src: https://github.com/curationexperts/dce_role_rds_mysql
-#- src: git@github.service.emory.edu:LITS/wm_role_Shibboleth_SP.git 
-#  scm: git
-#  version: alternative-role
+#- src: https://github.com/curationexperts/dce_role_rds_mysql
+#  version: update-variable-scheme
+- src: git@github.service.emory.edu:LITS/wm_role_Shibboleth_SP.git 
+  scm: git
+  version: alternative-role

@@ -6,6 +6,8 @@
 - include_tasks: setup-ssl-files.yml
   when: sp_ssl_files is defined
 
+- include_tasks: check-if-passenger-enabled.yml
+
 - include_tasks: enable-start-shibb.yml
 
 - include_tasks: metadata-download.yml

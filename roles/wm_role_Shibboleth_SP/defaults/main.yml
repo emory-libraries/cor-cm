@@ -1,4 +1,5 @@
 state: "present"
+shib_vhost_path: "/etc/httpd/conf.d"
 sp_home: "/etc/shibboleth"
 sp_entity_id: "https://{{ ansible_fqdn }}"
 

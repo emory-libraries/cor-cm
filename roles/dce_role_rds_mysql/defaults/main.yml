@@ -1,19 +1,22 @@
 ---
 # defaults file for dce_role_rds_mysql
 # Needed for role logic
-rails_db_name: "placeholderdb"
-rails_db_user: "placeholderuser"
-rails_db_pass: "placepass"
-rails_db_user_host: "localhost"
 
-fedora_db_name: "placeholderdb"
-fedora_db_user: "placeholderuser"
-fedora_db_password: "placepass"
-fedora_db_user_host: "localhost"
+# Use project name to set variables:
+#project_name_mysql_db:
+#  name: # Name of the database
+#  user: # Database User
+#  password: # Database Password
+#  host: #Host the user will connect from
+#  login_user: #Optional define here or in dedicated variable
+#  login_password: #Optional define here or in dedicated variable
+#  login_host: #Optional define here or in dedicated variable
+#mysql_db_login_user: #Dedicated variable
+#mysql_db_login_password:
+#mysql_db_login_host:
 
-rds_endpoint: "{{ hostvars['localhost']['rds_endpoint'] }}"
-rds_master_username: "{{ hostvars['localhost']['rds_master_username'] }}"
-rds_master_password: "{{ hostvars['localhost']['rds_master_password'] }}"
+
 
 db_state: present
 db_user_state: present
+mysql_host_all: no

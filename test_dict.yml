@@ -2,8 +2,21 @@
   vars_files: test_dict_var.yml
 
   tasks:
-    - debug:
-        msg: "{{ test_path.path | basename }}"
+    - lineinfile:
+        path: "{{ playbook_dir }}/file.conf"
+        insertafter: '/Shibboleth.sso'
+        line: "  PassengerEnabled off"
+        backup: yes
+
+#    - name:
+#      shell: httpd -M
+#      register: apache_modules_content
+
+#    - debug:
+#        var: apache_modules_content.stdout.find('authn_socache_module')
+
+#    - debug:
+#        msg: "{{ test_path.path | basename }}"
 
 #    - debug:
 #        msg: "{{ project_name | regex_replace('[^0-9a-zA-Z]+', '_') }}"
