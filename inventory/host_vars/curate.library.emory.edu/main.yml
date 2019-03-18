@@ -1,3 +1,4 @@
 git_repo_url: "https://github.com/emory-libraries/dlp-curate"
 git_repo_branch: "master"
 enable_ssl: "yes"
+metadata_name: "prod"
