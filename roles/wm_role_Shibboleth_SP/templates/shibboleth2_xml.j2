@@ -30,7 +30,7 @@
             entityID property and adjust discoveryURL to point to discovery service.
             You can also override entityID on /Login query string, or in RequestMap/htaccess.
             -->
-            <SSO entityID="{{ idp_metadata.entity_id }}"
+            <SSO entityID="{{ idp_environment.url }}"
                  discoveryProtocol="SAMLDS" discoveryURL="https://ds.example.org/DS/WAYF">
               SAML2
             </SSO>
@@ -92,8 +92,8 @@
         -->
        <MetadataProvider type="Chaining">
            <MetadataProvider type="XML"
-               url="{{ idp_metadata.url }}"
-               backingFilePath="{{ idp_metadata.name }}-idp-metadata.yml"
+               url="{{ idp_environment.url }}"
+               backingFilePath="{{ idp_environment.name }}-idp-metadata.yml"
                reloadInterval="28800">
            </MetadataProvider>
        </MetadataProvider>

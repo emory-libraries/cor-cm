@@ -1,0 +1,10 @@
+- name: Remove shibboleth install 
+  yum:
+    name: shibboleth.x86_64
+    enablerepo: security_shibboleth
+    state: absent
+
+- name: Delete shibboleth files
+  file:
+    path: "{{ sp_home }}"
+    state: absent

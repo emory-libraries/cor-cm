@@ -4,29 +4,22 @@ sp_home: "/etc/shibboleth"
 sp_entity_id: "https://{{ ansible_fqdn }}"
 
 idp_attribute_map_src: "https://login.emory.edu/client-config/attribute-map.xml"
-#sp_attribute_map:
-#  name: "{{ ansible_hostname }}"
-#  url: 
 
 archive_urls:
   - src: "https://secure.web.emory.edu/advtest/SpConfFiles.zip" 
-    dest: "{{ sp_home }}/html"
+    dest: "{{ sp_home }}/html/"
     extra_opts:
       - "-j"
-    create_dir: yes
 
-metadata_endpoints:
+idp_environments:
   - name: "prod"
-    entity_id: "https://login.emory.edu/idp/shibboleth"
     url: "https://login.emory.edu/idp/shibboleth"
   - name: "qa"
-    entity_id: "https://login.emory.edu:4443/idp/shibboleth"
     url: "https://login.emory.edu:4443/idp/shibboleth"
   - name: "dev"
-    entity_id: "https://login.emory.edu:4444/idp/shibboleth"
     url: "https://login.emory.edu:4444/idp/shibboleth"
 
-metadata_name: "qa"
+idp_name: "qa"
 
 metadata_download:
   download: yes

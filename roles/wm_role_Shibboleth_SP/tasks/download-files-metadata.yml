@@ -1,13 +1,13 @@
 ---
 - name: Set IDP metadata
   set_fact:
-    idp_metadata: "{{ idp_metadata|default({}) | combine( {'name': item.name}, {'url': item.url}, {'entity_id': item.entity_id} ) }}" 
-  loop: "{{ metadata_endpoints | selectattr('name', 'eq', metadata_name ) | list }}"
+    idp_environment: "{{ idp_environment|default({}) | combine( {'name': item.name}, {'url': item.url} ) }}" 
+  loop: "{{ idp_environments | selectattr('name', 'eq', idp_name ) | list }}"
 
-- name: Download {{ idp_metadata.name }} IDP metadata
+- name: Download {{ idp_environment.name }} IDP metadata
   get_url:
-    url: "{{ idp_metadata.url }}"
-    dest: "{{ sp_home }}/{{ idp_metadata.name }}-idp-metadata.xml"
+    url: "{{ idp_environment.url }}"
+    dest: "{{ sp_home }}/{{ idp_environment.name }}-idp-metadata.xml"
     mode: 0755
     force: no
 
@@ -22,12 +22,11 @@
      dest: "{{ sp_home }}/attribute-map.yml"
      mode: 0755
 
-- name: Ensure archive folder exists
+- name: Ensure unarchive target folder exists
   file:
-    path: "{{ item.dest }}"
+    path: "{{ item.dest | dirname }}"
     state: directory
   loop: "{{ archive_urls }}"
-  when: item.create_dir 
 
 - name: Download archive files
   unarchive:
