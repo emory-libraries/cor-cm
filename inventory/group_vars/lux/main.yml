@@ -1,4 +1,6 @@
 project_name: ursus
+git_repo_url: "https://github.com/UCLALibrary/ursus"
+git_repo_branch: "master"
 idp_name: "prod"
 ursus_dotenv:
 
