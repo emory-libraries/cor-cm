@@ -49,8 +49,9 @@
   include_tasks:
     file: create-mysql-db-user.yml
     apply:
-      db_state: absent
-      db_user_state: absent
+      vars:
+        db_state: absent
+        db_user_state: absent
       tags:
         - delete-db-all
         - refresh-db-all

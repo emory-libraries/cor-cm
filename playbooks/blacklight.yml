@@ -1,0 +1,32 @@
+---
+- hosts: "{{ host }}"
+  become: yes
+ 
+  environment:
+    PATH: "{{ ruby_path }}"
+    LD_LIBRARY_PATH: "{{ ruby_ld_path }}"
+    MANPATH: "{{ ruby_manpath }}"
+    PKG_CONFIG_PATH: "{{ ruby_pkg_config_path }}"
+    XDG_DATA_DIRS: "{{ ruby_xdg_data_dirs }}"
+  
+  pre_tasks:
+    - name: Include facts.d folder
+      include_vars:
+        dir: "{{ playbook_dir }}/facts.d"
+        ignore_unknown_extensions: yes
+      tags: always
+
+  roles:
+    - { role: dce_role_selinux_reboot }
+    - { role: uclalib_role_rhel7repos }
+    - { role: uclalib_role_epel }
+    - { role: uclalib_role_samvera_basepackages }
+    - { role: uclalib_role_apache }
+    - { role: uclalib_role_pip }
+    - { role: dce_role_rds_mysql }
+    - { role: uclalib_role_nodejs }
+    - { role: emorylib_role_install_ruby_scl }
+    - { role: uclalib_role_passenger }
+    - { role: uclalib_role_yarn }
+    - { role: uclalib_role_redis }
+    - { role: uclalib_role_samvera_capdeploy }

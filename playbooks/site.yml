@@ -1,6 +1,7 @@
-#- import_playbook: build-ec2.yml
-#- import_playbook: build-rds.yml
+- import_playbook: build-ec2.yml
+- import_playbook: build-rds.yml
 #- import_playbook: fedora.yml
 #- import_playbook: hyrax.yml
+- import_playbook: blacklight.yml
 #- import_playbook: cantaloupe.yml
 - import_playbook: shibb.yml

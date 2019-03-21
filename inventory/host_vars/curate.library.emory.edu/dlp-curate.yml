@@ -26,7 +26,3 @@ dlp_curate_mysql_db:
   user: "{{ vault_test_rails_db_user }}"
   password: "{{ vault_test_rails_db_pass }}"
   host: "{{ ec2_private_ip }}"
-
-mysql_db_login_user: "{{ rds_master_username }}"
-mysql_db_login_password: "{{ rds_master_password }}"
-mysql_db_login_host: "{{ rds_endpoint }}"

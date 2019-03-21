@@ -1,0 +1,26 @@
+ursus_dotenv:
+  admin_password: "{{ vault_project_default_admin_password }}"
+  cable_channel_prefix: "ursus_production"
+  contact_us_email: "test@emory.edu"
+#  database_auth: true
+  database_adapter: "mysql2"
+  database_pool: 10
+  database_name: "{{ vault_blacklight_db_name }}" 
+  database_username: "{{ vault_blacklight_db_username }}"
+  database_password: "{{ vault_blacklight_db_password }}"
+  database_host: "{{ rds_endpoint }}"
+  database_min_messages: "warning"
+  project_name: "{{ project_name }}"
+  sidekiq_workers: 5
+  solr_url: "https://util-cor-test.library.emory.edu/solr/curatecore"
+  rails_host: "localhost"
+  rails_serve_static_files: true
+
+ursus_mysql_db:
+  name: "{{ vault_blacklight_db_name }}"
+  user: "{{ vault_blacklight_db_username }}"
+  password: "{{ vault_blacklight_db_password }}"
+  host: "{{ ec2_private_ip }}"
+
+additional_assertion_bindings:
+  - "digital-test.library.emory.edu"

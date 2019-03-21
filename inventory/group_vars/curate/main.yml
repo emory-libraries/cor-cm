@@ -1,17 +1,16 @@
-
-metadata_name: "qa"
+idp_name: "prod"
 project_name: "dlp-curate"
-rails_db_adapter: "mysql2"
-rails_db_pool: 5
-rails_db_host: "{{ rds_endpoint }}"
-rails_db_user_host: "{{ ec2_private_ip }}"
-project_default_admin_password: "{{ vault_project_default_admin_password }}"
-contact_email_addr: "test@emory.edu"
-redis_host: localhost
-redis_port: 6379
-enable_ssl: "yes"
-sidekiq_num_threads: 5
-aws_region: us-west-1
+#rails_db_adapter: "mysql2"
+#rails_db_pool: 5
+#rails_db_host: "{{ rds_endpoint }}"
+#rails_db_user_host: "{{ ec2_private_ip }}"
+#project_default_admin_password: "{{ vault_project_default_admin_password }}"
+#contact_email_addr: "test@emory.edu"
+#redis_host: localhost
+#redis_port: 6379
+#enable_ssl: "yes"
+#sidekiq_num_threads: 5
+#aws_region: us-west-1
 ssh_pub_keys:
   - https://github.com/devanshu-m.keys
   - https://github.com/mprefer.keys
@@ -28,7 +27,7 @@ dlp_curate_linked_files:
     dest: "{{ capistrano_base }}/{{ project_name }}/shared/.env.production"
     mode: 0644
 
-dlp_curate_env_vars:
+dlp_curate_dotenv:
   admin_password:
   contact_us_email: "test@emory.edu"
   cache_path: "/opt/uploads/cache"

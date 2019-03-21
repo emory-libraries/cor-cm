@@ -3,7 +3,9 @@
 - include_tasks:
     file: pip-install-mysql-python.yml
     apply:
-      tags: install-mysql-python
+      tags: 
+        - install-mysql-python
+        - always
   tags: 
     - install-mysql-python
     - always
