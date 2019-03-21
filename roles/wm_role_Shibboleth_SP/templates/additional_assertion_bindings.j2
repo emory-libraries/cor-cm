@@ -1,7 +1,6 @@
 {% set artifact_counter = namespace(a=2) %}
 {% set assertion_counter = namespace(a=5) %}
 {% for fqdn in additional_assertion_bindings %}
-
     <md:ArtifactResolutionService Binding="urn:oasis:names:tc:SAML:2.0:bindings:SOAP" Location="https://{{ fqdn }}/Shibboleth.sso/Artifact/SOAP" index="{{ artifact_counter.a }}"/>{% set artifact_counter.a = artifact_counter.a + 1 %}
     <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:SOAP" Location="https://{{ fqdn }}/Shibboleth.sso/SLO/SOAP"/>
     <md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://{{ fqdn }}/Shibboleth.sso/SLO/Redirect"/>

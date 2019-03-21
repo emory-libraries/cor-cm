@@ -1,10 +1,7 @@
 git_repo_url: "https://github.com/emory-libraries/dlp-curate"
 git_repo_branch: "master"
 enable_ssl: "yes"
-metadata_name: "prod"
+idp_name: "prod"
 
 additional_assertion_bindings:
   - "curate-test.library.emory.edu"
-  - "curate-3rd-url.library.emory.edu"
-  - "curate-4th-url.library.emory.edu"
-  - "last-curate-url.library.emory.edu"

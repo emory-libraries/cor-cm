@@ -3,6 +3,7 @@ fedora
 util
 curate
 rds
+lux
 
 [fedora]
 fedora-cor-test.library.emory.edu
@@ -17,3 +18,7 @@ cor-test-mysql-db
 [curate]
 curate-test.library.emory.edu
 curate.library.emory.edu
+
+[lux]
+digital.library.emory.edu
+digital-test.library.emory.edu

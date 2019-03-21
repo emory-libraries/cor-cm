@@ -29,3 +29,7 @@ metadata_download:
 support_contact: "test@emory.edu"
 
 remote__user: "uid eppn subject-id pairwise-id persistent-id"
+
+#additional_assertion_bindings:   #use fqdn
+#  - "example.com"
+#  - "temp.com"

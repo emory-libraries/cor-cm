@@ -42,3 +42,6 @@ dlp_curate_mysql_db:
 mysql_db_login_user: "{{ rds_master_username }}"
 mysql_db_login_password: "{{ rds_master_password }}"
 mysql_db_login_host: "{{ rds_endpoint }}"
+
+sp_entity_id: "https://curate.library.emory.edu"
+idp_name: "prod"
