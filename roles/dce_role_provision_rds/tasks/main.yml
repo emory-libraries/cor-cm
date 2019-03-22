@@ -26,4 +26,4 @@
 - name: Create rds_facts.yml
   template:
     src: rds_facts
-    dest: "{{ playbook_dir }}/facts.d/rds_facts.yml"
+    dest: "{{ playbook_dir }}/facts.d/{{ inventory_hostname }}-rds_facts.yml"

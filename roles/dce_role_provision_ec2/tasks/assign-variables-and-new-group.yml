@@ -14,5 +14,4 @@
 - name: Create ec2_facts.yml
   template:
     src: ec2_facts
-    dest: "{{ playbook_dir }}/facts.d/ec2_facts.yml"
-
+    dest: "{{ playbook_dir }}/facts.d/{{ inventory_hostname }}-ec2_facts.yml"

@@ -1,3 +1,5 @@
+url: "https://github.service.emory.edu/LITS/online-investigators-guide"
+
 meta_end:
   - name: "prod"
     url: "produrl"
@@ -12,7 +14,12 @@ meta_end:
 __idp_meta: "{{ meta_end | selectattr('name', 'eq', meta_name) | list }}"
 meta_name: "qa"
 
-project_name: dlp-curate
+project_name: ursusx
+ursus_linked_files:
+  - content: "filehere"
+    dest: "/path/to/file"
+  - content: "test2nd"
+    dest: "again/file"
 
 dlp_curate_dotenv:
   database_url: "http://"
