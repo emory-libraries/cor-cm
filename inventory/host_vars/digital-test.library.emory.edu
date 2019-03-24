@@ -20,3 +20,5 @@ ursus_mysql_db:
   user: "{{ vault_test_blacklight_db_username }}"
   password: "{{ vault_test_blacklight_db_password }}"
   host: "{{ ec2_private_ip }}"
+
+sp_entity_id: "https://digital.library.emory.edu"

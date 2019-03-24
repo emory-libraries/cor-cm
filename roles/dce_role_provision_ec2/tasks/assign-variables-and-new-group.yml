@@ -10,8 +10,13 @@
 #    name: "{{ ec2_ip }}"
 #    ansible_ssh_private_key_file: "{{ ec2_ssh_private_key_path }}"
 #    groups: ec2_group
+- name: Ensure facts.d subdirectory exists
+  file:
+    path: "{{ playbook_dir }}/facts.d/{{ inventory_hostname }}"
+    state: directory
+    mode: 0744
 
 - name: Create ec2_facts.yml
   template:
     src: ec2_facts
-    dest: "{{ playbook_dir }}/facts.d/{{ inventory_hostname }}-ec2_facts.yml"
+    dest: "{{ playbook_dir }}/facts.d/{{ inventory_hostname }}/ec2_facts.yml"

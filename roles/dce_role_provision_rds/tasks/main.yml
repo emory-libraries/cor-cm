@@ -23,7 +23,13 @@
 - set_fact:
     rds_endpoint: "{{ rds.instance['endpoint'] }}"
 
+- name: Ensure facts.d subdirectory exists
+  file:
+    path: "{{ playbook_dir }}/facts.d/{{ inventory_hostname }}"
+    state: directory
+    mode: 0744
+
 - name: Create rds_facts.yml
   template:
     src: rds_facts
-    dest: "{{ playbook_dir }}/facts.d/{{ inventory_hostname }}-rds_facts.yml"
+    dest: "{{ playbook_dir }}/facts.d/{{ inventory_hostname }}/rds_facts.yml"
