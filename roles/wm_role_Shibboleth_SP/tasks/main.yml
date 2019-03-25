@@ -1,5 +1,20 @@
 ---
-- include_tasks: add-repo-install-shibb.yml
+- include_tasks: 
+    file: install-prereqs.yml
+    apply:
+      tags:
+        - install-shibb
+  tags:
+    - install-shibb
+  when: not skip_prereqs | d(False)
+
+- include_tasks: 
+    file: add-repo-install-shibb.yml
+    apply:
+      tags:
+        - install-shibb
+  tags:
+    - install-shibb
 
 - include_tasks: download-files-metadata.yml
 

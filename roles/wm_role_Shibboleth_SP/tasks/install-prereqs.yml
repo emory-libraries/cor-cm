@@ -1,0 +1,21 @@
+---
+- name: Load correct prerequsite packages
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files:
+        - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+        - "{{ ansible_distribution }}.yml"
+        - "{{ ansible_os_family }}.yml"
+        - "not-supported.yml"
+      paths:
+        - "vars/prereqs"
+
+- name: Fail role when not supported
+  fail:
+    msg: "This OS is not supported by this role, failing play"
+  when: fail_role | d(False)
+
+- name: Install required packages
+  package:
+    name: "{{ prereq_packages }}"
