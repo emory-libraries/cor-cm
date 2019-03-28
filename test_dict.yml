@@ -1,16 +1,17 @@
-- hosts: localhost
+- hosts: all
   vars_files: test_dict_var.yml
 
   tasks:
-    - set_fact:
-        project_name: "{{ url | urlsplit('path') | basename }}"
+    - ping:
+#    - set_fact:
+#        project_name: "{{ url | urlsplit('path') | basename }}"
 
-    - name: Replace non-alphanumeric characters in {{ project_name }} with underscores
-      set_fact:
-       _project_name: "{{ project_name | regex_replace('[^0-9a-zA-Z]+', '_') }}"
+#    - name: Replace non-alphanumeric characters in {{ project_name }} with underscores
+#      set_fact:
+#       _project_name: "{{ project_name | regex_replace('[^0-9a-zA-Z]+', '_') }}"
 
-    - debug:
-        msg: "{{ url | urlsplit('path') | basename }}"
+#    - debug:
+#        msg: "{{ url | urlsplit('path') | basename }}"
 
 #    - lineinfile:
 #        path: "{{ playbook_dir }}/file.conf"
