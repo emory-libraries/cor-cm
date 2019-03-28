@@ -1,5 +1,11 @@
 ---
 # tasks file for dce_role_provision_ec2
+- debug:
+    var: hostvars['{{ _rds_host }}']['ansible_host']
+
+- debug: 
+    var: hostvars['{{ rds_host }}']['rds_master_username']
+  
 - include_tasks: create-or-destroy-ec2.yml
 
 - include_tasks: assign-variables-and-new-group.yml

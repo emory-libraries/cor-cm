@@ -1,3 +1,4 @@
 rds_endpoint: {{ rds_endpoint }}
 rds_master_username: {{ rds_master_username }}
 rds_master_password: {{ rds_master_password }}
+rds_endpoint2: {{ _rds_endpoint_host }}

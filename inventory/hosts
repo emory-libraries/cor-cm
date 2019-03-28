@@ -22,3 +22,6 @@ curate.library.emory.edu
 [lux]
 digital.library.emory.edu
 digital-test.library.emory.edu
+
+#[rds:children]
+#cor-test2-db
