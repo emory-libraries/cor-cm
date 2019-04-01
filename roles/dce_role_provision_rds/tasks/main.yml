@@ -18,6 +18,8 @@
     vpc_security_groups: "{{ rds_security_groups }}"
     publicly_accessible: "{{ rds_publicly_accessible }}"
     region: "{{ aws_region }}"
+    tags:
+      Name: "{{ inventory_hostname }}"
   register: rds
 
 - set_fact:

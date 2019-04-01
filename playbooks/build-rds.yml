@@ -2,4 +2,4 @@
   gather_facts: false
 
   roles:
-    - { role: dce_role_provision_rds, delegate_to: localhost }
+    - { role: dce_role_provision_rds, delegate_to: localhost, when: rds_master_username | d (False) }

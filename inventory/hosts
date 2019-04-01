@@ -14,6 +14,7 @@ util-cor.library.emory.edu
 
 [rds]
 cor-test-mysql-db
+cor-test2-db
 
 [curate]
 curate-test.library.emory.edu
@@ -22,6 +23,3 @@ curate.library.emory.edu
 [lux]
 digital.library.emory.edu
 digital-test.library.emory.edu
-
-#[rds:children]
-#cor-test2-db
