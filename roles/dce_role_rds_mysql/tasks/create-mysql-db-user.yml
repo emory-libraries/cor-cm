@@ -2,16 +2,12 @@
   set_fact:
     _mysql_db: "{{ lookup('vars', _project_name + '_mysql_db') }}"
 
-- name: Call dynamic role if selected
-  include_role:
-    name: wm_role_dynamic_aws_vars
-    allow_duplicates: no
-    public: yes
+- include_tasks:
+    file: load-dynamic-values.yml
     apply:
-      vars:
-        rds_host: "{{ _mysql_db.rds_host | d(rds_host) }}"
-  delegate_to: localhost
-  when: use_dynamic | d(False)
+      tags: always
+  tags: always
+  when: use_dynamic | d (False)
 
 - name: Set role databases to dynamic role output
   set_fact:

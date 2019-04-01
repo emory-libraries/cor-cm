@@ -1,10 +1,27 @@
 ---
-#- name: Add additonal endpoints to metadata and backup file
-#  lineinfile:
-#    path: "{{ metadata_download_result.dest }}"
-#    line: "{{ lookup('template', 'additional_assertion_bindings.j2') }}"
-#    insertbefore: '</md:SPSSODescriptor>'
-#    backup: yes
+- name: Get content for node
+  xml:
+    path: "{{ metadata_download_result.dest }}"
+    xpath: "{{ item }}"
+    count: yes
+    namespaces:
+      md: urn:oasis:names:tc:SAML:2.0:metadata
+  loop:
+    - /md:EntityDescriptor/md:SPSSODescriptor/md:ArtifactResolutionService
+    - /md:EntityDescriptor/md:SPSSODescriptor/md:AssertionConsumerService
+  register: metadata_counts
+
+- name: Create artifact starting point
+  set_fact:
+    artifact_resolution_service: "{{ item.count }}"
+  loop: "{{ metadata_counts.results }}"
+  when: item._ansible_item_label is search('ArtifactResolutionService')
+
+- name: Create assertion starting point
+  set_fact:
+    assertion_consumer_service: "{{ item.count }}"
+  loop: "{{ metadata_counts.results }}"
+  when: item._ansible_item_label is search('AssertionConsumerService')
 
 - name: Add additonal endpoints to metadata and backup file
   blockinfile:

@@ -10,13 +10,6 @@
     - install-mysql-python
     - always
 
-- include_tasks:
-    file: load-dynamic-values.yml
-    apply:
-      tags: always
-  tags: always
-  when: use_dynamic | d (False)
-
 - include_tasks: delete-mysql-db-or-user.yml
   tags:
     - delete-db
