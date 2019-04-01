@@ -1,41 +1,5 @@
-- hosts: all
+- hosts: rds
   gather_facts: false
-  
-#  pre_tasks:
-#    - debug:
-#        var: rds_master_username
-#    - set_fact:
-#        _inventory_hostname: "{{ inventory_hostname | regex_replace('[^0-9a-zA-Z]+', '_') }}"
-#      delegate_to: localhost
-
-#    - debug:
-#        msg: "{{ _inventory_hostname }}"
-
-#    - debug:
-#        var: hostvars['{{ _inventory_hostname }}']['ansible_host']
-#      register: output
-
-#    - debug:
-#        var: hostvars['{{ inventory_hostname | regex_replace('[^0-9a-zA-Z]+', '_') }}']['ansible_host']
-#      delegate_to: localhost
-#    - set_fact:
-#        _temp_var: "{{ hostvars.{{ inventory_hostname | regex_replace('[^0-9a-zA-Z]+', '_') }}.ansible_host }}"
-#      delegate_to: localhost
-
-#    - debug:
-#        msg: '{{ hostvars["{{ inventory_hostname | regex_replace('[^0-9a-zA-Z]+', '_') }}"].ansible_host }}'
-#      delegate_to: localhost
-
-#    - set_fact:
-#        _inventory_hostname: "{{ inventory_hostname | regex_replace('[^0-9a-zA-Z]+', '_') }}"
-#      delegate_to: localhost
-
-#    - debug:
-#        var: item
-#      loop: 
-#        - "{{ rds_master_username }}"
-#        - lookup('vars', "hostvars['{{ _inventory_hostname }}']['ansible_host']")
-#      delegate_to: localhost
 
   roles:
     - { role: dce_role_provision_rds, delegate_to: localhost }
