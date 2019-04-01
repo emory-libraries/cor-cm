@@ -1,23 +1,4 @@
 ---
-- set_fact:
-    _inventory_hostname: "{{ inventory_hostname | regex_replace('[^0-9a-zA-Z]+', '_') }}"
-  delegate_to: localhost
-
-- debug:
-    var: hostvars['{{ _inventory_hostname }}']['ansible_host']
-  register: output
-
-- debug:
-    var: output
-
-- set_fact:
-     _rds_endpoint_host: "{{ item.value }}"
-  loop: "{{ output | dict2items }}"
-  when: item.key != 'failed' and  item.key != 'changed'
-
-- debug:
-    msg: "{{ _rds_endpoint_host }}"
- 
 - name: Set fact to delete RDS instance
   set_fact:
     rds_command: delete

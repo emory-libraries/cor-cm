@@ -4,3 +4,6 @@
   roles: 
     - { role: dce_role_provision_ec2, delegate_to: localhost }
     - { role: dce_role_assign_eip, delegate_to: localhost }
+
+  post_tasks:
+    - meta: refresh_inventory

@@ -1,5 +1,6 @@
-- hosts: "{{ host }}"
+- hosts: all
   become: yes
 
   roles:
+    - { role: dce_role_rds_mysql }
     - { role: wm_role_Shibboleth_SP }

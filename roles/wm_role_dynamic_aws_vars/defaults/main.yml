@@ -1,0 +1,4 @@
+---
+# defaults file for wm_role_dynamic_aws_vars
+_inventory_hostname: "{{ inventory_hostname | regex_replace('[^0-9a-zA-Z]+', '_') }}"
+_rds_host: "{{ rds_host | regex_replace('[^0-9a-zA-Z]+', '_') }}"

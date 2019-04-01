@@ -1,5 +1,5 @@
 ---
-- hosts: "{{ host }}"
+- hosts: all
   become: yes
  
   environment:
@@ -9,16 +9,16 @@
     PKG_CONFIG_PATH: "{{ ruby_pkg_config_path }}"
     XDG_DATA_DIRS: "{{ ruby_xdg_data_dirs }}"
   
-  pre_tasks:
-
-    - name: Include facts.d folder
-      include_vars:
-        dir: "{{ item }}" 
-        ignore_unknown_extensions: yes
-      loop:
-        - "{{ playbook_dir }}/facts.d/{{ inventory_hostname }}"
-        - "{{ playbook_dir }}/facts.d/{{ rds_host }}"
-      tags: always
+#  pre_tasks:
+#
+#    - name: Include facts.d folder
+#      include_vars:
+#        dir: "{{ item }}" 
+#        ignore_unknown_extensions: yes
+#      loop:
+#        - "{{ playbook_dir }}/facts.d/{{ inventory_hostname }}"
+#        - "{{ playbook_dir }}/facts.d/{{ rds_host }}"
+#      tags: always
 
   roles:
     - { role: dce_role_selinux_reboot }

@@ -15,6 +15,6 @@ solr_cores:
   - ident: curatecore
     type: hyrax
 
-mysql_db_login_user: "{{ rds_master_username }}"
-mysql_db_login_password: "{{ rds_master_password }}"
-mysql_db_login_host: "{{ rds_endpoint }}"
+#mysql_db_login_user: "{{ rds_master_username }}"
+#mysql_db_login_password: "{{ rds_master_password }}"
+#mysql_db_login_host: "{{ rds_endpoint }}"

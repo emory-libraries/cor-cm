@@ -1,5 +1,6 @@
+use_dynamic: yes
 rds_host: cor-test-mysql-db
-_rds_host: "{{ rds_host | regex_replace('[^0-9a-zA-Z]+', '_') }}"
+#_rds_host: "{{ rds_host | regex_replace('[^0-9a-zA-Z]+', '_') }}"
 #project_name: "ursus"
 git_repo_url: "https://github.com/UCLALibrary/ursus"
 git_repo_branch: "master"

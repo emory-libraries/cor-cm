@@ -19,7 +19,6 @@ ursus_mysql_db:
   name: "{{ vault_blacklight_db_name }}"
   user: "{{ vault_blacklight_db_username }}"
   password: "{{ vault_blacklight_db_password }}"
-  host: "{{ ec2_private_ip }}"
 
 additional_assertion_bindings:
   - "digital-test.library.emory.edu"

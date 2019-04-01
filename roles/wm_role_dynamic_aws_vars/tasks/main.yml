@@ -1,0 +1,56 @@
+---
+# tasks file for wm_role_dynamic_aws_vars
+
+- name: Pull EC2 Private IP from hostvars
+  debug:
+    var: hostvars['{{ _inventory_hostname }}']['ec2_private_ip_address']
+  register: output
+
+- name: Set fact for EC2 Private IP address
+  set_fact:
+     ec2_private_ip: "{{ item.value }}"
+  loop: "{{ output | dict2items }}"
+  when: item.key != 'failed' and  item.key != 'changed'
+
+- name: Pull RDS endpoint from hostvars
+  debug:
+    var: hostvars['{{ _rds_host }}']['ansible_host']
+  register: output
+
+- name: Set fact for RDS endpoint
+  set_fact:
+     rds_endpoint: "{{ item.value }}"
+  loop: "{{ output | dict2items }}"
+  when: item.key != 'failed' and item.key != 'changed'
+
+- name: Pull RDS master username from hostvars
+  debug:
+    var: hostvars['{{ _rds_host }}']['ec2_master_username']
+  register: output
+
+- name: Set fact for RDS master username
+  set_fact:
+     rds_master_username: "{{ item.value }}"
+  loop: "{{ output | dict2items }}"
+  when: item.key != 'failed' and item.key != 'changed'
+
+- name: Pull RDS master password from hostvars
+  debug:
+    var: hostvars['{{ rds_host }}']['rds_master_password']
+  register: output
+
+- name: Set fact for RDS master password 
+  set_fact:
+     rds_master_password: "{{ item.value }}"
+  loop: "{{ output | dict2items }}"
+  when: item.key != 'failed' and item.key != 'changed'
+
+- name: Check to make sure all variables exist
+  fail:
+    msg: "RDS or EC2 data were not found, please refesh your inventory cache and try again"
+  when: not item | d (False)
+  loop:
+    - "{{ ec2_private_ip }}"
+    - "{{ rds_endpoint }}"
+    - "{{ rds_master_username }}"
+    - "{{ rds_master_password }}"

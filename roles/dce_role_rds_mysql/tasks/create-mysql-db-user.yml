@@ -2,6 +2,25 @@
   set_fact:
     _mysql_db: "{{ lookup('vars', _project_name + '_mysql_db') }}"
 
+- name: Call dynamic role if selected
+  include_role:
+    name: wm_role_dynamic_aws_vars
+    allow_duplicates: no
+    public: yes
+    apply:
+      vars:
+        rds_host: "{{ _mysql_db.rds_host | d(rds_host) }}"
+  delegate_to: localhost
+  when: use_dynamic | d(False)
+
+- name: Set role databases to dynamic role output
+  set_fact:
+    mysql_db_login_host: "{{ rds_endpoint }}"
+    mysql_db_login_user: "{{ rds_master_username }}"
+    mysql_db_login_password: "{{ rds_master_password }}"
+  delegate_to: localhost
+  when: use_dynamic | d(False)
+
 - name: Create MySQL databases
   mysql_db:
     login_host: "{{ _mysql_db.login_host | default (mysql_db_login_host) }}"
@@ -19,5 +38,5 @@
     password: "{{ _mysql_db.password }}"
     priv: '{{ _mysql_db.name }}.*:ALL'
     state: "{{ db_user_state }}"
-    host: "{{ _mysql_db.host }}"
+    host: "{{ _mysql_db.host | d(ec2_private_ip) | d('localhost') }}"
     host_all: "{{ mysql_host_all }}"
