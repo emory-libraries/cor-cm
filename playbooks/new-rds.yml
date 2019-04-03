@@ -1,0 +1,5 @@
+- hosts: rds
+  gather_facts: false
+
+  roles:
+    - { role: wm_role_rds_instance, delegate_to: localhost }

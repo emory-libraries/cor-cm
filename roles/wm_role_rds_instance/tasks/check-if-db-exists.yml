@@ -1,0 +1,10 @@
+- name:
+  rds_instance_facts:
+    db_instance_identifier: "{{ rds_facts_db_instance_identifier }}"
+    region: "{{ aws_region }}"
+  register: db_fact
+
+- debug:
+    var: db_fact
+
+- pause:

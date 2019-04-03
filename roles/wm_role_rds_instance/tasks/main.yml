@@ -1,0 +1,18 @@
+---
+# tasks file for wm_role_rds_instance
+- include_tasks:
+    file: check-if-db-exists.yml
+
+- include_tasks:
+    file: create-database.yml 
+
+- include_tasks:
+    file: delete-database.yml
+    apply:
+      tags:
+        - never
+        - delete-rds
+  tags:
+    - never
+    - delete-rds
+

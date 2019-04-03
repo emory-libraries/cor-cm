@@ -1,0 +1,7 @@
+---
+- name: Setup delete of RDS
+  set_fact:
+    rds_state: absent
+
+- include_tasks:
+    file: create-database.yml

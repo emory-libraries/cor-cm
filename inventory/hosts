@@ -15,6 +15,7 @@ util-cor.library.emory.edu
 [rds]
 cor-test-mysql-db
 cor-test2-db
+#cor-test3-db
 
 [curate]
 curate-test.library.emory.edu

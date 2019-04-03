@@ -9,3 +9,9 @@ rds_db_engine: MySQL               # Pick from mariadb, MySQL, oracle-se1, oracl
 rds_subnet: dbsubnet-uswest1
 
 rds_security_groups: [sg-076b84531a4fd9320]       #Up to 5, must use the sg-XXXXXXXX format
+
+
+rds_db_name: test2dbname
+rds_db_security_groups: 
+rds_db_subnet_group_name: dbsubnet-uswest1
+rds_vpc_security_group_ids: [sg-076b84531a4fd9320] 
