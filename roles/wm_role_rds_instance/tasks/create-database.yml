@@ -33,3 +33,4 @@
     tags: "{{ rds_tags | items2dict }}"
     vpc_security_group_ids: "{{ rds_vpc_security_group_ids }}"
     wait: "{{ rds_wait }}"
+  when: not db_status | d (False)

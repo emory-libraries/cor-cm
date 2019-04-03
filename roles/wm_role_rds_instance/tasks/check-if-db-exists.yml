@@ -2,9 +2,10 @@
   rds_instance_facts:
     db_instance_identifier: "{{ rds_facts_db_instance_identifier }}"
     region: "{{ aws_region }}"
-  register: db_fact
+  register: db_facts
 
-- debug:
-    var: db_fact
-
-- pause:
+- name: Set DB status
+  set_fact:
+    db_status: "{{ db_facts | json_query(temp_query) }}"
+  vars:
+    temp_query: "instances[?db_instance_identifier=='{{ rds_facts_db_instance_identifier }}'].db_instance_status"

@@ -6,7 +6,7 @@ rds_allocated_storage: 15
 rds_allow_major_version_upgrade: no
 rds_auto_minor_version_upgrade: yes
 rds_copy_tags_to_snapshot: no
-rds_db_cluster_identifier: "{{ inventory_hostname }}" 
+rds_db_cluster_identifier: #"{{ inventory_hostname }}" 
 rds_db_security_groups:
 rds_db_instance_class: db.t2.small
 rds_enable_performance_insights: no
