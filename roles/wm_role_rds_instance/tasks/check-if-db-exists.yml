@@ -6,6 +6,6 @@
 
 - name: Set DB status
   set_fact:
-    db_status: "{{ db_facts | json_query(temp_query) }}"
+    db_status: "{{ db_facts | json_query(temp_query) }}" #possible status: creating, backing-up, available, deleting, stopping, stopped, rebooting
   vars:
     temp_query: "instances[?db_instance_identifier=='{{ rds_facts_db_instance_identifier }}'].db_instance_status"

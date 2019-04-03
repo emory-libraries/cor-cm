@@ -3,4 +3,4 @@
 #- import_playbook: hyrax.yml
 - import_playbook: blacklight.yml
 #- import_playbook: cantaloupe.yml
-#- import_playbook: shibb.yml
+- import_playbook: shibb.yml
