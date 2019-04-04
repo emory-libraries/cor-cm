@@ -12,9 +12,9 @@
     gpgcheck: yes
     gpgkey: "{{ repo_base_url }}/repodata/repomd.xml.key"
 
-
 - name: Install or update shibboleth
   yum:
     name: shibboleth.x86_64
     enablerepo: security_shibboleth
     state: "{{ state }}"
+  tags: update-shibb

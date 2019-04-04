@@ -22,5 +22,5 @@ ursus_mysql_db:
   host: "{{ ec2_private_ip }}"
 
 sp_entity_id: "https://digital.library.emory.edu"
-metadata_download:
+get_metadata:
   download: no

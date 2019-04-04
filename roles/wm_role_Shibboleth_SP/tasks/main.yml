@@ -3,34 +3,48 @@
     file: install-prereqs.yml
     apply:
       tags:
-        - install-shibb
+        - install-prereqs
   tags:
-    - install-shibb
+    - install-prereqs
   when: not skip_prereqs | d(False)
 
 - include_tasks: 
     file: add-repo-install-shibb.yml
     apply:
-      tags:
-        - install-shibb
-  tags:
-    - install-shibb
+      tags: install-shibb
+  tags: install-shibb
 
-- include_tasks: download-files-metadata.yml
-
-- include_tasks: setup-ssl-files.yml
-  when: sp_ssl_files is defined
-
-- include_tasks: check-if-passenger-enabled.yml
-
-- include_tasks: enable-start-shibb.yml
+- include_tasks:
+    file: download-files-metadata.yml
+    apply:
+      tags: install-shibb
+  tags: install-shibb
 
 - include_tasks: 
-    file: metadata-download.yml
+    file: setup-ssl-files.yml
+    apply:
+      tags: install-shibb
+  tags: install-shibb
+  when: sp_ssl_files is defined
+
+- include_tasks: 
+    file: check-if-passenger-enabled.yml
+    apply:
+      tags: install-shibb
+  tags: install-shibb
+
+- include_tasks: 
+    file: enable-start-shibb.yml
+    apply:
+      tags: install-shibb
+  tags: install-shibb
+
+- include_tasks: 
+    file: get-metadata.yml
     apply: 
-      tags: metadata-download
-  tags: metadata-download
-  when: metadata_download.download 
+      tags: get-metadata
+  tags: get-metadata
+  when: get_metadata.download 
 
 - include_tasks:
     file: add-additional-endpoints-to-metadata.yml
@@ -39,8 +53,16 @@
       delegate_to: localhost
   tags: add-endpoints
   when: 
-    - metadata_download_result | d(False) is success
+    - get_metadata_result | d(False) and success
     - additional_assertion_bindings | d(False)
+
+- name: Update to latest shibboleth SP
+  include_tasks:
+    file: add-repo-install-shibb.yml
+    apply:
+      vars:
+        state: latest      
+  tags: update-shibb
 
 - include_tasks:
     file: delete-shibboleth.yml

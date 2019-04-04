@@ -1,0 +1,9 @@
+---
+- name: Get metadata on local machine 
+  get_url:
+    url: "{{ get_metadata.url }}"
+    dest: "{{ get_metadata.dest }}"
+    mode: 0644
+    force: yes
+  register: get_metadata_result
+  delegate_to: localhost

@@ -21,7 +21,7 @@ idp_environments:
 
 idp_name: "qa"
 
-metadata_download:
+get_metadata:
   download: yes
   url: "https://{{ inventory_hostname }}/Shibboleth.sso/Metadata"
   dest: "/tmp/{{ ansible_fqdn }}-metadata.xml"

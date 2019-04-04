@@ -1,9 +1,0 @@
----
-- name: Download metadata on local machine
-  get_url:
-    url: "{{ metadata_download.url }}"
-    dest: "{{ metadata_download.dest }}"
-    mode: 0644
-    force: yes
-  register: metadata_download_result
-  delegate_to: localhost
