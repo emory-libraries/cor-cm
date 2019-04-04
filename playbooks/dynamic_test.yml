@@ -1,0 +1,10 @@
+---
+- hosts: all
+  become: yes
+  roles:
+    - dce_role_selinux_reboot
+    - uclalib_role_rhel7repos
+    - uclalib_role_epel
+    - uclalib_role_samvera_basepackages
+    - uclalib_role_pip
+    - dce_role_rds_mysql
