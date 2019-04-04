@@ -8,6 +8,7 @@
     name: wm_role_dynamic_aws_vars
     allow_duplicates: no
     public: yes
+  delegate_to: localhost
   vars:
     rds_host: "{{ _temp_rds_host }}"
 

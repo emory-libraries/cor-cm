@@ -1,7 +1,7 @@
 ---
 - name: Get content for node
   xml:
-    path: "{{ metadata_download_result.dest }}"
+    path: "{{ get_metadata_result.dest }}"
     xpath: "{{ item }}"
     count: yes
     namespaces:
@@ -25,7 +25,7 @@
 
 - name: Add additonal endpoints to metadata and backup file
   blockinfile:
-    path: "{{ metadata_download_result.dest }}"
+    path: "{{ get_metadata_result.dest }}"
     block: "{{ lookup('template', 'additional_assertion_bindings.j2') }}"
     insertbefore: '</md:SPSSODescriptor>'
     marker: '<!-- {mark} ANSIBLE MANAGED BLOCK -->'
@@ -33,6 +33,6 @@
 
 - name: Add ansible managed message to file
   lineinfile:
-    path: "{{ metadata_download_result.dest }}"
+    path: "{{ get_metadata_result.dest }}"
     line: "{{ lookup('template', 'warning_assertion_bindings.j2') }}"
     insertafter: '^ -->'

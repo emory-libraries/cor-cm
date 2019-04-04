@@ -53,7 +53,8 @@
       delegate_to: localhost
   tags: add-endpoints
   when: 
-    - get_metadata_result | d(False) and success
+    - get_metadata_result | d(False) 
+    - get_metadata_result is success
     - additional_assertion_bindings | d(False)
 
 - name: Update to latest shibboleth SP
