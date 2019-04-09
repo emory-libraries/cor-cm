@@ -16,5 +16,5 @@
   yum:
     name: shibboleth.x86_64
     enablerepo: security_shibboleth
-    state: "{{ state }}"
+    state: "{{ state | d('present') }}"
   tags: update-shibb

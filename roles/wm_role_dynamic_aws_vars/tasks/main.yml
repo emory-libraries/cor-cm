@@ -10,7 +10,7 @@
   set_fact:
      ec2_private_ip: "{{ item.value }}"
   loop: "{{ output | dict2items }}"
-  when: item.key != 'failed' and  item.key != 'changed'
+  when: item.key != 'failed' and  item.key != 'changed' and item.value != 'VARIABLE IS NOT DEFINED!'
 
 - name: Pull RDS endpoint from hostvars
   debug:
@@ -21,7 +21,7 @@
   set_fact:
      rds_endpoint: "{{ item.value }}"
   loop: "{{ output | dict2items }}"
-  when: item.key != 'failed' and item.key != 'changed'
+  when: item.key != 'failed' and item.key != 'changed' and item.value != 'VARIABLE IS NOT DEFINED!'
 
 - name: Pull RDS master username from hostvars
   debug:
@@ -32,7 +32,7 @@
   set_fact:
      rds_master_username: "{{ item.value }}"
   loop: "{{ output | dict2items }}"
-  when: item.key != 'failed' and item.key != 'changed'
+  when: item.key != 'failed' and item.key != 'changed' and item.value != 'VARIABLE IS NOT DEFINED!'
 
 - name: Pull RDS master password from hostvars
   debug:
@@ -43,7 +43,7 @@
   set_fact:
      rds_master_password: "{{ item.value }}"
   loop: "{{ output | dict2items }}"
-  when: item.key != 'failed' and item.key != 'changed'
+  when: item.key != 'failed' and item.key != 'changed' and item.value != 'VARIABLE IS NOT DEFINED!'
 
 - name: Check to make sure all variables exist
   fail:

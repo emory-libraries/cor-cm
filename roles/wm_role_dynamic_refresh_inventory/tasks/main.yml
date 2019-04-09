@@ -1,0 +1,9 @@
+---
+# tasks file for wm_role_dynamic_refresh_inventory
+
+- name: Refresh EC2.py
+  shell: "{{ ec2_py_path }}/ec2.py --refresh-cache"
+  ignore_errors: yes
+
+- name: Refresh in-memory EC2 cache
+  meta: refresh_inventory

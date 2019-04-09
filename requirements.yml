@@ -8,7 +8,9 @@
 - src: git@github.service.emory.edu:LITS/wm_role_Shibboleth_SP.git 
   scm: git
   version: alternative-role
-#- src: git@github.service.emory.edu:shilli2/wm_role_dynamic_aws_vars.git
-#  scm: git
+- src: git@github.service.emory.edu:shilli2/wm_role_dynamic_aws_vars.git
+  scm: git
 #- src: git@github.service.emory.edu:shilli2/wm_role_rds_instance.git
 #  scm: git
+- src: git@github.service.emory.edu:shilli2/wm_role_dynamic_refresh_inventory.git
+  scm: git

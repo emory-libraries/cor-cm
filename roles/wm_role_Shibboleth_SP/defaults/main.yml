@@ -1,4 +1,3 @@
-state: "present"
 shib_vhost_path: "/etc/httpd/conf.d"
 sp_home: "/etc/shibboleth"
 sp_entity_id: "https://{{ ansible_fqdn }}"
@@ -19,7 +18,7 @@ idp_environments:
   - name: "dev"
     url: "https://login.emory.edu:4444/idp/shibboleth"
 
-idp_name: "qa"
+idp_name: "prod"
 
 get_metadata:
   download: yes
@@ -33,3 +32,4 @@ remote__user: "uid eppn subject-id pairwise-id persistent-id"
 #additional_assertion_bindings:   #use fqdn
 #  - "example.com"
 #  - "temp.com"
+#  - "www.eample.com"
