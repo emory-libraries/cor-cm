@@ -1,5 +1,8 @@
+use_dynamic: yes
 idp_name: "prod"
 project_name: "dlp-curate"
+rds_host: cor-test-mysql-db
+
 #rails_db_adapter: "mysql2"
 #rails_db_pool: 5
 #rails_db_host: "{{ rds_endpoint }}"
@@ -52,8 +55,7 @@ dlp_curate_mysql_db:
   name: "{{ vault_test_rails_db_name }}" # Name of the database
   user: "{{ vault_test_rails_db_user }}" # Database User
   password: "{{ vault_test_rails_db_pass }}" #Database Password
-  host: "{{ ec2_private_ip }}" #Host the user will connect from
 
-mysql_db_login_user: "{{ rds_master_username }}"
-mysql_db_login_password: "{{ rds_master_password }}"
-mysql_db_login_host: "{{ rds_endpoint }}" 
+#mysql_db_login_user: "{{ rds_master_username }}"
+#mysql_db_login_password: "{{ rds_master_password }}"
+#mysql_db_login_host: "{{ rds_endpoint }}" 

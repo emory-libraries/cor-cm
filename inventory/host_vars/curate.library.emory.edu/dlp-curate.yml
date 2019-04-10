@@ -1,4 +1,4 @@
-dlp_curate_env_vars:
+dlp_curate_dotenv:
   admin_password: "{{ vault_project_default_admin_password }}"
   contact_us_email: "test@emory.edu"
   cache_path: "/opt/uploads/cache"

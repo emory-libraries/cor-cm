@@ -63,7 +63,9 @@
     apply:
       vars:
         state: latest      
-  tags: update-shibb
+  tags: 
+    - update-shibb
+    - never
 
 - include_tasks:
     file: delete-shibboleth.yml

@@ -19,8 +19,10 @@
 - name: Put in place Attribute Map
   get_url:
      url: "{{ idp_attribute_map_src }}"
-     dest: "{{ sp_home }}/attribute-map.yml"
-     mode: 0755
+     dest: "{{ sp_home }}/attribute-map.xml"
+     mode: 0644
+     force: yes
+     backup: yes
 
 - name: Ensure unarchive target folder exists
   file:
