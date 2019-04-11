@@ -8,10 +8,18 @@
     passenger_module_enabled: yes
   when: apache_modules.stdout.find('passenger_module') != -1
 
-- name: Append shibd.conf
+- name: Append shibd.conf for Passenger compatiblity
   lineinfile:
     path: "{{ shib_vhost_path }}/shib.conf"
     line: "  PassengerEnabled off"
     insertafter: '/Shibboleth.sso'
     backup: yes
-  when: passenger_module_enabled is defined and true
+  when: passenger_module_enabled | d (False)
+
+- name: Add Callback template to shib.conf
+  lineinfile:
+    path: "{{ shib_vhost_path }}/shib.conf"
+    line: "{{ lookup('template', 'shibd_conf_callbacks.j2') }}"
+    insertafter: '</Location>'
+    firstmatch: yes
+  when: passenger_module_enabled | d (False)

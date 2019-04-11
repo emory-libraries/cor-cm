@@ -16,13 +16,23 @@
     src: shibboleth2_xml.j2
     dest: "{{ sp_home }}/shibboleth2.xml"
 
-- name: Put in place Attribute Map
+- name: Put in place IDP Attribute Map
   get_url:
      url: "{{ idp_attribute_map_src }}"
      dest: "{{ sp_home }}/attribute-map.xml"
      mode: 0644
      force: yes
      backup: yes
+  when: not attribute_map | d (False)
+
+- name: Generate custom Attribute Map
+  template:
+    src: attribute_map_xml.j2
+    dest: "{{ sp_home }}/attribute-map.xml"
+    mode: 0644
+    force: yes
+    backup: yes
+  when: attribute_map | d (False)
 
 - name: Ensure unarchive target folder exists
   file:
@@ -36,7 +46,9 @@
     dest: "{{ item.dest }}"
     extra_opts: "{{ item.extra_opts }}"
     remote_src: yes
-  ignore_errors: yes                    #-j breaks the module for unzip
+#  ignore_errors: yes                    #-j breaks the module for unzip
+  register: archive_result
+  failed_when: "'FAILED' in archive_result.msg" 
   loop: "{{ archive_urls }}"
 
 - name: Set permissions on directory

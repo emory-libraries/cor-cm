@@ -28,7 +28,7 @@
   when: sp_ssl_files is defined
 
 - include_tasks: 
-    file: check-if-passenger-enabled.yml
+    file: configure-apache.yml
     apply:
       tags: install-shibb
   tags: install-shibb

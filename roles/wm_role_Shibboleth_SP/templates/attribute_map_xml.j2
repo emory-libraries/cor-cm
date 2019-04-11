@@ -1,0 +1,6 @@
+{{ ansible_managed | comment('xml') }}
+<Attributes xmlns="urn:mace:shibboleth:2.0:attribute-map" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+{% for key,value in attribute_map | dictsort %}
+     <Attribute name="{{ value }}" id="{{ key }}"/>
+{% endfor %}
+</Attributes>
