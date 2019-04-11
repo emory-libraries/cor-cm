@@ -15,6 +15,11 @@ solr_cores:
   - ident: curatecore
     type: hyrax
 
+attribute_map:
+  displayName: "urn:oid:2.16.840.1.113730.3.1.241"
+  uid: "urn:oid:0.9.2342.19200300.100.1.1"
+  serialNumber: "urn:oid:2.5.4.5"
+
 #mysql_db_login_user: "{{ rds_master_username }}"
 #mysql_db_login_password: "{{ rds_master_password }}"
 #mysql_db_login_host: "{{ rds_endpoint }}"
