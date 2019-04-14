@@ -1,4 +1,4 @@
-- hosts: all 
+- hosts: "{{ host | d('all') }}"
   gather_facts: false
   become: yes
 

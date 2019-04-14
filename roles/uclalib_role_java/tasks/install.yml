@@ -9,6 +9,16 @@
     headers:
       Cookie: "oraclelicense=accept-securebackup-cookie"
     checksum: "md5:{{ java_rpm_md5 }}"
+  register: java_url_result
+
+- name: Attempt to download Java again
+  get_url:
+    url: "{{ oracle_java_url }}"
+    dest: "/opt/{{ java_rpm_filename }}"
+    headers:
+      Cookie: "oraclelicense=accept-securebackup-cookie"
+    checksum: "md5:{{ java_rpm_md5 }}"
+  when: java_url_result.failed 
 
 - name: Install Oracle Java
   yum:

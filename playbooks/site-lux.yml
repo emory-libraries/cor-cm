@@ -1,3 +1,3 @@
-- import_playbook: build-ec2.yml
-- import_playbook: blacklight.yml
-- import_playbook: shibb.yml
+- import_playbook: build-ec2.yml host=lux
+- import_playbook: blacklight.yml host=lux
+- import_playbook: shibb.yml host=lux

@@ -1,3 +1,4 @@
+host: all
 project_name: "{{ git_repo_url | urlsplit('path') | basename }}"
 ec2_fqdn: "{{ inventory_hostname }}"
 rails_host_fqdn: "{{ inventory_hostname }}" 

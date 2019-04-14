@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: "{{ host | d('all') }}"
   become: yes
  
   environment:
