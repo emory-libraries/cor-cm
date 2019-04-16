@@ -5,7 +5,7 @@ This reposititory is the central point of control for the COR project from Emory
 
 Requirements
 ------------
-On the host machine, please install the latest version of Ansible (preferred method is pip) and also: boto3, botocore and Jinja > 2.10
+On the host machine, install the latest version of Ansible, boto3, botocore, and Jinja2 (preferred method is pip)
 
 Role Variables
 --------------
@@ -14,19 +14,13 @@ The role variables depend on which type of web app is being built. Blacklight ap
 
 Example Playbook
 ----------------
-
-All the playbooks have hosts: all, so please use the -l command line to limit the servers to the ones you want to be created.
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+The `site-` playbooks are the playbooks intended for creating the websites and the playbooks are hard coded with the group they're named after.
+For example, site-lux is hard coded with the lux group.
+To use a site- playbook
+`ansible playbook playbooks/site-lux.yml` This command would create the lux group, which consists of digital.library.emory.edu and digital-test.library.emory.edu
+Additionally, the --limit (-l) functionality of ansible has been preserved, if creating only digital.library.emory.edu was desired then the command would be:
+`ansible playbook playbooks/site-lux.yml -l digital.library.emory.edu`
 
 License
 -------
-
 BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
