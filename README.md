@@ -10,9 +10,9 @@ This repo requires the usage of environment variables:
 
 AWS_ACCESS_KEY and AWS_SECRET_KEY
 
-Additionally you can set this variables in home/.aws/config under a profile and use the AWS_PROFILE environment variable instead
+Additionally you can set this variables in home/.aws/config under a profile and use the AWS_PROFILE environment variable instead.
 
-Region is set by an ansible variable aws_region, this repo ignores the AWS_REGION environment variable
+Region is set by an ansible variable aws_region, this repo ignores the AWS_REGION environment variable.
 
 Role Variables
 --------------
