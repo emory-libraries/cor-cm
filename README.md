@@ -6,6 +6,13 @@ This reposititory is the central point of control for the COR project from Emory
 Requirements
 ------------
 On the host machine, install the latest version of Ansible, boto3, botocore, and Jinja2 (preferred method is pip)
+This repo requires the usage of environment variables:
+
+AWS_ACCESS_KEY and AWS_SECRET_KEY
+
+Additionally you can set this variables in home/.aws/config under a profile and use the AWS_PROFILE environment variable instead
+
+Region is set by an ansible variable aws_region, this repo ignores the AWS_REGION environment variable
 
 Role Variables
 --------------
