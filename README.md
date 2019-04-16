@@ -16,9 +16,13 @@ Example Playbook
 ----------------
 The `site-` playbooks are the playbooks intended for creating the websites and the playbooks are hard coded with the group they're named after.
 For example, site-lux is hard coded with the lux group.
+
 To use a site- playbook
+
 `ansible playbook playbooks/site-lux.yml` This command would create the lux group, which consists of digital.library.emory.edu and digital-test.library.emory.edu
+
 Additionally, the --limit (-l) functionality of ansible has been preserved, if creating only digital.library.emory.edu was desired then the command would be:
+
 `ansible playbook playbooks/site-lux.yml -l digital.library.emory.edu`
 
 License
