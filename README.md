@@ -5,6 +5,12 @@ This reposititory is the central point of control for the COR project from Emory
 
 Requirements
 ------------
+Minimum Requirements:
+
+Ansible > 2.7.8
+
+Jinja2 > 2.10
+
 On the host machine, install the latest version of Ansible, boto3, botocore, and Jinja2 (preferred method is pip)
 This repo requires the usage of environment variables:
 
