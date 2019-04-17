@@ -1,0 +1,10 @@
+---
+# defaults file for wm_role_ec2_instance
+ec2_default_volume:
+  - device_name: /dev/sda1
+    ebs:
+      volume_type: gp2
+      volume_size: 14
+      delete_on_termination: yes
+
+ec2_additional_volumes: []

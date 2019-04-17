@@ -3,14 +3,16 @@
 #- include: playbooks/requirements/aws-management.yml
 #- include: playbooks/requirements/emory_wh.yml
 #- include: playbooks/requirements/dce-utility.yml
-- src: https://github.com/curationexperts/dce_role_rds_mysql
-  version: update-variable-scheme
-- src: git@github.service.emory.edu:LITS/wm_role_Shibboleth_SP.git 
-  scm: git
-  version: alternative-role
-- src: git@github.service.emory.edu:shilli2/wm_role_dynamic_aws_vars.git
-  scm: git
+#- src: https://github.com/curationexperts/dce_role_rds_mysql
+#  version: update-variable-scheme
+#- src: git@github.service.emory.edu:LITS/wm_role_Shibboleth_SP.git 
+#  scm: git
+#  version: alternative-role
+#- src: git@github.service.emory.edu:shilli2/wm_role_dynamic_aws_vars.git
+#  scm: git
 #- src: git@github.service.emory.edu:shilli2/wm_role_rds_instance.git
 #  scm: git
-- src: git@github.service.emory.edu:shilli2/wm_role_dynamic_refresh_inventory.git
+#- src: git@github.service.emory.edu:shilli2/wm_role_dynamic_refresh_inventory.git
+#  scm: git
+- src: git@github.service.emory.edu:LITS/wm_role_ec2_instance.git
   scm: git

@@ -1,0 +1,4 @@
+---
+- name: Set user data for ec2
+  set_fact:
+    ec2_user_data: "{{ lookup('template', 'user_data.j2') }}"
