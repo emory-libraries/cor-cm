@@ -1,5 +1,5 @@
 ---
-- name: Create EC2
+- name: Create or destroy EC2
   ec2_instance:
     state: "{{ ec2_state | d ('present') }}"
     availability_zone: "{{ ec2_availability_zone | d (omit) }}"
@@ -8,7 +8,7 @@
     detailed_monitoring: "{{ ec2_detailed_monitoring | d (omit) }}"
     ebs_optimized: "{{ ec2_ebs_optimized | d (omit) }}"
     filters:
-      'tag:Name': "{{ ec2_fqdn | d (omit) }}"
+      tag:Name': "{{ inventory_hostname | d (omit) }}"
       instance-state-name: running
     image: "{{ ec2_image_dict | d (omit) }}"
     image_id: "{{ ec2_image | d (omit) }}"
@@ -30,9 +30,24 @@
     user_data: "{{ ec2_user_data | d (omit) }}"
     volumes: "{{ ec2_default_volume + ec2_additional_volumes | d (omit) }}"
     vpc_subnet_id: "{{ ec2_vpc_subnet_id | d (omit) }}"
+    wait: "{{ ec2_wait | d (false) }}"
   register: ec2
+  tags:
+    - delete-ec2
 
-- debug:
-    var: ec2
+- name: Set ec2 variables 
+  set_fact:
+    ec2_private_ip: "{{ ec2 | json_query(query) | join (' ')  }}"
+    ec2_state_name: "{{ ec2 | json_query(query2) | join (' ') }}"
+    ec2_id: "{{ ec2 | json_query(query3) | join (' ') }}"
+  vars:
+    query: "instances[?tags.Name=='{{ inventory_hostname }}'].private_ip_address"
+    query2: "instances[?tags.Name=='{{ inventory_hostname }}'].state.name"
+    query3: "instances[?tags.Name=='{{ inventory_hostname }}'].instance_id"
 
-- pause:
+- name: EC2 was terminated, end play
+  fail:
+    msg: "{{ inventory_hostname }} was terminated, ending play"
+  tags:
+    - delete-ec2
+    - never

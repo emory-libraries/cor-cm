@@ -5,4 +5,13 @@
     file: set-user-data.yml
 
 - include_tasks:
-    file: create-ec2.yml 
+    file: create-or-terminate-ec2.yml
+
+- name: Delete ec2 instance
+  include_tasks:
+    file: create-or-terminate-ec2.yml
+  vars:
+    ec2_state: absent
+  tags:
+    - delete-ec2
+    - never
