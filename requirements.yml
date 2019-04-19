@@ -17,5 +17,5 @@
 - src: git@github.service.emory.edu:LITS/wm_role_ec2_instance.git
   scm: git
 
-- src: git@github.com:emory-libraries/emorylib_role_rhel7repo_satellite.git
-  scm: git
+#- src: git@github.com:emory-libraries/emorylib_role_rhel7repo_satellite.git
+#  scm: git

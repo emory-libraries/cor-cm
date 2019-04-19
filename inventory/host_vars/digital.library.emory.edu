@@ -22,3 +22,12 @@ ursus_mysql_db:
 
 additional_assertion_bindings:
   - "digital-test.library.emory.edu"
+
+ec2_default_volume:
+  - device_name: /dev/sda1
+    ebs:
+      volume_type: gp2
+      volume_size: 33
+      delete_on_termination: yes
+      kms_key_id: 8e800acf-d5c5-4791-9beb-4006548b1400
+      encrypted: yes
