@@ -3,7 +3,8 @@
 
 - name: Refresh EC2.py
   shell: "{{ ec2_py_path }}/ec2.py --refresh-cache"
-  ignore_errors: yes
+  register: ec2_refresh
+  failed_when: "'Nothing' in ec2_refresh.stdout"
 
 - name: Refresh in-memory EC2 cache
   meta: refresh_inventory

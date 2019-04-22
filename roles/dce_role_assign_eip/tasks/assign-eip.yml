@@ -4,6 +4,10 @@
     device_id: "{{ ec2_id }}"
     ip: "{{ ec2_eip }}"
     region: "{{ aws_region }}"
+  register: eip_result
+  retries: 6
+  delay: 10
+  until: eip_result is success
 
 - name: Replace EC2 logically
   set_fact:

@@ -12,7 +12,6 @@
     file: create-or-terminate-ec2.yml
   vars:
     ec2_state: absent
-    ec2_wait: no
   tags:
     - delete-ec2
     - never

@@ -1,0 +1,10 @@
+---
+
+oracle_java_url: 'https://download.oracle.com/otn/java/jdk/8u212-b10/59066701cf1a433da9770636fbc4c9aa/jdk-8u212-linux-x64.rpm'
+
+java_rpm_filename: "jdk-8u212-linux-x64.rpm"
+
+java_rpm_md5: "50956798ac1adc01534a49dc65555364"
+
+#"34f7fbea52257d06f6181b0db233297b" 
+
