@@ -15,3 +15,25 @@
   tags:
     - delete-ec2
     - never
+
+- include_tasks:
+    file: terminate-ec2-instances-found.yml
+    apply:
+      tags:
+        - delete-ec2
+        - never
+  tags:
+    - delete-ec2
+    - never
+  when: ec2.changed
+
+- include_tasks:
+    file: terminate-ec2-none-found.yml
+    apply:
+      tags:
+        - delete-ec2
+        - never
+  tags:
+    - delete-ec2
+    - never
+  when: not ec2.changed

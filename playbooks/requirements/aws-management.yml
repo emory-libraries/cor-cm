@@ -1,9 +1,14 @@
----
-# AWS Management
-- src: https://github.com/curationexperts/dce_role_provision_rds
-- src: https://github.com/curationexperts/dce_role_provision_ec2
-- src: https://github.com/curationexperts/dce_role_rds_mysql
-  version: update-variable-scheme
-- src: https://github.com/emory-libraries/emorylib_role_local_mysqldb
+- src: git@github.service.emory.edu:LITS/wm_role_dynamic_aws_vars.git
+  scm: git
+- src: git@github.service.emory.edu:LITS/wm_role_rds_instance.git
+  scm: git
+- src: git@github.service.emory.edu:LITS/wm_role_dynamic_refresh_inventory.git
+  scm: git
+- src: git@github.service.emory.edu:LITS/wm_role_ec2_instance.git
+  scm: git
+
+
 - src: https://github.com/curationexperts/dce_role_route53_cm
 - src: https://github.com/curationexperts/dce_role_assign_eip
+- src: https://github.com/curationexperts/dce_role_rds_mysql
+  version: update-variable-scheme

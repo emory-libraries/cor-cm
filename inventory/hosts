@@ -11,7 +11,6 @@ fedora-cor-test.library.emory.edu
 [util]
 util-cor-test.library.emory.edu
 util-cor.library.emory.edu
-whrailsprod1
 
 [rds]
 cor-test-mysql-db

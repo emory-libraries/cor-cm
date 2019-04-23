@@ -1,11 +1,3 @@
-#rails_host_fqdn: "{{ host }}"
-#rails_db_name: "{{ vault_test_rails_db_name }}" 
-#rails_db_user: "{{ vault_test_rails_db_user }}"
-#rails_db_pass: "{{ vault_test_rails_db_pass }}" 
-#solr_index_url: "https://util-cor-test.library.emory.edu/solr/curatecore"
-#fedora_repo_url: "http://fedora-cor-test.library.emory.edu/fcrepo/rest"
-#fedora_repo_user: "{{ vault_fedora_admin_user }}"
-#fedora_repo_password: "{{ vault_fedora_admin_password }}"
 git_repo_url: "https://github.com/emory-libraries/dlp-curate"
 git_repo_branch: "master"
 enable_ssl: "yes"
@@ -37,10 +29,6 @@ dlp_curate_mysql_db:
   name: "{{ vault_test_rails_db_name }}"
   user: "{{ vault_test_rails_db_user }}"
   password: "{{ vault_test_rails_db_pass }}"
-
-#mysql_db_login_user: "{{ rds_master_username }}"
-#mysql_db_login_password: "{{ rds_master_password }}"
-#mysql_db_login_host: "{{ rds_endpoint }}"
 
 sp_entity_id: "https://curate.library.emory.edu"
 idp_name: "prod"

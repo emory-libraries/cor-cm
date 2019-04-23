@@ -1,0 +1,4 @@
+---
+- name: Terminate EC2 No instances found
+  fail:
+    msg: "No instance matching {{ inventory_hostname }} was found, ending play"

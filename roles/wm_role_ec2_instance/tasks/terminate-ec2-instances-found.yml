@@ -1,0 +1,4 @@
+---
+- name: EC2 was found and terminated
+  fail:
+    msg: "{{ inventory_hostname }} was terminated, ending play"

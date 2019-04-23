@@ -45,19 +45,3 @@
     query: "instances[?tags.Name=='{{ inventory_hostname }}'].private_ip_address"
     query2: "instances[?tags.Name=='{{ inventory_hostname }}'].state.name"
     query3: "instances[?tags.Name=='{{ inventory_hostname }}'].instance_id"
-
-- name: Terminate EC2 No instances found
-  fail:
-    msg: "No instance matching {{ inventory_hostname }} was found, ending play"
-  when: not ec2.changed
-  tags:
-    - delete-ec2
-    - never
-
-- name: EC2 was found and terminated
-  fail:
-    msg: "{{ inventory_hostname }} was terminated, ending play"
-  tags:
-    - delete-ec2
-    - never
-  when: ec2.changed
