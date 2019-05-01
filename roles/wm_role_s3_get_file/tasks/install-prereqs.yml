@@ -1,0 +1,9 @@
+---
+- name: Pip install needed libraries
+  pip:
+    name: "{{ pip_libraries }}"
+  vars:
+    pip_libraries:
+      - boto
+      - botocore
+      - boto3

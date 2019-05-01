@@ -2,26 +2,24 @@
 
 - include_vars: "{{ oracle_java_version }}.yml"
 
+- name: Include role for getting Java RPM from S3
+  include_role:
+    name: wm_role_s3_get_file
+    apply:
+      vars:
+        aws_s3_dest: "/opt/{{ java_rpm_filename }}"
+        aws_s3_object: "java/{{ java_rpm_filename }}"
+    public: yes
+  when: use_s3_java | d (False)
+
+
 - name: Download the Oracle Java RPM file
   get_url:
     url: "{{ oracle_java_url }}"
     dest: "/opt/{{ java_rpm_filename }}"
-    headers:
-      Cookie: "oraclelicense=accept-securebackup-cookie"
-#    checksum: "md5:{{ java_rpm_md5 }}"
-  register: java_url_result
-
-- debug:
-    var: java_url_result
-
-- name: Attempt to download Java again
-  get_url:
-    url: "{{ oracle_java_url }}"
-    dest: "/opt/{{ java_rpm_filename }}"
-    headers:
-      Cookie: "oraclelicense=accept-securebackup-cookie"
-#    checksum: "md5:{{ java_rpm_md5 }}"
-  when: java_url_result.failed 
+    headers: 'Cookie:gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie'
+    checksum: "md5:{{ java_rpm_md5 }}"
+  when: not use_s3_java | d (False)
 
 - name: Install Oracle Java
   yum:
@@ -39,3 +37,4 @@
   file:
     path: "/opt/{{ java_rpm_filename }}"
     state: absent
+

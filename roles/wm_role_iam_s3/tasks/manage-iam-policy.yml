@@ -1,0 +1,13 @@
+---
+- name: Manage IAM role policy
+  iam_policy:
+    iam_name: "{{ item.name }}"
+    iam_type: "{{ item.iam_type | d ('role') }}"
+    policy_name: "{{ item.policy_name | d (default_policy_name) }}"
+    policy_document: "{{ item.policy_document | d (omit) }}"
+    policy_json: "{{ item.policy_json | d (lookup('template', 'iam_policy_s3_bucket_access_json.j2')) | d (omit) }}"
+    region: "{{ item.region | d (aws_region) }}"
+    state: "{{ item.policy_state | d ('present') }}"
+  vars:
+    default_policy_name: "access-to-{{ item.bucket_name }}"
+  loop: "{{ iam_roles_policies }}"

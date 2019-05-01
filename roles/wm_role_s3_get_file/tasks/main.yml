@@ -1,0 +1,8 @@
+---
+# tasks file for wm_role_s3_get_file
+
+- include_tasks:
+    file: install-prereqs.yml
+
+- include_tasks:
+    file: get-s3-file.yml

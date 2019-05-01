@@ -1,0 +1,21 @@
+s3_buckets:
+  - name: emory-ltds-binaries
+    tags:
+      test: value1
+      Name: bucket1
+    iam_name: access-to-binaries
+#    state: absent
+  - name: emory-ltds-delete-test
+    state: absent
+    tags:
+      test: value1
+      Name: bucket2
+    iam_name: test
+
+aws_s3_bucket_name: emory-ltds-binaries
+
+iam_roles_policies:
+  - name: access-to-binaries
+    bucket_name: emory-ltds-binaries
+#    state: absent
+#    policy_state: absent

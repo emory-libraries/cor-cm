@@ -4,6 +4,7 @@ util
 curate
 rds
 lux
+s3-iam
 
 [fedora]
 fedora-cor-test.library.emory.edu
@@ -24,3 +25,6 @@ curate.library.emory.edu
 [lux]
 digital.library.emory.edu
 digital-test.library.emory.edu
+
+[s3-iam]
+nohost

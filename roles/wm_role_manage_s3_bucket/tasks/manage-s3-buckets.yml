@@ -1,0 +1,12 @@
+---
+- name: Manage S3 buckets
+  s3_bucket:
+    state: "{{ item.state | d ('present') }}"
+    force: "{{ item.force | d (omit) }}"
+    region: "{{ aws_region | d (omit) }}"
+    name: "{{ item.name }}"
+    policy: "{{ item.policy | d(lookup('template', 'bucket_policy_json.j2')) | d (omit) }}"
+    tags: "{{ item.tags | d (omit) }}"  #tags are dictionary
+    validate_certs: "{{ item.validate_certs | d (omit) }}"
+    versioning: "{{ item.versioning | d (False) }}"
+  loop: "{{ s3_buckets }}"
