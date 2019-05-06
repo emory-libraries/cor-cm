@@ -3,7 +3,7 @@
 - src: https://github.com/UCLALibrary/uclalib_role_samvera_capdeploy
 - src: https://github.com/UCLALibrary/uclalib_role_ruby
 #- src: https://github.com/UCLALibrary/uclalib_role_rhel7repos #Probably replace this with another named repo
-- src: https://github.com/UCLALibrary/uclalib_role_java
+#- src: https://github.com/UCLALibrary/uclalib_role_java # Use dce fork
 - src: https://github.com/UCLALibrary/uclalib_role_fedora4
 ##- src: https://github.com/UCLALibrary/uclalib_role_tomcat # Use dce fork
 - src: https://github.com/UCLALibrary/uclalib_role_epel
