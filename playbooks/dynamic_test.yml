@@ -1,5 +1,0 @@
----
-- hosts: whrailsprod1
-  become: yes
-  roles:
-    - emorylib_role_rhel7repo_satellite
