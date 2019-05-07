@@ -7,11 +7,24 @@
     name: wm_role_s3_get_file
     apply:
       vars:
-        aws_s3_dest: "/opt/{{ java_rpm_filename }}"
-        aws_s3_object: "java/{{ java_rpm_filename }}"
+        get_s3_dest: "/opt/{{ java_rpm_filename }}"
+        get_s3_object: "java/{{ java_rpm_filename }}"
     public: yes
   when: use_s3_java | d (False)
 
+- name: Get checksum from Java RPM (s3 Method)
+  stat:
+    path: "/opt/{{ java_rpm_filename }}"
+    checksum_algorithm: md5
+  register: java_stat
+  when: use_s3_java | d (False)
+
+- name: Fail play if checksum mismatch (s3 method)
+  fail:
+    msg: "The Java checksum is not as expected"
+  when:
+    - use_s3_java | d (False)
+    - java_stat.stat.checksum != java_rpm_md5
 
 - name: Download the Oracle Java RPM file
   get_url:
