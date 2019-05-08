@@ -1,0 +1,49 @@
+---
+- name: Include demoapp loop
+  include: template_demoapp.yml
+  loop: "{{ tomcat_applications }}"
+  loop_control:
+    loop_var: outer_item
+
+- name: Combine application specific dictionary if defined
+  set_fact:
+    "__{{ _tomcat_normalized_appname }}_jsw_options": "{{ default_jsw_options | combine(lookup('vars', _tomcat_normalized_appname + '_jsw_options'), recursive = True) }}"
+  loop: "{{ tomcat_applications }}"
+  when: lookup('vars', _tomcat_normalized_appname + '_jsw_options', default = false)
+
+- name: Put in place wrapper.conf file
+  template:
+    src: wrapper_conf.j2
+    dest: "{{ tomcatapp_install_path }}/{{ _tomcat_appname }}/conf/wrapper.conf"
+    owner: "{{ _tomcat_appname }}"
+    group: "{{ _tomcat_appname }}"
+    mode: 0644
+  loop: "{{ tomcat_applications }}"
+
+- name: Put in place tomcat app init.d script
+  template:
+    src: jsw_tomcat_init.j2
+    dest: "/etc/init.d/{{ _tomcat_appname }}"
+    mode: 0755
+  loop: "{{ tomcat_applications }}"
+
+- name: Put in place the tomcat app server.xml file
+  template:
+    src: "tomcat{{ tomcat_major_version }}_server_xml.j2"
+    dest: "{{ tomcatapp_install_path }}/{{ _tomcat_appname }}/conf/server.xml"
+    owner: "{{ _tomcat_appname }}"
+    group: "{{ _tomcat_appname }}"
+  loop: "{{ tomcat_applications }}"
+
+## Look to delete these:
+
+#- name: Put in place the tomcat logroate configuration file
+#  template:
+#    src: "tomcat_logrotate.j2"
+#    dest: "/etc/logrotate.d/tomcat"
+
+#- name: Ensure log path exists for the Apache HTTPD reverse proxy
+#  file:
+#    path: "{{ apache_log_path }}/tomcatapps"
+#    mode: 0755
+#    state: "directory"

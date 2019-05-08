@@ -1,0 +1,23 @@
+---
+- name: Determine if Tomcat needs to be downloaded/unarchived
+  stat: 
+    path: "{{ tomcat_install_path }}/apache-tomcat-{{ tomcat_version }}"
+  register: tomcat_path
+
+- name: Download Tomcat into /usr/local directory
+  get_url:
+    url: "{{ tomcat_download_url }}"
+    dest: "{{ tomcat_install_path }}/apache-tomcat-{{ tomcat_version }}.tar.gz"
+  when: not tomcat_path.stat.exists
+
+- name: Unpack Tomcat Download
+  unarchive:
+    src: "{{ tomcat_install_path }}/apache-tomcat-{{ tomcat_version }}.tar.gz"
+    dest: "{{ tomcat_install_path }}"
+    copy: "no"
+  when: not tomcat_path.stat.exists
+
+- name: Create tomcatapp group
+  group:
+    name: "tomcatapp"
+    state: "present"

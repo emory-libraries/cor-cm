@@ -4,3 +4,6 @@
 - src: git@github.service.emory.edu:LITS/wm_role_Shibboleth_SP.git
   scm: git
   version: alternative-role
+
+- src: git@github.service.emory.edu:LITS/wm_role_deploy_tomcat_jsw.git
+  scm: git

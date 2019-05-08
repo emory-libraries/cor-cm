@@ -1,0 +1,36 @@
+---
+- hosts: localhost
+  gather_facts: no
+  vars_files: var_files.yml
+
+  tasks:
+#    - set_fact:
+#        temp_var: "{{ item.app_name | d (item.type) | regex_replace('[^0-9a-zA-Z]+', '_') }}"
+
+    - name: Combine application specific dictionary if defined
+      set_fact:
+        "__{{ temp_var }}_jsw_options": "{{ default_jsw_options | combine(lookup('vars', temp_var + '_jsw_options'), recursive = True) }}"
+      loop: "{{ tomcat_applications }}"
+      when: lookup('vars', temp_var + '_jsw_options', default = false)
+#      vars:
+#        temp_var: "{{ item.app_name | d (item.type) | regex_replace('[^0-9a-zA-Z]+', '_') }}"
+
+#    - set_fact:
+#        _app_list: "{{ item | combine({ 'name': item.type }) | d (item)  }}"
+#      loop: "{{ app_list }}"
+#      when: not item.name | d (False)
+
+#    - set_fact:
+#        __app_list: "{{ item }}"
+#      loop: "{{ app_list }}"
+#      when: item.name | d (False)
+
+ #   - set_fact:
+ #       app_list: "{{ _app_list | combine(__app_list) }}"
+
+    - debug:
+        var: item
+      loop:
+        - "{{ __cantaloupe_jsw_options }}"
+        - "{{ __geoserver_private_jsw_options }}"
+        - "{{ __fedora_jsw_options }}"

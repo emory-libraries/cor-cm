@@ -1,0 +1,34 @@
+app_list:
+  - name: app1a
+    type: app1
+  - name: app1b
+    type: app1
+  - type: app2
+
+tomcat_applications:
+  - app_name: fedora
+    type: fedora
+  - type: cantaloupe
+  - app_name: geoserver-private
+    type: geoserver
+
+default_jsw_options:
+  key1: default value
+  key2: 2nd default
+  key3: 3rd Default
+  key4:
+    subkey1: Subkey value
+
+geoserver_private_jsw_options:
+  key1: geo-private value
+  key2: 2nd geo private value
+
+fedora_jsw_options:
+  key1: fedora_jsw_options
+  key2: 2nd value for fedora
+
+cantaloupe_jsw_options:
+  key1: cantaloupe value 1
+  key2: cantaloupe value 2
+
+temp_var: "{{ item.app_name | d (item.type) | regex_replace('[^0-9a-zA-Z]+', '_') }}"

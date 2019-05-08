@@ -1,0 +1,10 @@
+---
+- name: Install rsync
+  package:
+    name: rsync
+    state: present
+
+- name: Load Ubuntu defaults
+  include_vars:
+    file: Ubuntu.yml
+  when: ansible_distribution == "Ubuntu"
