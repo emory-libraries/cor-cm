@@ -1,0 +1,26 @@
+---
+- name: Unarchive JSW to folder
+  unarchive:
+    src: "{{ jsw_download_url }}"
+    dest: /tmp
+    mode: 0644
+    remote_src: yes
+
+- name: Put in place jsw binaries from /tmp to {{ tomcat_install_path }}
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "root"
+    group: "tomcatapp"
+    remote_src: yes
+  loop: "{{ jsw_binaries }}"
+
+- name: Put in place demoapp for each Tomcat App
+  copy:
+    src: "/tmp/{{ jsw_file_name }}/bin/demoapp"
+    dest: "{{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}/bin/{{ _tomcat_appname }}"
+    owner: "root"
+    group: "tomcatapp"
+    mode: 0770
+    remote_src: yes
+  loop: "{{ tomcat_applications }}"

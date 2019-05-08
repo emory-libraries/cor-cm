@@ -1,0 +1,26 @@
+jsw_base_url: https://download.tanukisoftware.com/wrapper
+jsw_version: 3.5.37
+jsw_os: linux
+jsw_cpu: x86
+jsw_bit: 64 #32 or 64
+jsw_edition: "" # "-st" for Standard Edition, "-pro" for Professional, leave blank for Community
+jsw_file_name: "wrapper-{{ jsw_os }}-{{ jsw_cpu }}-{{ jsw_bit }}-{{ jsw_version }}{{ jsw_edition }}"
+jsw_download_url: "{{ jsw_base_url }}/{{ jsw_version }}/{{ jsw_file_name }}.tar.gz"
+
+jsw_binaries:
+  - src: /tmp/{{ jsw_file_name }}/lib/libwrapper.so
+    dest: /{{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}/lib
+  - src: /tmp/{{ jsw_file_name }}/lib/wrapper.jar
+    dest: /{{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}/lib
+  - src: /tmp/{{ jsw_file_name }}/bin/wrapper
+    dest: /{{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}/bin
+
+demoapp_values:
+  - regexp: '^APP_NAME'
+    line: 'APP_NAME="{{ _tomcat_outer_appname }}"'
+  - regexp: '^APP_LONG_NAME'
+    line: 'APP_LONG_NAME="{{ outer_item.long_name | default ("") }}"'
+  - regexp: '^WRAPPER_CONF'
+    line: 'WRAPPER_CONF="{{ tomcatapp_install_path }}/{{ _tomcat_outer_appname }}/conf/wrapper.conf"'
+  - regexp: 'RUN_AS_USER'
+    line: 'RUN_AS_USER="{{ _tomcat_outer_appname }}"'

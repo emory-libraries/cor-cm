@@ -1,0 +1,62 @@
+---
+### Logic Based Variables, changing will alter play!
+_tomcat_appname: "{{ item.name | d (item.type) }}"
+_tomcat_normalized_appname: "{{ _tomcat_appname | regex_replace('[^0-9a-zA-Z]+', '_') }}"
+_tomcat_nested_appname: "{{ item[0].name | d (item[0].type) }}"
+_tomcat_outer_appname: "{{ outer_item.name | d (outer_item.type) }}"
+###
+
+
+
+# Define the major version of Apache Tomcat to download (e.g. 6, 7, 8)
+tomcat_major_version: 7
+
+# Define the version of Apache Tomcat to download
+tomcat_version: 7.0.67
+
+tomcat_download_url: "http://archive.apache.org/dist/tomcat/tomcat-{{ tomcat_major_version }}/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"
+
+# This is a list defining all of the Tomcat apps to be created
+# The list provided her will be used for creating the following:
+# 	1. App directories
+#	2. Dedicated App Users/Groups
+#	3. Init scripts
+#	4. Enviornment variable files
+#
+#	app_name is the Tomcat applicaiton's app_name
+#	shut_port is the Tomcat applicaiton's shutdown port
+#	conn_port is the Tomcat application's connector port
+#
+
+tomcat_applications:
+  - type: app1
+    name: app1 #Name is an optional value, type is required
+    shut_port: 8006
+    conn_port: 8081
+    rproxy_path: path1
+    proxypass_extra_params: "nocanon keepalive=on"
+    long_name: "App1 Long Name" #Optional value
+  - type: app2
+    shut_port: 8007
+    conn_port: 8082
+    rproxy_path: path2
+    proxypass_extra_params: "nocanon"
+
+# Server name to use in the Apache HTTPD reverse proxy vhost file
+tomcat_server_name: "{{ ansible_fqdn }}"
+
+# Tomcat conf sub-directories that should be copied from CATALINA_HOME to CATALINA_BASE
+tomcat_subdirs: [ conf, logs, temp, webapps, work ]
+
+# Tomcat default webapps that should be removed
+default_webapps: [ docs, examples, host-manager, manager, ROOT ]
+
+environment_var_path: "/etc/sysconfig"
+apache_log_path: "/var/log/httpd"
+apache_vhosts_path: "/etc/httpd/vhosts.d"
+apache_conf_path: "/etc/httpd/conf.d"
+tomcat_install_path: "/usr/local"
+tomcatapp_install_path: "/usr/local"
+java_home: "/usr/lib/jvm/java"
+basename_path: "/bin"
+proxy_solr_tomcat_conf: "no"

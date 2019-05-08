@@ -1,0 +1,51 @@
+---
+# tasks file for wm_role_deploy_tomcat_jsw
+
+- include_tasks:
+    file: install_prereqs.yml
+    apply:
+      tags: jsw-install-prereq
+  tags: jsw-install-prereq
+
+- include_tasks:
+    file: download_tomcat_and_create_group.yml
+    apply:
+      tags: jsw-download-tomcat
+  tags: jsw-download-tomcat
+
+- include_tasks:
+    file: create_paths_and_users.yml
+    apply:
+      tags: jsw-create-user
+  tags: jsw-create-user
+
+- include_tasks:
+    file: copy_base_and_lib.yml
+    apply:
+      tags: jsw-copy-library
+  tags: jsw-copy-library
+
+- include_tasks:
+    file: tomcatapp_remove_webapps_fix_permissions.yml
+    apply:
+      tags: jsw-remove-webapp
+  tags: jsw-remove-webapp
+
+- include_tasks:
+    file: download_unarchive_jsw.yml
+    apply:
+      tags: jsw-download-jsw
+  tags: jsw-download-jsw
+
+- include_tasks:
+    file: setup_jsw_files.yml
+    apply:
+      tags: jsw-setup-jsw
+  tags: jsw-setup-jsw
+
+- include_tasks:
+    file: ssl_cert_setup.yml
+    apply:
+      tags: jsw-ssl
+  tags: jsw-ssl
+  when: tomcat_enable_ssl

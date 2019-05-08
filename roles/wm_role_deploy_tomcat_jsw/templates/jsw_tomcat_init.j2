@@ -1,0 +1,70 @@
+#!/bin/bash
+#
+#       /etc/rc.d/init.d/{{ _tomcat_appname }}
+#
+#
+# chkconfig: 345 26 74
+# description: {{ _tomcat_appname | capitalize }} server running under Tomcat
+# processname:
+
+### BEGIN INIT INFO
+# Provides:
+# Required-Start: $syslog $local_fs
+# Required-Stop: $syslog $local_fs
+# Default-Start:  2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: start and stop {{ _tomcat_appname | capitalize }}
+# Description: {{ _tomcat_appname | capitalize }} server running under Tomcat
+### END INIT INFO
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+#set -x
+RETVAL=0
+
+#
+# See how we were called.
+#
+
+
+start() {
+       # Check if it is already running
+#       if [ ! -f {{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}/bin/{{ _tomcat_appname }}.pid ]; then
+           {{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}/bin/{{ _tomcat_appname }} start
+           RETVAL=$?
+           echo
+#       fi
+       return $RETVAL
+}
+
+stop() {
+#       echo -n $"Stopping {{ _tomcat_appname | capitalize }}: "
+       {{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}/bin/{{ _tomcat_appname }} stop
+       RETVAL=$?
+       echo
+       return $RETVAL
+}
+
+
+restart() {
+       stop
+       start
+}
+
+
+case "$1" in
+start)
+       start
+       ;;
+stop)
+       stop
+       ;;
+restart)
+       restart
+       ;;
+*)
+       echo $"Usage: $0 {start|stop|restart}"
+       RETVAL=2
+esac
+
+exit $RETVAL
