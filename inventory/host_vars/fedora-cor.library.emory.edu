@@ -1,0 +1,7 @@
+#ec2_fqdn: fedora-cor-test.library.emory.edu
+fedora_db_user: "{{ vault_test_fedora_db_user }}" 
+fedora_db_name: "{{ vault_test_fedora_db_name }}"
+fedora_db_password: "{{ vault_test_fedora_db_password }}" 
+
+
+#ec2_CNAME: [ ] #This requires ec2-fqdn to work

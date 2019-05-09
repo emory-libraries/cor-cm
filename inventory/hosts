@@ -8,6 +8,7 @@ s3-iam
 
 [fedora]
 fedora-cor-test.library.emory.edu
+fedora-cor.library.emory.edu
 
 [util]
 util-cor-test.library.emory.edu
