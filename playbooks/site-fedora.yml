@@ -1,0 +1,2 @@
+- import_playbook: new_ec2.yml host=fedora
+- import_playbook: fedora.yml host=fedora
