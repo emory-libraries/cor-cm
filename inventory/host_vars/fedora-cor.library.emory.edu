@@ -1,7 +1,15 @@
 #ec2_fqdn: fedora-cor-test.library.emory.edu
-fedora_db_user: "{{ vault_test_fedora_db_user }}" 
-fedora_db_name: "{{ vault_test_fedora_db_name }}"
-fedora_db_password: "{{ vault_test_fedora_db_password }}" 
+fedora_db_user: "{{ vault_fedora_db_user }}" 
+fedora_db_name: "{{ vault_fedora_db_name }}"
+fedora_db_password: "{{ vault_fedora_db_password }}" 
+tomcat_enable_ssl: yes
 
+use_dynamic: yes
+rds_host: cor-test2-db 
 
+tomcat_applications:
+  - type: fedora
+    long_name: Fedora Commons
+    conn_port: 8076
+    shut_port: 8078
 #ec2_CNAME: [ ] #This requires ec2-fqdn to work

@@ -21,7 +21,7 @@
 
 - name: Fail play if checksum mismatch (s3 method)
   fail:
-    msg: "The Java checksum is not as expected"
+    msg: "The checksum from the java download does not match given value"
   when:
     - use_s3_java | d (False)
     - java_stat.stat.checksum != java_rpm_md5

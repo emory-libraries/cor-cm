@@ -1,3 +1,4 @@
+project_name: "{{ git_repo_url | urlsplit('path') | basename }}"
 use_dynamic: yes
 idp_name: "prod"
 project_name: "dlp-curate"

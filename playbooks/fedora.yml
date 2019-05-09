@@ -7,13 +7,12 @@
     - uclalib_role_epel
     - uclalib_role_samvera_basepackages
     - uclalib_role_pip
-    - dce_role_rds_mysql  # Am I still using this?
+    - dce_role_rds_mysql
     - uclalib_role_java
     - uclalib_role_apache
     - uclalib_role_tomcat
     - wm_role_deploy_tomcat_jsw
-
 #    - role: uclalib_role_fedora4
 #      vars:
 #        fedora_version: '4.7.5'
-    - uclalib_role_solr7
+#    - uclalib_role_solr7 #Pause here
