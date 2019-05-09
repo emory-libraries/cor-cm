@@ -9,8 +9,8 @@
     - uclalib_role_pip
     - dce_role_rds_mysql
     - uclalib_role_java
-    - uclalib_role_apache
-    - uclalib_role_tomcat
+#    - uclalib_role_apache
+#    - uclalib_role_tomcat
     - wm_role_deploy_tomcat_jsw
 #    - role: uclalib_role_fedora4
 #      vars:

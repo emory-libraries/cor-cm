@@ -11,6 +11,11 @@
   loop: "{{ tomcat_applications }}"
   when: lookup('vars', _tomcat_normalized_appname + '_jsw_options', default = false)
 
+- debug:
+    var: _tomcat_normalized_appname
+  loop: "{{ tomcat_applications }}"
+- pause:
+
 - name: Put in place wrapper.conf file
   template:
     src: wrapper_conf.j2

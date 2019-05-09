@@ -1,7 +1,7 @@
 ---
 ### Logic Based Variables, changing will alter play!
 _tomcat_appname: "{{ item.name | d (item.type) }}"
-_tomcat_normalized_appname: "{{ _tomcat_appname | regex_replace('[^0-9a-zA-Z]+', '_') }}"
+_tomcat_normalized_appname: "{{  item.name | d (item.type) | regex_replace('[^0-9a-zA-Z]+', '_') }}"
 _tomcat_nested_appname: "{{ item[0].name | d (item[0].type) }}"
 _tomcat_outer_appname: "{{ outer_item.name | d (outer_item.type) }}"
 ###
