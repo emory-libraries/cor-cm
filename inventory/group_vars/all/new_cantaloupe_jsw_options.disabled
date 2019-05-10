@@ -1,0 +1,15 @@
+cantaloupe_jsw_options:
+  set:
+    java_home: "{{ java_home }}"
+    tomcat_home: "{{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}"
+    app_home:  "{{ tomcatapp_install_path }}/{{ item.app_name }}"
+    fedora_url: "{{ cantaloupe_fedora_url }}"
+    fedora_base_path: "{{ cantaloupe_fedora_base_path }}"
+  wrapper:
+    java:
+      additional:
+        _value:
+          - "Dcantaloupe.config={{ cantaloupe_properties_path }}"
+          - "Dorg.apache.tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH=true"
+      initmemory: 1024
+      maxmemory: 2048

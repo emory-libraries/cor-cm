@@ -1,0 +1,10 @@
+---
+# tasks file for wm_role_manage_s3_bucket
+- name: Manage s3 buckets
+  include_tasks:
+    file: manage-s3-buckets.yml 
+    apply:
+      tags:
+        - manage-s3-bucket
+  tags:
+    - manage-s3-bucket

@@ -1,0 +1,53 @@
+---
+
+- include_vars: "{{ oracle_java_version }}.yml"
+
+- name: Include role for getting Java RPM from S3
+  include_role:
+    name: wm_role_s3_get_file
+    apply:
+      vars:
+        get_s3_dest: "/opt/{{ java_rpm_filename }}"
+        get_s3_object: "java/{{ java_rpm_filename }}"
+    public: yes
+  when: use_s3_java | d (False)
+
+- name: Get checksum from Java RPM (s3 Method)
+  stat:
+    path: "/opt/{{ java_rpm_filename }}"
+    checksum_algorithm: md5
+  register: java_stat
+  when: use_s3_java | d (False)
+
+- name: Fail play if checksum mismatch (s3 method)
+  fail:
+    msg: "The checksum from the java download does not match given value"
+  when:
+    - use_s3_java | d (False)
+    - java_stat.stat.checksum != java_rpm_md5
+
+- name: Download the Oracle Java RPM file
+  get_url:
+    url: "{{ oracle_java_url }}"
+    dest: "/opt/{{ java_rpm_filename }}"
+    headers: 'Cookie:gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie'
+    checksum: "md5:{{ java_rpm_md5 }}"
+  when: not use_s3_java | d (False)
+
+- name: Install Oracle Java
+  yum:
+    name: "/opt/{{ java_rpm_filename }}"
+    state: present
+
+- name: Put in place JAVA_HOME env variable
+  lineinfile:
+    dest: /etc/profile
+    regexp: "^(export JAVA_HOME=)"
+    state: present
+    line: "export JAVA_HOME={{ java_home }}"
+
+- name: Clean-up Oracle Java RPM file
+  file:
+    path: "/opt/{{ java_rpm_filename }}"
+    state: absent
+

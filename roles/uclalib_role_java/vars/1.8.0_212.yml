@@ -1,10 +1,7 @@
 ---
 
-oracle_java_url: 'https://download.oracle.com/otn/java/jdk/8u212-b10/59066701cf1a433da9770636fbc4c9aa/jdk-8u212-linux-x64.rpm'
+oracle_java_url: "{{ 'http://pkgs.library.ucla.edu/oracle-java/jdk-8u201-linux-x64.rpm' if ansible_domain == 'library.ucla.edu' else 'https://download.oracle.com/otn-pub/java/jdk/8u201-b09/42970487e3af4f5aa5bca3f542482c60/jdk-8u201-linux-x64.rpm' }}"
 
 java_rpm_filename: "jdk-8u212-linux-x64.rpm"
 
-java_rpm_md5: "50956798ac1adc01534a49dc65555364"
-
-#"34f7fbea52257d06f6181b0db233297b" 
-
+java_rpm_md5: "1a5a0ff982b67475ed6f0f66127ccb7a"

@@ -11,11 +11,11 @@
 
 - name: Ensure {{ java_home }} is in tomcatapp group
   file:
-    src: "/etc/alternatives/java"
-    dest: "{{ java_home }}"
-    state: "link"
-    owner: "root"
-    group: "tomcatapp"
+    path: "{{ java_home }}"
+    state: directory
+    owner: root
+    group: tomcatapp
+    recurse: yes
     force: yes
 
 - name: Set ownership in CATALINA_HOME

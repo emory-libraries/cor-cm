@@ -17,6 +17,7 @@
     owner: "root"
     group: "tomcatapp"
     force: yes
+  ignore_errors: yes
 
 - name: Set ownership in CATALINA_HOME
   file:

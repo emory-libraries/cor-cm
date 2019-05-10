@@ -1,0 +1,11 @@
+---
+- name: Manage IAM roles
+  iam:
+    name: "{{ item.name }}"
+    iam_type: "{{ item.iam_type | d ('role') }}"
+    path: "{{ item.path | d (omit) }}"
+    region: "{{ item.region | d (aws_region) }}"
+    state: "{{ item.state | d ('present') }}"
+    trust_policy: "{{ item.trust_policy | d (omit) }}"
+    trust_policy_filepath: "{{ item.trust_policy_filepath | d (omit) }}"
+  loop: "{{ iam_roles_policies }}"

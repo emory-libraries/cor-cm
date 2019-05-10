@@ -1,0 +1,27 @@
+---
+# tasks file for wm_role_iam_s3
+- name: Manage IAM roles
+  include_tasks:
+    file: manage-iam.yml
+    apply:
+      tags:
+        - manage-iam
+        - iam
+        - delete-iam
+  tags:
+    - manage-iam
+    - iam
+    - delete-iam
+
+- name: Manage IAM policies
+  include_tasks:
+    file: manage-iam-policy.yml
+    apply:
+      tags:
+        - manage-iam-policy
+        - iam
+        - delete-iam-policy
+  tags:
+    - manage-iam-policy
+    - iam
+    - delete-iam-policy

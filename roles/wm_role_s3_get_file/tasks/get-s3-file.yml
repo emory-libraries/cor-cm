@@ -1,0 +1,8 @@
+- name: Get file from s3 bucket
+  aws_s3:
+    bucket: "{{ get_s3_bucket_name }}"
+    dest: "{{ get_s3_dest }}"
+    object: "{{ get_s3_object }}"
+    region: "{{ get_s3_region | d (aws_region) }}"
+    version: "{{ get_s3_version | d (omit) }}"
+    mode: "{{ get_s3_mode | d ('get') }}"
