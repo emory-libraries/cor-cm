@@ -1,6 +1,2 @@
-<<<<<<< HEAD
-- import_playbook: new_ec2.yml host=fedora
-=======
 - import_playbook: new-ec2.yml host=fedora
->>>>>>> 1a1190a96471887958b3692cdd7dce4f15e74372
 - import_playbook: fedora.yml host=fedora

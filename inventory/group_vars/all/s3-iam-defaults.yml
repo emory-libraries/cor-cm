@@ -5,17 +5,21 @@ s3_buckets:
       Name: bucket1
     iam_name: access-to-binaries
 #    state: absent
-  - name: emory-ltds-delete-test
-    state: absent
-    tags:
-      test: value1
-      Name: bucket2
-    iam_name: test
+#  - name: emory-ltds-delete-test
+#    state: absent
+#    tags:
+#      test: value1
+#      Name: bucket2
+#    iam_name: test
+  - name: fedora-cor-bucket
+    iam_name: access-to-fedora-cor-binaries
 
 get_s3_bucket_name: emory-ltds-binaries
 
 iam_roles_policies:
   - name: access-to-binaries
     bucket_name: emory-ltds-binaries
+  - name: access-to-fedora-cor-binaries
+    bucket_name: fedora-cor-bucket
 #    state: absent
 #    policy_state: absent

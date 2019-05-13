@@ -32,6 +32,17 @@
   tags: jsw-remove-webapp
 
 - include_tasks:
+    file: "{{ outer_item.type }}/main.yml"
+    apply:
+      tags: download-app
+  tags: download-app
+  loop: "{{ tomcat_applications }}"
+  loop_control: 
+    loop_var: outer_item
+
+####### Move after this to another role
+
+- include_tasks:
     file: download_unarchive_jsw.yml
     apply:
       tags: jsw-download-jsw

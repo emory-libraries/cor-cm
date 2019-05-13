@@ -75,11 +75,14 @@ wrapper.java.library.path.{{ loop.index }}={{ path }}
 # Java Bits.  On applicable platforms, tells the JVM to run in 32 or 64-bit mode.
 wrapper.java.additional.auto_bits={{ jsw_dict['wrapper']['java']['additional']['auto_bits'] | upper }}
 
+{% set ns = namespace(loop_counter=0) %}
 # Java Additional Parameters
+# Default Parameters ###
 {% for add in jsw_dict['wrapper']['java']['additional']['default_value'] %}
 wrapper.java.additional.{{ loop.index }}=-{{ add }}
-{% set ns = namespace(loop_counter=loop.index) %}
+{% set ns.loop_counter = ns.loop_counter + 1 %}
 {% endfor %}
+# App Specific Parameters ###
 {% for add in jsw_dict['wrapper']['java']['additional']['_value'] %}
 wrapper.java.additional.{{ loop.index + ns.loop_counter | default(0,true) }}=-{{ add }}
 {% endfor %}

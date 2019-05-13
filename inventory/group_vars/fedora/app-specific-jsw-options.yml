@@ -1,0 +1,30 @@
+cantaloupe_jsw_options:
+  set:
+    java_home: "{{ java_home }}"
+    tomcat_home: "{{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}"
+    app_home:  "{{ tomcatapp_install_path }}/{{ _tomcat_appname }}"
+    fedora_url: "{{ cantaloupe_fedora_url }}"
+    fedora_base_path: "{{ cantaloupe_fedora_base_path }}"
+  wrapper:
+    java:
+      additional:
+        _value:
+          - "Dcantaloupe.config={{ cantaloupe_properties_path }}"
+          - "Dorg.apache.tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH=true"
+      initmemory: 1024
+      maxmemory: 2048
+
+fedora_jsw_options:
+  wrapper:
+    java:
+      additional:
+        _value:
+          - "Dfcrepo.home={{ fedora_data_dir }}"
+          - "Dfcrepo.spring.configuration=file:{{ fedora_config_dir }}/fcrepo-config.xml"
+          - "Dfcrepo.modeshape.configuration=file:{{ fedora_config_dir }}/repository.json"
+          - "Dlogback.configurationFile={{ fedora_config_dir }}/logback.xml"
+          - "Dfcrepo.mysql.username={{ fedora_db_user }}"
+          - "Dfcrepo.mysql.password={{ fedora_db_password }}"
+          - "Dfcrepo.mysql.host={{ fedora_db_host }}"
+          - "Dfcrepo.mysql.port={{ fedora_db_port }}"
+          - "XX:MaxMetaspaceSize=512m"

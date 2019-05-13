@@ -11,12 +11,6 @@
   loop: "{{ tomcat_applications }}"
   when: lookup('vars', _tomcat_normalized_appname + '_jsw_options', default = false)
 
-- debug:
-    var: _tomcat_normalized_appname
-  loop: "{{ tomcat_applications }}"
-
-- pause:
-
 - name: Put in place wrapper.conf file
   template:
     src: wrapper_conf.j2
@@ -48,8 +42,8 @@
 #    src: "tomcat_logrotate.j2"
 #    dest: "/etc/logrotate.d/tomcat"
 
-#- name: Ensure log path exists for the Apache HTTPD reverse proxy
-#  file:
-#    path: "{{ apache_log_path }}/tomcatapps"
-#    mode: 0755
-#    state: "directory"
+- name: Ensure log path exists for the Apache HTTPD reverse proxy
+  file:
+    path: "{{ apache_log_path }}/tomcatapps"
+    mode: 0755
+    state: "directory"

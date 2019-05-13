@@ -1,0 +1,55 @@
+---
+
+# Defines project name this fedora instance is associated with
+# This should be defined in the play file or the inventory file
+
+# Define version of Fedora to use
+fedora_version: 4.7.5
+
+# Define the URL to obtain the Fedora WAR file
+fedora_url: "https://github.com/fcrepo4/fcrepo4/releases/download/fcrepo-{{ fedora_version }}/fcrepo-webapp-{{ fedora_version }}.war"
+
+# Define location of Fedora installation directory
+# This is the tomcat app directory
+fedora_base_dir: /usr/local/fedora
+
+# Define location of Fedora home directory
+# This is where fedora content/data will reside
+fedora_data_dir: /opt/fedora-data
+
+# Define tomcat user Fedora will run as
+fedora_tomcat_user: fedora
+
+# Define min/max memory allocation
+#fedora_min_mem: 2048m
+#Fedora_max_mem: 2048m
+
+# Define Fedora DB User Credentails
+fedora_db_user: fedorauser
+fedora_db_password: resuarodef
+fedora_db_host: localhost
+fedora_db_port: 3306
+fedora_db_name: fcrepo
+
+# Define the directory to hold configuration files outside of the fedora war
+fedora_config_dir: /etc/fedora
+
+# Define the directory for fedora logging
+fedora_log_dir: /var/log/fedora
+
+# Define Fedora Web User Credentails
+fedora_admin_user: fedoraAdmin
+fedora_admin_password: nimdAarodef!
+
+# Defines the URL to access the fedora server
+fedora_server_fqdn: "fedora.library.ucla.edu"
+
+# MySQL packages
+mysql_defaultrepo_version: "80"
+mysql_yumrepo_rpm: "https://dev.mysql.com/get/mysql{{ mysql_defaultrepo_version }}-community-release-el7-1.noarch.rpm"
+mysql_install_version: "5.6"
+mysql_installrepo_version: "{{ mysql_install_version.split('.')[0] }}{{ mysql_install_version.split('.')[1] }}"
+mysql_packages:
+  - mysql-community-client
+  - mysql-community-devel
+  - mysql-community-libs

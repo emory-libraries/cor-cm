@@ -1,0 +1,7 @@
+---
+
+- name: Install MySQL Packages
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ mysql_packages }}"
