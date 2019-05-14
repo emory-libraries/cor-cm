@@ -66,3 +66,10 @@
     apply:
       tags: jsw-apache-conf
   tags: jsw-apache-conf
+
+- name: Start tomcat apps
+  service:
+    name: "{{ _tomcat_appname }}"
+    state: started
+    enabled: yes
+  loop: "{{ tomcat_applications }}"

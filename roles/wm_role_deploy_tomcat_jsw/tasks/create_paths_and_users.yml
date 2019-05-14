@@ -1,42 +1,46 @@
 ---
-
 - name: Ensure {{ tomcatapp_install_path }} exists
   file:
     path: "{{ tomcatapp_install_path }}"
-    owner: root
-    group: tomcatapp
+    owner: tomcat
+    group: tomcat
     mode: 0774
     recurse: yes
     state: directory
 
-- name: Ensure {{ java_home }} is in tomcatapp group
+- name: Ensure {{ java_home }} is in the tomcat group
   file:
     path: "{{ java_home }}"
     state: directory
-    owner: root
-    group: tomcatapp
+    owner: tomcat 
+    group: tomcat
     recurse: yes
     force: yes
 
 - name: Set ownership in CATALINA_HOME
   file:
     path: "{{ tomcat_install_path }}/apache-tomcat-{{ tomcat_version }}"
-    owner: "root"
-    group: "tomcatapp"
-    recurse: "yes"
-    state: "directory"
+    owner: tomcat 
+    group: tomcat
+    recurse: yes
+    state: directory
+
+- name: Allow group to execute on bin folder of CATALINA_HOME
+  file:
+    path: "{{ tomcat_install_path }}/apache-tomcat-{{ tomcat_version }}/bin"
+    mode: 0774
 
 - name: Create symbolic link for the CATALINA_HOME directory
   file:
     src: "{{ tomcat_install_path }}/apache-tomcat-{{ tomcat_version }}"
     dest: "{{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}"
-    state: "link"
+    state: link
 
 - name: Create dedicated user accounts for each Tomcat application
   user:
     name: "{{ _tomcat_appname }}"
     comment: "{{ _tomcat_appname }} User"
-    shell: "/bin/bash"
+    shell: /bin/bash
     home: "{{ tomcatapp_install_path }}/{{ _tomcat_appname }}"
-    groups: "tomcatapp"
+    groups: tomcat
   loop: "{{ tomcat_applications }}"

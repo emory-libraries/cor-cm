@@ -14,10 +14,10 @@
   unarchive:
     src: "{{ tomcat_install_path }}/apache-tomcat-{{ tomcat_version }}.tar.gz"
     dest: "{{ tomcat_install_path }}"
-    copy: "no"
+    copy: no
   when: not tomcat_path.stat.exists
 
-- name: Create tomcatapp group
-  group:
-    name: "tomcatapp"
-    state: "present"
+- name: Create tomcat user
+  user:
+    name: tomcat
+    shell: /bin/bash

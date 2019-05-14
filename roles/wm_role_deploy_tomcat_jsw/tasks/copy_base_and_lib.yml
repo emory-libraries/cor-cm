@@ -4,7 +4,7 @@
     path: "{{ tomcatapp_install_path }}/{{ _tomcat_appname }}"
     owner: "{{ _tomcat_appname }}"
     group: "{{ _tomcat_appname }}"
-    state: "directory"
+    state: directory
   loop: "{{ tomcat_applications }}"
 
 - name: Copy sub-directories from CATALINA_HOME to each CATALINA_BASE
@@ -19,7 +19,7 @@
     path: "{{ tomcatapp_install_path }}/{{ _tomcat_appname }}/lib"
     owner: "{{ _tomcat_appname }}"
     group: "{{ _tomcat_appname }}"
-    state: "directory"
+    state: directory
   loop: "{{ tomcat_applications }}"
 
 - name: Create empty ext directory in CATALINA_BASE for jsw usage
@@ -27,5 +27,5 @@
     path: "{{ tomcatapp_install_path }}/{{ _tomcat_appname }}/ext"
     owner: "{{ _tomcat_appname }}"
     group: "{{ _tomcat_appname }}"
-    state: "directory"
+    state: directory
   loop: "{{ tomcat_applications }}"

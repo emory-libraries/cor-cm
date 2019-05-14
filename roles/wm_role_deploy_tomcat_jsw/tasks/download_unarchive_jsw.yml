@@ -10,8 +10,8 @@
   copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    owner: "root"
-    group: "tomcatapp"
+    owner: tomcat 
+    group: tomcat
     remote_src: yes
   loop: "{{ jsw_binaries }}"
 
@@ -19,8 +19,8 @@
   copy:
     src: "/tmp/{{ jsw_file_name }}/bin/demoapp"
     dest: "{{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}/bin/{{ _tomcat_appname }}"
-    owner: "root"
-    group: "tomcatapp"
+    owner: tomcat 
+    group: tomcat
     mode: 0770
     remote_src: yes
   loop: "{{ tomcat_applications }}"

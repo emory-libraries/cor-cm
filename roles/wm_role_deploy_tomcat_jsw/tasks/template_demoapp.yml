@@ -3,5 +3,6 @@
     path: "{{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}/bin/{{ _tomcat_outer_appname }}"
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
+    owner: "{{ _tomcat_outer_appname | d (omit) }}" 
   loop: "{{ demoapp_values }}"
 

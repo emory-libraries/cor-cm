@@ -23,4 +23,4 @@ demoapp_values:
   - regexp: '^WRAPPER_CONF'
     line: 'WRAPPER_CONF="{{ tomcatapp_install_path }}/{{ _tomcat_outer_appname }}/conf/wrapper.conf"'
   - regexp: '#RUN_AS_USER'
-    line: 'RUN_AS_USER="{{ _tomcat_outer_appname }}"'
+    line: 'RUN_AS_USER={{ _tomcat_outer_appname }}'

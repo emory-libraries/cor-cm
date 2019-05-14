@@ -13,6 +13,8 @@ s3_buckets:
 #    iam_name: test
   - name: fedora-cor-bucket
     iam_name: access-to-fedora-cor-binaries
+  - name: fedora-cor-test-bucket
+    iam_name: access-to-fedora-cor-test-binaries
 
 get_s3_bucket_name: emory-ltds-binaries
 
@@ -21,5 +23,7 @@ iam_roles_policies:
     bucket_name: emory-ltds-binaries
   - name: access-to-fedora-cor-binaries
     bucket_name: fedora-cor-bucket
+  - name: access-to-fedora-cor-test-binaries
+    bucket_name: fedora-cor-test-bucket
 #    state: absent
 #    policy_state: absent

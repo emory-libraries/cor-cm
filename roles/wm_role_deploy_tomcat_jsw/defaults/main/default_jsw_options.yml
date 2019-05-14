@@ -61,7 +61,7 @@ default_jsw_options:
           - "XX:+PrintGCDateStamps"
         auto_bits: yes # true or false
       command:
-        _value: "%JAVA_HOME%"
+        _value: "%JAVA_HOME%/bin/java"
         loglevel: INFO
       initmemory: 1024
       maxmemory: 1024
