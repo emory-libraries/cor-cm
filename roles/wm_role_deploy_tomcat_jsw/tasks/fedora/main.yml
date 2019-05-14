@@ -4,29 +4,32 @@
 # If this vars file is _not_ included in the role, the variables should be defined
 # elsehwere - e.g. in the playbook file
 
-- name: Create Fedora data directory
+- name: Create Fedora directory structure
   file:
-    path: "{{ fedora_data_dir }}"
+    path: "{{ item }}"
     owner: "{{ fedora_tomcat_user }}"
     group: "{{ fedora_tomcat_user }}"
-    state: "directory"
+    state: directory
+  loop:
+    - "{{ fedora_data_dir }}"
+    - "{{ fedora_base_dir }}"
 
 - name: Put in place the Fedora WAR file in the webapps directory
   get_url:
     url: "{{ fedora_url }}"
     dest: "{{ fedora_base_dir }}/webapps/fcrepo.war"
-    force: "no"
+    force: no
 
 - name: Set correct ownership of the Fedora WAR file
   file:
     path: "{{ fedora_base_dir }}/webapps/fcrepo.war"
     owner: "{{ fedora_tomcat_user }}"
     group: "{{ fedora_tomcat_user }}"
-    state: "file"
+    state: file
 
 - name: Put in place the tomcat-users.xml file for Fedora Authentication
   template:
-    src: "fedora/tomcat-users.j2"
+    src: fedora/tomcat-users.j2
     dest: "{{ fedora_base_dir }}/conf/tomcat-users.xml"
     owner: "{{ fedora_tomcat_user }}"
     group: "{{ fedora_tomcat_user }}"
@@ -42,15 +45,15 @@
   file:
     path: "{{ fedora_config_dir }}"
     state: directory
-    owner: root
+    owner: "{{ fedora_tomcat_user }}" 
     group: "{{ fedora_tomcat_user }}"
     mode: 0755
 
 - name: Put in place the fcrepo-config file
   copy:
-    src: "fedora/fcrepo-config.xml"
+    src: fedora/fcrepo-config.xml
     dest: "{{ fedora_config_dir }}/fcrepo-config.xml"
-    owner: root
+    owner: "{{ fedora_tomcat_user }}"
     group: "{{ fedora_tomcat_user }}"
     mode: 0644
 
@@ -58,17 +61,27 @@
 #
 - name: Put in place the Fedora MySQL repository config file
   template:
-    src: "fedora/mysql_repo_json.j2"
+    src: fedora/mysql_repo_json.j2
     dest: "{{ fedora_config_dir }}/repository.json"
-    owner: root
+    owner: "{{ fedora_tomcat_user }}"
     group: "{{ fedora_tomcat_user }}"
     mode: 0644
+  when: not fedora_use_s3 | d (False)
+
+- name: Put in place the Fedora MySQL S3 repository config file
+  template:
+    src: fedora/mysql_repo_json_s3.j2
+    dest: "{{ fedora_config_dir }}/repository.json"
+    owner: "{{ fedora_tomcat_user }}"
+    group: "{{ fedora_tomcat_user }}"
+    mode: 0644
+  when: fedora_use_s3 | d (False)
 
 - name: Put in place the Fedora logging configuraiton file
   template:
-    src: "fedora/logback_xml.j2"
+    src: fedora/logback_xml.j2
     dest: "{{ fedora_config_dir }}/logback.xml"
-    owner: root
+    owner: "{{ fedora_tomcat_user }}"
     group: "{{ fedora_tomcat_user }}"
     mode: 0644
 
@@ -96,6 +109,6 @@
   template:
     src: fedora/fedora_my_cnf.j2
     dest: /root/.my.fedora.cnf
-    owner: root
-    group: root
+    owner: root 
+    group: "{{ fedora_tomcat_user }}"
     mode: 0600

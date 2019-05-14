@@ -1,2 +1,9 @@
 ---
 # handlers file for wm_role_deploy_tomcat_jsw
+- name: redhat restart httpd
+  service: name=httpd state=restarted
+
+- name: debian restart httpd
+  service:
+    name: apache2
+    state: restarted

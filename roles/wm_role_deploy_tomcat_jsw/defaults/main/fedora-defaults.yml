@@ -11,7 +11,7 @@ fedora_url: "https://github.com/fcrepo4/fcrepo4/releases/download/fcrepo-{{ fedo
 
 # Define location of Fedora installation directory
 # This is the tomcat app directory
-fedora_base_dir: /usr/local/fedora
+fedora_base_dir: /usr/local/webapps/fedora
 
 # Define location of Fedora home directory
 # This is where fedora content/data will reside
@@ -42,7 +42,7 @@ fedora_admin_user: fedoraAdmin
 fedora_admin_password: nimdAarodef!
 
 # Defines the URL to access the fedora server
-fedora_server_fqdn: "fedora.library.ucla.edu"
+fedora_server_fqdn: "{{ ansible_fqdn }}"
 
 # MySQL packages
 mysql_defaultrepo_version: "80"

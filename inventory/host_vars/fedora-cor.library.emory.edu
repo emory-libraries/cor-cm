@@ -12,6 +12,7 @@ tomcat_applications:
     long_name: Fedora Commons
     conn_port: 8076
     shut_port: 8078
+    rproxy_path: fedora
 #  - type: cantaloupe
 #    conn_port: 8089
 #    shut_port: 8092
