@@ -22,8 +22,10 @@ iam_roles_policies:
   - name: access-to-binaries
     bucket_name: emory-ltds-binaries
   - name: access-to-fedora-cor-binaries
+    iam_name: fedora-cor
+    iam_type: user
     bucket_name: fedora-cor-bucket
-  - name: access-to-fedora-cor-test-binaries
-    bucket_name: fedora-cor-test-bucket
+#  - name: access-to-fedora-cor-test-binaries
+#    bucket_name: fedora-cor-test-bucket
 #    state: absent
 #    policy_state: absent

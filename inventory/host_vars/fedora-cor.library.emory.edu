@@ -10,8 +10,8 @@ rds_host: cor-test2-db
 tomcat_applications:
   - type: fedora
     long_name: Fedora Commons
-    conn_port: 8081
-    shut_port: 8083
+    conn_port: 8078
+    shut_port: 8079
     rproxy_path: fcrepo
 #  - type: cantaloupe
 #    conn_port: 8089
@@ -34,8 +34,8 @@ fedora_jsw_options:
           - "Dfcrepo.mysql.password={{ fedora_db_password }}"
           - "Dfcrepo.mysql.host={{ fedora_db_host }}"
           - "Dfcrepo.mysql.port={{ fedora_db_port }}"
-          - "Dfcrepo.aws.accessKeyId={{ vault_fedora_aws_access_key }}"
-          - "Dfcrepo.aws.secretKey={{ vault_fedora_aws_secret_key }}"
-          - "Dfcrepo.aws.bucket=fedora-cor-bucket"
+          - "Daws.accessKeyId={{ vault_fedora_aws_access_key }}"
+          - "Daws.secretKey={{ vault_fedora_aws_secret_key }}"
+          - "Daws.bucket=fedora-cor-bucket"
           - "XX:MaxMetaspaceSize=512m"
 fedora_use_s3: yes

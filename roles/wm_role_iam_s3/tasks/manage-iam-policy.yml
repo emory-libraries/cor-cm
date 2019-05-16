@@ -1,7 +1,7 @@
 ---
 - name: Manage IAM role policy
   iam_policy:
-    iam_name: "{{ item.name }}"
+    iam_name: "{{ item.iam_name | d (item.name) }}"
     iam_type: "{{ item.iam_type | d ('role') }}"
     policy_name: "{{ item.policy_name | d (default_policy_name) }}"
     policy_document: "{{ item.policy_document | d (omit) }}"

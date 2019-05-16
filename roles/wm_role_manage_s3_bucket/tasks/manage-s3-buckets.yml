@@ -8,5 +8,5 @@
     policy: "{{ item.policy | d(lookup('template', 'bucket_policy_json.j2')) | d (omit) }}"
     tags: "{{ item.tags | d (omit) }}"  #tags are dictionary
     validate_certs: "{{ item.validate_certs | d (omit) }}"
-    versioning: "{{ item.versioning | d (False) }}"
+    versioning: "{{ item.versioning | d (no) }}"
   loop: "{{ s3_buckets }}"
