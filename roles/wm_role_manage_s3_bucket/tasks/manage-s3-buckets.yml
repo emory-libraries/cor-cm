@@ -5,8 +5,8 @@
     force: "{{ item.force | d (omit) }}"
     region: "{{ aws_region | d (omit) }}"
     name: "{{ item.name }}"
-    policy: "{{ item.policy | d(lookup('template', 'bucket_policy_json.j2')) | d (omit) }}"
+    policy: "{{ item.policy | d (omit) }}"
     tags: "{{ item.tags | d (omit) }}"  #tags are dictionary
     validate_certs: "{{ item.validate_certs | d (omit) }}"
-    versioning: "{{ item.versioning | d (no) }}"
+    versioning: "{{ item.versioning | d (False) }}"
   loop: "{{ s3_buckets }}"
