@@ -14,7 +14,7 @@
                 "s3:ListBucket",
                 "s3:GetBucketLocation"
             ],
-            "Resource": "arn:aws:s3:::{{ item.bucket_name }}"
+            "Resource": "arn:aws:s3:::{{ item.resource }}"
         },
         {
             "Sid": "",
@@ -24,7 +24,7 @@
                 "s3:GetObject",
                 "s3:DeleteObject"
             ],
-            "Resource": "arn:aws:s3:::{{ item.bucket_name }}/*"
+            "Resource": "arn:aws:s3:::{{ item.resource }}/*"
         }
     ]
 }

@@ -46,10 +46,15 @@
 # Java Application
 #  Locate the java binary on the system PATH:
 #  Specify a specific java binary:
-
+{% if ansible_playbook_python | basename == 'python3' %}
+{% for key,value in jsw_dict['set'].items() %}
+set.{{ key|upper }}={{ value }}
+{% endfor %}
+{% else %}
 {% for key,value in jsw_dict['set'].iteritems() %}
 set.{{ key|upper }}={{ value }}
 {% endfor %}
+{% endif %}
 wrapper.java.command={{ jsw_dict['wrapper']['java']['command']['_value'] }}
 
 # Tell the Wrapper to log the full generated Java command line.

@@ -3,33 +3,33 @@ s3_buckets:
     tags:
       test: value1
       Name: bucket1
-    iam_name: access-to-binaries
-#    state: absent
-#  - name: emory-ltds-delete-test
-#    state: absent
-#    tags:
-#      test: value1
-#      Name: bucket2
-#    iam_name: test
   - name: fedora-cor-bucket
-    iam_name: access-to-fedora-cor-binaries
   - name: fedora-cor-test-bucket
-    iam_name: access-to-fedora-cor-test-binaries
 
 get_s3_bucket_name: emory-ltds-binaries
 
-iam_roles_policies:
-  - name: access-to-binaries
-    bucket_name: emory-ltds-binaries
-  - name: access-to-fedora-cor-binaries
-    iam_name: fedora-cor
-    iam_type: user
-    bucket_name: fedora-cor-bucket
-  - name: access-to-fedora-cor-test-binaries
-    iam_name: fedora-cor-test
-    iam_type: user
-    bucket_name: fedora-cor-test-bucket
-#  - name: access-to-fedora-cor-test-binaries
-#    bucket_name: fedora-cor-test-bucket
-#    state: absent
-#    policy_state: absent
+iam_policies:
+  - policy_name: AccessToBinariesBucket
+    policy_template_path: iam_policy_s3_bucket_access_json.j2
+    resource: emory-ltds-binaries
+  - policy_name: AccessToFedoraCorTestBucket
+    policy_template_path: iam_policy_s3_bucket_access_json.j2
+    resource: fedora-cor-test-bucket
+  - policy_name: AccessToFedoraCorBucket
+    policy_template_path: iam_policy_s3_bucket_access_json.j2
+    resource: fedora-cor-bucket
+
+iam_roles:
+  - name: general-ec2-role
+    managed_policy: 
+      - AccessToBinariesBucket
+    description: General role for ec2
+    policy_file_path: ec2_assume_role.json
+
+iam_users:
+  - name: fedora-cor-user
+    managed_policy:
+      - AccessToFedoraCorBucket
+  - name: fedora-cor-test-user
+    managed_policy:
+      - AccessToFedoraCorTestBucket

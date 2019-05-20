@@ -1,0 +1,22 @@
+---
+- name: Fail play due to variable error
+  fail:
+    msg: "Error, policy_template_path and policy_file_path are mutual for each entry in the list, please delete one of them."
+  when:
+    - item.policy_file_path | d (False)
+    - item.policy_template_path | d (False)
+  loop: "{{ iam_roles }}"
+
+- name: Manage IAM Roles
+  iam_role:
+    name: "{{ item.name }}"
+    assume_role_policy_document: "{{ lookup('template', item.policy_template_path) if item.policy_template_path is defined else lookup('file', item.policy_file_path) if item.policy_file_path is defined else omit }}"
+    managed_policy: "{{ item.managed_policy | d (omit) }}"
+    purge_policies: "{{ item.purge_policies | d (omit) }}"
+    path: "{{ item.path | d (omit) }}"
+    region: "{{ aws_region | d (omit) }}"
+    state: "{{ item.state | d (omit) }}"
+    description: "{{ item.description | d (omit) }}"
+    create_instance_profile: "{{ item.create_instance_profile | d (omit) }}"
+    boundary: "{{ item.boundary | d (omit) }}"
+  loop: "{{ iam_roles }}"

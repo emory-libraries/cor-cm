@@ -8,12 +8,12 @@ jsw_file_name: "wrapper-{{ jsw_os }}-{{ jsw_cpu }}-{{ jsw_bit }}-{{ jsw_version 
 jsw_download_url: "{{ jsw_base_url }}/{{ jsw_version }}/{{ jsw_file_name }}.tar.gz"
 
 jsw_binaries:
-  - src: /tmp/{{ jsw_file_name }}/lib/libwrapper.so
-    dest: /{{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}/lib
-  - src: /tmp/{{ jsw_file_name }}/lib/wrapper.jar
-    dest: /{{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}/lib
-  - src: /tmp/{{ jsw_file_name }}/bin/wrapper
-    dest: /{{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}/bin
+  - src: "/tmp/{{ jsw_file_name }}/lib/libwrapper.so"
+    dest: "{{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}/lib"
+  - src: "/tmp/{{ jsw_file_name }}/lib/wrapper.jar"
+    dest: "{{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}/lib"
+  - src: "/tmp/{{ jsw_file_name }}/bin/wrapper"
+    dest: "{{ tomcat_install_path }}/tomcat{{ tomcat_major_version }}/bin"
 
 demoapp_values:
   - regexp: '^APP_NAME'

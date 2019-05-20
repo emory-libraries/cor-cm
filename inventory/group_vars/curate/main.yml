@@ -1,7 +1,7 @@
 project_name: "{{ git_repo_url | urlsplit('path') | basename }}"
 use_dynamic: yes
 idp_name: "prod"
-project_name: "dlp-curate"
+#project_name: "dlp-curate"
 rds_host: cor-test-mysql-db
 
 #rails_db_adapter: "mysql2"

@@ -5,16 +5,15 @@
   when:
     - item.policy_file_path | d (False)
     - item.policy_template_path | d (False)
-  loop: "{{ s3_buckets }}"
+  loop: "{{ iam_policies }}"
 
-- name: Manage S3 buckets
-  s3_bucket:
-    state: "{{ item.state | d ('present') }}"
-    force: "{{ item.force | d (omit) }}"
-    region: "{{ aws_region | d (omit) }}"
-    name: "{{ item.name }}"
+- name: Manage list of policies
+  iam_managed_policy:
+    policy_name: "{{ item.policy_name }}"
+    policy_description: "{{ item.policy_description | d (omit) }}"
     policy: "{{ lookup('template', item.policy_template_path) if item.policy_template_path is defined else lookup('file', item.policy_file_path) if item.policy_file_path is defined else omit }}"
-    tags: "{{ item.tags | d (omit) }}"  #tags are dictionary
-    validate_certs: "{{ item.validate_certs | d (omit) }}"
-    versioning: "{{ item.versioning | d (False) }}"
-  loop: "{{ s3_buckets }}"
+    region: "{{ aws_region | d (omit) }}"
+    state: "{{ item.state | d (omit) }}"
+    make_default: "{{ item.make_default | d (omit) }}"
+    only_version: "{{ item.only_version | d (omit) }}"
+  loop: "{{ iam_policies }}"

@@ -1,0 +1,11 @@
+---
+- name: Manage IAM Groups
+  iam_group:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+    managed_policy: "{{ item.managed_policy | d (omit) }}"
+    purge_policy: "{{ item.purge_policy | d (True) }}"
+    purge_users: "{{ item.purge_users | d (True) }}"
+    region: "{{ aws_region | d (omit) }}"
+    users: "{{ item.users | d (omit) }}"
+  loop: "{{ iam_groups }}"
