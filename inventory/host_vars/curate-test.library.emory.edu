@@ -16,6 +16,7 @@ dlp_curate_dotenv:
   database_username: "{{ vault_test_rails_db_user }}"
   database_host: "{{ rds_endpoint }}"
   database_password: "{{ vault_test_rails_db_pass }}"
+  geonames_username: "{{ vault_geonames_username }}"
   project_name: "dlp-curate"
   sidekiq_workers: 5
   fedora_url: "http://fedora-cor-test.library.emory.edu/fcrepo/rest"

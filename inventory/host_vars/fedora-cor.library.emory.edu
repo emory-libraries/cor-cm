@@ -1,11 +1,14 @@
 #ec2_fqdn: fedora-cor-test.library.emory.edu
-fedora_db_user: "{{ vault_fedora_db_user }}" 
-fedora_db_name: "{{ vault_fedora_db_name }}"
-fedora_db_password: "{{ vault_fedora_db_password }}" 
+fedora_mysql_db:
+  name: "{{ vault_fedora_db_name }}"
+  user: "{{ vault_fedora_db_user }}"
+  password: "{{ vault_fedora_db_password }}"
+
 tomcat_enable_ssl: yes
 
-fedora_aws_access_key: "{{ vault_fedora_cor_test_user_access_key }}"
-fedora_aws_secret_key: "{{ vault_fedora_cor_test_user_secret_key }}"
+fedora_aws_access_key: "{{ vault_fedora_cor_user_access_key }}"
+fedora_aws_secret_key: "{{ vault_fedora_cor_user_secret_key }}"
+fedora_aws_bucket: fedora-cor-bucket
 
 use_dynamic: yes
 rds_host: cor-test2-db 
@@ -20,9 +23,6 @@ tomcat_applications:
 #    conn_port: 8089
 #    shut_port: 8092
 
-#fedora_jsw_options:
-#  test1: testvalue
-#ec2_CNAME: [ ] #This requires ec2-fqdn to work
 
 fedora_jsw_options:
   wrapper:
@@ -33,12 +33,12 @@ fedora_jsw_options:
           - "Dfcrepo.spring.configuration=file:{{ fedora_config_dir }}/fcrepo-config.xml"
           - "Dfcrepo.modeshape.configuration=file:{{ fedora_config_dir }}/repository.json"
           - "Dlogback.configurationFile={{ fedora_config_dir }}/logback.xml"
-          - "Dfcrepo.mysql.username={{ fedora_db_user }}"
-          - "Dfcrepo.mysql.password={{ fedora_db_password }}"
-          - "Dfcrepo.mysql.host={{ fedora_db_host }}"
-          - "Dfcrepo.mysql.port={{ fedora_db_port }}"
+          - "Dfcrepo.mysql.username={{ fedora_mysql_db.user }}"
+          - "Dfcrepo.mysql.password={{ fedora_mysql_db.password }}"
+          - "Dfcrepo.mysql.host={{ fedora_mysql_db.host | d (rds_endpoint) }}"
+          - "Dfcrepo.mysql.port={{ fedora_mysql_db.port | d ('3306') }}"
           - "Daws.accessKeyId={{ fedora_aws_access_key }}"
           - "Daws.secretKey={{ fedora_aws_secret_key }}"
-          - "Daws.bucket=fedora-cor-bucket"
+          - "Daws.bucket={{ fedora_aws_bucket }}"
           - "XX:MaxMetaspaceSize=512m"
 fedora_use_s3: yes

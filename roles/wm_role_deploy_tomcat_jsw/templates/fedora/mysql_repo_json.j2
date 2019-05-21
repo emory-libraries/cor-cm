@@ -10,7 +10,7 @@
     "storage" : {
         "persistence": {
             "type" : "db",
-            "connectionUrl": "jdbc:mysql://${fcrepo.mysql.host:localhost}:${fcrepo.mysql.port:3306}/{{ fedora_db_name }}?createDatabaseIfNotExist=true&useSSL=false",
+            "connectionUrl": "jdbc:mysql://${fcrepo.mysql.host:localhost}:${fcrepo.mysql.port:3306}/{{ fedora_mysql_db.name | d (fedora_db_name) }}?createDatabaseIfNotExist=true&useSSL=false",
             "driver" : "com.mysql.jdbc.Driver",
             "username" : "${fcrepo.mysql.username}",
             "password" : "${fcrepo.mysql.password}"
