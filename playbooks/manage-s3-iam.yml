@@ -20,3 +20,6 @@
 
     - role: wm_role_manage_s3_bucket
       delegate_to: localhost
+
+    - role: wm_role_manage_efs
+      delegate_to: localhost

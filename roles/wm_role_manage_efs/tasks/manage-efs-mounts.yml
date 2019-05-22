@@ -1,0 +1,20 @@
+---
+- name: Manage EFS mount points
+  efs:
+    name: "{{ item.name | d (omit) }}"
+    state: "{{ item.state | d ( omit) }}"
+    id: "{{ item.id | d (omit) }}"
+    encrypt: "{{ item.encrypt | d (True) }}"
+    performance_mode: "{{ item.performance_mode | d (omit) }}"
+    provisioned_throughput_in_mibps: "{{ item.provisioned_throughput_in_mibps | d (omit) }}"
+    purge_tags: "{{ item.purge_tags | d (omit) }}"
+    region: "{{ item.region | d (aws_region) | d (omit) }}"
+    tags: "{{ (default_name_tag + additional_tags) | items2dict | d (omit) }}" #List of tags
+    targets: "{{ item.targets | d (omit) }}" #List of targets
+    throughput_mode: "{{ item.throughput_mode | d (omit) }}"
+  loop: "{{ efs_mounts }}"
+  vars:
+    default_name_tag:
+      - key: Name
+        value: "{{ item.name | d (omit) }}"
+    additional_tags: "{{ item.tags | d ([]) }}"

@@ -1,0 +1,15 @@
+#cloud-config
+hostname: {{ ec2_fqdn }}
+fqdn: {{ ec2_fqdn }}
+manage_etc_hosts: true
+
+packages:
+- amazon-efs-utils
+
+runcmd:
+- file_system_id_01={{ ec2_efs }}
+- efs_directory={{ ec2_efs_mnt_path | d ('/mnt/efs') }}
+
+- mkdir -p ${efs_directory}
+- echo "${file_system_id_01}:/ ${efs_directory} efs tls,_netdev" >> /etc/fstab
+- mount -a -t efs defaults

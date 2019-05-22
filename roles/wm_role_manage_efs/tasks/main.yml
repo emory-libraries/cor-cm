@@ -1,0 +1,8 @@
+---
+# tasks file for wm_role_manage_efs
+- include_tasks:
+    file: manage-efs-mounts.yml
+    apply:
+      tags: manage-efs
+  tags: manage-efs
+  when: efs_mounts | d (False)
