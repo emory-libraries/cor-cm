@@ -26,20 +26,20 @@ iam_roles:
     description: General role for ec2
     policy_file_path: ec2_assume_role.json
 
-iam_users:
-  - name: fedora-cor-user
-    managed_policy:
-      - AccessToFedoraCorBucket
-  - name: fedora-cor-test-user
-    managed_policy:
-      - AccessToFedoraCorTestBucket
+#iam_users:
+#  - name: fedora-cor-user
+#    managed_policy:
+#      - AccessToFedoraCorBucket
+#  - name: fedora-cor-test-user
+#    managed_policy:
+#      - AccessToFedoraCorTestBucket
 
 efs_mounts:
   - name: test-efs-solomon
     targets:
       - subnet_id: "{{ ec2_vpc_subnet_id }}"
         security_groups:
-	  - sg-051b28141aec1f413
+          - sg-051b28141aec1f413
     tags:
       - key: Dev
         value: null
