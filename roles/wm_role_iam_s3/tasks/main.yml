@@ -27,3 +27,10 @@
       tags: iam-manage-group
   tags: iam-manage-group
   when: iam_groups | d (False)
+
+- include_tasks:
+    file: manage-iam-cert.yml
+    apply:
+      tags: manage-iam-cert
+  tags: manage-iam-cert
+  when: iam_certs | d (False)

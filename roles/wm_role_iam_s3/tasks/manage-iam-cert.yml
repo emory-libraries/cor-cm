@@ -1,0 +1,14 @@
+---
+- name: Manage IAM Certs
+  iam_cert:
+    name: "{{ item.name }}"
+    state: "{{ item.state | d ('present') }}"
+    cert: "{{ item.cert | d (omit) }}"
+    cert_chain: "{{ item.interm  | d (omit) }}"
+    key: "{{ item.key | d (omit) }}"
+    region: "{{ item.region | d (aws_region) | d (omit) }}"
+    dup_ok: "{{ item.dup_ok | d (omit) }}"
+    new_name: "{{ item.new_name | d (omit) }}"
+    new_path: "{{ item.new_path | d (omit) }}"
+    path: "{{ item.path | d (omit) }}"
+  loop: "{{ iam_certs }}"

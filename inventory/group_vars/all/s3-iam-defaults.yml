@@ -34,16 +34,20 @@ iam_roles:
 #    managed_policy:
 #      - AccessToFedoraCorTestBucket
 
+iam_certs:
+  - name: cor-sar-cert
+    key: "{{ ssl_files.key }}"
+    interm: "{{ ssl_files.interm }}"
+    cert: "{{ ssl_files.crt }}"
+
 efs_mounts:
-  - name: test-efs-solomon
+  - name: rails-test-efs 
     targets:
       - subnet_id: "{{ ec2_vpc_subnet_id }}"
         security_groups:
           - sg-051b28141aec1f413
-    tags:
-      - key: Dev
-        value: null
-      - key: Prod
-        value:
-      - key: Test
-        value:
+  - name: rails-prod-efs
+    targets:
+      - subnet_id: "{{ ec2_vpc_subnet_id }}"
+        security_groups:
+          - sg-051b28141aec1f413

@@ -1,7 +1,7 @@
 git_repo_url: "https://github.com/emory-libraries/dlp-curate"
 git_repo_branch: "master"
 enable_ssl: "yes"
-ec2_efs: fs-03d26a1a
+ec2_efs: fs-53e2584a 
 
 additional_assertion_bindings:
   - "curate-test.library.emory.edu"

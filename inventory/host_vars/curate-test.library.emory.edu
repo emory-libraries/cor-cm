@@ -1,6 +1,7 @@
 git_repo_url: "https://github.com/emory-libraries/dlp-curate"
 git_repo_branch: "master"
 enable_ssl: "yes"
+ec2_efs: fs-30e25829
 
 dlp_curate_dotenv:
   admin_password: "{{ vault_project_default_admin_password }}"

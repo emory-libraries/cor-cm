@@ -3,6 +3,6 @@
 - include_tasks:
     file: manage-efs-mounts.yml
     apply:
-      tags: manage-efs
-  tags: manage-efs
+      tags: manage-efs-mount
+  tags: manage-efs-mount
   when: efs_mounts | d (False)
