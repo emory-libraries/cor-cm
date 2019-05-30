@@ -1,7 +1,8 @@
+use_s3_java: yes
 ec2_fqdn: "{{ inventory_hostname }}"
 rails_host_fqdn: "{{ inventory_hostname }}" 
 fedora_server_fqdn: "{{ inventory_hostname }}"
-
+vpc_id: vpc-906419f4
 tomcat_enable_ssl: "no"
 tomcat_applications:
   - app_name: fedora
@@ -10,9 +11,9 @@ tomcat_applications:
     rproxy_path: fcrepo
     proxypass_extra_params: "nocanon keepalive=on retry=0.5"
 
-solr_cores:
-  - ident: curatecore
-    type: hyrax
+#solr_cores:
+#  - ident: curatecore
+#    type: hyrax
 
 attribute_map:
   displayName: "urn:oid:2.16.840.1.113730.3.1.241"

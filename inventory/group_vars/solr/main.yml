@@ -1,0 +1,18 @@
+tomcat_enable_ssl: "yes"
+enable_ssl: "yes"
+tomcat_major_version: 8
+tomcat_version: 8.5.34
+solr_version: 7.7.1
+solr_cores: false
+solr_fqdn: "{{ ansible_fqdn }}"
+ec2_security_groups:
+  - Zookeeper
+  - ssh
+  - tomcat/solr
+  - http/https
+
+solr_collections:
+  - name: curate_collection
+    type: hyrax
+    shards: 3
+    replication_factor: 2

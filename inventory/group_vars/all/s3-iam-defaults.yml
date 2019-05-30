@@ -1,8 +1,5 @@
 s3_buckets:
   - name: emory-ltds-binaries
-    tags:
-      test: value1
-      Name: bucket1
   - name: fedora-cor-bucket
   - name: fedora-cor-test-bucket
 

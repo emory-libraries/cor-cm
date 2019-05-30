@@ -1,0 +1,41 @@
+- name: Replace lines in demoapp with zookeeper specific values
+  lineinfile:
+    path: "{{ zk_dir }}/bin/zk"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    owner: "{{ zk_user | d (omit) }}" 
+  loop: "{{ demoapp_values }}"
+
+- name: Put in place wrapper.conf file
+  template:
+    src: wrapper_conf.j2
+    dest: "{{ zk_dir }}/conf/wrapper.conf"
+    owner: "{{ zk_user }}"
+    group: "{{ zk_group }}"
+    mode: 0644
+
+- name: Put in place zookeeper init.d script
+  template:
+    src: jsw_init.j2
+    dest: "/etc/init.d/zookeeper"
+    mode: 0755
+
+- name: Set permissions on zookeeper directory
+  file:
+    path: "{{ zk_dir }}"
+    state: directory
+    owner: "{{ zk_user }}"
+    group: "{{ zk_group }}"
+    recurse: yes
+
+#- name: Check if zookeeper is running
+#  stat:
+#    path: "{{ zk_dir }}/bin/zookeeper.pid"
+#  register: zk_pid
+
+- name: Enable and start Zookeeper service
+  service:
+    name: zookeeper
+    state: started
+    enabled: yes
+#  when: not zk_pid.stat.exists

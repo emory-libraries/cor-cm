@@ -8,7 +8,7 @@
 - name: Execute capistrano deployment of project
   become_user: "{{ ansible_username }}"
   shell: >
-    BRANCH={{ git_repo_branch }} cap localhost deploy
+    BRANCH={{ git_repo_branch }} cap {{ capistrano_environment | d('localhost') }} deploy
   args:
     chdir: /home/{{ ansible_username }}/{{ project_name }}
 
@@ -17,14 +17,22 @@
     name: httpd
     state: restarted
 
-- name: Create the rails app default admin set
-  become_user: "{{ capistrano_user }}"
-  shell: >
-    RAILS_ENV=production bundle exec rake hyrax:default_admin_set:create
-  args:
-    chdir: "{{ capistrano_base }}/{{ project_name }}/current"
-  register: admin_set
-  failed_when: "'NoFail' in admin_set.stdout"
+- name: Check database
+  include_tasks:
+    file: check-db.yml
+    apply:
+      tags: hyrax-check-db
+      become_user: "{{ capistrano_user }}"
+  tags: hyrax-check-db
+
+#- name: Create the rails app default admin set
+#  become_user: "{{ capistrano_user }}"
+#  shell: >
+#    RAILS_ENV=production bundle exec rake hyrax:default_admin_set:create
+#  args:
+#    chdir: "{{ capistrano_base }}/{{ project_name }}/current"
+#  register: admin_set
+#  failed_when: "'NoFail' in admin_set.stdout"
 #  ignore_errors: yes
 
 - name: Create test database for developers' box (optional)

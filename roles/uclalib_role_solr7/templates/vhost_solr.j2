@@ -1,7 +1,9 @@
 <VirtualHost *:80>
 
   ServerName {{ solr_fqdn }}
-
+{% if solr_alias is defined %}
+  ServerAlias {{ solr_alias }}
+{% endif %}
   ErrorLog /var/log/httpd/solr/error_log
   CustomLog /var/log/httpd/solr/access_log combined
 

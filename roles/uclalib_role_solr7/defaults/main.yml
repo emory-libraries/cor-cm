@@ -8,7 +8,7 @@ solr_url: "http://archive.apache.org/dist/lucene/solr/{{ solr_version }}/solr-{{
 
 # Define user to own Solr files and run Solr process
 solr_user: solr
-solr_user_group: solr
+#solr_user_group: solr
 
 # Define name of Solr service
 solr_service_name: solr
@@ -51,6 +51,13 @@ solr_cores:
     type: "default"
 
 #### Vars added for fork
-solr_install_dir_owner: solr
-solr_install_dir_group: solr
-additional_solr_groups: []
+solr_install_dir_owner: "{{ solr_user }}"
+solr_install_dir_group: "{{ solr_user }}"
+solr_configset_base_dir: "{{ solr_base_dir }}/server/solr/configsets/{{ item.name }}"
+solr_insh_default: /etc/default/solr.in.sh
+solr_host_naming: "{{ ansible_fqdn }}"
+solr_ssl_enabled: '{{ zk_enable_ssl | ternary("https", "http") }}'
+zk_enable_ssl: False
+zk_hosts_list: "{{ groups[zk_inventory_group] | map('extract', hostvars, ['ansible_default_ipv4','address']) | list }}"
+tmp_configset_dir: "/tmp/{{ item.name }}/conf"
+#additional_solr_groups: []

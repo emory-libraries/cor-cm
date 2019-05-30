@@ -1,0 +1,19 @@
+---
+- name: Install zookeeper repo
+  yum:
+    name: '{{ zk_redhat_yum_repositories }}'
+    state: present
+    disable_gpg_check: true
+  register: installed_repo
+  until: installed_repo is succeeded
+  become: true
+
+- include_tasks: Linux.yml
+
+- name: Set system service
+  include_tasks: '{{ service_manager }}'
+  with_first_found:
+    - '../service/{{ ansible_service_mgr }}.yml'
+    - ../service/systemv.yml
+  loop_control:
+    loop_var: service_manager

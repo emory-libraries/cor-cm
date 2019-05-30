@@ -1,0 +1,6 @@
+---
+# handlers file for wm_role_jetty_jsw
+- name: restart zookeeper
+  systemd:
+    name: zookeeper
+    state: restarted

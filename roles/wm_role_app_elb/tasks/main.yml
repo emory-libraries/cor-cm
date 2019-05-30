@@ -1,0 +1,26 @@
+---
+# tasks file for wm_role_app_elb
+- include_tasks:
+    file: manage-app-elb.yml
+    apply:
+      tags: manage-app-elb
+  tags: manage-app-elb
+  when: 
+    - elb_application_lbs | d (False)
+    - ec2_id is undefined 
+
+- include_tasks:
+    file: manage-elb-target-group.yml
+    apply: 
+      tags: manage-elb-target-group
+  tags: manage-elb-target-group
+  when: 
+    - elb_target_groups | d (False)
+    - ec2_id is undefined 
+
+- include_tasks:
+    file: register-target.yml
+    apply:
+      tags: register-target
+  tags: register-target
+  when: ec2_id | d (False) 

@@ -9,7 +9,7 @@ tomcat_applications:
     rproxy_path: cantaloupe
     app_long_name: Cantaloupe Server via JSW
 
-oracle_java_version: '1.8.0_202'
+#oracle_java_version: '1.8.0_202'
 
 proxy_solr_tomcat_conf: "yes"
 

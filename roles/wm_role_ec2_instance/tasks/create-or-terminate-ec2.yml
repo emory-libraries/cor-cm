@@ -45,3 +45,9 @@
     query: "instances[?tags.Name=='{{ inventory_hostname }}'].private_ip_address"
     query2: "instances[?tags.Name=='{{ inventory_hostname }}'].state.name"
     query3: "instances[?tags.Name=='{{ inventory_hostname }}'].instance_id"
+
+- name: Create temporary group with ec2_IDs
+  add_host:
+    name: "{{ hostvars[item]['ec2_id'] }}"
+    groups: ec2_ids
+  loop: "{{ ansible_play_hosts }}"

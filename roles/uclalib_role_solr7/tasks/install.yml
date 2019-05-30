@@ -1,4 +1,8 @@
 ---
+- name: Install lsof
+  package:
+    name: lsof
+    state: present
 
 - name: Unpack Solr installation script from Solr archive
   shell: >
@@ -42,7 +46,7 @@
   user:
     name: "{{ solr_user }}"
     groups: "{{ additional_solr_groups }}"
-  when: additional_solr_groups
+  when: additional_solr_groups | d (False) 
 
 - name: Ensure solr dir has proper ownership
   file:

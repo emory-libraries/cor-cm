@@ -1,0 +1,236 @@
+{% set jsw_dict = lookup('vars', '__' + _tomcat_appname + '_jsw_options', default=default_jsw_options) %}
+#encoding=UTF-8
+# Configuration files must begin with a line specifying the encoding
+#  of the the file.
+
+{{ ansible_managed | comment }}
+
+#********************************************************************
+# Wrapper License Properties (Ignored by Community Edition)
+#********************************************************************
+# Professional and Standard Editions of the Wrapper require a valid
+#  License Key to start.  Licenses can be purchased or a trial license
+#  requested on the following pages:
+# http://wrapper.tanukisoftware.com/purchase
+# http://wrapper.tanukisoftware.com/trial
+
+# Include file problems can be debugged by removing the first '#'
+#  from the following line:
+##include.debug
+
+# The Wrapper will look for either of the following optional files for a
+#  valid License Key.  License Key properties can optionally be included
+#  directly in this configuration file.
+#include ../conf/wrapper-license.conf
+#include ../conf/wrapper-license-%WRAPPER_HOST_NAME%.conf
+
+# The following property will output information about which License Key(s)
+#  are being found, and can aid in resolving any licensing problems.
+#wrapper.license.debug=TRUE
+
+#********************************************************************
+# Wrapper Localization
+#********************************************************************
+# Specify the locale which the Wrapper should use.  By default the system
+#  locale is used.
+#wrapper.lang=en_US # en_US or ja_JP
+
+# Specify the location of the Wrapper's language resources.  If these are
+#  missing, the Wrapper will default to the en_US locale.
+# wrapper.lang.folder=../lang
+
+
+#********************************************************************
+# Wrapper Java Properties
+#********************************************************************
+# Java Application
+#  Locate the java binary on the system PATH:
+#  Specify a specific java binary:
+{% if ansible_playbook_python | basename == 'python3' %}
+{% for key,value in jsw_dict['set'].items() %}
+set.{{ key|upper }}={{ value }}
+{% endfor %}
+{% else %}
+{% for key,value in jsw_dict['set'].iteritems() %}
+set.{{ key|upper }}={{ value }}
+{% endfor %}
+{% endif %}
+wrapper.java.command={{ jsw_dict['wrapper']['java']['command']['_value'] }}
+
+# Tell the Wrapper to log the full generated Java command line.
+wrapper.java.command.loglevel={{ jsw_dict['wrapper']['java']['command']['loglevel'] }}
+
+# Java Main class.  This class must implement the WrapperListener interface
+#  or guarantee that the WrapperManager class is initialized.  Helper
+#  classes are provided to do this for you.  See the Integration section
+#  of the documentation for details.
+wrapper.java.mainclass={{ jsw_dict['wrapper']['java']['mainclass'] }}
+
+# Java Classpath (include wrapper.jar)  Add class path elements as
+#  needed starting from 1
+{% for classpath in jsw_dict['wrapper']['java']['classpath'] %}
+wrapper.java.classpath.{{ loop.index }}={{ classpath }}
+{% endfor %}
+
+# Java Library Path (location of Wrapper.DLL or libwrapper.so)
+{% for path in jsw_dict['wrapper']['java']['library']['path'] %}
+wrapper.java.library.path.{{ loop.index }}={{ path }}
+{% endfor %}
+
+# Java Bits.  On applicable platforms, tells the JVM to run in 32 or 64-bit mode.
+wrapper.java.additional.auto_bits={{ jsw_dict['wrapper']['java']['additional']['auto_bits'] | upper }}
+
+{% set ns = namespace(loop_counter=0) %}
+# Java Additional Parameters
+# Default Parameters ###
+{% for add in jsw_dict['wrapper']['java']['additional']['default_value'] %}
+wrapper.java.additional.{{ loop.index }}=-{{ add }}
+{% set ns.loop_counter = ns.loop_counter + 1 %}
+{% endfor %}
+# App Specific Parameters ###
+{% if jsw_dict['wrapper']['java']['additional']['_value'] is defined %}
+{% for add in jsw_dict['wrapper']['java']['additional']['_value'] %}
+wrapper.java.additional.{{ loop.index + ns.loop_counter | default(0,true) }}=-{{ add }}
+{% endfor %}
+{% else %}
+{% endif %}
+
+# Initial Java Heap Size (in MB)
+wrapper.java.initmemory={{ jsw_dict['wrapper']['java']['initmemory'] }}
+
+# Maximum Java Heap Size (in MB)
+wrapper.java.maxmemory={{ jsw_dict['wrapper']['java']['maxmemory'] }}
+
+# Application parameters.  Add parameters as needed starting from 1
+{% for param in jsw_dict['wrapper']['app']['parameter'] %}
+wrapper.app.parameter.{{ loop.index }}={{ param }}
+{% endfor %}
+
+#********************************************************************
+# Wrapper Logging Properties
+#********************************************************************
+# Enables Debug output from the Wrapper.
+# wrapper.debug=TRUE
+
+# Format of output for the console.  (See docs for formats)
+wrapper.console.format={{ jsw_dict['wrapper']['console']['format'] }}
+
+# Log Level for console output.  (See docs for log levels)
+wrapper.console.loglevel={{ jsw_dict['wrapper']['console']['loglevel'] }}
+
+# Log file to use for wrapper output logging.
+wrapper.logfile={{ jsw_dict['wrapper']['logfile']['_value'] }}
+
+# Format of output for the log file.  (See docs for formats)
+wrapper.logfile.format={{ jsw_dict['wrapper']['logfile']['format'] }}
+
+# Log Level for log file output.  (See docs for log levels)
+wrapper.logfile.loglevel={{ jsw_dict['wrapper']['logfile']['loglevel'] }}
+
+# Maximum size that the log file will be allowed to grow to before
+#  the log is rolled. Size is specified in bytes.  The default value
+#  of 0, disables log rolling.  May abbreviate with the 'k' (kb) or
+#  'm' (mb) suffix.  For example: 10m = 10 megabytes.
+wrapper.logfile.maxsize={{ jsw_dict['wrapper']['logfile']['maxsize'] }}
+wrapper.logfile.rollmode={{ jsw_dict['wrapper']['logfile']['rollmode'] }}
+
+# Maximum number of rolled log files which will be allowed before old
+#  files are deleted.  The default value of 0 implies no limit.
+wrapper.logfile.maxfiles={{ jsw_dict['wrapper']['logfile']['maxfiles'] }}
+
+# Log Level for sys/event log output.  (See docs for log levels)
+wrapper.syslog.loglevel={{ jsw_dict['wrapper']['syslog']['loglevel'] }}
+
+#********************************************************************
+# Wrapper General Properties
+#********************************************************************
+# Allow for the use of non-contiguous numbered properties
+wrapper.ignore_sequence_gaps={{ jsw_dict['wrapper']['ignore_sequence_gaps'] | upper }}
+
+# Do not start if the pid file already exists.
+wrapper.pidfile={{ jsw_dict['wrapper']['pidfile']['_value'] }}
+wrapper.pidfile.strict={{ jsw_dict['wrapper']['pidfile']['strict'] | upper }}
+
+# Title to use when running as a console
+wrapper.console.title={{ jsw_dict['wrapper']['console']['title'] | default('Test Wrapper Application') }}
+
+#********************************************************************
+# Wrapper JVM Checks
+#********************************************************************
+# Detect DeadLocked Threads in the JVM. (Requires Standard Edition)
+wrapper.check.deadlock={{ jsw_dict['wrapper']['check']['deadlock']['_value'] }}
+wrapper.check.deadlock.interval={{ jsw_dict['wrapper']['check']['deadlock']['interval'] }}
+wrapper.check.deadlock.action={{ jsw_dict['wrapper']['check']['deadlock']['action'] }}
+wrapper.check.deadlock.output={{ jsw_dict['wrapper']['check']['deadlock']['output'] }}
+
+{% for trig in jsw_dict['wrapper']['filter']['trigger'] %}
+wrapper.filter.trigger.{{ loop.index }}={{ trig }}
+{% endfor %}
+{% for act in jsw_dict['wrapper']['filter']['action'] %}
+wrapper.filter.action.{{ loop.index }}={{ act }}
+{% endfor %}
+{% for message in jsw_dict['wrapper']['filter']['message'] %}
+wrapper.filter.message.{{ loop.index }}={{ message }}
+{% endfor %}
+
+#********************************************************************
+# Wrapper Email Notifications. (Requires Professional Edition)
+#********************************************************************
+# Common Event Email settings.
+#wrapper.event.default.email.debug=TRUE
+#wrapper.event.default.email.smtp.host=<SMTP_Host>
+#wrapper.event.default.email.smtp.port=25
+#wrapper.event.default.email.subject=[%WRAPPER_HOSTNAME%:%WRAPPER_NAME%:%WRAPPER_EVENT_NAME%] Event Notification
+#wrapper.event.default.email.sender=<Sender email>
+#wrapper.event.default.email.recipient=<Recipient email>
+
+# Configure the log attached to event emails.
+#wrapper.event.default.email.attach_log=TRUE
+#wrapper.event.default.email.maillog.lines=50
+#wrapper.event.default.email.maillog.format=LPTM
+#wrapper.event.default.email.maillog.loglevel=INFO
+
+# Enable specific event emails.
+#wrapper.event.wrapper_start.email=TRUE
+#wrapper.event.jvm_prelaunch.email=TRUE
+#wrapper.event.jvm_start.email=TRUE
+#wrapper.event.jvm_started.email=TRUE
+#wrapper.event.jvm_deadlock.email=TRUE
+#wrapper.event.jvm_stop.email=TRUE
+#wrapper.event.jvm_stopped.email=TRUE
+#wrapper.event.jvm_restart.email=TRUE
+#wrapper.event.jvm_failed_invocation.email=TRUE
+#wrapper.event.jvm_max_failed_invocations.email=TRUE
+#wrapper.event.jvm_kill.email=TRUE
+#wrapper.event.jvm_killed.email=TRUE
+#wrapper.event.jvm_unexpected_exit.email=TRUE
+#wrapper.event.wrapper_stop.email=TRUE
+
+# Specify custom mail content
+wrapper.event.jvm_restart.email.body={{ jsw_dict['wrapper']['event']['jvm_restart']['email']['body'] }}
+
+#********************************************************************
+# Wrapper Windows NT/2000/XP Service Properties
+#********************************************************************
+# WARNING - Do not modify any of these properties when an application
+#  using this configuration file has been installed as a service.
+#  Please uninstall the service before modifying this section.  The
+#  service can then be reinstalled.
+
+# Name of the service
+#wrapper.name=testwrapper
+
+# Display name of the service
+#wrapper.displayname=Test Wrapper Sample Application
+
+# Description of the service
+#wrapper.description=Test Wrapper Sample Application Description
+
+# Service dependencies.  Add dependencies as needed starting from 1
+#wrapper.ntservice.dependency.1=
+
+# Mode in which the service is installed.  AUTO_START, DELAY_START or DEMAND_START
+#wrapper.ntservice.starttype=AUTO_START
+
+# Allow the service to interact with the desktop.
+#wrapper.ntservice.interactive=false

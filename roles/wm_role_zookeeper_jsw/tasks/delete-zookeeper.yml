@@ -1,0 +1,26 @@
+---
+- name: Stop Zookeeper
+  service: 
+    name: zookeeper
+    state: stopped
+
+- name: Remove Zookeeper Directories
+  file:
+    state: absent
+    path: "{{ zoo_dir }}"
+  loop:
+    - "{{ zk_dir }}"
+    - "{{ zk_data_dir }}"
+    - "{{ zk_log_dir }}"
+  loop_control:
+    loop_var: zoo_dir
+
+- name: Delete Zookeeper User
+  user:
+    state: absent
+    name: "{{ zk_user }}"
+
+- name: Delete Zookeeper Group
+  group:
+    state: absent
+    name: "{{ zk_group }}"

@@ -1,0 +1,11 @@
+---
+- hosts: "{{ host | d ('all') }}"
+  become: yes
+
+  roles:
+    - dce_role_selinux_reboot
+    - uclalib_role_pip
+    - uclalib_role_java
+    - wm_role_zookeeper_jsw
+    - uclalib_role_apache
+    - uclalib_role_solr7

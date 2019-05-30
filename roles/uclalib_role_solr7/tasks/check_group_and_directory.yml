@@ -3,7 +3,18 @@
   group:
     name: "{{ item }}" 
   loop: "{{ additional_solr_groups }}"
-  when: additional_solr_groups
+  when: additional_solr_groups | d (False) 
+
+- name: Create solr user
+  user:
+    name: "{{ solr_user }}"
+    comment: Solr User
+
+- name: Add solr user to additional groups
+  user:
+    name: "{{ solr_user }}"
+    groups: "{{ additional_solr_groups }}"
+  when: additional_solr_groups | d (False)
 
 - name: Ensure {{ solr_install_dir }} exists
   file:

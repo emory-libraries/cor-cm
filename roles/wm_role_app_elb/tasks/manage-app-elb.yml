@@ -1,0 +1,21 @@
+---
+- name: Manage Applciaton Elastic Load Balancers
+  elb_application_lb:
+    name: "{{ item.name }}"
+    listeners: "{{ item.listeners | d (omit) }}" #Keys are CamelCased
+    region: "{{ item.region | d (aws_region) }}"
+    scheme: "{{ item.scheme | d (omit) }}"
+    security_groups: "{{ item.security_groups | d (omit) }}" #List of names or IDs of SGs
+    state: "{{ item.state | d ('present') }}"
+    subnets: "{{ item.subnets | d (omit) }}" #List of IDs
+    tags: "{{ item.tags | d (omit) }}" #dict
+    access_logs_enabled: "{{ item.access_logs_enabled | d (omit) }}"
+    access_logs_s3_bucket: "{{ item.access_logs_s3_bucket | d (omit) }}"
+    access_logs_s3_prefix: "{{ item.access_logs_s3_prefix | d (omit) }}"
+    deletion_protection: "{{ item.deletion_protection | d (omit) }}"
+    http2: "{{ item.http2 | d (omit) }}"
+    idle_timeout: "{{ item.idle_timeout | d (omit) }}"
+    purge_listeners: "{{ item.purge_listeners | d (omit) }}"
+    purge_rules: "{{ item.purge_rules | d (omit) }}"
+    purge_tags: "{{ item.purge_tags | d (omit) }}"
+  loop: "{{ elb_application_lbs }}"

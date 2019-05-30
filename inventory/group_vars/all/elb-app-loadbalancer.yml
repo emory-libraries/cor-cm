@@ -1,0 +1,41 @@
+---
+elb_application_lbs:
+  - name: main-elb
+    security_groups:
+      - 'http/https'
+    subnets:
+      - subnet-3a371562
+      - subnet-5964743d
+    scheme: internet-facing
+    listeners:
+      - Protocol: HTTP
+        Port: 80
+        DefaultActions:
+          - Type: forward
+            TargetGroupArn: "arn:aws:elasticloadbalancing:us-west-1:484534655265:targetgroup/solr-test-cluster/ef2166a2d87c39ef"
+        Rules:
+          - Conditions:
+            - Field: host-header
+              Values:
+                - solr-cor.library.emory.edu
+              Priority: '1'
+              Actions:
+                - TargetGroupArn: "arn:aws:elasticloadbalancing:us-west-1:484534655265:targetgroup/solr-prod-cluster/82f4fa3d73fb0e47"
+                  Type: Forward
+      - Protocol: HTTPS
+        Port: 443
+        SslPolicy: ELBSecurityPolicy-2015-05
+        Certificates:
+          - CertificateArn: "arn:aws:iam::484534655265:server-certificate/cor-sar-cert"
+        DefaultActions:
+          - Type: forward
+            TargetGroupArn: "arn:aws:elasticloadbalancing:us-west-1:484534655265:targetgroup/solr-test-cluster/ef2166a2d87c39ef"
+        Rules:
+          - Conditions:
+            - Field: host-header
+              Values:
+                - solr-cor.library.emory.edu
+              Priority: '1'
+              Actions:
+                - TargetGroupArn: "arn:aws:elasticloadbalancing:us-west-1:484534655265:targetgroup/solr-prod-cluster/82f4fa3d73fb0e47"
+                  Type: Forward

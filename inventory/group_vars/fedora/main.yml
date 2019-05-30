@@ -9,6 +9,5 @@ fedora_db_port: "3306"
 fedora_admin_user: "{{ vault_fedora_admin_user }}"
 fedora_admin_password: "{{ vault_fedora_admin_password }}"
 tomcat_enable_ssl: no
-use_s3_java: yes
 
 #fedora_server_fqdn: "{{ host }}"

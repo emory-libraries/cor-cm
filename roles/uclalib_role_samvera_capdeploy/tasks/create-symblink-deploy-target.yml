@@ -1,0 +1,16 @@
+---
+- name: Ensure symdir exists
+  file:
+    path: "{{ hyrax_symdir }}"
+    state: directory
+    owner: "{{ capistrano_user }}"
+    group: "{{ capistrano_user }}"
+    mode: 0755
+
+- name: Create symblink for hyrax deploy
+  file:
+    src: "{{ hyrax_symdir }}"
+    path: "{{ capistrano_base }}/{{ project_name }}"
+    owner: "{{ capistrano_user }}"
+    group: "{{ capistrano_user }}"
+    state: link

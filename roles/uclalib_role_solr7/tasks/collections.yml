@@ -1,0 +1,48 @@
+---
+- name: Create Solr Collection
+  become_user: "{{ solr_user }}"
+  shell: >
+    {{ solr_base_dir }}/bin/solr create_collection -c {{ item.name }} -s {{ item.shards }} -rf {{ item.replication_factor | d (1) }} -p {{ item.port | d (8983) }}
+  loop: "{{ solr_collections }}"
+  run_once: true
+  register: cc_result
+  failed_when:
+    - cc_result.rc != 0
+    - '"already exists!" not in cc_result.stderr'
+
+- name: Copy configset to temporary location
+  copy:
+    src: "{{ item.type }}_solr-conf/"
+    dest: "{{ tmp_configset_dir }}"
+  loop: "{{ solr_collections }}"
+  when: item.type != "default"
+  run_once: true
+
+- name: Put in place application-specific solrconfig.xml files
+  template:
+    src: "{{ item.type }}_solrconfig/solrconfig_xml.j2"
+    dest: "{{ tmp_configset_dir }}/solrconfig.xml"
+  loop: "{{ solr_collections }}"
+  when: item.type != "default"
+  run_once: true
+
+- name: Upload config sets to zookeeper
+  become_user: "{{ solr_user }}"
+  shell: >
+    {{ solr_base_dir }}/bin/solr zk -upconfig -n {{ item.name }}
+    -d '{{ tmp_configset_dir }}' 
+  loop: "{{ solr_collections }}"
+  when: item.type != "default"
+  run_once: true
+  changed_when: False
+
+- name: Set correct ownership of the Solr core directories
+  file:
+    path: "{{ solr_configset_base_dir }}/conf"
+    owner: "solr"
+    group: "solr"
+    recurse: "yes"
+    state: "directory"
+  loop: "{{ solr_collections }}"
+  notify:
+    - restart solr

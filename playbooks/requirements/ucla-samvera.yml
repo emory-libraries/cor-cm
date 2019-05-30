@@ -1,6 +1,6 @@
 ---
 # UCLA Roles for Samvera Cap Deploy
-- src: https://github.com/UCLALibrary/uclalib_role_samvera_capdeploy
+#- src: https://github.com/UCLALibrary/uclalib_role_samvera_capdeploy
 #- src: https://github.com/UCLALibrary/uclalib_role_rhel7repos #Probably replace this with another named repo
 #- src: https://github.com/UCLALibrary/uclalib_role_java # Use DCE Fork
 - src: https://github.com/UCLALibrary/uclalib_role_fedora4
@@ -17,7 +17,7 @@
 - src: https://github.com/UCLALibrary/uclalib_role_passenger
 - src: https://github.com/UCLALibrary/uclalib_role_nodejs
 - src: https://github.com/UCLALibrary/uclalib_role_redis
-- src: https://github.com/UCLALibrary/uclalib_role_solr7
+#- src: https://github.com/UCLALibrary/uclalib_role_solr7
 - src: https://github.com/UCLALibrary/uclalib_role_yarn
 - src: https://github.com/UCLALibrary/uclalib_role_cantaloupe
 ##- src: https://github.com/UCLALibrary/uclalib_role_rhelscl #Don't use this yet

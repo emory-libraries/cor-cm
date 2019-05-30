@@ -1,0 +1,60 @@
+- name: Check if database exists and if connection is active
+  shell: >
+    rails r -e production "p ::ActiveRecord::Base.connection_pool.with_connection(&:active?) rescue false"
+  args:
+    chdir: "{{ capistrano_base }}/{{ project_name }}/current"
+  register: db_exists_output
+
+- name: Set fact db exist
+  set_fact:
+    db_exist: "{{ db_exists_output.stdout | bool }}"
+
+- name: Create Database
+  shell: >
+    RAILS_ENV=production bundle exec rails db:create
+  args:
+    chdir: "{{ capistrano_base }}/{{ project_name }}/current"
+  when: not db_exist
+
+- name: Check for pending db migrations
+  shell: >
+    RAILS_ENV=production bundle exec rails db:migrate:status | awk '{ print $1 }'
+  args:
+    chdir: "{{ capistrano_base }}/{{ project_name }}/current"
+  register: db_migration
+
+- name: Set fact pending migration
+  set_fact:
+    pending_migration: "{{ true if 'down' in db_migration.stdout else false }}"
+
+- name: Migrate database
+  shell: >
+    RAILS_ENV=production bundle exec rails db:migrate
+  args:
+    chdir: "{{ capistrano_base }}/{{ project_name }}/current"
+  when: pending_migration
+
+- name: Check if default admin set exists
+  shell: >
+    rails r -e production "p AdminSet.first"
+  args:
+    chdir: "{{ capistrano_base }}/{{ project_name }}/current"
+  register: default_admin_output
+
+- name: Set fact default admin set
+  set_fact:
+    default_admin_set_exist: "{{ true if 'Default Admin Set' in default_admin_output.stdout else false }}"
+
+- name: Create default admin set
+  shell: >
+    RAILS_ENV=production bundle exec bin/rails hyrax:default_admin_set:create
+  args:
+    chdir: "{{ capistrano_base }}/{{ project_name }}/current"
+  when: not default_admin_set_exist
+
+- name: Seed hyrax database
+  shell: >
+    RAILS_ENV=production bundle exec rails db:seed
+  args:
+    chdir: "{{ capistrano_base }}/{{ project_name }}/current"
+  when: seed_hyrax_db | d (False)

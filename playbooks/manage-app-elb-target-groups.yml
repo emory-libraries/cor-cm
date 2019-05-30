@@ -1,0 +1,21 @@
+---
+- hosts: s3-iam
+  gather_facts: no
+
+  pre_tasks:
+    - name: Get AWS account info
+      aws_caller_facts:
+      register: caller_facts
+      delegate_to: localhost
+      tags: always
+
+    - name: Set AWS account info
+      set_fact:
+        aws_account_number: "{{ caller_facts.account }}"
+      delegate_to: localhost
+      tags: always
+  
+  roles:
+    - role: wm_role_app_elb
+      delegate_to: localhost
+      

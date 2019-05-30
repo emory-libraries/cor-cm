@@ -14,6 +14,8 @@
   scm: git
 - src: git@github.service.emory.edu:LITS/wm_role_manage_efs.git
   scm: git
+- src: git@github.service.emory.edu:LITS/wm_role_app_elb.git
+  scm: git
 - src: https://github.com/curationexperts/dce_role_route53_cm
 - src: https://github.com/curationexperts/dce_role_assign_eip
 - src: https://github.com/curationexperts/dce_role_rds_mysql

@@ -4,3 +4,7 @@
 - src: https://github.com/curationexperts/dce_role_selinux_reboot
 - src: https://github.com/curationexperts/dce_role_wait_for_gatherfacts
 - src: https://github.com/curationexperts/dce_role_end_play
+
+### Lean Delivery
+- src: https://github.com/lean-delivery/ansible-role-zookeeper
+#- src: 

@@ -1,0 +1,17 @@
+s3_buckets:
+  - name: cor-devops-binaries
+  - name: fedora-cor-binaries
+  - name: fedora-cor-test-binaries
+
+#get_s3_bucket_name: cor-devops-binaries
+
+iam_policies:
+  - policy_name: AccessToCorDevOpsBinaries
+    policy_template_path: iam_policy_s3_bucket_access_json.j2
+    resource: cor-devops-binaries
+  - policy_name: AccessToFedoraCorBinaries
+    policy_template_path: iam_policy_s3_bucket_access_json.j2
+    resource: fedora-cor-binaries
+  - policy_name: AccessToFedoraCorTestBinaries
+    policy_template_path: iam_policy_s3_bucket_access_json.j2
+    resource: fedora-cor-test-binaries

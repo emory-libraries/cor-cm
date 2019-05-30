@@ -3,16 +3,16 @@
 # This allows for making the {{ project_name }}_{{ env_name }}.yml vars file optional.
 # If this vars file is _not_ included in the role, the variables should be defined
 # elsehwere - e.g. in the playbook file
-#- name: Determine if the project-specific vars file exists
-#  local_action:
-#    module: stat
-#    path: "{{ role_path }}/vars/{{ project_name }}_{{ env_name }}.yml"
-#  register: project_vars_file
+- name: Determine if the project-specific vars file exists
+  local_action:
+    module: stat
+    path: "{{ role_path }}/vars/{{ project_name }}_{{ env_name }}.yml"
+  register: project_vars_file
 
-#- name: Set-up project-specific environment variables
-#  include_vars: "{{ project_name }}_{{ env_name }}.yml"
-#  when: project_vars_file.stat.exists
-#  no_log: True
+- name: Set-up project-specific environment variables
+  include_vars: "{{ project_name }}_{{ env_name }}.yml"
+  when: project_vars_file.stat.exists
+  no_log: True
 
 - name: Set-up the Capistrano environment
   include_tasks: 
@@ -66,3 +66,4 @@
   import_tasks: capistrano_deploy.yml
   tags:
     - capistrano-deploy
+    - hyrax-check-db

@@ -1,0 +1,8 @@
+---
+- name: restart Zookeeper
+  systemd:
+    name: zookeeper
+    state: restarted
+  become: true
+  when:
+    - zk_service_start

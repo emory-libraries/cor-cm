@@ -1,0 +1,30 @@
+---
+- name: Manage ELB target group
+  elb_target_group:
+    name: "{{ item.name }}"
+    port: "{{ item.port | d (omit) }}"
+    protocol: "{{ item.protocol | d (omit) }}"
+    region: "{{ item.region | d (aws_region) | d (omit) }}"
+    state: "{{ item.state | d ('present') }}"
+    tags: "{{ item.tags | d (omit) }}" # Dict
+    target_type: "{{ item.target_type | d ('instance') }}" #Must be a private IP address
+    targets: "{{ item.targets | d (omit) }}" # List
+    vpc_id: "{{ item.vpc_id | d (vpc_id) }}" 
+    ### Less Used Options Below ###
+    deregistration_delay_timeout: "{{ item.deregistration_delay_timeout | d (omit) }}"
+    health_check_interval: "{{ item.health_check_interval | d (omit) }}"
+    health_check_path: "{{ item.health_check_path | d (omit) }}"
+    health_check_port: "{{ item.health_check_port | d (omit) }}"
+    health_check_protocol: "{{ item.health_check_protocol | d (omit) }}"
+    health_check_timeout: "{{ item.health_check_timeout | d (omit) }}"
+    healthy_threshold_count: "{{ item.healthy_threshold_count | d (omit) }}"
+    modify_targets: "{{ item.modify_targets | d ('no') }}"
+    purge_tags: "{{ item.purge_tags | d (omit) }}"
+    stickiness_enabled: "{{ item.stickiness_enabled | d (False) }}"
+    stickiness_lb_cookie_duration: "{{ item.stickiness_lb_cookie_duration | d (omit) }}"
+    stickiness_type: "{{ item.stickiness_type | d (omit) }}"
+    successful_response_codes: "{{ item.successful_response_codes | d (omit) }}" # Requires health_check_protocol
+    unhealthy_threshold_count: "{{ item.unhealthy_threshold_count | d (omit) }}"
+    wait: "{{ item.wait | d (omit) }}"
+    wait_timeout: "{{ item.wait_timeout | d (omit) }}"
+  loop: "{{ elb_target_groups }}"

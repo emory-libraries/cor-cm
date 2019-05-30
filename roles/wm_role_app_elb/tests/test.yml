@@ -2,4 +2,4 @@
 - hosts: localhost
   remote_user: root
   roles:
-    - wm_role_ec2_instance
+    - wm_role_app_elb

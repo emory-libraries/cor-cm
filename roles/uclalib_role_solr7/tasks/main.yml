@@ -26,4 +26,10 @@
 
 - name: Set-up Solr Cores
   include_tasks: cores.yml
-  when: solr_cores is defined
+  when: solr_cores | d (False)
+
+- name: Set-up Solr Collections and Enable Solr Cloud Mode
+  block:
+    - include_tasks: enable-solr-cloud.yml
+    - include_tasks: collections.yml
+  when: solr_collections | d (False)

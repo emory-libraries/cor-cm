@@ -1,0 +1,26 @@
+---
+elb_target_groups:
+  - name: solr-prod-cluster
+    protocol: https
+    port: 443
+  - name: solr-prod-cluster-80
+    protocol: http
+    port: 80
+  - name: solr-test-cluster
+    protocol: https
+    port: 443
+  - name: solr-test-cluster-80
+    protocol: http
+    port: 80
+  - name: curate-test
+    protocol: https
+    port: 443
+  - name: curate
+    protocol: https
+    port: 443
+  - name: lux-test
+    protocol: https
+    port: 443
+  - name: lux
+    protocol: https
+    port: 443

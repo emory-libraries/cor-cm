@@ -7,7 +7,7 @@
 - src: https://github.com/curationexperts/uclalib_role_cantaloupe
   version: add-Ubuntu-functionality
 - src: https://github.com/curationexperts/uclalib_role_solr7
-  version: add-geoblacklight-functionality
+  version: add-solr-cloud
 - src: https://github.com/curationexperts/uclalib_role_samvera_capdeploy ##Don't think this is needed anymore
   version: change-dotenv-add-predeploy-files
 - src: https://github.com/curationexperts/uclalib_role_java # Shouldn't be needed anymore

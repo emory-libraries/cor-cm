@@ -1,0 +1,10 @@
+elb_targets: 
+  - target_group_name: solr-prod-cluster
+  - target_group_name: solr-prod-cluster-80
+
+solr_alias: solr-cor.library.emory.edu
+
+zk_version: 3.5.5
+zk_inventory_group: solr-prod
+zk_admin_enableserver: true
+zk_admin_serverport: 8082

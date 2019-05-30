@@ -7,3 +7,7 @@
 
 - src: git@github.service.emory.edu:LITS/wm_role_deploy_tomcat_jsw.git
   scm: git
+
+- src: git@github.service.emory.edu:LITS/wm_role_zookeeper_jsw.git
+  scm: git
+  version: initial-development

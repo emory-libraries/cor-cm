@@ -1,0 +1,40 @@
+---
+# tasks file for wm_role_jetty_jsw
+- name: Include task for downloading Zookeeper tarball
+  include_tasks:
+    file: download-tarball.yml
+    apply:
+      tags: download-tarball
+  tags: download-tarball
+
+- name: Include task for configuring zookeeper config files
+  include_tasks:
+    file: configure-zookeeper-files.yml
+    apply:
+      tags: configure-app
+  tags: configure-app
+  
+- name: Include tasks to download and untar Java Service Wrapper
+  include_tasks:
+    file: download-untar-jsw.yml
+    apply:
+      tags: download-jsw
+  tags: download-jsw
+
+- name: Include task for configuring Java Service Wrapper
+  include_tasks:
+    file: setup-jsw.yml 
+    apply:
+      tags: setup-zookeeper-jsw
+  tags: setup-zookeeper-jsw
+
+- name: Delete Zookeeper
+  include_tasks:
+    file: delete-zookeeper.yml
+    apply:
+      tags:
+        - delete-zookeeper
+        - never
+  tags:
+    - delete-zookeeper
+    - never

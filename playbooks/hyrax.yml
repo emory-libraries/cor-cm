@@ -27,7 +27,7 @@
 ##    - { role: uclalib_role_rhelscl }
     - { role: emorylib_role_install_ruby_scl }
 ##    - { role: uclalib_role_ruby, ruby_version: '2.5.1' }
-    - { role: uclalib_role_passenger }
+#    - { role: uclalib_role_passenger }
     - { role: uclalib_role_yarn }
     - { role: uclalib_role_redis }
     - { role: uclalib_role_samvera_capdeploy }
