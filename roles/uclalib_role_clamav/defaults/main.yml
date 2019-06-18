@@ -1,0 +1,5 @@
+---
+
+clamav_pkgs:
+  - clamd
+  - clamav-data

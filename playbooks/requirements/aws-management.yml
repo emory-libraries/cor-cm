@@ -6,7 +6,7 @@
   scm: git
 - src: git@github.service.emory.edu:LITS/wm_role_ec2_instance.git
   scm: git
-- src: git@github.service.emory.edu:LITS/wm_role_manage_s3_bucket.git
+- src: git@github.service.emory.edu:LITS/wm_role_manage_sg_s3_bucket.git 
   scm: git
 - src: git@github.service.emory.edu:LITS/wm_role_iam_s3.git
   scm: git

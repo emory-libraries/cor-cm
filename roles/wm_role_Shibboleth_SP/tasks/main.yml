@@ -62,7 +62,7 @@
     file: add-repo-install-shibb.yml
     apply:
       vars:
-        state: latest      
+        shibb_state: latest      
   tags: 
     - update-shibb
     - never

@@ -1,0 +1,19 @@
+---
+
+- name: Install python and pip base packages
+  yum:
+    name: "{{ python_base_packages }}"
+    state: present
+
+- name: Install pip packages into global python env
+  pip:
+    name: "{{ pip_install_packages }}"
+    state: "present"
+  when: pip_install_packages is defined and use_virtualenv == "no"
+
+- name: Install pip packages into virtualenv python env
+  pip:
+    name: "{{ pip_install_packages }}"
+    state: "present"
+    virtualenv: "{{ virtualenv_path }}"
+  when: pip_install_packages is defined and use_virtualenv == "yes"

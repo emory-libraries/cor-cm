@@ -6,6 +6,11 @@ rds
 lux
 s3-iam
 solr
+test
+
+[test]
+solomon-test.com #ansible_ssh_host=54.193.40.4 
+#ansible_ssh_host=hostvars['{{ inventory_hostname }}']['public_ip_address'] #ansible_host=hostvars{{ inventory_hostname }}['public_ip_address']
 
 [solr:children]
 solr-test
@@ -25,7 +30,6 @@ util-cor.library.emory.edu
 [rds]
 cor-test-mysql-db
 cor-test2-db
-#cor-test3-db
 
 [curate]
 curate-test.library.emory.edu

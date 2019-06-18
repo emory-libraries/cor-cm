@@ -1,0 +1,7 @@
+plugin: aws_ec2
+hostnames:
+  - tag:Name
+regions:
+  - us-west-1
+#compose:
+#  ansible_host: public_ip_address

@@ -4,12 +4,11 @@ fqdn: {{ ec2_fqdn }}
 manage_etc_hosts: true
 
 packages:
-- amazon-efs-utils
+- nfs-utils
 
 runcmd:
-- file_system_id_01={{ ec2_efs }}
-- efs_directory={{ ec2_efs_mnt_path | d ('/mnt/efs') }}
-
-- mkdir -p ${efs_directory}
-- echo "${file_system_id_01}:/ ${efs_directory} efs tls,_netdev" >> /etc/fstab
-- mount -a -t efs defaults
+- mkdir -p {{ ec2_efs_mnt_path | d ('/mnt/efs') }}
+- chown ec2-user:ec2-user {{ ec2_efs_mnt_path | d ('/mnt/efs') }}
+- chmod 777 {{ ec2_efs_mnt_path | d ('/mnt/efs') }}
+- echo "{{ ec2_efs }}:/ {{ ec2_efs_mnt_path | d ('/mnt/efs') }} nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 0 0" >> /etc/fstab
+- mount -a -t nfs4

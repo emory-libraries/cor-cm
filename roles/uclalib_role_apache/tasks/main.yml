@@ -1,9 +1,8 @@
 ---
 - name: Install Apache HTTPD
   yum:
-    name: "{{ item }}"
+    name: "{{ apache_packages }}"
     state: present
-  with_items: "{{ apache_packages }}"
 
 - name: Get the version of Apache HTTPD installed
   command: >
@@ -46,14 +45,6 @@
   template:
     src: "http_vhost.j2"
     dest: "{{ httpd_vhost_path }}/{{ item.key }}.conf"
-  with_dict: "{{ vhosts }}"
-  when: vhosts is defined
-
-- name: Create up empty directorys for each directory root
-  file:
-    path: "{{ item.value.vhost_root }}" 
-    state: directory
-    mode: 0755
   with_dict: "{{ vhosts }}"
   when: vhosts is defined
 

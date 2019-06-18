@@ -14,7 +14,7 @@
 - src: https://github.com/UCLALibrary/uclalib_role_libreoffice
 - src: https://github.com/UCLALibrary/uclalib_role_ffmpeg
 - src: https://github.com/UCLALibrary/uclalib_role_fits
-- src: https://github.com/UCLALibrary/uclalib_role_passenger
+#- src: https://github.com/UCLALibrary/uclalib_role_passenger Use fork
 - src: https://github.com/UCLALibrary/uclalib_role_nodejs
 - src: https://github.com/UCLALibrary/uclalib_role_redis
 #- src: https://github.com/UCLALibrary/uclalib_role_solr7

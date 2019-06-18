@@ -1,0 +1,20 @@
+---
+- name: Wait for EC2(Public IP)
+  wait_for:
+    host: "{{ ec2_public_ip }}"
+    delay: 1
+    port: 22
+    connect_timeout: 3
+  when: ec2_public_ip | d (False)
+
+- name: Wait for EC2(Private IP)
+  wait_for:
+    host: "{{ ec2_private_ip }}"
+    delay: 1
+    port: 22
+    connect_timeout: 3
+  when: ec2_public_ip is undefined
+
+- name: Refresh Inventory
+  meta: refresh_inventory
+  run_once: true

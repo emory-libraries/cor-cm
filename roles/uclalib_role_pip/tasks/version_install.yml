@@ -1,0 +1,25 @@
+---
+
+- name: Include version-specific python environment variables
+  include_vars: python_version.yml
+
+- name: Install python and pip base packages
+  yum:
+    name: "{{ python_base_packages }}"
+    state: present
+
+- name: Install pip packages into global python env
+  pip:
+    name: "{{ pip_install_packages }}"
+    state: "present"
+    executable: pip{{ python_version[0] }}
+  when: pip_install_packages is defined and use_virtualenv == "no"
+
+- name: Install pip packages into virtualenv python env
+  pip:
+    name: "{{ pip_install_packages }}"
+    state: "present"
+    virtualenv: "{{ virtualenv_path }}"
+    virtualenv_python: "python{{ python_version[0] }}"
+    virtualenv_command: "virtualenv-{{ python_version[0] }}"
+  when: pip_install_packages is defined and use_virtualenv == "yes"

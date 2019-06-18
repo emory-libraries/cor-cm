@@ -1,0 +1,70 @@
+---
+- name: Determine the system gem path
+  command: >
+    gem env gemdir
+  changed_when: False
+  register: system_gem_path
+
+- name: Install Passenger Ruby gem
+  gem:
+    name: passenger
+    user_install: no
+    state: present
+    version: "{{ passenger_version }}"
+
+- name: Ensure packages needed to build Passenger Apache module are installed
+  yum:
+    name: "{{ apachemod_build_packages }}"
+    state: present
+
+- name: Install Passenger Apache HTTPD Module
+  command: >
+    passenger-install-apache2-module --auto
+    creates={{ system_gem_path.stdout }}/gems/passenger-{{ passenger_version }}/buildout/apache2/mod_passenger.so
+  register: passenger_mod_install_status
+
+- name: Generate Passenger Apache HTTPD config file
+  command: >
+    passenger-install-apache2-module --snippet
+  when: passenger_mod_install_status.changed == true
+  register: passenger_config
+
+- name: Put in place the Passenger Apache HTTPD config file
+  copy:
+    content: "{{ passenger_config.stdout }}"
+    dest: /etc/httpd/conf.d/passenger.conf
+  when: passenger_mod_install_status.changed == true
+
+- name: Configure Passenger to accept encoded slashes
+  lineinfile:
+    dest: /etc/httpd/conf.d/passenger.conf
+    line: "  PassengerAllowEncodedSlashes on"
+    insertbefore: </IfModule>
+    state: present
+  notify:
+    - restart httpd
+
+- name: Set Passenger Instance Registry Directory in passenger.conf
+  lineinfile:
+    dest: /etc/httpd/conf.d/passenger.conf
+    line: "  PassengerInstanceRegistryDir {{ passenger_inst_reg_dir }}"
+    insertbefore: </IfModule>
+    state: present
+  notify:
+    - restart httpd
+
+- name: Put in place Passenger Instance Registry Directory environment variable
+  lineinfile:
+    dest: /etc/profile
+    regexp: "^(export PASSENGER_INSTANCE_REGISTRY_DIR=)"
+    state: present
+    line: "export PASSENGER_INSTANCE_REGISTRY_DIR={{ passenger_inst_reg_dir }}"
+
+- name: Change default Passenger Timeout
+  lineinfile:
+    dest: /etc/httpd/conf.d/passenger.conf
+    line: "  PassengerStartTimeout 400"
+    insertbefore: </IfModule>
+    state: present
+  notify:
+    - restart httpd

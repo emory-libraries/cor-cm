@@ -18,7 +18,7 @@
     - role: wm_role_iam_s3
       delegate_to: localhost
 
-    - role: wm_role_manage_s3_bucket
+    - role: wm_role_manage_sg_s3_bucket 
       delegate_to: localhost
 
     - role: wm_role_manage_efs

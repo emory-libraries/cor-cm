@@ -20,7 +20,7 @@ Please take note of the following assumptions:
 * project-specific variables for this role can be defined in a __vars__ file with a name following the format of `projectname_envname.yml`
     * an example vars file is available in `vars/exampleproj_test.yml`
     * this vars file will contain sensitive information and should be encrypted with ansible-vault
-    * NOTE: if you choose not to use the vars file for including the variable definitions, they should be defined in the playbook file 
+    * NOTE: if you choose not to use the vars file for including the variable definitions, they should be defined in the playbook file
 
 ## Role Variables
 
@@ -50,6 +50,20 @@ Variables that **do** need to be defined in the project vars file:
 * `fedora_server_fqdn` - defines the fully qualified domain name of the Fedora repository server
 
 An example vars file is available as a part of this role, named `exampleproj_test.yml`
+
+## Fedora Download URL Note
+
+The default value for the `fedora_url` variable is:
+
+`https://github.com/fcrepo4/fcrepo4/releases/download/fcrepo-{{ fedora_version }}/fcrepo-webapp-{{ fedora_version }}.war`
+
+If you are affiliated with UCLA, you have the option of overriding this default url value with:
+
+`http://pkgs.library.ucla.edu/fedora/fcrepo-webapp-{{ fedora_version }}.war`
+
+Versions of Fedora available via the UCLA URL are:
+
+* `4.7.5`
 
 ## Dependencies
 

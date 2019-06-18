@@ -1,0 +1,22 @@
+---
+- name: Check if passenger is installed and version
+  shell: passenger --version
+  register: _passenger_version
+  failed_when: false
+
+- set_fact:
+    passenger_is_same_version: yes
+  when:
+    - "'Passenger' in _passenger_version.stdout"
+    - _passenger_version.stdout | regex_search(get_version_number) is version(passenger_version, 'eq')
+  vars:
+    get_version_number: (?:(?:\d+|[a-z])[.-]){2,}(?:\d+|[a-z])
+
+- name: Check if passenger is enabled in apache
+  shell: httpd -M | grep passenger
+  register: _passenger_apache_check
+  failed_when: false
+
+- set_fact:
+    passenger_is_enabled_in_apache: yes
+  when: "'passenger_module' in _passenger_apache_check.stdout"

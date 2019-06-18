@@ -19,20 +19,20 @@
 
 - name: Create MySQL databases
   mysql_db:
-    login_host: "{{ _mysql_db.login_host | default (mysql_db_login_host) }}"
-    login_user: "{{ _mysql_db.login_user | default (mysql_db_login_user) }}"
-    login_password: "{{ _mysql_db.login_password | default (mysql_db_login_password) }}"
+    login_host: "{{ _mysql_db.login_host | d (hostvars[rds_host]['endpoint']['address']) }}"
+    login_user: "{{ _mysql_db.login_user | d (hostvars[rds_host]['rds_master_username']) }}"
+    login_password: "{{ _mysql_db.login_password | d (hostvars[rds_host]['rds_master_password']) }}"
     name: "{{ _mysql_db.name }}"
     state: "{{ db_state }}"
 
 - name: Create MySQL users and grant priv
   mysql_user:
-    login_host: "{{ _mysql_db.login_host | default (mysql_db_login_host) }}"
-    login_user: "{{ _mysql_db.login_user | default (mysql_db_login_user) }}"
-    login_password: "{{ _mysql_db.login_password | default (mysql_db_login_password) }}"
+    login_host: "{{ _mysql_db.login_host | d (hostvars[rds_host]['endpoint']['address']) }}"
+    login_user: "{{ _mysql_db.login_user | d (hostvars[rds_host]['rds_master_username']) }}"
+    login_password: "{{ _mysql_db.login_password | d (hostvars[rds_host]['rds_master_password']) }}"
     name: "{{ _mysql_db.user }}"
     password: "{{ _mysql_db.password }}"
     priv: '{{ _mysql_db.name }}.*:ALL'
     state: "{{ db_user_state }}"
-    host: "{{ _mysql_db.host | d(ec2_private_ip) | d('localhost') }}"
+    host: "{{ _mysql_db.host | d(hostvars[inventory_hostname]['private_ip_address']) | d('localhost') }}"
     host_all: "{{ mysql_host_all }}"

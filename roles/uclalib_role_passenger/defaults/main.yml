@@ -6,5 +6,10 @@ apachemod_build_packages:
   - httpd-devel
   - apr-devel
   - apr-util-devel
+  - zlib-devel
+  - gcc
+  - openssl-devel
+  - libcurl-devel
+  - gcc-c++
 
 passenger_inst_reg_dir: "/var/run"

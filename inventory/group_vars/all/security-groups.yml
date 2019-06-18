@@ -1,0 +1,140 @@
+---
+sg_pre: "security-group-{{ aws_region }}"
+sg_managed: "** This security group is managed by Ansible, any manual changes may be overridden **"
+ec2_groups:
+  - name: "{{ sg_pre }}-tp-apache-ssh"
+    rules: 
+      - proto: tcp
+        ports:
+          - 80
+          - 443
+          - 22
+        cidr_ip: 0.0.0.0/0
+        cidr_ipv6: ::/0
+        rule_desc: Open apache websever and SSH ports to internet
+    rules_egress:
+      - proto: tcp
+        ports:
+          - 80
+          - 443
+          - 22
+        cidr_ip: 0.0.0.0/0
+        cidr_ipv6: ::/0
+        rule_desc: Open apache websever ports to internet
+    description: "HTTP/HTTPS, SSH traffic  {{ sg_managed }}"
+  - name: "{{ sg_pre }}-t-mysql"
+    description: "Connection to test MySQL instances {{ sg_managed }}"
+    rules:
+      - proto: tcp
+        ports: 3306
+        group_name: "{{ sg_pre }}-t-mysql"
+        rule_desc: MySQL
+    rules_egress:
+      - proto: tcp
+        ports: 3306
+        group_name: "{{ sg_pre }}-t-mysql"
+        rule_desc: MySQL
+  - name: "{{ sg_pre }}-p-mysql"
+    description: "Connection to production MySQL instances {{ sg_managed }}"
+    rules:
+      - proto: tcp
+        ports: 3306
+        group_name: "{{ sg_pre }}-p-mysql"
+        rule_desc: MySQL
+    rules_egress:
+      - proto: tcp
+        ports: 3306
+        group_name: "{{ sg_pre }}-p-mysql"
+        rule_desc: MySQL
+  - name: "{{ sg_pre }}-t-nfs"
+    description: "Connection to test NFS endpoint {{ sg_managed }}"
+    rules:
+      - proto: tcp
+        ports: 2049
+        group_name: "{{ sg_pre }}-t-nfs"
+        rule_desc: NFS
+    rules_egress:
+      - proto: tcp
+        ports: 2049
+        group_name: "{{ sg_pre }}-t-nfs"
+        rule_desc: NFS
+  - name: "{{ sg_pre }}-p-nfs"
+    description: "Connection to production NFS endpoint {{ sg_managed }}"
+    rules:
+      - proto: tcp
+        ports: 2049
+        group_name: "{{ sg_pre }}-p-nfs"
+        rule_desc: NFS
+    rules_egress:
+      - proto: tcp
+        ports: 2049
+        group_name: "{{ sg_pre }}-p-nfs"
+        rule_desc: NFS
+  - name: "{{ sg_pre }}-t-redis"
+    description: "Connection to test redis/elasticache instances {{ sg_managed }}"
+    rules:
+      - proto: tcp
+        ports: 6379
+        group_name: "{{ sg_pre }}-t-redis"
+        rule_desc: Redis
+    rules_egress:
+      - proto: tcp
+        ports: 6379
+        group_name: "{{ sg_pre }}-t-redis"
+        rule_desc: Redis
+  - name: "{{ sg_pre }}-p-redis"
+    description: "Connection to production redis/elasticache instances {{ sg_managed }}"
+    rules:
+      - proto: tcp
+        ports: 6379
+        group_name: "{{ sg_pre }}-p-redis"
+        rule_desc: Redis
+    rules_egress:
+      - proto: tcp
+        ports: 6379
+        group_name: "{{ sg_pre }}-p-redis"
+        rule_desc: Redis
+  - name: "{{ sg_pre }}-t-zookeeper"
+    description: "Connection to test zookeeper instances {{ sg_managed }}"
+    rules:
+      - proto: tcp
+        ports: [2181, 2888, 3888]
+        group_name: "{{ sg_pre }}-t-zookeeper"
+        rule_desc: ZK internal communications
+      - proto: tcp
+        ports: 8082
+        cidr_ip: 0.0.0.0/0
+        rule_desc: ZK admin console
+    rules_egress:
+      - proto: tcp
+        ports: [2181, 2888, 3888]
+        group_name: "{{ sg_pre }}-t-zookeeper"
+        rule_desc: ZK internal communications
+      - proto: tcp
+        ports: 8082
+        cidr_ip: 0.0.0.0/0
+        rule_desc: ZK admin console
+  - name: "{{ sg_pre }}-t-solr"
+    description: "Connection to test solr instances {{ sg_managed }}"
+    rules:
+      - proto: tcp
+        ports: 8983
+        group_name: "{{ sg_pre }}-t-solr"
+        rule_desc: SOLR
+    rules_egress:
+      - proto: tcp
+        ports: 8983
+        group_name: "{{ sg_pre }}-t-solr"
+        rule_desc: SOLR
+  - name: "{{ sg_pre }}-p-solr"
+    description: "Connection to production solr instances {{ sg_managed }}"
+    rules:
+      - proto: tcp
+        ports: 8983
+        group_name: "{{ sg_pre }}-p-solr"
+        rule_desc: SOLR
+    rules_egress:
+      - proto: tcp
+        ports: 8983
+        group_name: "{{ sg_pre }}-p-solr"
+        rule_desc: SOLR

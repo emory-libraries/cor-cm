@@ -1,0 +1,44 @@
+---
+
+- name: Download FITS Web Service WAR file
+  get_url:
+    url: "{{ fits_webservice_war_url }}"
+    dest: "{{ fits_webservice_install_path }}/webapps/fits.war"
+    owner: "{{ fits_user }}"
+    group: "{{ fits_user }}"
+    mode: "0644"
+
+- name: Put in place log4j configuration file
+  template:
+    src: "log4j.properties.j2"
+    dest: "{{ fits_log4j_path }}/log4j.properties"
+    owner: "{{ fits_user }}"
+    group: "{{ fits_user }}"
+    mode: "0644"
+
+- name: Set FITS home directory in catalina.properties
+  lineinfile:
+    path: "{{ fits_webservice_install_path }}/conf/catalina.properties"
+    line: "fits.home={{ fits_install_path }}"
+    insertafter: "EOF"
+    state: "present"
+
+- name: Set FITS lib directory in catalina.properties
+  lineinfile:
+    path: "{{ fits_webservice_install_path }}/conf/catalina.properties"
+    line: "shared.loader=${fits.home}/lib/*.jar"
+    insertafter: "EOF"
+    state: "present"
+
+- name: Set FITS log4j config file in catalina.properties
+  lineinfile:
+    path: "{{ fits_webservice_install_path }}/conf/catalina.properties"
+    line: "log4j.configuration=file:{{ fits_log4j_path }}/log4j.properties"
+    insertafter: "EOF"
+    state: "present"
+
+- name: Start and enable the FITS tomcat service
+  service:
+    name: fits
+    state: started
+    enabled: yes

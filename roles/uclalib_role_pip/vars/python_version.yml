@@ -1,0 +1,8 @@
+---
+
+python_base_packages:
+  - python{{ python_version }}
+  - python{{ python_version }}-setuptools
+  - python{{ python_version }}-devel
+  - python{{ python_version }}-pip
+  - python{{ python_version }}-virtualenv

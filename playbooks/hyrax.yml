@@ -20,14 +20,14 @@
     - { role: uclalib_role_clamav } #The Pip role was behind here
     - { role: dce_role_rds_mysql }
     - { role: uclalib_role_imagemagick }
-    - { role: uclalib_role_libreoffice }
+#    - { role: uclalib_role_libreoffice }
     - { role: uclalib_role_ffmpeg }
     - { role: uclalib_role_fits }
     - { role: uclalib_role_nodejs }
 ##    - { role: uclalib_role_rhelscl }
     - { role: emorylib_role_install_ruby_scl }
 ##    - { role: uclalib_role_ruby, ruby_version: '2.5.1' }
-#    - { role: uclalib_role_passenger }
+    - { role: uclalib_role_passenger }
     - { role: uclalib_role_yarn }
     - { role: uclalib_role_redis }
     - { role: uclalib_role_samvera_capdeploy }

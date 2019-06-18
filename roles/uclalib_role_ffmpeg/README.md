@@ -22,6 +22,21 @@ Role Variables
 
 * `ffmpeg_user_path_dir` - define the directory to place a symblink in the user path
 
+FFMpeg Download URL Note
+------------------------
+
+The default value for the `ffmpeg_download_url` variable is:
+
+`https://johnvansickle.com/ffmpeg/releases/ffmpeg-{{ ffmpeg_version }}-64bit-static.tar.xz`
+
+If you are affiliated with UCLA, you have the option of overriding this default url value with:
+
+`http://pkgs.library.ucla.edu/ffmpeg/ffmpeg-{{ ffmpeg_version }}-64bit-static.tar.xz`
+
+Versions of FFMpeg available via the UCLA URL are:
+
+* `4.1`
+
 Dependencies
 ------------
 
