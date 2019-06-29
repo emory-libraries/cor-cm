@@ -28,8 +28,8 @@ util-cor-test.library.emory.edu
 util-cor.library.emory.edu
 
 [rds]
-cor-test-mysql-db
-cor-test2-db
+dlp-tst-rdsmys-sz
+dlp-prd-rdsmys-mz
 
 [curate]
 curate-test.library.emory.edu

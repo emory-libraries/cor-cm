@@ -1,0 +1,5 @@
+rds_storage_encrypted: yes
+rds_master_username: "{{ vault_dlptst_master_username }}"
+rds_master_password: "{{ vault_dlptst_master_password }}"
+rds_vpc_security_group_ids:
+  - "{{ sg_pre }}-t-mysql"
