@@ -2,13 +2,12 @@ use_dynamic: no
 git_repo_url: "https://github.com/emory-libraries/dlp-curate"
 git_repo_branch: "master"
 enable_ssl: "yes"
-ec2_key_name: library_team.pem
-#ec2_efs: fs-53e2584a.efs.us-west-1.amazonaws.com
+ec2_efs: fs-53e2584a.efs.us-west-1.amazonaws.com
 hyrax_symdir: "/mnt/efs/{{ project_name }}"
 additional_assertion_bindings:
   - "curate-test.library.emory.edu"
 
-#ec2_instance_role: access-to-binaries
+ec2_instance_role: access-to-binaries
 use_s3_java: yes
 java_platform: oracle
 

@@ -1,4 +1,4 @@
-[us-east-1:children]
+[us-west-1:children]
 fedora
 util
 curate
