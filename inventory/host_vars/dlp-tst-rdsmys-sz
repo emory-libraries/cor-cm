@@ -2,4 +2,10 @@ rds_storage_encrypted: yes
 rds_master_username: "{{ vault_dlptst_master_username }}"
 rds_master_password: "{{ vault_dlptst_master_password }}"
 rds_vpc_security_group_ids:
-  - "{{ sg_pre }}-t-mysql"
+  - sg-08b5824d989663aac 
+rds_engine_version: 5.7.22
+rds_allocated_storage: 30
+rds_db_instance_class: db.t3.small
+rds_preferred_backup_window: "07:00-08:00"
+rds_preferred_maintenance_window: "Sun:05:00-Sun:06:59"
+rds_db_subnet_group_name: dlp-rdsmys-subnet

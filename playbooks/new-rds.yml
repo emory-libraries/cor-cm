@@ -1,4 +1,4 @@
-- hosts: rds:!tag_RDS
+- hosts: rds
   gather_facts: false
 
   roles:
