@@ -1,7 +1,7 @@
 ---
 sg_pre: "security-group-{{ aws_region }}"
 sg_managed: "** This security group is managed by Ansible, any manual changes may be overridden **"
-ec2_groups:
+ec2_groups: #manage-sg
   - name: "{{ sg_pre }}-tp-apache"
     description: "HTTP/HTTPS  {{ sg_managed }}"
     rules:

@@ -1,11 +1,11 @@
-s3_buckets:
+s3_buckets: #manage-s3-bucket
   - name: emory-ltds-binaries
   - name: fedora-cor-bucket
   - name: fedora-cor-test-bucket
 
 get_s3_bucket_name: emory-ltds-binaries
 
-iam_policies:
+iam_policies: #iam-manage-policy
   - policy_name: AccessToBinariesBucket
     policy_template_path: iam_policy_s3_bucket_access_json.j2
     resource: emory-ltds-binaries
@@ -16,7 +16,7 @@ iam_policies:
     policy_template_path: iam_policy_s3_bucket_access_json.j2
     resource: fedora-cor-bucket
 
-iam_roles:
+iam_roles: #iam-manage-role
   - name: general-ec2-role
     managed_policy: 
       - AccessToBinariesBucket
@@ -31,20 +31,20 @@ iam_roles:
 #    managed_policy:
 #      - AccessToFedoraCorTestBucket
 
-iam_certs:
-  - name: cor-sar-cert
+iam_certs: #manage-iam-cert
+  - name: dlp-general-cert
     key: "{{ ssl_files.key }}"
     interm: "{{ ssl_files.interm }}"
     cert: "{{ ssl_files.crt }}"
 
-efs_mounts:
-  - name: rails-test-efs 
+efs_mounts: #manage-efs-mount
+  - name: dlp-test-efs 
     targets:
       - subnet_id: "{{ ec2_vpc_subnet_id }}"
         security_groups:
-          - sg-051b28141aec1f413
-  - name: rails-prod-efs
+          - sg-0d218ac2c9bd95453
+  - name: dlp-prod-efs
     targets:
       - subnet_id: "{{ ec2_vpc_subnet_id }}"
         security_groups:
-          - sg-051b28141aec1f413
+          - sg-0ceaebfaef6068ee6 

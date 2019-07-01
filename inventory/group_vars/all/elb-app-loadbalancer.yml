@@ -1,5 +1,5 @@
 ---
-elb_application_lbs:
+elb_application_lbs: #Module is not working currently
   - name: main-elb
     security_groups:
       - 'http/https'

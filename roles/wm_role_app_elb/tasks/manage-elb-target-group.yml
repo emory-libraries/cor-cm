@@ -2,7 +2,7 @@
 - name: Manage ELB target group
   elb_target_group:
     name: "{{ item.name }}"
-    port: "{{ item.port | d (omit) }}"
+    port: "{{ item.port if item.port is defined else 80 if item.protocol == 'http' else 443 if item.protocol == 'https' else omit }}" 
     protocol: "{{ item.protocol | d (omit) }}"
     region: "{{ item.region | d (aws_region) | d (omit) }}"
     state: "{{ item.state | d ('present') }}"
