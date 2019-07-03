@@ -23,3 +23,6 @@
 
     - role: wm_role_manage_efs
       delegate_to: localhost
+
+    - role: ansible-role-acm-cert
+      delegate_to: localhost

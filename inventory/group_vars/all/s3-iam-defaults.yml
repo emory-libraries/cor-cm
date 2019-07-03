@@ -1,9 +1,9 @@
 s3_buckets: #manage-s3-bucket
-  - name: emory-ltds-binaries
-  - name: fedora-cor-bucket
-  - name: fedora-cor-test-bucket
+  - name: cor-devops-binaries 
+  - name: fedora-cor-binaries
+  - name: fedora-cor-test-binaries
 
-get_s3_bucket_name: emory-ltds-binaries
+get_s3_bucket_name: cor-devops-binaries 
 
 iam_policies: #iam-manage-policy
   - policy_name: AccessToBinariesBucket
@@ -47,4 +47,12 @@ efs_mounts: #manage-efs-mount
     targets:
       - subnet_id: "{{ ec2_vpc_subnet_id }}"
         security_groups:
-          - sg-0ceaebfaef6068ee6 
+          - sg-0ceaebfaef6068ee6
+
+acm_certs: #manage-acm
+  - name: dlp-general-cert
+    domain_name: dlp.library.emory.edu
+    certificate: "{{ ssl_files.crt }}"
+    private-key: "{{ ssl_files.key }}"
+    certificate-chain: "{{ ssl_files.interm }}"
+    certificate-arn: "arn:aws:acm:us-east-1:556359784184:certificate/4f7e53e0-4503-4365-9277-0314e9f7f9d8"

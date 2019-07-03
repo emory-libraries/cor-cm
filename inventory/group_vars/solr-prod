@@ -1,8 +1,15 @@
-elb_targets: 
-  - target_group_name: solr-prod-cluster
-  - target_group_name: solr-prod-cluster-80
 
+elb_targets: 
+  - target_group_name: solr-prod-cluster-80
+ec2_efs: fs-a1416442.efs.us-east-1.amazonaws.com 
+solr_data_dir: "/mnt/efs/{{ solr_service_name }}"
 solr_alias: solr-cor.library.emory.edu
+
+ec2_security_groups:
+  - "{{ sg_pre }}-tp-apache-ssh"
+  - "{{ sg_pre }}-p-nfs"
+  - "{{ sg_pre }}-p-zookeeper"
+  - "{{ sg_pre }}-p-solr"
 
 zk_version: 3.5.5
 zk_inventory_group: solr-prod

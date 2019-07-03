@@ -1,0 +1,9 @@
+- include_tasks: 
+    file: import.yml
+    apply:
+      tags: manage-acm
+  with_items: "{{ acm_certs }}"
+  loop_control:
+    loop_var: cert_item
+  tags: manage-acm
+

@@ -4,7 +4,7 @@ ec2_security_groups:
 
 vpc_id: vpc-08bd68a1c66222de4
 
-ec2_key_name: "{{ vault_ec2_key_name }}"
+ec2_key_name: "library_team.pem"
 ec2_vpc_subnet_id: subnet-05de0c14a43d82ecc
 ec2_assign_public_ip: False #Boolean
 

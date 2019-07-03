@@ -1,0 +1,53 @@
+- name: Get certificate facts
+  aws_acm_facts:
+    region: "{{region}}"
+#    profile: "{{ profile|default(omit) }}"
+    domain_name: "{{ cert_item.domain_name }}"
+  register: acm_item_cert_fact
+
+- name: Set fact acm_item_certificate_arn
+  set_fact:
+    acm_item_certificate_arn: "{{ acm_item_cert_fact.certificates[0].certificate_arn }}"
+  when: acm_item_cert_fact.certificates
+
+- name: Set fact acm_item_certificate_arn
+  set_fact:
+    acm_item_certificate_arn: "{{ cert_item['certificate-arn'] }}"
+  when: cert_item['certificate-arn']|default()
+
+#- name: Generate tempfile for copying cert
+#  tempfile:
+#    state: file
+#    suffix: private_key
+#  register: tempfile
+
+#- name: Copy private key to tempfile
+#  copy:
+#    content: "{{ cert_item['private-key'] }}" #switched from src
+#    dest: "{{ tempfile.path }}"
+
+- name: Import certificate into aws ACM
+  shell: >
+    aws acm import-certificate --certificate {{ cert_item['certificate'] | quote }}
+    --private-key "{{ cert_item['private-key'] }}"
+    {{ '--certificate-chain ' + cert_item['certificate-chain'] | quote if cert_item['certificate-chain']|default() else '' }}
+    {{ '--certificate-arn ' + acm_item_certificate_arn if acm_item_certificate_arn|default() else '' }}
+    {{ '--region ' + region if region else '' }}
+  register: import_cert_out
+
+#- name: Clean up tempfile
+#  file:
+#    path: "{{ tempfile.path }}"
+#    state: absent
+
+- set_fact:
+    acm_item_cert_arn: "{{ (import_cert_out.stdout|from_json).CertificateArn }}"
+
+- debug:
+    var: acm_item_cert_arn
+
+- name: Update certificate tag Name
+  shell: >
+    aws acm add-tags-to-certificate --certificate-arn {{ acm_item_cert_arn }}
+    --tags Key=Name,Value={{ cert_item['name'] }}
+    {{ '--region ' + region if region else '' }}

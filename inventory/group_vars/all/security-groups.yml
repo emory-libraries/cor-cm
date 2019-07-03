@@ -108,6 +108,26 @@ ec2_groups: #manage-sg
         ports: 6379
         group_name: "{{ sg_pre }}-p-redis"
         rule_desc: Redis
+  - name: "{{ sg_pre }}-p-zookeeper"
+    description: "Connection to production zookeeper instances {{ sg_managed }}"
+    rules:
+      - proto: tcp
+        ports: [2181, 2888, 3888]
+        group_name: "{{ sg_pre }}-p-zookeeper"
+        rule_desc: ZK internal communications
+      - proto: tcp
+        ports: 8082
+        cidr_ip: 0.0.0.0/0
+        rule_desc: ZK admin console
+    rules_egress:
+      - proto: tcp
+        ports: [2181, 2888, 3888]
+        group_name: "{{ sg_pre }}-p-zookeeper"
+        rule_desc: ZK internal communications
+      - proto: tcp
+        ports: 8082
+        cidr_ip: 0.0.0.0/0
+        rule_desc: ZK admin console
   - name: "{{ sg_pre }}-t-zookeeper"
     description: "Connection to test zookeeper instances {{ sg_managed }}"
     rules:
