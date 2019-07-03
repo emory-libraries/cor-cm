@@ -1,10 +1,10 @@
 
 elb_targets: 
   - target_group_name: solr-prod-cluster-80
-ec2_efs: fs-a1416442.efs.us-east-1.amazonaws.com 
-solr_data_dir: "/mnt/efs/{{ solr_service_name }}"
+#ec2_efs: fs-a1416442.efs.us-east-1.amazonaws.com 
+#solr_data_dir: "/mnt/efs/{{ solr_service_name }}"
 solr_alias: solr-cor.library.emory.edu
-
+solr_host_naming: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
 ec2_security_groups:
   - "{{ sg_pre }}-tp-apache-ssh"
   - "{{ sg_pre }}-p-nfs"
