@@ -1,11 +1,27 @@
 ---
 # tasks file for wm_role_ebs_volume
-- name: Check if volume exists
-  include_tasks: check-if-volume-exists.yml
+- name: Call tasks to query for volumes
+  include_tasks: 
+    file: check-if-volume-exists.yml
+    apply:
+      delegate_to: localhost
 
-- name: Manage volumes
+- name: Call tasks to manage ec2_volumes
   include_tasks:
     file: create-or-destroy-volumes.yml
     apply:
+      delegate_to: localhost
       tags: manage-volume
   tags: manage-volume
+
+- name: Call tasks to gather facts and check disks
+  include_tasks: 
+    file: gather-facts-check-disks.yml
+    apply:
+      become: yes
+
+- name: Test
+  include_tasks:
+    file: capture-UUID-vol-id.yml
+    apply:
+      become: yes

@@ -1,0 +1,24 @@
+---
+- name: Download scipt to identify volume id
+  get_url: 
+
+- name: Query for volume id
+
+- name: Generate UUID for non-root disks
+  shell: blkid | grep /dev/{{ item }}
+  loop: "{{ non_root_disks }}"
+  register: blkid_facts
+
+- name: Generate new list with uuid and disk name
+  set_fact:
+    _uuid: "{{ item.stdout.split(' ')[1] | regex_search(get_between_quotes) }}"
+    _disk: "{{ item._ansible_item_label }}"
+  vars:
+    get_between_quotes: (?<=\")(.*?)(?=\")
+  loop: "{{ blkid_facts.results }}"
+  register: temp_list_facts
+
+- name: Capture UUID from temp list facts 
+  set_fact:
+    _disks_uuid: "{{ _disks_uuid | d ([]) + [{ 'disk_name': item.ansible_facts._disk, 'uuid': item.ansible_facts._uuid }] }}"
+  loop: "{{ temp_list_facts.results }}"
