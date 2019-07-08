@@ -1,0 +1,30 @@
+---
+- name: Check if ec2 is stopped
+  debug:
+    msg: "{{ inventory_hostname }} exists ({{ instance_id }}) but is stopped. {{ state_transition_reason }} Please start instance"
+  when: state.name == "stopped" | d (False)
+
+- name: Change ec2 state to start if instances are stopped
+  set_fact:
+    ec2_state: started
+    ec2_instance_ids: "{{ instance_id }}"
+  when: state.name == "stopped" | d (False)
+
+#- name: Check if EC2 exists
+#  ec2_instance_facts:
+#    filters:
+#      "tag:Name": "{{ inventory_hostname }}"
+#      instance-state-name: [ "running" ]
+#  register: ec2_check
+
+#- name: Set ec2 variables
+#  set_fact:
+#    ec2_private_ip: "{{ ec2_check | json_query(query) | join (' ')  }}"
+#    ec2_state_name: "{{ ec2_check | json_query(query2) | join (' ') }}"
+#    ec2_id: "{{ ec2_check | json_query(query3) | join (' ') }}"
+#    ec2_public_ip: "{{ ec2_check | json_query(query4) | join (' ')  }}"
+#  vars:
+#    query: "instances[?tags.Name=='{{ inventory_hostname }}'].private_ip_address"
+#    query2: "instances[?tags.Name=='{{ inventory_hostname }}'].state.name"
+#    query3: "instances[?tags.Name=='{{ inventory_hostname }}'].instance_id"
+#    query4: "instances[?tags.Name=='{{ inventory_hostname }}'].public_ip_address"

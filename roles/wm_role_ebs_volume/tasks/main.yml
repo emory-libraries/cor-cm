@@ -1,0 +1,11 @@
+---
+# tasks file for wm_role_ebs_volume
+- name: Check if volume exists
+  include_tasks: check-if-volume-exists.yml
+
+- name: Manage volumes
+  include_tasks:
+    file: create-or-destroy-volumes.yml
+    apply:
+      tags: manage-volume
+  tags: manage-volume

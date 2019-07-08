@@ -1,0 +1,33 @@
+---
+- name: Query for volumes
+  ec2_vol_facts:
+    filters:
+      "tag:Name": "{{ item.volume_name }}"
+  register: ec2_volume_results
+  loop: "{{ ec2_volumes }}"
+
+- debug:
+    var: ec2_volume_results.results
+
+- include_tasks:
+    file:  set-vars-if-volume-exists.yml
+  loop: "{{ ec2_volume_results.results }}"
+  when: item.volumes is defined and item.volumes != []
+
+#- name: Build list of volume ids if found
+#  set_fact:
+#    __temp_list: "{{ __temp_list | d ([])  + [ {'volume_name': item.volumes[0].tags.Name, 'id': item.volumes[0].id }] }}"
+#  loop: "{{ ec2_volume_results.results }}"
+##  when: item.volumes is defined and item.volumes != []
+
+#- name: Set temp ec2_volumes
+#  set_fact:
+#    _ec2_volumes: "{{ item | combine( __temp_list | selectattr('volume_name', 'eq', item.volume_name) | first )}}"
+#  loop: "{{ ec2_volumes }}"
+##  when: item.volumes is defined and item.volumes != []
+#  register: _temp_ec2_volumes
+
+#- name: Set ec2_volumes with volume id
+#  set_fact:
+#    ec2_volumes: "{{ _temp_ec2_volumes.results | map(attribute='ansible_facts._ec2_volumes') | list }}"
+#  loop: "{{ ec2_volume_results.results }}"

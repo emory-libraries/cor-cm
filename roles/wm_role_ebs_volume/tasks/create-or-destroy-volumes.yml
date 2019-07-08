@@ -1,0 +1,29 @@
+---
+- name: Manange ec2 volumes
+  ec2_vol: #module does not allow AWS_PROFILE, need work around
+    aws_access_key: "{{ lookup('ini', 'aws_access_key_id section={{ aws_profile | d (aws_default_profile)  }} file=~/.aws/credentials') }}"
+    aws_secret_key: "{{ lookup('ini', 'aws_secret_access_key section={{ aws_profile | d (aws_default_profile)  }} file=~/.aws/credentials') }}"
+    security_token: "{{ lookup('ini', 'aws_session_token section={{ aws_profile | d (aws_default_profile)  }} file=~/.aws/credentials') }}"
+    name: "{{ item.volume_name | d (omit) }}"
+    tags:
+      "tags:Name": "{{ item.volume_name | d (omit) }}"
+    id: "{{ omit if item.instance is undefined else omit if item.instance is defined and item.instance != 'None' else item.id }}"
+    device_name: "{{ item.device_name | d (omit) }}"
+    instance: "{{ item.instance | d (hostvars[inventory_hostname]['instance_id']) | d (omit) }}"
+    encrypted: "{{ item.encrypted | d (ec2_vol_encrypted) | d (omit) }}"
+    kms_key_id: "{{ item.kms_key_id | d (ec2_vol_kms_key_id) | d (omit) }}"
+    volume_type: "{{ item.volume_type | d ('gp2') }}"
+    volume_size: "{{ omit if item.instance is defined and item.instance == 'None' else item.volume_size if item.volume_size is defined else ec2_vol_volume_size if ec2_vol_volume_size is defined else 50 }}"
+#    volume_size: "{{ item.volume_size | d (ec2_vol_volume_size) | d (omit) }}"
+    state: "{{ item.state | d ('present') }}"
+    region: "{{ item.region | d (aws_region) | d (omit) }}"
+    profile: "{{ lookup('env', 'AWS_PROFILE') | d(lookup('env', 'AWS_DEFAULT_PROFILE')) }}"
+    snapshot: "{{ item.snapshot | d (omit) }}"
+    zone: "{{ item.zone | d (hostvars[inventory_hostname]['availability_zone']) | d (omit) }}"
+    ######## Less Used Options
+    delete_on_termination: "{{ item.delete_on_termination | d (omit) }}"
+    iops: "{{ item.iops | d (omit) }}"
+  loop: "{{ ec2_volumes }}"
+  vars:
+    aws_profile: "{{ lookup('env', 'AWS_PROFILE') }}"
+    aws_default_profile: "{{ lookup('env', 'AWS_DEFAULT_PROFILE') }}"

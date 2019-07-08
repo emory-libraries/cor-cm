@@ -9,7 +9,7 @@
     ebs_optimized: "{{ ec2_ebs_optimized | d (omit) }}"
     filters:
       'tag:Name': "{{ inventory_hostname | d (omit) }}"
-      instance-state-name: running
+      instance-state-name: [running, stopped]
     image: "{{ ec2_image_dict | d (omit) }}"
     image_id: "{{ ec2_image | d (omit) }}"
     instance_ids: "{{ ec2_instance_ids | d (omit) }}"
@@ -47,9 +47,3 @@
     query2: "instances[?tags.Name=='{{ inventory_hostname }}'].state.name"
     query3: "instances[?tags.Name=='{{ inventory_hostname }}'].instance_id"
     query4: "instances[?tags.Name=='{{ inventory_hostname }}'].public_ip_address"
-
-#- name: Create temporary group with ec2_IDs
-#  add_host:
-#    name: "{{ hostvars[item]['ec2_id'] }}"
-#    groups: ec2_ids
-#  loop: "{{ ansible_play_hosts }}"

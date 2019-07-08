@@ -19,5 +19,5 @@
 - src: https://github.com/UCLALibrary/uclalib_role_redis
 #- src: https://github.com/UCLALibrary/uclalib_role_solr7
 - src: https://github.com/UCLALibrary/uclalib_role_yarn
-- src: https://github.com/UCLALibrary/uclalib_role_cantaloupe
+#- src: https://github.com/UCLALibrary/uclalib_role_cantaloupe #Using DCE Fork
 ##- src: https://github.com/UCLALibrary/uclalib_role_rhelscl #Don't use this yet

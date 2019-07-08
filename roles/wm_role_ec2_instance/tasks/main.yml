@@ -2,12 +2,19 @@
 # tasks file for wm_role_ec2_instance
 
 - include_tasks:
+    file: check-if-ec2-exists.yml
+    apply:
+      tags: create-ec2
+  tags: create-ec2
+
+- include_tasks:
     file: set-user-data.yml
     apply:
       tags:
         - create-ec2
   tags:
     - create-ec2
+  when: not state.name | d (True)
 
 - include_tasks:
     file: create-or-terminate-ec2.yml
@@ -16,6 +23,7 @@
         - create-ec2
   tags:
     - create-ec2
+#  when: not ec2_private_ip | d (True)
 
 - include_tasks: 
     file: wait-for-ec2.yml
