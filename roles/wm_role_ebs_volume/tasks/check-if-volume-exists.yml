@@ -3,15 +3,12 @@
   ec2_vol_facts:
     filters:
       "tag:Name": "{{ item.volume_name }}"
-  register: ec2_volume_results
+  register: ec2_volume_fact
   loop: "{{ ec2_volumes }}"
-
-- debug:
-    var: ec2_volume_results.results
 
 - include_tasks:
     file:  set-vars-if-volume-exists.yml
-  loop: "{{ ec2_volume_results.results }}"
+  loop: "{{ ec2_volume_fact.results }}"
   when: item.volumes is defined and item.volumes != []
 
 #- name: Build list of volume ids if found

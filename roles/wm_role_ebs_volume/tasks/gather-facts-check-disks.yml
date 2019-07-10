@@ -1,23 +1,23 @@
 ---
-- name: Gather facts (may need to remove this)
+- name: Gather facts
   setup:
 
-- name: Check for non root disks
+- name: Gather number of non root disks
   shell: lsblk
   register: lsblk_facts
 
 - name: Create list of non root disks
   set_fact:
-    non_root_disks: "{{  lsblk_facts.stdout | regex_findall(get_non_root_disk)}}"
+    non_root_disks: "{{ lsblk_facts.stdout | regex_findall(get_non_root_disk) }}"
   vars:
     get_non_root_disk: "nvme[1-9]n1"
 
 - name: Check for filesystem on non root disks
   shell: file -s /dev/{{ item }}
   loop: "{{ non_root_disks }}"
-  register: non_root_disk_filesystem_facts
+  register: non_root_disk_filesystem_fact
 
 - name: Create filesystem when none exists
   shell: mkfs -t xfs /dev/{{ item._ansible_item_label }}
-  loop: "{{ non_root_disk_filesystem_facts.results }}"
+  loop: "{{ non_root_disk_filesystem_fact.results }}"
   when: "'filesystem' not in item.stdout"

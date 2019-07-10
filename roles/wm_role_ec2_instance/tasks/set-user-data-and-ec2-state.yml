@@ -8,3 +8,8 @@
   set_fact:
     ec2_user_data: "{{ lookup('template', 'user_data_efs_mnt.j2') }}"
   when: ec2_efs | d (False)
+
+- name: Set ec2 state to start stopped instance
+  set_fact:
+    ec2_state: started
+  when: state is defined and state.name == "stopped"

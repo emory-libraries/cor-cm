@@ -3,7 +3,7 @@ solr_cloud_inventory_group: solr-prod
 elb_targets: 
   - target_group_name: solr-prod-cluster-80
 #ec2_efs: fs-a1416442.efs.us-east-1.amazonaws.com 
-#solr_data_dir: "/mnt/efs/{{ solr_service_name }}"
+solr_data_dir: "/opt/data/{{ solr_service_name }}"
 solr_alias: solr-cor.library.emory.edu
 #solr_host_naming: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
 ec2_security_groups:
@@ -22,12 +22,19 @@ ec2_vol_kms_key_id: 44518ec3-7e84-4e64-ae87-bd82b8c27f16
 ec2_vol_encrypted: yes
 
 ec2_volumes: #manage-volume
-  - volume_name: "{{ inventory_hostname_short }}-indexing-volume"
+  - volume_name: "{{ inventory_hostname_short }}-index"
     volume_size: 75
     device_name: /dev/sdf
+    mount:
+      path: /opt/data
+      mode: "774"
 #    instance: None
 #    state: absent
-  - volume_name: "{{ inventory_hostname_short }}-log-volume"
-    device_name: /dev/sdg
+#  - volume_name: "{{ inventory_hostname_short }}-log-volume"
+#    device_name: /dev/sdg
+#    mount:
+#      path: /opt/log
+#      owner: root
+#      mode: "700"
 #    instance: None
 #    state: absent

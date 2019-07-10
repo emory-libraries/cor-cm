@@ -1,20 +1,18 @@
 ---
 # tasks file for wm_role_ec2_instance
+- name: Fail when instance is stopping
+  fail:
+    msg: "Instance is currently stopping! Please run script again in 3 minutes"
+  when: state is defined and state.name == "stopping"
 
 - include_tasks:
-    file: check-if-ec2-exists.yml
-    apply:
-      tags: create-ec2
-  tags: create-ec2
-
-- include_tasks:
-    file: set-user-data.yml
+    file: set-user-data-and-ec2-state.yml 
     apply:
       tags:
         - create-ec2
   tags:
     - create-ec2
-  when: not state.name | d (True)
+  when: state is undefined or state.name == "stopped"
 
 - include_tasks:
     file: create-or-terminate-ec2.yml
@@ -23,7 +21,6 @@
         - create-ec2
   tags:
     - create-ec2
-#  when: not ec2_private_ip | d (True)
 
 - include_tasks: 
     file: wait-for-ec2.yml

@@ -9,7 +9,11 @@
     ebs_optimized: "{{ ec2_ebs_optimized | d (omit) }}"
     filters:
       'tag:Name': "{{ inventory_hostname | d (omit) }}"
-      instance-state-name: [running, stopped]
+      instance-state-name: 
+        - running
+        - stopped
+        - pending
+        - stopping
     image: "{{ ec2_image_dict | d (omit) }}"
     image_id: "{{ ec2_image | d (omit) }}"
     instance_ids: "{{ ec2_instance_ids | d (omit) }}"
