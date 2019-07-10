@@ -1,7 +1,13 @@
+zk_version: 3.5.5
+zk_admin_enableserver: true
+zk_admin_serverport: 8082
+
 tomcat_enable_ssl: "yes"
 enable_ssl: "yes"
 tomcat_major_version: 8
 tomcat_version: 8.5.34
+
+solr_etc_hosts: yes
 solr_version: 7.7.2
 solr_cores: false
 solr_fqdn: "{{ ansible_fqdn }}"
@@ -10,3 +16,12 @@ solr_collections:
     type: hyrax
     shards: 3
     replication_factor: 2
+
+ec2_default_volume:
+  - device_name: /dev/sda1
+    ebs:
+      volume_type: gp2
+      volume_size: 75
+      delete_on_termination: yes
+      kms_key_id: 44518ec3-7e84-4e64-ae87-bd82b8c27f16
+      encrypted: yes

@@ -1,20 +1,10 @@
 project_name: "{{ git_repo_url | urlsplit('path') | basename }}"
-use_dynamic: yes
-idp_name: "prod"
-#project_name: "dlp-curate"
-rds_host: cor-test-mysql-db
+git_repo_url: "https://github.com/emory-libraries/dlp-curate"
+git_repo_branch: "master"
+enable_ssl: "yes"
+hyrax_symdir: "/mnt/efs/{{ project_name }}"
 
-#rails_db_adapter: "mysql2"
-#rails_db_pool: 5
-#rails_db_host: "{{ rds_endpoint }}"
-#rails_db_user_host: "{{ ec2_private_ip }}"
-#project_default_admin_password: "{{ vault_project_default_admin_password }}"
-#contact_email_addr: "test@emory.edu"
-#redis_host: localhost
-#redis_port: 6379
-#enable_ssl: "yes"
-#sidekiq_num_threads: 5
-#aws_region: us-west-1
+idp_name: "prod"
 ssh_pub_keys:
   - https://github.com/devanshu-m.keys
   - https://github.com/mprefer.keys
@@ -51,12 +41,3 @@ dlp_curate_dotenv:
   fedora_password:
   solr_url:
   redis_host:
-
-dlp_curate_mysql_db:
-  name: "{{ vault_test_rails_db_name }}" # Name of the database
-  user: "{{ vault_test_rails_db_user }}" # Database User
-  password: "{{ vault_test_rails_db_pass }}" #Database Password
-
-#mysql_db_login_user: "{{ rds_master_username }}"
-#mysql_db_login_password: "{{ rds_master_password }}"
-#mysql_db_login_host: "{{ rds_endpoint }}" 
