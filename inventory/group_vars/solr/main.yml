@@ -21,7 +21,7 @@ ec2_default_volume:
   - device_name: /dev/sda1
     ebs:
       volume_type: gp2
-      volume_size: 75
+      volume_size: 25
       delete_on_termination: yes
       kms_key_id: 44518ec3-7e84-4e64-ae87-bd82b8c27f16
       encrypted: yes

@@ -1,5 +1,5 @@
-rds_master_username: "{{ vault_dlp_db_master_username }}"
-rds_master_password: "{{ vault_dlp_db_master_password }}"
+rds_master_username: "{{ vault_dlp.db.master_username }}"
+rds_master_password: "{{ vault_dlp.db.master_password }}"
 rds_storage_encrypted: yes
 rds_engine_version: 5.7.22
 rds_db_subnet_group_name: dlp-rdsmys-subnet

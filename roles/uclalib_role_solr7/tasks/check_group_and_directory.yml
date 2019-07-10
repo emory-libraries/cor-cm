@@ -9,6 +9,7 @@
   user:
     name: "{{ solr_user }}"
     comment: Solr User
+    uid: "{{ solr_user_uid | d (1075) }}"
 
 - name: Add solr user to additional groups
   user:
