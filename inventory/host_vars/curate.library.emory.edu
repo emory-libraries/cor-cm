@@ -1,6 +1,7 @@
 ec2_efs: fs-a1416442.efs.us-east-1.amazonaws.com 
 additional_assertion_bindings:
   - "curate-test.library.emory.edu"
+rds_host: dlp-prd-rdsmys-mz
 
 #ec2_instance_role: access-to-binaries
 use_s3_java: yes
