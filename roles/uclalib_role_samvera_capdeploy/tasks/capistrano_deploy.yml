@@ -23,17 +23,9 @@
     apply:
       tags: hyrax-check-db
       become_user: "{{ capistrano_user }}"
+  vars:
+    tee_path: "/tmp/{{ ansible_date_time.epoch }}-{{ step_name }}.txt"
   tags: hyrax-check-db
-
-#- name: Create the rails app default admin set
-#  become_user: "{{ capistrano_user }}"
-#  shell: >
-#    RAILS_ENV=production bundle exec rake hyrax:default_admin_set:create
-#  args:
-#    chdir: "{{ capistrano_base }}/{{ project_name }}/current"
-#  register: admin_set
-#  failed_when: "'NoFail' in admin_set.stdout"
-#  ignore_errors: yes
 
 - name: Create test database for developers' box (optional)
   become_user: "{{ ansible_username }}"
