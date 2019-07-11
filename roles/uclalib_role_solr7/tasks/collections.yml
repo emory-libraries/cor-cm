@@ -1,14 +1,14 @@
 ---
-#- name: Create Solr Collection
-#  become_user: "{{ solr_user }}"
-#  shell: >
-#    {{ solr_base_dir }}/bin/solr create_collection -c {{ item.name }} -s {{ item.shards }} -rf {{ item.replication_factor | d (1) }} -p {{ item.port | d (8983) }}
-#  loop: "{{ solr_collections }}"
-#  run_once: true
-#  register: cc_result
-#  failed_when:
-#    - cc_result.rc != 0
-#    - '"already exists!" not in cc_result.stderr'
+- name: Create Solr Collection
+  become_user: "{{ solr_user }}"
+  shell: >
+    {{ solr_base_dir }}/bin/solr create_collection -c {{ item.name }} -s {{ item.shards }} -rf {{ item.replication_factor | d (1) }} -p {{ item.port | d (8983) }}
+  loop: "{{ solr_collections }}"
+  run_once: true
+  register: cc_result
+  failed_when:
+    - cc_result.rc != 0
+    - '"already exists!" not in cc_result.stderr'
 
 - name: Copy configset to temporary location
   copy:

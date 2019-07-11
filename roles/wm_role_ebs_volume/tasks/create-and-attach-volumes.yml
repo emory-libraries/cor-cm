@@ -1,9 +1,9 @@
 ---
 - name: Manange ec2 volumes
   ec2_vol: #module does not allow AWS_PROFILE, need work around
-    aws_access_key: "{{ lookup('ini', 'aws_access_key_id section={{ aws_profile | d (aws_default_profile)  }} file=~/.aws/credentials') }}"
-    aws_secret_key: "{{ lookup('ini', 'aws_secret_access_key section={{ aws_profile | d (aws_default_profile)  }} file=~/.aws/credentials') }}"
-    security_token: "{{ lookup('ini', 'aws_session_token section={{ aws_profile | d (aws_default_profile)  }} file=~/.aws/credentials') }}"
+    aws_access_key: "{{ lookup('ini', 'aws_access_key_id section={{ aws }} file=~/.aws/credentials') }}"
+    aws_secret_key: "{{ lookup('ini', 'aws_secret_access_key section={{ aws }} file=~/.aws/credentials') }}"
+    security_token: "{{ lookup('ini', 'aws_session_token section={{ aws }} file=~/.aws/credentials') }}"
     name: "{{ item.volume_name | d (omit) }}"
     tags:
       "tags:Name": "{{ item.volume_name | d (omit) }}"
@@ -27,3 +27,4 @@
   vars:
     aws_profile: "{{ lookup('env', 'AWS_PROFILE') }}"
     aws_default_profile: "{{ lookup('env', 'AWS_DEFAULT_PROFILE') }}"
+    aws: "{{ aws_profile if aws_profile != '' else aws_default_profile }}"

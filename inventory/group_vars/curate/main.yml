@@ -21,6 +21,9 @@ dlp_curate_linked_files:
     dest: "{{ capistrano_base }}/{{ project_name }}/shared/.env.production"
     mode: 0644
 
+get_metadata:
+  download: no
+
 dlp_curate_dotenv:
   admin_password:
   contact_us_email: "test@emory.edu"

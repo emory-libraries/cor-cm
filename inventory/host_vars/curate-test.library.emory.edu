@@ -31,8 +31,6 @@ dlp_curate_mysql_db:
 
 sp_entity_id: "https://curate.library.emory.edu"
 idp_name: "prod"
-get_metadata:
-  download: no
 
 ec2_security_groups:
   - "{{ sg_pre }}-tp-apache-ssh"
