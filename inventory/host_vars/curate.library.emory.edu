@@ -3,9 +3,6 @@ additional_assertion_bindings:
   - "curate-test.library.emory.edu"
 rds_host: dlp-prd-rdsmys-mz
 
-#ec2_instance_role: access-to-binaries
-use_s3_java: yes
-
 dlp_curate_dotenv:
   admin_password: "{{ vault_dlp.project.default_admin_password }}"
   contact_us_email: "test@emory.edu"

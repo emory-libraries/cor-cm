@@ -3,7 +3,7 @@ git_repo_url: "https://github.com/emory-libraries/dlp-curate"
 git_repo_branch: "master"
 enable_ssl: "yes"
 hyrax_symdir: "/mnt/efs/{{ project_name }}"
-
+seed_hyrax_db: yes
 idp_name: "prod"
 ssh_pub_keys:
   - https://github.com/devanshu-m.keys

@@ -1,4 +1,5 @@
 ec2_efs: fs-97466374.efs.us-east-1.amazonaws.com
+rds_host: dlp-tst-rdsmys-sz
 
 dlp_curate_dotenv:
   admin_password: "{{ vault_dlp.project.default_admin_password }}"
@@ -13,14 +14,14 @@ dlp_curate_dotenv:
   database_name: "{{ dlp_curate_mysql_db.name }}"
   database_username: "{{ dlp_curate_mysql_db.user }}"
   database_host: "{{ rds_endpoint }}"
-  database_password: "{{ dlp_curate_mysql_db.pass }}"
+  database_password: "{{ dlp_curate_mysql_db.password }}"
   geonames_username: "{{ vault_geonames_username }}"
   project_name: "dlp-curate"
   sidekiq_workers: 5
   fedora_url: "http://fedora-cor-test.library.emory.edu/fcrepo/rest"
   fedora_user: "{{ vault_fedora.admin.user }}"
-  fedora_password: "{{ vault_fedora.admin.password }}"
-  solr_url: "https://util-cor-test.library.emory.edu/solr/curatecore"
+  fedora_password: "{{ vault_fedora.admin.pass }}"
+  solr_url: "http://solr-cor-test.library.emory.edu/solr/curate_collection"
   redis_host: localhost
   redis_port: 6379
 

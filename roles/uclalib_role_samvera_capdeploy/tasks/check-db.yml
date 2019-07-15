@@ -29,9 +29,32 @@
     step_name: check-for-pending-migrations
   register: db_migration
 
-- name: Set fact pending migration
+- name: Set fact for migration status
   set_fact:
     pending_migration: "{{ true if 'down' in db_migration.stdout else false }}"
+    pending_schema: "{{ true if 'Schema migrations table does not exist yet' in db_migration.stderr else false }}"
+
+- block:
+  - name: Load schema if schema pending
+    shell: >
+      RAILS_ENV=production bundle exec rails db:schema:load
+    args:
+      chdir: "{{ capistrano_base }}/{{ project_name }}/current"
+  
+  - name: Check for pending db migrations again if schema was pending
+    shell: >
+      RAILS_ENV=production bundle exec rails db:migrate:status | awk '{ print $1 }' | tee {{ tee_path }}
+    args:
+      chdir: "{{ capistrano_base }}/{{ project_name }}/current"
+      creates: "{{ tee_path }}"
+    vars:
+      step_name: check-for-pending-migrations
+    register: db_migration
+  
+  - name: Set fact for migration status if schema pending
+    set_fact:
+      pending_migration: "{{ true if 'down' in db_migration.stdout else false }}"
+  when: pending_schema
 
 - name: Migrate database
   shell: >

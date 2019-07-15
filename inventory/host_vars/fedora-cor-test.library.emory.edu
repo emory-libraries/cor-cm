@@ -8,3 +8,10 @@ fedora_aws_secret_key: "{{ vault_fedora.test.aws.secret_key }}"
 fedora_aws_bucket: fedora-cor-test-binaries
 
 rds_host: dlp-tst-rdsmys-sz
+
+elb_targets:
+  - target_group_name: fedora-test-80
+
+ec2_security_groups:
+  - "{{ sg_pre }}-tp-apache-ssh"
+  - "{{ sg_pre }}-t-mysql"
