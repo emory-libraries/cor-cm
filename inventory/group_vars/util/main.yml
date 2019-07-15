@@ -1,23 +1,29 @@
-tomcat_enable_ssl: "yes"
-enable_ssl: "yes"
-tomcat_major_version: 8
-tomcat_version: 8.5.34
+tomcat_enable_ssl: no
+enable_ssl: no
 tomcat_applications:
   - app_name: cantaloupe
+    type: cantaloupe
     shut_port: 8008
     conn_port: 8081
     rproxy_path: cantaloupe
     app_long_name: Cantaloupe Server via JSW
 
-#oracle_java_version: '1.8.0_202'
+ec2_default_volume:
+  - device_name: /dev/sda1
+    ebs:
+      volume_type: gp2
+      volume_size: 200
+      delete_on_termination: yes
+      kms_key_id: 44518ec3-7e84-4e64-ae87-bd82b8c27f16
+      encrypted: yes
 
-proxy_solr_tomcat_conf: "yes"
+#proxy_solr_tomcat_conf: "yes"
 
-cantaloupe_version: "4.0.3"
+cantaloupe_version: "4.0.3" #There is a 4.1.2 out, consider upgrade path
 cantaloupe_temp_pathname: "/tmp"
 cantaloupe_delegate_script_enabled: "true"
-cantaloupe_delegate_script_url: "https://raw.githubusercontent.com/UCLALibrary/cantaloupe-delegate/master/lib/delegates.rb"
-#"https://gist.githubusercontent.com/SolomonHD/cd751d24d8d245394720d1c2a44f7915/raw/c488972846a8c2d2c29566c08581d7d1290fbf9d/delegates.rb" # Delegate with CGI unescape enabled
+#cantaloupe_delegate_script_url: "https://raw.githubusercontent.com/UCLALibrary/cantaloupe-delegate/master/lib/delegates.rb"
+cantaloupe_delegate_script_url: "https://gist.githubusercontent.com/SolomonHD/cd751d24d8d245394720d1c2a44f7915/raw/c488972846a8c2d2c29566c08581d7d1290fbf9d/delegates.rb" # Delegate with CGI unescape enabled
 #"https://raw.githubusercontent.com/UCLALibrary/cantaloupe-delegate/master/lib/delegates.rb" OG Delegates file
 cantaloupe_fedora_url: "http://fedora-cor-test.library.emory.edu/fcrepo/rest"
 cantaloupe_fedora_base_path: "/prod"
@@ -27,7 +33,3 @@ cantaloupe_source_delegate: "true"
 cantaloupe_FilesystemSource_lookup_strategy: "ScriptLookupStrategy"
 cantaloupe_HttpSource_lookup_strategy: "ScriptLookupStrategy"
 cantaloupe_install_path: "{{ tomcatapp_install_path }}/cantaloupe/ext"
-
-solr_cores:
-  - ident: curatecore
-    type: hyrax

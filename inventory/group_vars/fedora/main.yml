@@ -1,7 +1,6 @@
 fedora_use_s3: yes
 project_name: fedora
 tomcat_enable_ssl: no
-use_dynamic: no
 
 tomcat_applications:
   - type: fedora

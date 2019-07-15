@@ -1,4 +1,4 @@
-{% if enable_ssl == "yes" %}
+{% if enable_ssl %}
 <VirtualHost *:443>
 {% else %}
 <VirtualHost *:80>
@@ -33,7 +33,7 @@
     Require all granted
   </Directory>
 
-{% if enable_ssl == "yes" %}
+{% if enable_ssl %}
   # Protocol, CipherSuite, and OCSP config in /etc/httpd/conf.d/ssl.conf
   SSLEngine on
   SSLCertificateFile      {{ ssl_cert_file_path }}/{{ rails_host_fqdn }}_cert.cer

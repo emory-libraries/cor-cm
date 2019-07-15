@@ -17,7 +17,7 @@
 
 - name: Prepare Apache HTTPD for SSL
   include_tasks: apache_ssl_config.yml
-  when: enable_ssl == "yes"
+  when: enable_ssl | d (False)
 
 - name: Put in place the rails application Apache virtual host configuration file
   template:
