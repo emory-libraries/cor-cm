@@ -23,3 +23,14 @@
     dest: "{{ apache_vhosts_path }}/tomcatapps.httpd.conf"
   notify:
     - "{{ ansible_os_family | lower }} restart httpd"
+
+- name: Include tasks for any apache conf modifcations
+  include_tasks: 
+    file: "{{ lookup('first_found', findme) }}"
+  vars:
+    findme:
+      - "{{ tomcat_apps.type }}/post-apache-mod.yml"
+      - no-post-apache-mods.yml
+  loop: "{{ tomcat_applications }}"
+  loop_control:
+    loop_var: tomcat_apps

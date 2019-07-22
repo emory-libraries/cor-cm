@@ -22,9 +22,13 @@ elb_target_groups: #manage-elb-target-group
     protocol: https
   - name: util-test-80
     protocol: http
+    health_check_path: /cantaloupe/
   - name: util-test-443
+    state: absent
     protocol: https
   - name: util-prod-80
     protocol: http
+    health_check_path: /cantaloupe/
   - name: util-prod-443
+    state: absent
     protocol: https

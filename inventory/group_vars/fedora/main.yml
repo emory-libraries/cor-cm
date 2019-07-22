@@ -8,6 +8,7 @@ tomcat_applications:
     conn_port: 8078
     shut_port: 8079
     rproxy_path: fcrepo
+    proxypass_extra_params: "nocanon keepalive=on retry=0.5"
 #  - type: cantaloupe
 #    conn_port: 8089
 #    shut_port: 8092
