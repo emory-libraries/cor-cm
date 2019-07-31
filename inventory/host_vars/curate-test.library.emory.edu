@@ -4,10 +4,10 @@ rds_host: dlp-tst-rdsmys-sz
 dlp_curate_dotenv:
   admin_password: "{{ vault_dlp.project.default_admin_password }}"
   contact_us_email: "test@emory.edu"
-  cache_path: "/opt/uploads/cache"
-  upload_path: "/opt/uploads"
-  working_path: "/opt/uploads"
-  derivatives_path: "/opt/derivatives"
+  cache_path: "/opt/uploads/dlp-curate/cache/"
+  upload_path: "/opt/uploads/dlp-curate/"
+  working_path: "/opt/uploads/dlp-curate/"
+  derivatives_path: "/opt/uploads/dlp-curate/"
   database_auth: false
   database_adapter: "mysql2"
   database_pool: 5
