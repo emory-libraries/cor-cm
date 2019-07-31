@@ -8,6 +8,7 @@
     - uclalib_role_epel
     - uclalib_role_pip
     - uclalib_role_java
-    - wm_role_zookeeper_jsw
+    - role: wm_role_zookeeper_jsw
+      when: solr_collections | d (False)
     - uclalib_role_apache
     - uclalib_role_solr7
