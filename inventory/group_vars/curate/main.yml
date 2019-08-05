@@ -2,7 +2,7 @@ project_name: "{{ git_repo_url | urlsplit('path') | basename }}"
 git_repo_url: "https://github.com/emory-libraries/dlp-curate"
 git_repo_branch: "master"
 enable_ssl: "yes"
-hyrax_symdir: "/mnt/efs/{{ project_name }}"
+#hyrax_symdir: "/mnt/efs/{{ project_name }}"
 seed_hyrax_db: yes
 idp_name: "prod"
 ssh_pub_keys:
@@ -12,7 +12,15 @@ ssh_pub_keys:
   - https://github.com/rotated8.keys
   - https://github.com/laurenhamel.keys
   - https://github.com/SolomonHD.keys
+  - https://github.com/bess.keys
+  - https://github.com/little9.keys
+  - https://github.com/mark-dce.keys
 
+symblink_dirs:
+  - src: "/mnt/efs/{{ project_name }}"
+    path: "{{ capistrano_base }}/{{ project_name }}"
+  - src: "/mnt/efs/uploads"
+    path: "{{ capistrano_base }}/uploads"
 dlp_curate_linked_files:
   - content: "{{ lookup('file', 'resources/admins.yml') }}"
     dest: "{{ capistrano_base }}/{{ project_name }}/shared/config/emory/admins.yml"

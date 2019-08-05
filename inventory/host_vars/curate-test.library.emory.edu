@@ -7,7 +7,7 @@ dlp_curate_dotenv:
   cache_path: "/opt/uploads/dlp-curate/cache/"
   upload_path: "/opt/uploads/dlp-curate/"
   working_path: "/opt/uploads/dlp-curate/"
-  derivatives_path: "/opt/uploads/dlp-curate/"
+  derivatives_path: "/opt/uploads/dlp-curate/derivatives/"
   database_auth: false
   database_adapter: "mysql2"
   database_pool: 5
@@ -21,7 +21,8 @@ dlp_curate_dotenv:
   fedora_url: "http://fedora-cor-test.library.emory.edu/fcrepo/rest"
   fedora_user: "{{ vault_fedora.admin.user }}"
   fedora_password: "{{ vault_fedora.admin.pass }}"
-  solr_url: "https://util-cor-test.library.emory.edu/solr/curatecore"
+#  solr_url: "https://util-cor-test.library.emory.edu/solr/curatecore"
+  solr_url: "http://solr-cor-test.library.emory.edu/solr/curate_collection"
   redis_host: localhost
   redis_port: 6379
 
