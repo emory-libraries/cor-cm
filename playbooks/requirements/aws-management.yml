@@ -1,3 +1,6 @@
+#Test role
+- src: https://github.com/sunshine69/ansible-role-acm-cert
+
 - src: git@github.service.emory.edu:LITS/wm_role_dynamic_aws_vars.git
   scm: git
 - src: git@github.service.emory.edu:LITS/wm_role_rds_instance.git
@@ -15,6 +18,8 @@
 - src: git@github.service.emory.edu:LITS/wm_role_manage_efs.git
   scm: git
 - src: git@github.service.emory.edu:LITS/wm_role_app_elb.git
+  scm: git
+- src: git@github.service.emory.edu:LITS/wm_role_ebs_volume.git
   scm: git
 - src: https://github.com/curationexperts/dce_role_route53_cm
 - src: https://github.com/curationexperts/dce_role_assign_eip

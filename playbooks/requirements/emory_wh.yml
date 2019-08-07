@@ -6,6 +6,7 @@
   version: alternative-role
 
 - src: git@github.service.emory.edu:LITS/wm_role_deploy_tomcat_jsw.git
+  version: add-cantaloupe
   scm: git
 
 - src: git@github.service.emory.edu:LITS/wm_role_zookeeper_jsw.git

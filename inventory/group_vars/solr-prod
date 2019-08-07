@@ -1,10 +1,23 @@
-elb_targets: 
-  - target_group_name: solr-prod-cluster
-  - target_group_name: solr-prod-cluster-80
-
-solr_alias: solr-cor.library.emory.edu
-
-zk_version: 3.5.5
+solr_cloud_inventory_group: solr-prod
 zk_inventory_group: solr-prod
-zk_admin_enableserver: true
-zk_admin_serverport: 8082
+elb_targets: 
+  - target_group_name: solr-prod-cluster-80
+solr_data_dir: "/opt/data/{{ solr_service_name }}"
+solr_alias: solr-cor.library.emory.edu
+ec2_security_groups:
+  - "{{ sg_pre }}-tp-apache-ssh"
+  - "{{ sg_pre }}-p-nfs"
+  - "{{ sg_pre }}-p-zookeeper"
+  - "{{ sg_pre }}-p-solr"
+
+
+### Additional EBS Volumes Info ####
+#ec2_vol_kms_key_id: 44518ec3-7e84-4e64-ae87-bd82b8c27f16
+#ec2_vol_encrypted: yes
+#ec2_volumes: #manage-volume
+#  - volume_name: "{{ inventory_hostname_short }}-index"
+#    volume_size: 75
+#    device_name: /dev/sdf
+#    mount:
+#      path: /opt/data
+#      mode: "774"

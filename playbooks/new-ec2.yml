@@ -3,9 +3,11 @@
   
   roles: 
     - role: wm_role_ec2_instance
-      delegate_to: localhost 
-    - role: dce_role_assign_eip 
       delegate_to: localhost
+    - role: wm_role_ebs_volume
+      when: ec2_volumes | d (False)
+#    - role: dce_role_assign_eip 
+#      delegate_to: localhost
     - role: wm_role_app_elb
       delegate_to: localhost
       when: elb_targets | d (False)

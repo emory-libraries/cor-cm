@@ -1,8 +1,11 @@
 - name: Check if database exists and if connection is active
   shell: >
-    rails r -e production "p ::ActiveRecord::Base.connection_pool.with_connection(&:active?) rescue false"
+    rails r -e production "p ::ActiveRecord::Base.connection_pool.with_connection(&:active?) rescue false" | tee {{ tee_path }} 
   args:
     chdir: "{{ capistrano_base }}/{{ project_name }}/current"
+    creates: "{{ tee_path }}"
+  vars:
+    step_name: check-if-db-exists
   register: db_exists_output
 
 - name: Set fact db exist
@@ -18,14 +21,40 @@
 
 - name: Check for pending db migrations
   shell: >
-    RAILS_ENV=production bundle exec rails db:migrate:status | awk '{ print $1 }'
+    RAILS_ENV=production bundle exec rails db:migrate:status | awk '{ print $1 }' | tee {{ tee_path }}
   args:
     chdir: "{{ capistrano_base }}/{{ project_name }}/current"
+    creates: "{{ tee_path }}"
+  vars:
+    step_name: check-for-pending-migrations
   register: db_migration
 
-- name: Set fact pending migration
+- name: Set fact for migration status
   set_fact:
     pending_migration: "{{ true if 'down' in db_migration.stdout else false }}"
+    pending_schema: "{{ true if 'Schema migrations table does not exist yet' in db_migration.stderr else false }}"
+
+- block:
+  - name: Load schema if schema pending
+    shell: >
+      RAILS_ENV=production bundle exec rails db:schema:load
+    args:
+      chdir: "{{ capistrano_base }}/{{ project_name }}/current"
+  
+  - name: Check for pending db migrations again if schema was pending
+    shell: >
+      RAILS_ENV=production bundle exec rails db:migrate:status | awk '{ print $1 }' | tee {{ tee_path }}
+    args:
+      chdir: "{{ capistrano_base }}/{{ project_name }}/current"
+      creates: "{{ tee_path }}"
+    vars:
+      step_name: check-for-pending-migrations
+    register: db_migration
+  
+  - name: Set fact for migration status if schema pending
+    set_fact:
+      pending_migration: "{{ true if 'down' in db_migration.stdout else false }}"
+  when: pending_schema
 
 - name: Migrate database
   shell: >
@@ -36,9 +65,12 @@
 
 - name: Check if default admin set exists
   shell: >
-    rails r -e production "p AdminSet.first"
+    rails r -e production "p AdminSet.first" | tee {{ tee_path }}
   args:
     chdir: "{{ capistrano_base }}/{{ project_name }}/current"
+    creates: "{{ tee_path }}"
+  vars:
+    step_name: check-if-admin-sets-exists
   register: default_admin_output
 
 - name: Set fact default admin set

@@ -12,6 +12,13 @@
     groups: 
       - "{{ solr_user }}"
 
+- name: Set /etc/hosts for solr cloud hosts
+  lineinfile:
+    path: /etc/hosts
+    insertbefore: '# The following lines are desirable for IPv6 capable hosts'
+    line: "{{ lookup('template', 'hosts_file_addition.j2') }}"
+  when: solr_etc_hosts | d (False)
+
 - name: Set zookeeper hosts
   set_fact:
     zk_hosts: '{{ zk_hosts | d ([]) }} + [ "{{ item }}:{{ zk_client_port }}" ]'

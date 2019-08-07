@@ -1,8 +1,25 @@
 ---
 sg_pre: "security-group-{{ aws_region }}"
 sg_managed: "** This security group is managed by Ansible, any manual changes may be overridden **"
-ec2_groups:
+ec2_groups: #manage-sg
+  - name: "{{ sg_pre }}-tp-apache"
+    description: "HTTP/HTTPS  {{ sg_managed }}"
+    rules:
+      - proto: tcp
+        ports:
+          - 80
+          - 443
+        cidr_ip: 0.0.0.0/0
+        rule_desc: Open apache websever to internet
+    rules_egress:
+      - proto: tcp
+        ports:
+          - 80
+          - 443
+        cidr_ip: 0.0.0.0/0
+        rule_desc: Open apache websever ports to internet
   - name: "{{ sg_pre }}-tp-apache-ssh"
+    description: "HTTP/HTTPS, SSH traffic  {{ sg_managed }}"
     rules: 
       - proto: tcp
         ports:
@@ -10,7 +27,6 @@ ec2_groups:
           - 443
           - 22
         cidr_ip: 0.0.0.0/0
-        cidr_ipv6: ::/0
         rule_desc: Open apache websever and SSH ports to internet
     rules_egress:
       - proto: tcp
@@ -19,32 +35,30 @@ ec2_groups:
           - 443
           - 22
         cidr_ip: 0.0.0.0/0
-        cidr_ipv6: ::/0
         rule_desc: Open apache websever ports to internet
-    description: "HTTP/HTTPS, SSH traffic  {{ sg_managed }}"
   - name: "{{ sg_pre }}-t-mysql"
     description: "Connection to test MySQL instances {{ sg_managed }}"
     rules:
       - proto: tcp
         ports: 3306
-        group_name: "{{ sg_pre }}-t-mysql"
+        group_name: dlp-tst-rdsmys-sz-sec 
         rule_desc: MySQL
     rules_egress:
       - proto: tcp
         ports: 3306
-        group_name: "{{ sg_pre }}-t-mysql"
+        group_name: dlp-tst-rdsmys-sz-sec
         rule_desc: MySQL
   - name: "{{ sg_pre }}-p-mysql"
     description: "Connection to production MySQL instances {{ sg_managed }}"
     rules:
       - proto: tcp
         ports: 3306
-        group_name: "{{ sg_pre }}-p-mysql"
+        group_name: dlp-prd-rdsmys-mz-sec 
         rule_desc: MySQL
     rules_egress:
       - proto: tcp
         ports: 3306
-        group_name: "{{ sg_pre }}-p-mysql"
+        group_name: dlp-prd-rdsmys-mz-sec 
         rule_desc: MySQL
   - name: "{{ sg_pre }}-t-nfs"
     description: "Connection to test NFS endpoint {{ sg_managed }}"
@@ -94,6 +108,26 @@ ec2_groups:
         ports: 6379
         group_name: "{{ sg_pre }}-p-redis"
         rule_desc: Redis
+  - name: "{{ sg_pre }}-p-zookeeper"
+    description: "Connection to production zookeeper instances {{ sg_managed }}"
+    rules:
+      - proto: tcp
+        ports: [2181, 2888, 3888]
+        group_name: "{{ sg_pre }}-p-zookeeper"
+        rule_desc: ZK internal communications
+      - proto: tcp
+        ports: 8082
+        cidr_ip: 0.0.0.0/0
+        rule_desc: ZK admin console
+    rules_egress:
+      - proto: tcp
+        ports: [2181, 2888, 3888]
+        group_name: "{{ sg_pre }}-p-zookeeper"
+        rule_desc: ZK internal communications
+      - proto: tcp
+        ports: 8082
+        cidr_ip: 0.0.0.0/0
+        rule_desc: ZK admin console
   - name: "{{ sg_pre }}-t-zookeeper"
     description: "Connection to test zookeeper instances {{ sg_managed }}"
     rules:
@@ -138,3 +172,28 @@ ec2_groups:
         ports: 8983
         group_name: "{{ sg_pre }}-p-solr"
         rule_desc: SOLR
+  - name: dlp-tst-rdsmys-sz-sec
+    description: "DB security group for test instances {{ sg_managed }}"
+    rules:
+      - proto: tcp
+        ports: 3306
+        group_name: "{{ sg_pre }}-t-mysql"
+        rule_desc: MySQL
+    rules_egress:
+      - proto: tcp
+        ports: 3306
+        group_name: "{{ sg_pre }}-t-mysql"
+        rule_desc: MySQL
+  - name: dlp-prd-rdsmys-mz-sec
+    description: "DB security group for prod instances {{ sg_managed }}"
+    rules:
+      - proto: tcp
+        ports: 3306
+        group_name: "{{ sg_pre }}-p-mysql"
+        rule_desc: MySQL
+    rules_egress:
+      - proto: tcp
+        ports: 3306
+        group_name: "{{ sg_pre }}-p-mysql"
+        rule_desc: MySQL
+

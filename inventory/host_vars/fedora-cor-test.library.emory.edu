@@ -1,7 +1,17 @@
-#ec2_fqdn: fedora-cor-test.library.emory.edu
-fedora_db_user: "{{ vault_test_fedora_db_user }}" 
-fedora_db_name: "{{ vault_test_fedora_db_name }}"
-fedora_db_password: "{{ vault_test_fedora_db_password }}" 
+fedora_mysql_db:
+  name: "{{ vault_fedora.test.db.name }}"
+  user: "{{ vault_fedora.test.db.user }}"
+  password: "{{ vault_fedora.test.db.pass }}"
 
+fedora_aws_access_key: "{{ vault_fedora.test.aws.access_key }}"
+fedora_aws_secret_key: "{{ vault_fedora.test.aws.secret_key }}"
+fedora_aws_bucket: fedora-cor-test-binaries
 
-#ec2_CNAME: [ ] #This requires ec2-fqdn to work
+rds_host: dlp-tst-rdsmys-sz
+
+elb_targets:
+  - target_group_name: fedora-test-80
+
+ec2_security_groups:
+  - "{{ sg_pre }}-tp-apache-ssh"
+  - "{{ sg_pre }}-t-mysql"

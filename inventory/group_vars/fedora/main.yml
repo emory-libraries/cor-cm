@@ -1,13 +1,16 @@
+fedora_use_s3: yes
 project_name: fedora
-fedora_mysql_db:
-  name: "{{ fedora_db_name }}"
-  user: "{{ fedora_db_user }}"
-  password: "{{ fedora_db_password }}"
-fedora_db_host: "{{ rds_endpoint }}"
-fedora_db_user_host: "{{ ec2_private_ip }}"
-fedora_db_port: "3306"
-fedora_admin_user: "{{ vault_fedora_admin_user }}"
-fedora_admin_password: "{{ vault_fedora_admin_password }}"
 tomcat_enable_ssl: no
 
-#fedora_server_fqdn: "{{ host }}"
+tomcat_applications:
+  - type: fedora
+    long_name: Fedora Commons
+    conn_port: 8078
+    shut_port: 8079
+    rproxy_path: fcrepo
+    proxypass_extra_params: "nocanon keepalive=on retry=0.5"
+#  - type: cantaloupe
+#    conn_port: 8089
+#    shut_port: 8092
+
+

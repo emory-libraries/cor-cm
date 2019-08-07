@@ -1,0 +1,32 @@
+---
+- name: Download scipt to identify volume id
+  get_url: 
+    url: "{{ ebsnvme_id_url }}"
+    dest: /sbin
+    mode: 0774
+
+- name: Use ebsnvme script to generate volume id
+  shell: /sbin/ebsnvme-id /dev/{{ item }}
+  loop: "{{ non_root_disks }}"
+  register: ebsnvme_id_fact
+
+- name: Generate UUID for non-root disks
+  shell: blkid | grep /dev/{{ item }}
+  loop: "{{ non_root_disks }}"
+  register: blkid_fact
+
+- name: Generate combined fact for uuid, disk and id 
+  set_fact:
+    _uuid: "{{ item.0.stdout.split(' ')[1] | regex_search(get_between_quotes) }}"
+    _disk: "{{ item.0._ansible_item_label }}"
+    _id: "{{ item.1.stdout_lines[0].split(' ')[2] }}"
+  vars:
+    get_between_quotes: (?<=\")(.*?)(?=\")
+  loop: "{{ blkid_fact.results | zip(ebsnvme_id_fact.results) | list }}"
+  register: temp_list_fact
+
+- name: Generate new list with volume name, uuid, and volume id
+  set_fact:
+    ec2_mounted_volumes: "{{ ec2_mounted_volumes | d ([]) + [{ 'disk_name': item.ansible_facts._disk, 'uuid': item.ansible_facts._uuid, 'id': item.ansible_facts._id }] }}"
+  loop: "{{ temp_list_fact.results }}"
+

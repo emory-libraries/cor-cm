@@ -1,11 +1,8 @@
-use_dynamic: yes
-rds_host: cor-test-mysql-db
-#_rds_host: "{{ rds_host | regex_replace('[^0-9a-zA-Z]+', '_') }}"
-#project_name: "ursus"
+use_dynamic: no
+project_name: "{{ git_repo_url | urlsplit('path') | basename }}"
 git_repo_url: "https://github.com/UCLALibrary/ursus"
 git_repo_branch: "master"
 idp_name: "prod"
-#ursus_dotenv:
 
 ursus_linked_files:
   - content: "{{ lookup('template', 'dotenv_dict.j2') }}"

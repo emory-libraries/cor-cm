@@ -1,20 +1,10 @@
 project_name: "{{ git_repo_url | urlsplit('path') | basename }}"
-use_dynamic: yes
+git_repo_url: "https://github.com/emory-libraries/dlp-curate"
+git_repo_branch: "master"
+enable_ssl: "yes"
+#hyrax_symdir: "/mnt/efs/{{ project_name }}"
+seed_hyrax_db: yes
 idp_name: "prod"
-#project_name: "dlp-curate"
-rds_host: cor-test-mysql-db
-
-#rails_db_adapter: "mysql2"
-#rails_db_pool: 5
-#rails_db_host: "{{ rds_endpoint }}"
-#rails_db_user_host: "{{ ec2_private_ip }}"
-#project_default_admin_password: "{{ vault_project_default_admin_password }}"
-#contact_email_addr: "test@emory.edu"
-#redis_host: localhost
-#redis_port: 6379
-#enable_ssl: "yes"
-#sidekiq_num_threads: 5
-#aws_region: us-west-1
 ssh_pub_keys:
   - https://github.com/devanshu-m.keys
   - https://github.com/mprefer.keys
@@ -22,7 +12,15 @@ ssh_pub_keys:
   - https://github.com/rotated8.keys
   - https://github.com/laurenhamel.keys
   - https://github.com/SolomonHD.keys
+  - https://github.com/bess.keys
+  - https://github.com/little9.keys
+  - https://github.com/mark-dce.keys
 
+symblink_dirs:
+  - src: "/mnt/efs/{{ project_name }}"
+    path: "{{ capistrano_base }}/{{ project_name }}"
+  - src: "/mnt/efs/uploads"
+    path: "{{ capistrano_base }}/uploads"
 dlp_curate_linked_files:
   - content: "{{ lookup('file', 'resources/admins.yml') }}"
     dest: "{{ capistrano_base }}/{{ project_name }}/shared/config/emory/admins.yml"
@@ -30,6 +28,9 @@ dlp_curate_linked_files:
   - content: "{{ lookup('template', 'dotenv_dict.j2') }}"
     dest: "{{ capistrano_base }}/{{ project_name }}/shared/.env.production"
     mode: 0644
+
+get_metadata:
+  download: no
 
 dlp_curate_dotenv:
   admin_password:
@@ -51,12 +52,3 @@ dlp_curate_dotenv:
   fedora_password:
   solr_url:
   redis_host:
-
-dlp_curate_mysql_db:
-  name: "{{ vault_test_rails_db_name }}" # Name of the database
-  user: "{{ vault_test_rails_db_user }}" # Database User
-  password: "{{ vault_test_rails_db_pass }}" #Database Password
-
-#mysql_db_login_user: "{{ rds_master_username }}"
-#mysql_db_login_password: "{{ rds_master_password }}"
-#mysql_db_login_host: "{{ rds_endpoint }}" 

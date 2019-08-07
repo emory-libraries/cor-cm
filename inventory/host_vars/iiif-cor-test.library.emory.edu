@@ -1,0 +1,4 @@
+cantaloupe_fedora_url: "http://fedora-cor-test.library.emory.edu/fcrepo/rest"
+
+elb_targets:
+  - target_group_name: iiif-test-80

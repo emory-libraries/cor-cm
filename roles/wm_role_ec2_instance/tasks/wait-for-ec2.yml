@@ -13,7 +13,7 @@
     delay: 1
     port: 22
     connect_timeout: 3
-  when: ec2_public_ip is undefined
+  when: not ec2_public_ip | d (False)
 
 - name: Refresh Inventory
   meta: refresh_inventory

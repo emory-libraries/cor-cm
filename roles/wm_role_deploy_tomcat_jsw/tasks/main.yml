@@ -59,7 +59,7 @@
     apply:
       tags: jsw-ssl
   tags: jsw-ssl
-  when: tomcat_enable_ssl
+  when: tomcat_enable_ssl | d (False)
 
 - include_tasks:
     file: apache_conf_files.yml

@@ -1,0 +1,6 @@
+rds_vpc_security_group_ids:
+  - sg-08b5824d989663aac 
+rds_allocated_storage: 30
+rds_db_instance_class: db.t3.small
+rds_preferred_backup_window: "07:00-08:00"
+rds_preferred_maintenance_window: "Sun:05:00-Sun:06:59"

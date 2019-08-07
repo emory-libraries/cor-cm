@@ -20,11 +20,11 @@
 
 - name: Tasks to create symlink deploy target
   include_tasks:
-    file: create-symblink-deploy-target.yml
+    file: create-symblink-directories.yml 
     apply:
       tags: symblink-deploy
   tags: symblink-deploy
-  when: hyrax_symdir | d (False)
+  when: symblink_dirs | d (False)
 
 - name: Create Capistrano directory structure
   file:
@@ -41,7 +41,7 @@
     owner: "{{ capistrano_user }}"
     group: "{{ capistrano_user }}"
   loop: "{{ lookup('vars', _project_name + '_linked_files') }}"
-  when: lookup('vars', _project_name + '_linked_files', default = False)
+  when: lookup('vars', _project_name + '_linked_files', default=False)
 
 - name: Add ssh public keys to the Capistrano user account
   authorized_key:

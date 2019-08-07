@@ -1,0 +1,4 @@
+---
+# defaults file for wm_role_ebs_volume
+#
+ebsnvme_id_url: https://gist.githubusercontent.com/lbernail/d851e5b06eb32180a4b8ead2ce4f45db/raw/07772083fa1c2e567ed422eb401ac7783487d1c7/ebsnvme-id

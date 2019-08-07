@@ -2,16 +2,18 @@
   become: yes
 
   roles:
-    - { role: dce_role_selinux_reboot }
-    - { role: uclalib_role_rhel7repos }
-    - { role: uclalib_role_epel }
-    - { role: uclalib_role_samvera_basepackages }
-    - { role: uclalib_role_pip }
-#    - { role: emorylib_role_local_mysqldb }
-    - { role: dce_role_rds_mysql }
-    - { role: uclalib_role_java }
-    - { role: uclalib_role_apache }
-    - { role: uclalib_role_solr7, solr_fqdn: "{{ host }}" }
-    - { role: uclalib_role_tomcat }
-    - { role: uclalib_role_cantaloupe }
-    - { role: uclalib_role_redis }
+    - dce_role_selinux_reboot
+    - uclalib_role_rhel7repos
+    - uclalib_role_epel
+    - uclalib_role_samvera_basepackages
+    - uclalib_role_pip 
+#    - emorylib_role_local_mysqldb
+#    - dce_role_rds_mysql
+    - uclalib_role_java 
+    - uclalib_role_apache
+#    - uclalib_role_tomcat
+    - wm_role_deploy_tomcat_jsw
+#    - role: uclalib_role_solr7 
+#       solr_fqdn: "{{ host }}" 
+#    - role: uclalib_role_cantaloupe
+#    - role: uclalib_role_redis

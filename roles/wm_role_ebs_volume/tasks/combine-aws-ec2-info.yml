@@ -1,0 +1,27 @@
+---
+- name: Query for volumes
+  ec2_vol_facts:
+    filters:
+      "tag:Name": "{{ item.volume_name }}"
+  register: ec2_volume_fact
+  loop: "{{ ec2_volumes }}"
+  delegate_to: localhost
+
+- include_tasks:
+    file:  set-vars-if-volume-exists.yml
+  loop: "{{ ec2_volume_fact.results }}"
+  loop_control:
+    loop_var: ec2_volume_fact_result
+  when: ec2_volume_fact_result.volumes is defined and ec2_volume_fact_result.volumes != []
+
+- name: Combine ec2_volumes with ec2_mounted_volumes
+  set_fact:
+    __volumes: "{{ ec2_volume | combine(ec2_mounted_volumes| selectattr('id', 'eq', ec2_volume.id) | first) }}"
+  loop: "{{ ec2_volumes }}"
+  loop_control:
+    loop_var: ec2_volume
+  register: __volumes_fact
+
+- name: Create new combined ec2_volumes variable
+  set_fact:
+    ec2_volumes: "{{ __volumes_fact.results | map(attribute='ansible_facts.__volumes') | list }}"

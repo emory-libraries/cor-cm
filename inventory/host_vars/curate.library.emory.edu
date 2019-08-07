@@ -1,23 +1,15 @@
-use_dynamic: no
-git_repo_url: "https://github.com/emory-libraries/dlp-curate"
-git_repo_branch: "master"
-enable_ssl: "yes"
-ec2_efs: fs-53e2584a.efs.us-west-1.amazonaws.com
-hyrax_symdir: "/mnt/efs/{{ project_name }}"
+ec2_efs: fs-a1416442.efs.us-east-1.amazonaws.com 
 additional_assertion_bindings:
   - "curate-test.library.emory.edu"
-
-ec2_instance_role: access-to-binaries
-use_s3_java: yes
-java_platform: oracle
+rds_host: dlp-prd-rdsmys-mz
 
 dlp_curate_dotenv:
-  admin_password: "{{ vault_project_default_admin_password }}"
+  admin_password: "{{ vault_dlp.project.default_admin_password }}"
   contact_us_email: "test@emory.edu"
-  cache_path: "/opt/uploads/cache"
-  upload_path: "/opt/uploads"
-  working_path: "/opt/uploads"
-  derivatives_path: "/opt/derivatives"
+  cache_path: "/opt/uploads/dlp-curate/cache/"
+  upload_path: "/opt/uploads/dlp-curate/"
+  working_path: "/opt/uploads/dlp-curate/"
+  derivatives_path: "/opt/uploads/dlp-curate/derivatives/"
   database_auth: false 
   database_adapter: "mysql2"
   database_pool: 5
@@ -28,16 +20,16 @@ dlp_curate_dotenv:
   project_name: "dlp-curate"
   sidekiq_workers: 5
   fedora_url: "http://fedora-cor.library.emory.edu/fcrepo/rest"
-  fedora_user: "{{ vault_fedora_admin_user }}"
-  fedora_password: "{{ vault_fedora_admin_password }}"
-  solr_url: http://solr-cor.library.emory.edu/solr/curate_collection
+  fedora_user: "{{ vault_fedora.admin.user }}"
+  fedora_password: "{{ vault_fedora.admin.pass }}"
+  solr_url: "https://util-cor.library.emory.edu/solr/curatecore"
   redis_host: localhost
   redis_port: 6379
 
 dlp_curate_mysql_db:
-  name: "{{ vault_curate_db_name }}"
-  user: "{{ vault_curate_db_user }}"
-  password: "{{ vault_curate_db_pass }}"
+  name: "{{ vault_curate.prod.db.name }}"
+  user: "{{ vault_curate.prod.db.user }}"
+  password: "{{ vault_curate.prod.db.pass }}"
 
 ec2_security_groups:
   - "{{ sg_pre }}-tp-apache-ssh"
@@ -45,4 +37,5 @@ ec2_security_groups:
   - "{{ sg_pre }}-p-mysql"
   - "{{ sg_pre }}-p-solr"
   - "{{ sg_pre }}-p-redis"
-
+elb_targets:
+  - target_group_name: curate-443

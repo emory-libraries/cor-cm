@@ -1,26 +1,34 @@
 ---
-elb_target_groups:
-  - name: solr-prod-cluster
-    protocol: https
-    port: 443
+elb_target_groups: #manage-elb-target-group
   - name: solr-prod-cluster-80
     protocol: http
-    port: 80
-  - name: solr-test-cluster
-    protocol: https
-    port: 443
+    health_check_path: /solr/
   - name: solr-test-cluster-80
     protocol: http
-    port: 80
-  - name: curate-test
+    health_check_path: /solr/
+  - name: fedora-test-80
+    protocol: http
+    health_check_path: /fcrepo/
+  - name: fedora-80
+    protocol: http
+    health_check_path: /fcrepo/
+  - name: curate-test-443
     protocol: https
-    port: 443
-  - name: curate
+  - name: curate-443
     protocol: https
-    port: 443
-  - name: lux-test
+  - name: lux-test-443
     protocol: https
-    port: 443
-  - name: lux
+  - name: lux-443
     protocol: https
-    port: 443
+  - name: util-test-80
+    protocol: http
+    health_check_path: /solr/
+  - name: util-prod-80
+    protocol: http
+    health_check_path: /solr/
+  - name: iiif-prod-80
+    protocol: http
+    health_check_path: /cantaloupe/
+  - name: iiif-test-80
+    protocol: http
+    health_check_path: /cantaloupe/

@@ -1,0 +1,22 @@
+---
+- name: Ensure mount point exists
+  file:
+    state: directory
+    path: "{{ ec2_volume.mount.path | d (ec2_vol_mount_path) }}" 
+    mode: "{{ ec2_volume.mount.mode | d (ec2_vol_mount_mode) }}"
+    owner: "{{ ec2_volume.mount.owner | d (ec2_vol_mount_owner) | d ('ec2-user') }}"
+  loop: "{{ ec2_volumes }}"
+  loop_control:
+    loop_var: ec2_volume
+
+- name: Edit fstab and mount volumes
+  mount:
+    backup: yes
+    fstype: "{{ ec2_volume.mount.fstype | d (ec2_vol_mount_fstype) | d ('xfs') }}"
+    path: "{{ ec2_volume.mount.path | d (ec2_vol_mount_path) }}"
+    state: mounted
+    src: "UUID={{ ec2_volume.uuid }}"
+    opts: defaults,nofail
+  loop: "{{ ec2_volumes }}"
+  loop_control:
+    loop_var: ec2_volume
