@@ -1,0 +1,5 @@
+- hosts: "{{ host | d ('all') }}"
+  become: yes
+  roles:
+    - role: emorylib_role_mysqldump_restore_via_s3
+      when: mysql_dbs | d (False)

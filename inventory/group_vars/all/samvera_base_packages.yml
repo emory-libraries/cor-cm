@@ -1,0 +1,22 @@
+base_packages:
+  - curl
+  - openssl
+  - openssl-devel
+  - readline
+  - readline-devel
+  - zlib
+  - zlib-devel
+  - libyaml-devel
+  - libxml2-devel
+  - libxslt-devel
+  - gmp-devel
+  - glibc-devel
+  - ncurses-devel
+  - libcurl-devel
+  - xfsprogs
+  - sqlite-devel
+  - yasm
+  - prelink
+  - gdbm-devel
+  - libffi-devel
+  - yum-utils

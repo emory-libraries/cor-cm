@@ -1,0 +1,16 @@
+cantaloupe_version: "4.0.3" #There is a 4.1.2 out, consider upgrade path
+cantaloupe_temp_pathname: "/tmp"
+cantaloupe_delegate_script_enabled: "true"
+#cantaloupe_delegate_script_url: "https://raw.githubusercontent.com/UCLALibrary/cantaloupe-delegate/master/lib/delegates.rb"
+cantaloupe_delegate_script_url: "https://gist.githubusercontent.com/SolomonHD/cd751d24d8d245394720d1c2a44f7915/raw/c488972846a8c2d2c29566c08581d7d1290fbf9d/delegates.rb" # Delegate with CGI unescape enabled
+#"https://raw.githubusercontent.com/UCLALibrary/cantaloupe-delegate/master/lib/delegates.rb" OG Delegates file
+cantaloupe_fedora_base_path: "/prod"
+cantaloupe_endpoint_admin_enabled: "true"
+cantaloupe_source_static: "HttpSource"
+cantaloupe_source_delegate: "true"
+cantaloupe_FilesystemSource_lookup_strategy: "ScriptLookupStrategy"
+cantaloupe_HttpSource_lookup_strategy: "ScriptLookupStrategy"
+cantaloupe_install_path: "{{ tomcatapp_install_path }}/cantaloupe/ext"
+
+cantaloupe_base_dir: "{{ tomcatapp_install_path }}/cantaloupe"
+

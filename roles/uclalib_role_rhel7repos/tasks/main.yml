@@ -24,3 +24,4 @@
 - name: Install {{ packages | to_nice_yaml }} 
   package:
     name: "{{ packages }}"
+    lock_timeout: 120

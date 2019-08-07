@@ -1,30 +1,25 @@
-ec2_efs: fs-a1416442.efs.us-east-1.amazonaws.com 
+efs_mounts:
+  - path: /mnt/prod_efs
+    dns_name: fs-a1416442.efs.us-east-1.amazonaws.com
+    
+ec2_instance_type: t3.large
+git_repo_branch: v0.4.7
+
+symblink_dirs:
+  - src: "/mnt/prod_efs/uploads"
+    path: "{{ capistrano_base }}/uploads"
+
 additional_assertion_bindings:
   - "curate-test.library.emory.edu"
+  - "curate-arch.library.emory.edu"
+
 rds_host: dlp-prd-rdsmys-mz
 
-dlp_curate_dotenv:
-  admin_password: "{{ vault_dlp.project.default_admin_password }}"
-  contact_us_email: "test@emory.edu"
-  cache_path: "/opt/uploads/dlp-curate/cache/"
-  upload_path: "/opt/uploads/dlp-curate/"
-  working_path: "/opt/uploads/dlp-curate/"
-  derivatives_path: "/opt/uploads/dlp-curate/derivatives/"
-  database_auth: false 
-  database_adapter: "mysql2"
-  database_pool: 5
-  database_name: "{{ dlp_curate_mysql_db.name }}"
-  database_username: "{{ dlp_curate_mysql_db.user }}"
-  database_host: "{{ rds_endpoint }}"
-  database_password: "{{ dlp_curate_mysql_db.password }}"
-  project_name: "dlp-curate"
-  sidekiq_workers: 5
+__dlp_curate_dotenv:
   fedora_url: "http://fedora-cor.library.emory.edu/fcrepo/rest"
-  fedora_user: "{{ vault_fedora.admin.user }}"
-  fedora_password: "{{ vault_fedora.admin.pass }}"
-  solr_url: "https://util-cor.library.emory.edu/solr/curatecore"
-  redis_host: localhost
-  redis_port: 6379
+  solr_url: "http://solr-cor.library.emory.edu/solr/curate_collection"
+  import_path: "/mnt/prod_efs/Collections/dmfiles/MARBL/Manuscripts/MSS_1218_Langmuir/"
+
 
 dlp_curate_mysql_db:
   name: "{{ vault_curate.prod.db.name }}"
