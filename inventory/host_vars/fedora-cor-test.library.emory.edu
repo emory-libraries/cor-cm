@@ -15,3 +15,7 @@ elb_targets:
 ec2_security_groups:
   - "{{ sg_pre }}-tp-apache-ssh"
   - "{{ sg_pre }}-t-mysql"
+
+#ec2_image: ami-0c322300a1dd5dc79
+#ec2_image: ami-000db10762d0c4c05 #7.6 No GA
+ec2_image: ami-0916c408cb02e310b

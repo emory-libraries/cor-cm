@@ -5,7 +5,7 @@
     - dce_role_selinux_reboot
     - uclalib_role_rhel7repos
     - uclalib_role_epel
-    - uclalib_role_samvera_basepackages
+    - uclalib_role_samvera_basepackages #Stopped working
     - uclalib_role_pip
     - dce_role_rds_mysql  # Am I still using this?
     - uclalib_role_java
