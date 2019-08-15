@@ -3,25 +3,17 @@ use_s3_java: yes
 ec2_fqdn: "{{ inventory_hostname }}"
 rails_host_fqdn: "{{ inventory_hostname }}" 
 fedora_server_fqdn: "{{ inventory_hostname }}"
-vpc_id: vpc-906419f4
 tomcat_enable_ssl: "no"
-tomcat_applications:
-  - app_name: fedora
-    shut_port: 8008
-    conn_port: 8081
-    rproxy_path: fcrepo
-    proxypass_extra_params: "nocanon keepalive=on retry=0.5"
 
-#solr_cores:
-#  - ident: curatecore
-#    type: hyrax
 rds_endpoint: "{{ hostvars[rds_host]['endpoint']['address'] }}"
 attribute_map:
   displayName: "urn:oid:2.16.840.1.113730.3.1.241"
   uid: "urn:oid:0.9.2342.19200300.100.1.1"
   serialNumber: "urn:oid:2.5.4.5"
-ec2_key_name: library_team.pem
 use_dynamic: no
-#mysql_db_login_user: "{{ rds_master_username }}"
-#mysql_db_login_password: "{{ rds_master_password }}"
-#mysql_db_login_host: "{{ rds_endpoint }}"
+ec2_key_name: library_team.pem
+ec2_tags:
+  - key: EmoryEnvironment
+    value: "{{ 'TEST' if 'test' in inventory_hostname else 'PROD' }}"
+  - key: EmoryApplicationName
+    value: "{{ project_name if project_name is defined else '' }}"

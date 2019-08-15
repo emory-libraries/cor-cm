@@ -2,6 +2,7 @@ zk_version: 3.5.5
 zk_admin_enableserver: true
 zk_admin_serverport: 8082
 
+project_name: solr
 tomcat_enable_ssl: "yes"
 enable_ssl: "yes"
 
