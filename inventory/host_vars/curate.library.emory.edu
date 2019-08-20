@@ -23,7 +23,8 @@ dlp_curate_dotenv:
   fedora_url: "http://fedora-cor.library.emory.edu/fcrepo/rest"
   fedora_user: "{{ vault_fedora.admin.user }}"
   fedora_password: "{{ vault_fedora.admin.pass }}"
-  solr_url: "https://util-cor.library.emory.edu/solr/curatecore"
+#  solr_url: "https://util-cor.library.emory.edu/solr/curatecore"
+  solr_url: "http://solr-cor.library.emory.edu/solr/curate_collection"
   redis_host: localhost
   redis_port: 6379
 

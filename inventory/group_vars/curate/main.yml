@@ -1,8 +1,9 @@
 project_name: "{{ git_repo_url | urlsplit('path') | basename }}"
 git_repo_url: "https://github.com/emory-libraries/dlp-curate"
-git_repo_branch: "master"
 enable_ssl: "yes"
-#hyrax_symdir: "/mnt/efs/{{ project_name }}"
+ec2_instance_type: t3.large
+git_repo_branch: v0.3.8
+
 seed_hyrax_db: yes
 idp_name: "prod"
 ssh_pub_keys:
@@ -17,8 +18,8 @@ ssh_pub_keys:
   - https://github.com/mark-dce.keys
 
 symblink_dirs:
-  - src: "/mnt/efs/{{ project_name }}"
-    path: "{{ capistrano_base }}/{{ project_name }}"
+#  - src: "/mnt/efs/{{ project_name }}" Removed due to poor performance
+#    path: "{{ capistrano_base }}/{{ project_name }}"
   - src: "/mnt/efs/uploads"
     path: "{{ capistrano_base }}/uploads"
 dlp_curate_linked_files:

@@ -1,5 +1,13 @@
 ec2_efs: fs-97466374.efs.us-east-1.amazonaws.com
 rds_host: dlp-tst-rdsmys-sz
+ec2_instance_type: t3.large
+git_repo_branch: v0.3.7
+
+symblink_dirs:
+#  - src: "/mnt/efs/{{ project_name }}"
+#    path: "{{ capistrano_base }}/{{ project_name }}"
+  - src: "/mnt/efs/uploads"
+    path: "{{ capistrano_base }}/uploads"
 
 dlp_curate_dotenv:
   admin_password: "{{ vault_dlp.project.default_admin_password }}"
