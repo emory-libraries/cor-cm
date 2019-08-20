@@ -1,6 +1,6 @@
 #Test role
 - src: https://github.com/sunshine69/ansible-role-acm-cert
-
+- src: christiangda.amazon_cloudwatch_agent
 - src: git@github.service.emory.edu:LITS/wm_role_dynamic_aws_vars.git
   scm: git
 - src: git@github.service.emory.edu:LITS/wm_role_rds_instance.git
