@@ -16,6 +16,7 @@ ssh_pub_keys:
   - https://github.com/bess.keys
   - https://github.com/little9.keys
   - https://github.com/mark-dce.keys
+  - https://github.com/wulman16.keys
 
 symblink_dirs:
 #  - src: "/mnt/efs/{{ project_name }}" Removed due to poor performance
@@ -24,7 +25,7 @@ symblink_dirs:
     path: "{{ capistrano_base }}/uploads"
 dlp_curate_linked_files:
   - content: "{{ lookup('file', 'resources/admins.yml') }}"
-    dest: "{{ capistrano_base }}/{{ project_name }}/shared/config/emory/admins.yml"
+    dest: "{{ capistrano_base }}/{{ project_name }}/shared/config/emory/groups/admins.yml"
     mode: 0644
   - content: "{{ lookup('template', 'dotenv_dict.j2') }}"
     dest: "{{ capistrano_base }}/{{ project_name }}/shared/.env.production"
