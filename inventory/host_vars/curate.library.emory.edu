@@ -17,6 +17,7 @@ dlp_curate_dotenv:
   database_username: "{{ dlp_curate_mysql_db.user }}"
   database_host: "{{ rds_endpoint }}"
   database_password: "{{ dlp_curate_mysql_db.password }}"
+  import_path: "/mnt/efs/Collections/dmfiles/MARBL/Manuscripts/MSS_1218_Langmuir/"
   geonames_username: "{{ vault_geonames_username }}"
   project_name: "dlp-curate"
   sidekiq_workers: 5

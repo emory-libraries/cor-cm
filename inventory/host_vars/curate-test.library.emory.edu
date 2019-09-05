@@ -24,6 +24,7 @@ dlp_curate_dotenv:
   database_host: "{{ rds_endpoint }}"
   database_password: "{{ dlp_curate_mysql_db.password }}"
   geonames_username: "{{ vault_geonames_username }}"
+  import_path: "/mnt/prodefs/Collections/dmfiles/MARBL/Manuscripts/MSS_1218_Langmuir/"
   project_name: "dlp-curate"
   sidekiq_workers: 5
   fedora_url: "http://fedora-cor-test.library.emory.edu/fcrepo/rest"
