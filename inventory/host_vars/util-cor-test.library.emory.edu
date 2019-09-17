@@ -12,18 +12,3 @@ elb_targets:
 
 ec2_security_groups:
   - "{{ sg_pre }}-tp-apache-ssh"
-
-cwa_conf_json_file_content:
-  logs:
-    logs_collected:
-      files:
-        collect_list:
-          - file_path: "/var/log/maillog*"
-            log_group_name: "{local_hostname}"
-            log_stream_name: maillog
-            timezone: Local
-          - file_path: "/var/solr/logs/*"
-            log_group_name: "{hostname}"
-            log_stream_name: solr
-            timezone: Local
-#    log_stream_name: util-cor-test

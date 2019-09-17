@@ -27,6 +27,19 @@ dlp_curate_linked_files:
   - content: "{{ lookup('file', 'resources/admins.yml') }}"
     dest: "{{ capistrano_base }}/{{ project_name }}/shared/config/emory/groups/admins.yml"
     mode: 0644
+  - content: "{{ lookup('file', 'resources/health_sciences_depositor.yml.yml') }}"
+    dest: "{{ capistrano_base }}/{{ project_name }}/shared/config/emory/groups/health_sciences_depositor.yml"
+    mode: 0644
+  - content: "{{ lookup('file', 'resources/admins.yml') }}"
+    dest: "{{ capistrano_base }}/{{ project_name }}/shared/config/emory/groups/admins.yml"
+    mode: 0644
+  - content: "{{ lookup('file', 'resources/admins.yml') }}"
+    dest: "{{ capistrano_base }}/{{ project_name }}/shared/config/emory/groups/admins.yml"
+    mode: 0644
+  - content: "{{ lookup('file', 'resources/admins.yml') }}"
+    dest: "{{ capistrano_base }}/{{ project_name }}/shared/config/emory/groups/admins.yml"
+    mode: 0644
+
   - content: "{{ lookup('template', 'dotenv_dict.j2') }}"
     dest: "{{ capistrano_base }}/{{ project_name }}/shared/.env.production"
     mode: 0644
