@@ -1,0 +1,12 @@
+---
+- name: Copy mysql dump files to s3
+  aws_s3:
+    bucket: "{{ s3_bucket }}"
+    object: "{{ s3_object | regex_replace(get_trailing_slash, '') }}/{{ item.dump_file | basename }}"
+    src: "{{ item.dump_file }}"
+    mode: put
+  vars:
+    get_trailing_slash: \/$
+    s3_bucket: "{{ item.mysqldump.backup.s3_bucket if (item.mysqldump.backup is defined and item.mysqldump.backup.s3_bucket is defined) else item.mysqldump.s3_bucket }}"
+    s3_object: "{{ item.mysqldump.backup.s3_bucket_path if (item.mysqldump.backup is defined and item.mysqldump.backup.s3_bucket_path is defined) else item.mysqldump.s3_bucket_path }}"
+  loop: "{{ mysql_dbs }}"

@@ -67,3 +67,16 @@ dlp_curate_dotenv:
   fedora_password:
   solr_url:
   redis_host:
+
+mysql_dbs:
+  - id: curate
+    db_name: "{{ dlp_curate_mysql_db.name }}"
+    login_user: "{{ dlp_curate_mysql_db.user }}"
+    login_host: "{{ hostvars[rds_host]['endpoint']['address'] }}" 
+    login_password: "{{ dlp_curate_mysql_db.password }}"
+    mysqldump:
+      s3_bucket: cor-devops-binaries
+      s3_bucket_path: "/mysqldumps/{{ inventory_hostname_short }}"
+      service:
+        name: httpd
+

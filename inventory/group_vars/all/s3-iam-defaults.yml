@@ -9,12 +9,17 @@ iam_policies: #iam-manage-policy
   - policy_name: AccessToBinariesBucket
     policy_template_path: iam_policy_s3_bucket_access_json.j2
     resource: emory-ltds-binaries
+  - policy_name: AccessToCorDevOpsBinaries
+    policy_template_path: iam_policy_s3_bucket_access_json.j2
+    resource: cor-devops-binaries 
   - policy_name: AccessToFedoraCorTestBucket
     policy_template_path: iam_policy_s3_bucket_access_json.j2
     resource: fedora-cor-test-bucket
+    state: absent
   - policy_name: AccessToFedoraCorBucket
     policy_template_path: iam_policy_s3_bucket_access_json.j2
     resource: fedora-cor-bucket
+    state: absent
   - policy_name: AllowEC2sToPrintLogs
     policy_file_path: allow_ec2_to_print_logs.json
 

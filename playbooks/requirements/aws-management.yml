@@ -25,3 +25,4 @@
 - src: https://github.com/curationexperts/dce_role_assign_eip
 - src: https://github.com/curationexperts/dce_role_rds_mysql
   version: update-variable-scheme
+- src: https://github.com/emory-libraries/emorylib_role_mysqldump_restore_via_s3.git

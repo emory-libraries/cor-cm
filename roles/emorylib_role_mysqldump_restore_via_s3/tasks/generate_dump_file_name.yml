@@ -1,0 +1,13 @@
+---
+- name: Generate unqiue file path for dump file
+  set_fact:
+    _dump_path: "/tmp/{{ temp_file_name }}"
+  loop: "{{ mysql_dbs }}"
+  vars:
+    temp_file_name: "{{ item.mysqldump.backup.object_name if (item.mysqldump.backup is defined and item.mysqldump.backup.object_name is defined) else item.id }}_{{ ansible_date_time.date }}_{{ ansible_date_time.epoch }}.sql"
+  register: _dump_name_facts
+
+- name: Merge lists into mysql dbs
+  set_fact:
+    mysql_dbs: "{{ __temp_list | d ([]) }} + [{{ item.1 | combine({'dump_file': item.0.ansible_facts._dump_path })}}]"
+  loop: "{{ _dump_name_facts.results | zip (mysql_dbs) | list }}"
