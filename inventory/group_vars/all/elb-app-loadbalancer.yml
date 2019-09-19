@@ -1,18 +1,18 @@
 ---
-elb_application_lbs: #Module is not working currently
+elb_application_lbs: #manage-app-elb Module is not working currently
   - name: main-elb
+    scheme: internal
     security_groups:
-      - 'http/https'
+      - security-group-us-east-1-tp-apache-ssh
     subnets:
-      - subnet-3a371562
-      - subnet-5964743d
-    scheme: internet-facing
+      - subnet-0289823249b0d4c77 
+      - subnet-069ae68e7752fcc69
     listeners:
       - Protocol: HTTP
         Port: 80
         DefaultActions:
           - Type: forward
-            TargetGroupArn: "arn:aws:elasticloadbalancing:us-west-1:484534655265:targetgroup/solr-test-cluster/ef2166a2d87c39ef"
+            TargetGroupName: "solr-test-1-80"
         Rules:
           - Conditions:
             - Field: host-header
@@ -20,16 +20,16 @@ elb_application_lbs: #Module is not working currently
                 - solr-cor.library.emory.edu
               Priority: '1'
               Actions:
-                - TargetGroupArn: "arn:aws:elasticloadbalancing:us-west-1:484534655265:targetgroup/solr-prod-cluster/82f4fa3d73fb0e47"
+                - TargetGroupName: solr-test-2-80 
                   Type: Forward
       - Protocol: HTTPS
         Port: 443
         SslPolicy: ELBSecurityPolicy-2015-05
         Certificates:
-          - CertificateArn: "arn:aws:iam::484534655265:server-certificate/cor-sar-cert"
+          - CertificateArn: "arn:aws:acm:us-east-1:556359784184:certificate/4f7e53e0-4503-4365-9277-0314e9f7f9d8"
         DefaultActions:
           - Type: forward
-            TargetGroupArn: "arn:aws:elasticloadbalancing:us-west-1:484534655265:targetgroup/solr-test-cluster/ef2166a2d87c39ef"
+            TargetGroupArn: "arn:aws:elasticloadbalancing:us-east-1:556359784184:targetgroup/solr-test-3-80/f77d8a4ebd53dd4d" 
         Rules:
           - Conditions:
             - Field: host-header
@@ -37,5 +37,5 @@ elb_application_lbs: #Module is not working currently
                 - solr-cor.library.emory.edu
               Priority: '1'
               Actions:
-                - TargetGroupArn: "arn:aws:elasticloadbalancing:us-west-1:484534655265:targetgroup/solr-prod-cluster/82f4fa3d73fb0e47"
+                - TargetGroupArn: "arn:aws:elasticloadbalancing:us-east-1:556359784184:targetgroup/test-target-grp/3ba455e131aecb6b" 
                   Type: Forward
