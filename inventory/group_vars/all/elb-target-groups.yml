@@ -6,15 +6,25 @@ elb_target_groups: #manage-elb-target-group
   - name: solr-test-cluster-80
     protocol: http
     health_check_path: /solr/
+  - name: solr-arch-cluster-80
+    protocol: http
+    health_check_path: /solr/
+  - name: fedora-arch-80
+    protocol: http
+    health_check_path: /fcrepo/
   - name: fedora-test-80
     protocol: http
     health_check_path: /fcrepo/
   - name: fedora-80
     protocol: http
     health_check_path: /fcrepo/
+  - name: curate-arch-443
+    protocol: https
   - name: curate-test-443
     protocol: https
   - name: curate-443
+    protocol: https
+  - name: lux-arch-443
     protocol: https
   - name: lux-test-443
     protocol: https
@@ -26,6 +36,9 @@ elb_target_groups: #manage-elb-target-group
   - name: util-prod-80
     protocol: http
     health_check_path: /solr/
+  - name: iiif-arch-80
+    protocol: http
+    heatlh_check_path: /cantaloupe/
   - name: iiif-prod-80
     protocol: http
     health_check_path: /cantaloupe/
