@@ -1,0 +1,12 @@
+---
+# tasks file for emorylib_role_mysqldump_restore_via_s3
+#
+- name: Run logic for mysqldump
+  include_tasks:
+    file: mysqldump.yml
+    apply:
+      tags:
+        - mysqldump
+  tags:
+    - mysqldump
+    - never

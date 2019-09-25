@@ -1,3 +1,4 @@
 - import_playbook: new-ec2.yml host=curate
 - import_playbook: hyrax.yml host=curate
+- import_playbook: cloudwatch.yml host=curate
 - import_playbook: shibb.yml host=curate

@@ -1,2 +1,3 @@
 - import_playbook: new-ec2.yml host=fedora
 - import_playbook: fedora.yml host=fedora
+- import_playbook: cloudwatch.yml host=fedora

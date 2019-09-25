@@ -1,0 +1,39 @@
+---
+- name: Check if EPEL repository exist
+  stat:
+    path: "{{ epel_repo_file_path }}"
+  register: epel_repo_file_path_result
+
+- name: Import EPEL repository GPG key
+  rpm_key:
+    key: "{{ epel_repo_gpg_key_url }}"
+    state: present
+  when: not epel_repo_file_path_result.stat.exists
+
+- name: Install EPEL repository
+  yum:
+    name: "{{ epel_repo_url }}"
+    state: present
+  register: result
+  when: not epel_repo_file_path_result.stat.exists
+
+- name: Install EPEL package
+  yum:
+    name: "{{ epel_package }}"
+    state: present
+  when: not epel_repo_file_path_result.stat.exists
+
+# Only for RedHat 7
+# reference: https://fedoraproject.org/wiki/EPEL
+- name: Enable the optional and extras repositories for RHEL 7
+  rhsm_repository:
+    name: "{{ item }}"
+    state: enabled
+  with_items:
+    - rhel-*-optional-rpms
+    - rhel-*-extras-rpms
+  when: >
+    ansible_os_family == 'RedHat' and
+    ansible_distribution == 'RedHat' and
+    ansible_distribution_major_version == 7 and
+    epel_enable_redhat_extras_repos

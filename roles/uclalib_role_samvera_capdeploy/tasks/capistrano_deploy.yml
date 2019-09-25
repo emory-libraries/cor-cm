@@ -8,7 +8,7 @@
 - name: Execute capistrano deployment of project
   become_user: "{{ ansible_username }}"
   shell: >
-    BRANCH={{ git_repo_branch }} cap {{ capistrano_environment | d('localhost') }} deploy
+    BRANCH={{ git_repo_branch }} bundle exec cap {{ capistrano_environment | d('localhost') }} deploy
   args:
     chdir: /home/{{ ansible_username }}/{{ project_name }}
 

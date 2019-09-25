@@ -1,8 +1,9 @@
 project_name: "{{ git_repo_url | urlsplit('path') | basename }}"
 git_repo_url: "https://github.com/emory-libraries/dlp-curate"
-git_repo_branch: "master"
 enable_ssl: "yes"
-#hyrax_symdir: "/mnt/efs/{{ project_name }}"
+ec2_instance_type: t3.large
+git_repo_branch: v0.3.8
+
 seed_hyrax_db: yes
 idp_name: "prod"
 ssh_pub_keys:
@@ -15,40 +16,51 @@ ssh_pub_keys:
   - https://github.com/bess.keys
   - https://github.com/little9.keys
   - https://github.com/mark-dce.keys
+  - https://github.com/wulman16.keys
 
 symblink_dirs:
-  - src: "/mnt/efs/{{ project_name }}"
-    path: "{{ capistrano_base }}/{{ project_name }}"
+#  - src: "/mnt/efs/{{ project_name }}" Removed due to poor performance
+#    path: "{{ capistrano_base }}/{{ project_name }}"
   - src: "/mnt/efs/uploads"
     path: "{{ capistrano_base }}/uploads"
-dlp_curate_linked_files:
-  - content: "{{ lookup('file', 'resources/admins.yml') }}"
-    dest: "{{ capistrano_base }}/{{ project_name }}/shared/config/emory/admins.yml"
-    mode: 0644
-  - content: "{{ lookup('template', 'dotenv_dict.j2') }}"
-    dest: "{{ capistrano_base }}/{{ project_name }}/shared/.env.production"
-    mode: 0644
 
 get_metadata:
   download: no
 
 dlp_curate_dotenv:
-  admin_password:
+  admin_password: "{{ vault_dlp.project.default_admin_password | d ('') }}"
   contact_us_email: "test@emory.edu"
-  cache_path: "/opt/uploads/cache"
-  upload_path: "/opt/uploads"
-  working_path: "/opt/uploads"
-  derivatives_path: "/opt/derivatives"
-  database_auth: true
-  database_adapter:
-  database_pool:
-  database_name:
-  database_username:
-  database_password:
+  cache_path: "/opt/uploads/dlp-curate/cache/"
+  upload_path: "/opt/uploads/dlp-curate/"
+  working_path: "/opt/uploads/dlp-curate/"
+  derivatives_path: "/opt/uploads/dlp-curate/derivatives/"
+  database_auth: false
+  database_adapter: "mysql2"
+  database_pool: 5
+  database_name: "{{ dlp_curate_mysql_db.name | d ('') }}"
+  database_username: "{{ dlp_curate_mysql_db.user | d ('') }}"
+  database_host: "{{ rds_endpoint | d ('') }}"
+  database_password: "{{ dlp_curate_mysql_db.password | d ('') }}"
+  geonames_username: "{{ vault_geonames_username  | d ('') }}"
+  import_path: "{{ __dlp_curate_dotenv.import_path | d ('') }}"
   project_name: "dlp-curate"
   sidekiq_workers: 5
-  fedora_url:
-  fedora_user:
-  fedora_password:
-  solr_url:
-  redis_host:
+  fedora_url: "{{ __dlp_curate_dotenv.fedora_url | d ('') }}" 
+  fedora_user: "{{ vault_fedora.admin.user | d ('') }}"
+  fedora_password: "{{ vault_fedora.admin.pass | d ('') }}"
+  solr_url: "{{ __dlp_curate_dotenv.solr_url | d ('') }}" 
+  redis_host: localhost
+  redis_port: 6379
+
+mysql_dbs:
+  - id: curate
+    db_name: "{{ dlp_curate_mysql_db.name | d ('') }}"
+    login_user: "{{ dlp_curate_mysql_db.user | d ('') }}"
+    login_host: "{{ hostvars[rds_host]['endpoint']['address'] | d ('') }}" 
+    login_password: "{{ dlp_curate_mysql_db.password | d ('') }}"
+    mysqldump:
+      s3_bucket: cor-devops-binaries
+      s3_bucket_path: "/mysqldumps/{{ inventory_hostname_short }}"
+      service:
+        name: httpd
+

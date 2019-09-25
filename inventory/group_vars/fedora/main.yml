@@ -9,6 +9,19 @@ tomcat_applications:
     shut_port: 8079
     rproxy_path: fcrepo
     proxypass_extra_params: "nocanon keepalive=on retry=0.5"
+
+mysql_dbs:
+  - id: fedora
+    db_name: "{{ fedora_mysql_db.name }}"
+    login_user: "{{ fedora_mysql_db.user }}"
+    login_host: "{{ hostvars[rds_host]['endpoint']['address'] }}"
+    login_password: "{{ fedora_mysql_db.password }}"
+    mysqldump:
+      s3_bucket: cor-devops-binaries
+      s3_bucket_path: "/mysqldumps/{{ inventory_hostname_short }}"
+      service:
+        name: fedora 
+
 #  - type: cantaloupe
 #    conn_port: 8089
 #    shut_port: 8092

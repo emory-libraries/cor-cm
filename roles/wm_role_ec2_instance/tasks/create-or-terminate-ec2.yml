@@ -27,7 +27,7 @@
     purge_tags: "{{ ec2_purge_tags | d (omit) }}"
     region: "{{ aws_region | d (omit) }}"
     security_groups: "{{ ec2_security_groups }}"
-    tags: "{{ ec2_tags | d (omit) }}"
+    tags: "{{ ec2_tags | items2dict | d (omit) }}"
     tenancy: "{{ ec2_tenancy | d (omit) }}"
     termination_protection: "{{ ec2_termination_protection | d (omit) }}"
     tower_callback: "{{ ec2_tower_callback | d (omit) }}"

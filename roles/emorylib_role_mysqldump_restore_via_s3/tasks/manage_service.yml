@@ -1,0 +1,18 @@
+---
+- name: "{{ (service_state == 'stopped') | ternary('Stop', 'Start') }} service via systemctl"
+  systemd:
+    name: "{{ item.mysqldump.service.name }}"
+    state: "{{ service_state }}"
+  loop: "{{ mysql_dbs }}"
+  when:
+    - item.mysqldump.service.name | d (False)
+    - item.mysqldump.service.method | d (True) != 'service'
+
+- name: "{{ (service_state == 'stopped') | ternary('Stop', 'Start') }} service via /etc/init.d"
+  service:
+    name: "{{ item.mysqldump.service.name }}"
+    state: "{{ service_state }}"
+  loop: "{{ mysql_dbs }}"
+  when: 
+    - item.mysqldump.service.name | d (False)
+    - item.mysqldump.service.method | d (False) == 'service'
