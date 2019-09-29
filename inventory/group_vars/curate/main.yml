@@ -63,4 +63,3 @@ mysql_dbs:
       s3_bucket_path: "/mysqldumps/{{ inventory_hostname_short }}"
       service:
         name: httpd
-

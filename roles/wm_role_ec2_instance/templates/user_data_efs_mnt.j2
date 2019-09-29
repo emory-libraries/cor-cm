@@ -7,7 +7,7 @@ packages:
 - nfs-utils
 
 runcmd:
-{% for efs in efs_mounts %}
+{% for efs in efs_mount_points %}
 - mkdir -p {{ efs.path | d ('/mnt/efs') }}
 - chown ec2-user:ec2-user {{ efs.path | d ('/mnt/efs') }}
 - chmod 777 {{ efs.path | d ('/mnt/efs') }}

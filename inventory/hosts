@@ -37,9 +37,10 @@ all:
             solr-arch:
               hosts:
                 solr-cor-arch-[1:3].library.emory.edu:
-                s3-iam:
-                  nohost:
-            rds:
-              hosts:
-                dlp-tst-rdsmys-sz:
-                dlp-prd-rdsmys-mz:
+        s3-iam:
+          hosts:
+            nohost:
+        rds:
+          hosts:
+            dlp-tst-rdsmys-sz:
+            dlp-prd-rdsmys-mz:

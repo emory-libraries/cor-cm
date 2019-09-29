@@ -15,13 +15,13 @@
   set_fact:
     artifact_resolution_service: "{{ item.count }}"
   loop: "{{ metadata_counts.results }}"
-  when: item._ansible_item_label is search('ArtifactResolutionService')
+  when: item.invocation.module_args.xpath is search('ArtifactResolutionService') 
 
 - name: Create assertion starting point
   set_fact:
     assertion_consumer_service: "{{ item.count }}"
   loop: "{{ metadata_counts.results }}"
-  when: item._ansible_item_label is search('AssertionConsumerService')
+  when: item.invocation.module_args.xpath is search('AssertionConsumerService')
 
 - name: Add additonal endpoints to metadata and backup file
   blockinfile:

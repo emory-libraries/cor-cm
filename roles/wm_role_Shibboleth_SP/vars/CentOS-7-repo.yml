@@ -1,1 +1,1 @@
-repo_base_url: "http://download.opensuse.org/repositories/security:/shibboleth/CentOS_7"
+mirrorlist_url: https://shibboleth.net/cgi-bin/mirrorlist.cgi/CentOS_7
