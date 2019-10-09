@@ -5,6 +5,8 @@ s3_buckets: #manage-s3-bucket
 
 get_s3_bucket_name: cor-devops-binaries 
 
+amazon_analytics_bucket_name: "AllowAmazonAnalyticsFrom{{ item.source_bucket }}To{{ item.destination_bucket }}"
+
 iam_policies: #iam-manage-policy
   - policy_name: AccessToBinariesBucket
     policy_template_path: iam_policy_s3_bucket_access_json.j2
@@ -22,6 +24,15 @@ iam_policies: #iam-manage-policy
     state: absent
   - policy_name: AllowEC2sToPrintLogs
     policy_file_path: allow_ec2_to_print_logs.json
+  - policy_name: "{{ amazon_analytics_bucket_name }}"
+    destination_bucket: 
+    source_bucket: fedora-cor-bucket
+  - policy_name: "{{ amazon_analytics_bucket_name }}"
+    destination_bucket: 
+    source_bucket: fedora-cor-test-bucket
+  - policy_name: "{{ amazon_analytics_bucket_name }}"
+    destination_bucket: 
+    source_bucket: 
 
 iam_roles: #iam-manage-role
   - name: general-ec2-role
