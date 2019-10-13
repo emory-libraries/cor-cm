@@ -27,6 +27,18 @@ iam_policies: #iam-manage-policy
     state: absent
   - policy_name: AllowEC2sToPrintLogs
     policy_file_path: allow_ec2_to_print_logs.json
+  - policy_name: S3BatchJobForFedoraCor
+    target_bucket: fedora-cor-binaries
+    manifest_bucket: cor-s3-inventory-1
+    report_bucket: cor-s3-inventory-1
+  - policy_name: S3BatchJobForFedoraCorTest
+    target_bucket: fedora-cor-test-binaries
+    manifest_bucket: cor-s3-inventory-1
+    report_bucket: cor-s3-inventory-1
+  - policy_name: S3BatchJobForFedoraCorArch
+    target_bucket: fedora-cor-arch-binaries
+    manifest_bucket: cor-s3-inventory-2
+    report_bucket: cor-s3-inventory-2
 
 iam_roles: #iam-manage-role
   - name: general-ec2-role
@@ -34,6 +46,13 @@ iam_roles: #iam-manage-role
       - AccessToBinariesBucket
     description: General role for ec2
     policy_file_path: ec2_assume_role.json
+  - name: s3-batch-job-role
+    managed_policy:
+      - S3BatchJobForFedoraCor
+      - S3BatchJobForFedoraCorTest
+      - S3BatchJobForFedoraCorArch
+    description: Controls batch operations
+    policy_file_path: s3_batch_job_role.json
 
 #iam_users:
 #  - name: fedora-cor-user
