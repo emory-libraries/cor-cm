@@ -4,6 +4,7 @@
     {
       "Sid":"InventoryAndAnalyticsExamplePolicy",
       "Effect":"Allow",
+      "Principal": {"Service": "s3.amazonaws.com"},
       "Action":["s3:PutObject"],
       "Resource":["arn:aws:s3:::{{ item.destination_bucket }}/*"],
       "Condition": {

@@ -28,14 +28,17 @@ iam_policies: #iam-manage-policy
   - policy_name: AllowEC2sToPrintLogs
     policy_file_path: allow_ec2_to_print_logs.json
   - policy_name: S3BatchJobForFedoraCor
+    policy_template_path: iam_policy_s3_batch_operations_json.j2
     target_bucket: fedora-cor-binaries
     manifest_bucket: cor-s3-inventory-1
     report_bucket: cor-s3-inventory-1
   - policy_name: S3BatchJobForFedoraCorTest
+    policy_template_path: iam_policy_s3_batch_operations_json.j2
     target_bucket: fedora-cor-test-binaries
     manifest_bucket: cor-s3-inventory-1
     report_bucket: cor-s3-inventory-1
   - policy_name: S3BatchJobForFedoraCorArch
+    policy_template_path: iam_policy_s3_batch_operations_json.j2
     target_bucket: fedora-cor-arch-binaries
     manifest_bucket: cor-s3-inventory-2
     report_bucket: cor-s3-inventory-2
@@ -43,7 +46,11 @@ iam_policies: #iam-manage-policy
 iam_roles: #iam-manage-role
   - name: general-ec2-role
     managed_policy: 
-      - AccessToBinariesBucket
+      - CloudWatchFullAccess
+      - AllowEC2sToPrintLogs
+      - AccessToCorDevOpsBinaries
+      - rhedcloud-aws-vpc-type1-73-RHEDcloudManagementSubnetPolicy
+      - RHEDcloudAdministratorRolePolicy
     description: General role for ec2
     policy_file_path: ec2_assume_role.json
   - name: s3-batch-job-role
