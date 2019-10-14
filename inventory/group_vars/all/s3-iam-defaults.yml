@@ -28,17 +28,17 @@ iam_policies: #iam-manage-policy
   - policy_name: AllowEC2sToPrintLogs
     policy_file_path: allow_ec2_to_print_logs.json
   - policy_name: S3BatchJobForFedoraCor
-    policy_template_path: iam_policy_s3_batch_operations_json.j2
+    policy_template_path: iam_policy_s3_batch_operation_tags_json.j2
     target_bucket: fedora-cor-binaries
     manifest_bucket: cor-s3-inventory-1
     report_bucket: cor-s3-inventory-1
   - policy_name: S3BatchJobForFedoraCorTest
-    policy_template_path: iam_policy_s3_batch_operations_json.j2
+    policy_template_path: iam_policy_s3_batch_operation_tags_json.j2
     target_bucket: fedora-cor-test-binaries
     manifest_bucket: cor-s3-inventory-1
     report_bucket: cor-s3-inventory-1
   - policy_name: S3BatchJobForFedoraCorArch
-    policy_template_path: iam_policy_s3_batch_operations_json.j2
+    policy_template_path: iam_policy_s3_batch_operation_tags_json.j2
     target_bucket: fedora-cor-arch-binaries
     manifest_bucket: cor-s3-inventory-2
     report_bucket: cor-s3-inventory-2
