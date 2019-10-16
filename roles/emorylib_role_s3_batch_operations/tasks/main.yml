@@ -1,0 +1,10 @@
+---
+# tasks file for emorylib_role_s3_batch_operations
+- name: Include tasks to create s3 batch operations
+  include_tasks: 
+    file: awscli_s3_batch_operation.yml
+    apply:
+      tags:
+        - s3-batch-op
+  tags:
+    - s3-batch-op

@@ -1,0 +1,17 @@
+---
+- name: Submit batch tagging via awscli
+  shell: >
+    aws s3control create-job --region {{ item.region | d (s3_batch_operation.region) }} --account-id {{ item.account_id | d (s3_batch_operation.account_id) }} 
+    --operation {{ item.operation | to_json | quote }} --manifest {{ item.manifest | to_json | quote }} --report {{ item.report | to_json | quote }} --role-arn {{ item.role_arn | d (s3_batch_operation.role_arn) }} 
+    {{ (item.priority is defined) | ternary (priority, '') }} {{ (item.description is defined) | ternary (description, '') }} --no-confirmation-required
+  vars:
+    priority: '--priority {{ item.priority }}'
+    description: '--description {{ item.description | quote }}'
+  loop: '{{ s3_batch_operations }}'
+  register: batch_operation_fact
+
+- name: Display JobID repsonse
+  debug:
+    msg: 'The job id is {{ batch_operation_fact.results[0].stdout | from_json }}'
+
+  
