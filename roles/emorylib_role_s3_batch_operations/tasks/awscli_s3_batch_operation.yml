@@ -2,11 +2,14 @@
 - name: Submit batch tagging via awscli
   shell: >
     aws s3control create-job --region {{ item.region | d (s3_batch_operation.region) }} --account-id {{ item.account_id | d (s3_batch_operation.account_id) }} 
-    --operation {{ item.operation | to_json | quote }} --manifest {{ item.manifest | to_json | quote }} --report {{ item.report | to_json | quote }} --role-arn {{ item.role_arn | d (s3_batch_operation.role_arn) }} 
-    {{ (item.priority is defined) | ternary (priority, '') }} {{ (item.description is defined) | ternary (description, '') }} --no-confirmation-required
+    --operation {{ item.operation | to_json | quote }} --manifest {{ manifest }} --report {{ item.report | to_json | quote }} --role-arn {{ item.role_arn | d (s3_batch_operation.role_arn) }} 
+    {{ (priority_query != '') | ternary (priority, '') }} {{ (description_query != '') | ternary (description, '') }} --no-confirmation-required
   vars:
-    priority: '--priority {{ item.priority }}'
-    description: '--description {{ item.description | quote }}'
+    priority: '--priority {{ item | json_query("priority") }}'
+    priority_query: '{{ item | json_query("priority") }}'
+    description: '--description {{  item | json_query("description") | quote }}'
+    description_query: '{{ item | json_query("description") }}'
+    manifest: '{{ item.manifest | d (s3_batch_operation.manifest)| to_json | quote }}'
   loop: '{{ s3_batch_operations }}'
   register: batch_operation_fact
 

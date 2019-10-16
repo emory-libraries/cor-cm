@@ -42,6 +42,18 @@ iam_policies: #iam-manage-policy
     target_bucket: fedora-cor-arch-binaries
     manifest_bucket: cor-s3-inventory-2
     report_bucket: cor-s3-inventory-2
+  - policy_name: S3BatchPutCopyOpFromFedoraCorToFedoraCorArch
+    destination_bucket: fedora-cor-arch-binaries
+    source_bucket: fedora-cor-binaries
+    manifest_bucket: cor-s3-inventory-1
+    report_bucket: cor-s3-inventory-2
+    policy_template_path: iam_policy_s3_batch_operation_putcopy_json.j2
+  - policy_name: S3BatchPutCopyOpFromFedoraCorTestToFedoraCorArch
+    destination_bucket: fedora-cor-arch-binaries
+    source_bucket: fedora-cor-test-binaries
+    manifest_bucket: cor-s3-inventory-1
+    report_bucket: cor-s3-inventory-2
+    policy_template_path: iam_policy_s3_batch_operation_putcopy_json.j2
 
 iam_roles: #iam-manage-role
   - name: general-ec2-role
@@ -58,6 +70,8 @@ iam_roles: #iam-manage-role
       - S3BatchJobForFedoraCor
       - S3BatchJobForFedoraCorTest
       - S3BatchJobForFedoraCorArch
+      - S3BatchPutCopyOpFromFedoraCorToFedoraCorArch
+      - S3BatchPutCopyOpFromFedoraCorTestToFedoraCorArch
     description: Controls batch operations
     policy_file_path: s3_batch_job_role.json
 

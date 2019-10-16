@@ -5,8 +5,7 @@
       "Effect":"Allow",
       "Action":[
         "s3:PutObjectTagging",
-        "s3:PutObjectVersionTagging",
-        "s3:CreateJob"
+        "s3:PutObjectVersionTagging"
       ],
       "Resource": "arn:aws:s3:::{{ item.target_bucket }}/*"
     },
@@ -15,9 +14,7 @@
       "Action": [
         "s3:GetObject",
         "s3:GetObjectVersion",
-        "s3:ListBucket",
-        "s3:GetBucketLocation",
-        "s3:CreateJob"
+        "s3:GetBucketLocation"
       ],
       "Resource": [
         "arn:aws:s3:::{{ item.manifest_bucket }}/*"
@@ -27,9 +24,7 @@
       "Effect":"Allow",
       "Action":[
         "s3:PutObject",
-        "s3:ListBucket",
-        "s3:GetBucketLocation",
-        "s3:CreateJob"
+        "s3:GetBucketLocation"
       ],
       "Resource":[
         "arn:aws:s3:::{{ item.report_bucket }}/*"
