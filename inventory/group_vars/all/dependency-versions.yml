@@ -1,13 +1,15 @@
 fits_version: 1.5.0
-libreoffice_version: 6.2.5
+libreoffice_version: 6.2.8
 ffmpeg_version: latest
 passenger_version: 6.0.4
-tomcat_version: 8.5.46
 
-oracle_java_version: '1.8.0_221'
-java_platform:  "oracle"
-nodejs_version: '8'
-fedora_version: '4.7.5'
+tomcat_version: 8.5.47
+oracle_java_version: 1.8.0_231
+java_platform:  oracle
+jsw_version: 3.5.40
+
+nodejs_version: 8
+fedora_version: 4.7.5
 
 tomcat_major_version: 8
 
