@@ -2,12 +2,12 @@
 - name: Set userdata for EC2 (No EFS)
   set_fact:
     ec2_user_data: "{{ lookup('template', 'user_data.j2') }}"
-  when: not efs_mount_points[0] | d (True)
+  # when: not efs_mount_points[0] | d (True)
 
-- name: Set userdata for EC2 (EFS)
-  set_fact:
-    ec2_user_data: "{{ lookup('template', 'user_data_efs_mnt.j2') }}"
-  when: efs_mount_points[0] | d (False)
+# - name: Set userdata for EC2 (EFS)
+#   set_fact:
+#     ec2_user_data: "{{ lookup('template', 'user_data_efs_mnt.j2') }}"
+#   when: efs_mount_points[0] | d (False)
 
 - name: Set ec2 state to start stopped instance
   set_fact:
