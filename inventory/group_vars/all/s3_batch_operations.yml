@@ -1,5 +1,5 @@
 # s3-batch-op
-s3_batch_operations: '{{ curate_test_tagging_op }}'
+s3_batch_operations: '{{ curate_test_put_copy_op }}'
 
 s3_batch_operation:
   region: us-west-1
@@ -9,16 +9,16 @@ s3_batch_operation:
     Spec:
       Format: S3InventoryReport_CSV_20161130
     Location:
-      ObjectArn: arn:aws:s3:::cor-s3-inventory-1/fedora-cor-test-binaries/manifest/2019-10-15T04-00Z/manifest.json
-      ETag: abc7e0d4be2ace0da4326f13f707a30c
+      ObjectArn: arn:aws:s3:::cor-s3-inventory-1/fedora-cor-test-binaries/manifest/2019-10-27T04-00Z/manifest.json
+      ETag: 4c2011519b0ae6a853c4346c40f691cd
 
 
 curate_test_tagging_op:
   - operation:
       S3PutObjectTagging:
         TagSet:
-          - Key: Manifest Test 2
-            Value: Tagging w/o Manifest Again
+          - Key: TagID Here
+            Value: Testing tagging again
     report:
       Bucket: arn:aws:s3:::cor-s3-inventory-1
       Prefix: fedora-cor-test-binaries/completion-report
@@ -29,15 +29,10 @@ curate_test_tagging_op:
  
 curate_test_put_copy_op:
   - region: us-east-1
+    role_arn: 'arn:aws:iam::{{ aws_account_number }}:role/s3testrole'
     operation:
       S3PutObjectCopy:
         TargetResource: arn:aws:s3:::fedora-cor-arch-binaries
-    manifest:
-      Spec:
-        Format: S3InventoryReport_CSV_20161130
-      Location:
-        ObjectArn: arn:aws:s3:::cor-s3-inventory-1/fedora-cor-test-binaries/manifest/2019-10-15T04-00Z/manifest.json
-        ETag: abc7e0d4be2ace0da4326f13f707a30c
     report:
       Bucket: arn:aws:s3:::cor-s3-inventory-2
       Prefix: fedora-cor-arch-binaries/completion-report

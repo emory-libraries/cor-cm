@@ -17,10 +17,9 @@ iam_policies: #iam-manage-policy
   - policy_name: AccessToCorDevOpsBinaries
     policy_template_path: iam_policy_s3_bucket_access_json.j2
     resource: cor-devops-binaries 
-  - policy_name: AccessToFedoraCorTestBucket
+  - policy_name: AccessToFedoraCorTestBinaries
     policy_template_path: iam_policy_s3_bucket_access_json.j2
-    resource: fedora-cor-test-bucket
-    state: absent
+    resource: fedora-cor-test-binaries
   - policy_name: AccessToFedoraCorBucket
     policy_template_path: iam_policy_s3_bucket_access_json.j2
     resource: fedora-cor-bucket
@@ -67,12 +66,21 @@ iam_roles: #iam-manage-role
     policy_file_path: ec2_assume_role.json
   - name: s3-batch-job-role
     managed_policy:
+      - RHEDcloudAdministratorRolePolicy
+      - rhedcloud-aws-vpc-type1-73-RHEDcloudManagementSubnetPolicy
       - S3BatchJobForFedoraCor
       - S3BatchJobForFedoraCorTest
       - S3BatchJobForFedoraCorArch
       - S3BatchPutCopyOpFromFedoraCorToFedoraCorArch
       - S3BatchPutCopyOpFromFedoraCorTestToFedoraCorArch
     description: Controls batch operations
+    policy_file_path: s3_batch_job_role.json
+  - name: s3testrole
+    managed_policy:
+      - RHEDcloudAdministratorRolePolicy
+      - rhedcloud-aws-vpc-type1-73-RHEDcloudManagementSubnetPolicy
+      - S3BatchPutCopyOpFromFedoraCorTestToFedoraCorArch
+      - AccessToFedoraCorTestBinaries
     policy_file_path: s3_batch_job_role.json
 
 #iam_users:
