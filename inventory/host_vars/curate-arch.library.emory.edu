@@ -10,7 +10,7 @@ symblink_dirs:
     path: "{{ capistrano_base }}/uploads"
 
 __dlp_curate_dotenv:
-  fedora_url: "https://fedora-cor-arch.library.emory.edu/fcrepo/rest"
+  fedora_url: "http://fedora-cor-arch.library.emory.edu/fcrepo/rest"
   solr_url: "https://solr-cor-arch.library.emory.edu/solr/curate_collection"
   import_path: "/mnt/prod_efs/Collections/dmfiles/MARBL/Manuscripts/MSS_1218_Langmuir/"
 
@@ -31,3 +31,29 @@ ec2_security_groups:
 
 elb_targets:
   - target_group_name: curate-arch-443
+
+dlp_curate_dotenv:
+  admin_password: "{{ vault_dlp.project.default_admin_password | d ('') }}"
+  contact_us_email: "test@emory.edu"
+  cache_path: "/opt/uploads/dlp-curate/cache/"
+  upload_path: "/opt/uploads/dlp-curate/"
+  working_path: "/opt/uploads/dlp-curate/"
+  derivatives_path: "/opt/uploads/dlp-curate/derivatives/"
+  database_auth: false
+  database_adapter: "mysql2"
+  database_pool: 5
+  database_name: "{{ dlp_curate_mysql_db.name | d ('') }}"
+  database_username: "{{ dlp_curate_mysql_db.user | d ('') }}"
+  database_host: "{{ rds_endpoint | d ('') }}"
+  database_password: "{{ dlp_curate_mysql_db.password | d ('') }}"
+  geonames_username: "{{ vault_geonames_username  | d ('') }}"
+  import_path: "{{ __dlp_curate_dotenv.import_path | d ('') }}"
+  iiif_server_url: http://iiif-cor-test.library.emory.edu/cantaloupe/iiif/2/
+  project_name: "dlp-curate"
+  sidekiq_workers: 5
+  fedora_url: "{{ __dlp_curate_dotenv.fedora_url | d ('') }}" 
+  fedora_user: "{{ vault_fedora.admin.user | d ('') }}"
+  fedora_password: "{{ vault_fedora.admin.pass | d ('') }}"
+  solr_url: "{{ __dlp_curate_dotenv.solr_url | d ('') }}" 
+  redis_host: localhost
+  redis_port: 6379
