@@ -9,16 +9,16 @@ s3_batch_operation:
     Spec:
       Format: S3InventoryReport_CSV_20161130
     Location:
-      ObjectArn: arn:aws:s3:::cor-s3-inventory-1/fedora-cor-test-binaries/manifest/2019-10-27T04-00Z/manifest.json
-      ETag: 4c2011519b0ae6a853c4346c40f691cd
+      ObjectArn: arn:aws:s3:::cor-s3-inventory-1/fedora-cor-test-binaries/manifest/2019-10-30T04-00Z/manifest.json
+      ETag: 616292457483391a7546c53be0734b43
 
 
 curate_test_tagging_op:
   - operation:
       S3PutObjectTagging:
         TagSet:
-          - Key: TagID Here
-            Value: Testing tagging again
+          - Key: Test
+            Value: ''
     report:
       Bucket: arn:aws:s3:::cor-s3-inventory-1
       Prefix: fedora-cor-test-binaries/completion-report
@@ -29,9 +29,9 @@ curate_test_tagging_op:
  
 curate_test_put_copy_op:
   - region: us-east-1
-    role_arn: 'arn:aws:iam::{{ aws_account_number }}:role/s3testrole'
     operation:
       S3PutObjectCopy:
+        CannedAccessControlList: bucket-owner-full-control
         TargetResource: arn:aws:s3:::fedora-cor-arch-binaries
     report:
       Bucket: arn:aws:s3:::cor-s3-inventory-2
