@@ -53,6 +53,12 @@ iam_policies: #iam-manage-policy
     manifest_bucket: cor-s3-inventory-1
     report_bucket: cor-s3-inventory-2
     policy_template_path: iam_policy_s3_batch_operation_putcopy_json.j2
+  - policy_name: S3BatchPutCopyTestDLP
+    destination_bucket: temp-bucket-dlp-test
+    source_bucket: fedora-cor-test-binaries
+    manifest_bucket: cor-s3-inventory-1
+    report_bucket: cor-s3-inventory-1
+    policy_template_path: iam_policy_s3_batch_operation_putcopy_json.j2
 
 iam_roles: #iam-manage-role
   - name: general-ec2-role
@@ -81,6 +87,7 @@ iam_roles: #iam-manage-role
       - rhedcloud-aws-vpc-type1-73-RHEDcloudManagementSubnetPolicy
       - S3BatchPutCopyOpFromFedoraCorTestToFedoraCorArch
       - AccessToFedoraCorTestBinaries
+      - S3BatchPutCopyTestDLP
     policy_file_path: s3_batch_job_role.json
 
 #iam_users:

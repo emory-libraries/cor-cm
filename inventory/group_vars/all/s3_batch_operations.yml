@@ -31,7 +31,6 @@ curate_test_put_copy_op:
   - region: us-east-1
     operation:
       S3PutObjectCopy:
-        CannedAccessControlList: bucket-owner-full-control
         TargetResource: arn:aws:s3:::fedora-cor-arch-binaries
     report:
       Bucket: arn:aws:s3:::cor-s3-inventory-2
