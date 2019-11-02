@@ -5,7 +5,6 @@ efs_mount_points:
     dns_name: fs-a1416442.efs.us-east-1.amazonaws.com
 rds_host: dlp-tst-rdsmys-sz
 ec2_instance_type: t3.large
-git_repo_branch: v0.4.10
 
 symblink_dirs:
   - src: "/mnt/test_efs/uploads"
@@ -38,9 +37,9 @@ elb_targets:
 dlp_curate_dotenv:
   admin_password: "{{ vault_dlp.project.default_admin_password | d ('') }}"
   contact_us_email: "test@emory.edu"
-  cache_path: "/opt/cache/"
-  upload_path: "/opt/uploads/dlp-curate/"
-  working_path: "/opt/uploads/dlp-curate/"
+  cache_path: "/opt/curate/cache/"
+  upload_path: "/opt/curate/upload/"
+  working_path: "/opt/curate/working/"
   derivatives_path: "/opt/uploads/dlp-curate/derivatives/"
   database_auth: false
   database_adapter: "mysql2"
