@@ -28,4 +28,5 @@ fedora_jsw_options:
           - "Dfcrepo.mysql.host={{ fedora_db_host }}"
           - "Dfcrepo.mysql.port={{ fedora_db_port }}"
           - "XX:MaxMetaspaceSize=512m"
-      maxmemory: 4096
+          - Xmx16392m
+      maxmemory: 16392

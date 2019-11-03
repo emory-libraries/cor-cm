@@ -2,7 +2,6 @@ efs_mount_points:
   - path: /mnt/prod_efs
     dns_name: fs-a1416442.efs.us-east-1.amazonaws.com
     
-ec2_instance_type: t3.large
 
 symblink_dirs:
   - src: "/mnt/prod_efs/uploads"

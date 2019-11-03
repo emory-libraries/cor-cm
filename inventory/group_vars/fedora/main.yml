@@ -2,6 +2,8 @@ fedora_use_s3: yes
 project_name: fedora
 tomcat_enable_ssl: no
 
+ec2_instance_type: t3.xlarge
+
 tomcat_applications:
   - type: fedora
     long_name: Fedora Commons

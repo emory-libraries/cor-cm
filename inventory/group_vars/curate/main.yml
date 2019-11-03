@@ -30,13 +30,13 @@ get_metadata:
 dlp_curate_dotenv:
   admin_password: "{{ vault_dlp.project.default_admin_password | d ('') }}"
   contact_us_email: "test@emory.edu"
-  cache_path: "/opt/uploads/dlp-curate/cache/"
-  upload_path: "/opt/uploads/dlp-curate/"
-  working_path: "/opt/uploads/dlp-curate/"
+  cache_path: "/opt/curate/cache/"
+  upload_path: "/opt/curate/upload/"
+  working_path: "/opt/curate/working/"
   derivatives_path: "/opt/uploads/dlp-curate/derivatives/"
   database_auth: false
   database_adapter: "mysql2"
-  database_pool: 5
+  database_pool: 20
   database_name: "{{ dlp_curate_mysql_db.name | d ('') }}"
   database_username: "{{ dlp_curate_mysql_db.user | d ('') }}"
   database_host: "{{ rds_endpoint | d ('') }}"
@@ -44,7 +44,7 @@ dlp_curate_dotenv:
   geonames_username: "{{ vault_geonames_username  | d ('') }}"
   import_path: "{{ __dlp_curate_dotenv.import_path | d ('') }}"
   project_name: "dlp-curate"
-  sidekiq_workers: 5
+  sidekiq_workers: 10
   fedora_url: "{{ __dlp_curate_dotenv.fedora_url | d ('') }}" 
   fedora_user: "{{ vault_fedora.admin.user | d ('') }}"
   fedora_password: "{{ vault_fedora.admin.pass | d ('') }}"
@@ -63,3 +63,8 @@ mysql_dbs:
       s3_bucket_path: "/mysqldumps/{{ inventory_hostname_short }}"
       service:
         name: httpd
+
+additional_capistrano_directories:
+  - '{{ capistrano_base }}/curate/upload'
+  - '{{ capistrano_base }}/curate/working'
+  - '{{ capistrano_base }}/curate/cache'
