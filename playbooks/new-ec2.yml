@@ -1,5 +1,23 @@
 - hosts: "{{ host | d('all') }}"
   gather_facts: false
+
+  pre_tasks:
+    - name: Shut down services when deleting ec2s
+      systemd:
+        name: '{{ services }}'
+        state: stopped
+      loop:
+        - httpd
+        - fedora
+        - solr
+      loop_control:
+        loop_var: services
+      tags:
+        - delete-ec2
+        - never
+      become: yes
+      ignore_errors: yes
+
   
   roles: 
     - role: wm_role_ec2_instance

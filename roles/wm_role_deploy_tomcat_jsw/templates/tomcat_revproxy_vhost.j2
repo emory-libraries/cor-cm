@@ -20,7 +20,7 @@
 {% endif %}
   ServerName {{ tomcat_server_name }}
 
-  RequestReadTimeout header=30
+  RequestReadTimeout header=0 body=0
   ErrorLog {{ apache_log_path }}/tomcatapps/error_log
   CustomLog {{ apache_log_path }}/tomcatapps/access_log combined
 

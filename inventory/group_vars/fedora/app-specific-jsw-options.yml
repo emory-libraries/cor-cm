@@ -31,4 +31,7 @@ fedora_jsw_options:
           - "Daws.secretKey={{ fedora_aws_secret_key }}"
           - "Daws.bucket={{ fedora_aws_bucket }}"
           - "XX:MaxMetaspaceSize=512m"
-      maxmemory: 99999
+          - Xmx13g
+          - Xms1g
+      maxmemory: ''
+      initmemory: ''
