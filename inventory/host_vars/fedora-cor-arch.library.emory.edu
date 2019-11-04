@@ -15,3 +15,5 @@ elb_targets:
 ec2_security_groups:
   - "{{ sg_pre }}-tp-apache-ssh"
   - "{{ sg_pre }}-t-mysql"
+
+ec2_instance_type: t3.2xlarge

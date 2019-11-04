@@ -120,6 +120,11 @@ efs_mounts: #manage-efs-mount
       - subnet_id: "{{ ec2_vpc_subnet_id }}"
         security_groups:
           - sg-0ceaebfaef6068ee6
+  - name: dlp_new_prod_efs
+    targets:
+      - subnet_id: '{{ ec2_vpc_subnet_id }}'
+        security_groups:
+          - sg-0ceaebfaef6068ee6
 
 acm_certs: #manage-acm
   - name: dlp-general-cert
