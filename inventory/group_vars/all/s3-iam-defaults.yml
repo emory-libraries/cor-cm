@@ -20,10 +20,12 @@ iam_policies: #iam-manage-policy
   - policy_name: AccessToFedoraCorTestBinaries
     policy_template_path: iam_policy_s3_bucket_access_json.j2
     resource: fedora-cor-test-binaries
-  - policy_name: AccessToFedoraCorBucket
+  - policy_name: AccessToFedoraCorArchBinaries
     policy_template_path: iam_policy_s3_bucket_access_json.j2
-    resource: fedora-cor-bucket
-    state: absent
+    resource: fedora-cor-arch-binaries
+  - policy_name: AccessToFedoraCorBinaries
+    policy_template_path: iam_policy_s3_bucket_access_json.j2
+    resource: fedora-cor-binaries
   - policy_name: AllowEC2sToPrintLogs
     policy_file_path: allow_ec2_to_print_logs.json
   - policy_name: S3BatchJobForFedoraCor
