@@ -2,7 +2,7 @@ project_name: "{{ git_repo_url | urlsplit('path') | basename }}"
 git_repo_url: "https://github.com/emory-libraries/dlp-curate"
 enable_ssl: "yes"
 ec2_instance_type: t3.large
-git_repo_branch: v0.4.23
+git_repo_branch: v0.4.24
 
 seed_hyrax_db: yes
 idp_name: "prod"
@@ -42,7 +42,7 @@ dlp_curate_dotenv:
   database_host: "{{ rds_endpoint | d ('') }}"
   database_password: "{{ dlp_curate_mysql_db.password | d ('') }}"
   geonames_username: "{{ vault_geonames_username  | d ('') }}"
-  import_path: "{{ __dlp_curate_dotenv.import_path | d ('') }}"
+  import_path: /mnt/import_efs/Collections
   project_name: "dlp-curate"
   sidekiq_workers: 10
   fedora_url: "{{ __dlp_curate_dotenv.fedora_url | d ('') }}" 

@@ -1,5 +1,7 @@
 efs_mount_points:
   - path: /mnt/prod_efs
+    dns_name: fs-fdf8457c.efs.us-east-1.amazonaws.com
+  - path: /mnt/import_efs
     dns_name: fs-a1416442.efs.us-east-1.amazonaws.com
     
 
@@ -16,7 +18,6 @@ rds_host: dlp-prd-rdsmys-mz
 __dlp_curate_dotenv:
   fedora_url: "http://fedora-cor.library.emory.edu/fcrepo/rest"
   solr_url: "http://solr-cor.library.emory.edu/solr/curate_collection"
-  import_path: "/mnt/prod_efs/Collections/dmfiles/MARBL/Manuscripts/MSS_1218_Langmuir/"
 
 dlp_curate_mysql_db:
   name: "{{ vault_curate.prod.db.name }}"
