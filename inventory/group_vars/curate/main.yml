@@ -2,7 +2,7 @@ project_name: "{{ git_repo_url | urlsplit('path') | basename }}"
 git_repo_url: "https://github.com/emory-libraries/dlp-curate"
 enable_ssl: "yes"
 ec2_instance_type: t3.large
-git_repo_branch: v0.4.24
+git_repo_branch: v0.4.25
 
 seed_hyrax_db: yes
 idp_name: "prod"
@@ -68,3 +68,10 @@ additional_capistrano_directories:
   - '{{ capistrano_base }}/curate/upload'
   - '{{ capistrano_base }}/curate/working'
   - '{{ capistrano_base }}/curate/cache'
+
+ec2_default_volume:
+  - device_name: /dev/sda1
+    ebs:
+      volume_type: gp2
+      volume_size: 3000
+      delete_on_termination: yes

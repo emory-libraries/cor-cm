@@ -21,7 +21,7 @@
     value: 1
   loop: "{{ repos }}"
 
-- name: Install {{ packages | to_nice_json }} 
+- name: Install {{ packages | to_nice_json }}
   package:
     name: "{{ packages }}"
-  lock_timeout: 120
+    lock_timeout: 120
