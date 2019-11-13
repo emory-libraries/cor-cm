@@ -5,8 +5,8 @@ fedora_mysql_db:
 
 #ec2_instance_type: t3a.2xlarge
 
-fedora_aws_access_key: "{{ vault_fedora.test.aws.access_key }}"
-fedora_aws_secret_key: "{{ vault_fedora.test.aws.secret_key }}"
+fedora_aws_access_key: "{{ vault_fedora.test.aws2.access_key }}"
+fedora_aws_secret_key: "{{ vault_fedora.test.aws2.secret_key }}"
 fedora_aws_bucket: fedora-cor-test-binaries
 
 rds_host: dlp-tst-rdsmys-sz
