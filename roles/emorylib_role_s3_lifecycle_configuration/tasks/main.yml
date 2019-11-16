@@ -1,0 +1,19 @@
+---
+# tasks file for emorylib_role_s3_lifecycle_polcies
+
+- name: AWSCLI put lifecycle policy
+  shell: >
+    aws s3api put-bucket-lifecycle-configuration 
+    --bucket {{ item.bucket | d (item.Bucket) | d (s3_lifecycle_configuration.bucket) }} 
+    {{ (lifecycle_config_query != '') | ternary (lifecycle_config, '') }} 
+    {{ (cli_input_json_query != '') | ternary (cli_input_json, '') }} 
+    {{ (generate_cli_skeleton_query != '') | ternary (generate_cli_skeleton, '') }} 
+  vars:
+    lifecycle_config: '--lifecycle-configuration {{ lifecycle_config_query }}'
+    #lifecycle_config: '--lifecycle-configuration file://{{ lookup("file", lifecycle_config_query) if lifecycle_config_query != "" else "" }}'
+    lifecycle_config_query: '{{ item | json_query("lifecycle_configuration")}}'
+    cli_input_json: '--cli-input-json {{ cli_input_json_query | to_json }}'
+    cli_input_json_query: '{{ item | json_query("cli_input_json") }}'
+    generate_cli_skeleton: '--generate_cli_skeleton {{ generate_cli_skeleton_query }}'
+    generate_cli_skeleton_query: '{{ item | json_query("generate_cli_skeleton") }}'
+  loop: '{{ s3_lifecycle_configurations }}'

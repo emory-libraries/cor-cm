@@ -1,0 +1,50 @@
+---
+- hosts: localhost
+  vars:
+    #date:
+      #add_hour: 2
+      #add_min: 0
+      #iso_date: '2019-11-15T17:00:20-05:00'
+    Rules:
+    - Filter:
+        Prefix: documents/
+      Status: Enabled
+      Transitions:
+        - Days: 365
+          StorageClass: GLACIER
+      Expiration:
+        Days: 3650
+      ID: ExampleRule
+
+  tasks:
+    - name: Test out date time
+      debug:
+        msg: "{{ lookup('pipe', 'date --iso-8601=seconds -d {{ add_time }}') }}"
+      vars:
+        add_hour: '{{ hour + " hour" }}'
+        #add_hours: '{{ "1 hour" }}'
+        #add_min: '{{ "10 minutes" }}'
+        add_min: '{{ min + " min" }}'
+        add_time: '{{ (date.iso_date | d("") + " " + add_hour + " " + add_min) | quote }}'
+        hour: '{{ date.add_hour | d ("0") }}'
+        min: '{{ date.add_min | d ("0") }}'
+
+    - name: Date time with Json Query
+      shell: >
+        date --iso-8601=seconds {{ date_flag | ternary (yes_date_flag, "") }}
+      vars:
+        date_flag: '{{ false if date is undefined else true if iso_date_query != "" or add_hour_query != "" or add_min_query != "" else false }}'
+        yes_date_flag: '-d {{ iso_date_query }} {{ ((add_hour_query != "") | ternary (add_hour, "") + " " + (add_min_query != "")  | ternary (add_min, "")) | quote  }}'
+        add_min: '{{ add_min_query }} min'
+        add_min_query: '{{ date | json_query("add_min") | d ("") }}'
+        add_hour: '{{ add_hour_query }} hour'
+        add_hour_query: '{{ date | json_query("add_hour") | d ("") }}'
+        iso_date_query: '{{ date | json_query("iso_date") | d ("") }}'
+      tags:
+        - 2nd
+        
+    - name: Test Yaml
+      debug:
+        var: Rules | to_json
+      tags:
+        - 3rd
