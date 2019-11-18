@@ -6,11 +6,10 @@ test_delete:
     Rules:
     - ID: ExampleRule3
       Filter:
-        And:
-          Prefix: /
-          Tags:
-          - Key: ObjectFromFedoraArch
-            Value: DeletePlz
+        #Prefix: /
+        Tag:
+          Key: ObjectFromFedoraArch
+          Value: DeletePlz
       Status: Enabled
       Expiration:
         Days: 1
