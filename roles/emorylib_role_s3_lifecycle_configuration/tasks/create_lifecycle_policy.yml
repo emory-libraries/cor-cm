@@ -77,4 +77,5 @@
     --bucket {{ item.bucket | d (s3_lifecycle_configuration.bucket) }}
   vars:
     lifecycle_state: '{{ item | json_query("state") | lower }}'
+  loop: '{{ s3_lifecycle_configurations }}'
   when: lifecycle_state == 'delete'
