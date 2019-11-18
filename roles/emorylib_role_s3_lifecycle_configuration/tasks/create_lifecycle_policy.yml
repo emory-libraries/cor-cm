@@ -1,0 +1,80 @@
+---
+- name:  Generate lifecycle_policy.json
+  copy:
+    content: '{{ s3_lifestyle_configs.lifecycle_configuration | to_json }}'
+    dest: '/tmp/lifecycle_policy-{{ ansible_date_time.epoch }}.json'
+  loop: '{{ s3_lifecycle_configurations }}'
+  loop_control: 
+    loop_var: s3_lifestyle_configs
+  vars:
+    lifecycle_state: '{{ s3_lifestyle_configs | json_query("state") | lower }}'
+  when: lifecycle_state == 'put' or lifecycle_state == 'none'
+  register: tmp_file_fact
+
+- name: Combine policy file location with relative list entry
+  set_fact:
+    s3_lifecycle_configurations: '{{ tmp_list + [item[1] | combine({"file_path": item[0].dest})] }}'
+  vars:
+    tmp_list: []
+    lifecycle_state: '{{ item[1] | json_query("state") | lower }}'
+  loop: '{{ tmp_file_fact.results | zip (s3_lifecycle_configurations) | list }}'
+  when: lifecycle_state == 'put' or lifecycle_state == 'none'
+
+- name: Create new lifecycle state for bucket
+  shell: >
+    aws s3api put-bucket-lifecycle-configuration 
+    --bucket {{ item.bucket | d (s3_lifecycle_configuration.bucket) }} 
+    {{ (lifecycle_config_query != '') | ternary (lifecycle_config, '') }} 
+    {{ (cli_input_json_query != '') | ternary (cli_input_json, '') }} 
+    {{ (generate_cli_skeleton_query != '') | ternary (generate_cli_skeleton, '') }} 
+  vars:
+    lifecycle_config: '--lifecycle-configuration file://{{ item.file_path }}'
+    lifecycle_config_query: '{{ item | json_query("lifecycle_configuration")}}'
+    cli_input_json: '--cli-input-json {{ cli_input_json_query | to_json }}'
+    cli_input_json_query: '{{ item | json_query("cli_input_json") }}'
+    generate_cli_skeleton: '--generate_cli_skeleton {{ generate_cli_skeleton_query }}'
+    generate_cli_skeleton_query: '{{ item | json_query("generate_cli_skeleton") }}'
+    lifecycle_state: '{{ item | json_query("state") | lower }}'
+  loop: '{{ s3_lifecycle_configurations }}'
+  when: lifecycle_state == 'put' or lifecycle_state == 'none'
+
+- name: Get the lifecycle state of the bucket
+  shell: >
+    aws s3api get-bucket-lifecycle-configuration 
+    --bucket {{ item.bucket | d (s3_lifecycle_configuration.bucket) }}
+  vars:
+    lifecycle_state: '{{ item | json_query("state") | lower }}'
+  loop: '{{ s3_lifecycle_configurations }}'
+  when: lifecycle_state == 'get'
+  register: lifecycle_get_fact
+
+- debug:
+    var: lifecycle_get_fact
+
+- name: Associate lifecycle rule with list entry
+  set_fact: 
+    s3_lifecycle_configurations: '{{ tmp_list + [item[1] | combine({"current_policy": item[0].stdout | from_json })] }}'
+  vars:
+    tmp_list: []
+    lifecycle_state: '{{ item[1] | json_query("state") | lower }}'
+  loop: '{{ lifecycle_get_fact.results | zip (s3_lifecycle_configurations) | list }}'
+  when: lifecycle_state == 'get'
+
+- name: Display current lifecycle policy
+  debug:
+    msg: '{{ msg.split("\n") }}'
+  vars: 
+    lifecycle_state: '{{ item | json_query("state") | lower }}'
+    msg: |
+         The policy for the {{ item.bucket }} is\n
+         {{ item.current_policy| to_nice_json }}
+  loop: '{{ s3_lifecycle_configurations }}'
+  when: lifecycle_state == 'get'
+
+- name: Delete lifecycle policy from bucket
+  shell: >
+    aws s3api delete-bucket-lifecycle 
+    --bucket {{ item.bucket | d (s3_lifecycle_configuration.bucket) }}
+  vars:
+    lifecycle_state: '{{ item | json_query("state") | lower }}'
+  when: lifecycle_state == 'delete'

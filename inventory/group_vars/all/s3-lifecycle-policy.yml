@@ -2,11 +2,12 @@
 s3_lifecycle_configurations: '{{ test_delete }}'
 test_delete:
   - bucket: temp-bucket-dlp-test
+    state: get
     lifecycle_configuration:
       Rules:
-      - ID: ExampleRule
+      - ID: ExampleRule3
         Filter:
           Prefix: Images/
         Status: Enabled
         Expiration:
-          Date: '{{ lookup("pipe", "date --iso-8601=seconds") }}'
+          Days: 7
