@@ -11,7 +11,7 @@ all:
           hosts:
             digital.library.emory.edu:
             digital-test.library.emory.edu:
-            digital-lux.library.emory.edu:
+            digital-arch.library.emory.edu:
         fedora:
           hosts:
             fedora-cor-test.library.emory.edu:

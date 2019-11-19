@@ -14,6 +14,7 @@
     - { role: uclalib_role_rhel7repos }
     - { role: uclalib_role_epel }
     - { role: uclalib_role_samvera_basepackages }
+    - { role: wm_role_mount_efs_volumes, when: efs_mount_points | d (False) }
     - { role: uclalib_role_apache }
     - { role: uclalib_role_pip }
     - { role: dce_role_rds_mysql }
