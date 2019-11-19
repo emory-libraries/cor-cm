@@ -1,13 +1,33 @@
-use_dynamic: no
 project_name: "{{ git_repo_url | urlsplit('path') | basename }}"
-git_repo_url: "https://github.com/UCLALibrary/ursus"
-git_repo_branch: "master"
-idp_name: "prod"
+git_repo_url: https://github.com/emory-libraries/dlp-lux.git
+git_repo_branch: master
+idp_name: prod
+ec2_instance_type: t3.large
 
-ursus_linked_files:
+dlp_lux_linked_files:
   - content: "{{ lookup('template', 'dotenv_dict.j2') }}"
     dest: "{{ capistrano_base }}/{{ project_name }}/shared/.env.production"
     mode: 0644
+
+get_metadata:
+  download: no
+
+dlp_lux_dotenv:
+  admin_password: '{{ vault_dlp.project.default_admin_password | d ("") }}'
+  cable_channel_prefix: ursus_production
+  contact_us_email: test@emory.edu
+  database_adapter: mysql2
+  database_pool: 10
+  database_name: '{{ dlp_lux_mysql_db.name | d ("") }}'
+  database_username: '{{ dlp_lux_mysql_db.user | d ("") }}'
+  database_password: '{{ dlp_lux_mysql_db.password | d ("") }}'
+  database_host: '{{ rds_endpoint | d ("") }}'
+  database_min_messages: warning
+  project_name: '{{ project_name }}'
+  sidekiq_workers: 5
+  solr_url: https://127.0.0.1/solr/lux_core
+  rails_host: localhost
+  rails_serve_static_files: true
 
 ssh_pub_keys:
   - https://github.com/devanshu-m.keys
@@ -16,3 +36,15 @@ ssh_pub_keys:
   - https://github.com/rotated8.keys
   - https://github.com/laurenhamel.keys
   - https://github.com/SolomonHD.keys
+  - https://github.com/bess.keys
+  - https://github.com/little9.keys
+  - https://github.com/mark-dce.keys
+  - https://github.com/wulman16.keys
+  - https://github.com/maxkadel.keys
+
+ec2_default_volume:
+  - device_name: /dev/sda1
+    ebs:
+      volume_type: gp2
+      volume_size: 250
+      delete_on_termination: yes
