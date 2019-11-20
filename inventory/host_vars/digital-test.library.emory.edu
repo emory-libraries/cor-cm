@@ -2,7 +2,8 @@ rds_host: dlp-tst-rdsmys-sz
 efs_mount_points:
   - path: /mnt/test_efs
     dns_name: fs-97466374.efs.us-east-1.amazonaws.com
-
+elb_targets:
+  - target_group_name: lux-test-443
 dlp_lux_mysql_db:
   name: '{{ vault_lux.test.db.name }}'
   user: '{{ vault_lux.test.db.user }}'
@@ -10,3 +11,9 @@ dlp_lux_mysql_db:
 
 sp_entity_id: https://digital.library.emory.edu
 
+#### Solr
+solr_cores:
+  - ident: lux_core
+    type: hyrax
+
+solr_collections: false
