@@ -1,6 +1,6 @@
 project_name: "{{ git_repo_url | urlsplit('path') | basename }}"
 git_repo_url: https://github.com/emory-libraries/dlp-lux.git
-git_repo_branch: master
+git_repo_branch: capification
 idp_name: prod
 ec2_instance_type: t3.large
 
@@ -14,7 +14,7 @@ get_metadata:
 
 dlp_lux_dotenv:
   admin_password: '{{ vault_dlp.project.default_admin_password | d ("") }}'
-  cable_channel_prefix: ursus_production
+  cable_channel_prefix: lux_production
   contact_us_email: test@emory.edu
   database_adapter: mysql2
   database_pool: 10
