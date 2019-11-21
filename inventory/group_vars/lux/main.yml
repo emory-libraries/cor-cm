@@ -1,10 +1,10 @@
 project_name: "{{ git_repo_url | urlsplit('path') | basename }}"
-git_repo_url: https://github.com/emory-libraries/dlp-lux
-git_repo_branch: capification
+git_repo_url: https://github.com/emory-libraries/dlp-lux-temp
+git_repo_branch: setup_capistrano
 idp_name: prod
 ec2_instance_type: t3.large
 
-dlp_lux_linked_files:
+dlp_lux_temp_linked_files:
   - content: "{{ lookup('template', 'dotenv_dict.j2') }}"
     dest: "{{ capistrano_base }}/{{ project_name }}/shared/.env.production"
     mode: 0644
@@ -12,7 +12,7 @@ dlp_lux_linked_files:
 get_metadata:
   download: no
 
-dlp_lux_dotenv:
+dlp_lux_temp_dotenv:
   admin_password: '{{ vault_dlp.project.default_admin_password | d ("") }}'
   cable_channel_prefix: lux_production
   contact_us_email: test@emory.edu
@@ -25,7 +25,7 @@ dlp_lux_dotenv:
   database_min_messages: warning
   project_name: '{{ project_name }}'
   sidekiq_workers: 5
-  solr_url: https://127.0.0.1/solr/lux_core
+  solr_url: '{{ __dlp_lux_temp_dotenv.solr_url | d () }}'
   rails_host: localhost
   rails_serve_static_files: true
 
@@ -46,5 +46,5 @@ ec2_default_volume:
   - device_name: /dev/sda1
     ebs:
       volume_type: gp2
-      volume_size: 250
+      volume_size: 150
       delete_on_termination: yes

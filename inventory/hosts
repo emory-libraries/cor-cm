@@ -28,7 +28,6 @@ all:
             iiif-cor-arch.library.emory.edu:
         solr:
           children:
-            lux:
             solr-prod:
               hosts:
                 solr-cor-[1:3].library.emory.edu:
