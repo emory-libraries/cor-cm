@@ -1,3 +1,4 @@
 - import_playbook: new-ec2.yml host=lux
 - import_playbook: blacklight.yml host=lux
+- import_playbook: cloudwatch.yml host=lux
 - import_playbook: shibb.yml host=lux
