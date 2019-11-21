@@ -1,0 +1,17 @@
+---
+# default variables for Debian family
+
+
+# ClamAV package names
+clamav_packages:
+  - clamav
+  - clamav-base
+  - clamav-daemon
+
+# ClamAV configuration files and options
+clamav_daemon_config_path: /etc/clamav/clamd.conf
+clamav_daemon_localsocket: /var/run/clamav/clamd.ctl
+
+# service names
+clamav_daemon: 'clamav-daemon'
+clamav_freshclam_daemon: 'clamav-freshclam'

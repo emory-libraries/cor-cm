@@ -75,3 +75,6 @@ ec2_default_volume:
       volume_type: gp2
       volume_size: 1500
       delete_on_termination: yes
+
+### ClamAV Role
+clamav_periodic_scan_enabled: false

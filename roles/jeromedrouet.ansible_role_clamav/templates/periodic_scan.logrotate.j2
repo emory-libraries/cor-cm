@@ -1,0 +1,11 @@
+# Ansible managed file - local changes will be lost !
+# do not modify manually
+{{ clamav_periodic_scan_logfile }} {
+    weekly
+    rotate 30
+    compress
+    delaycompress
+    create 0664 root {{ clamav_daemon_socket_group }}
+}
+
+

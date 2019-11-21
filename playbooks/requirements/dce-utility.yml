@@ -7,4 +7,7 @@
 
 ### Lean Delivery
 - src: https://github.com/lean-delivery/ansible-role-zookeeper
+
+- src: jeromedrouet.ansible_role_clamav
+
 #- src: 

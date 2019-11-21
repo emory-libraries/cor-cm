@@ -1,0 +1,38 @@
+---
+# ClamAV ansible role
+# Package configuration tasks
+
+# some changes (HTTPproxy password needs freshclam configuration file to be set to 0700 or less) :
+# see https://bugzilla.redhat.com/show_bug.cgi?id=1733112 for EPEL bug
+# # freshclam
+# WARNING: Insecure permissions (for HTTPProxyPassword): /etc/freshclam.conf must have no more than 0700 permissions.
+#
+- name: Deploy ClamAV freshclam configuration
+  template:
+    src: freshclam.conf.j2
+    dest: "{{ clamav_freshclam_daemon_config_path }}"
+    owner: root
+    group: root
+    mode: 0600
+  tags: freshclam-conf
+  register: clamav_freshclam_configuration
+
+- name: Deploy ClamAV daemon configuration
+  template:
+    src: scan.conf.j2
+    dest: "{{ clamav_daemon_config_path }}"
+    owner: root
+    group: root
+    mode: 0644
+  tags: clamd-conf
+  register: clamav_configuration
+
+- name: Deploy ClamAV daemon VirusEvent script if needed
+  template:
+    src: clamav_virus_alert.sh.j2
+    dest: "{{ clamav_daemon_virus_event_script_name }}"
+    owner: root
+    group: root
+    mode: 0755
+  tags: [ clamd-conf, clamd-virus-event ]
+  when: clamav_daemon_virus_event_ansible_deploy_script

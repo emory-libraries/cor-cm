@@ -1,0 +1,16 @@
+# Ansible managed file - local changes will be lost !
+# do not modify manually
+
+# Run freshclam as a daemon.
+[Unit]
+Description = ClamAV Freshclam service.
+After = network.target
+
+[Service]
+Type = forking
+ExecStart = /usr/bin/freshclam --daemon --checks 2
+Restart = on-failure
+PrivateTmp = true
+
+[Install]
+WantedBy=multi-user.target

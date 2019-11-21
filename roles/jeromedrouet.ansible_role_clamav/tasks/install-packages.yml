@@ -1,0 +1,9 @@
+---
+# ClamAV ansible role
+# Packages installation tasks
+
+- name: Install required ClamAV packages
+  package:
+    name: "{{ clamav_packages }}"
+    state: present
+  register: clamav_packages_install

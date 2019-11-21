@@ -1,0 +1,31 @@
+---
+# ClamAV ansible role
+# periodic scan definition tasks
+
+- name: "Create periodic {{ clamav_periodic_scan_periodicity }} clamav scan script"
+  template:
+    src: periodic_scan.cron.j2
+    dest: "/etc/cron.{{ clamav_periodic_scan_periodicity }}/clamav-periodic-scan"
+    owner: root
+    group: root
+    mode: '0750'
+  when: clamav_periodic_scan_enabled
+
+- name: "periodic scan logrotate for {{ clamav_periodic_scan_logrotate_file }}"
+  template:
+    src: periodic_scan.logrotate.j2
+    dest: "{{ clamav_periodic_scan_logrotate_file }}"
+    owner: root
+    group: root
+    mode: '0644'
+  when: clamav_periodic_scan_enabled
+
+- name: create empty periodic scan log file
+  copy:
+    content: ""
+    dest: "{{ clamav_periodic_scan_logfile }}"
+    force: no
+    group: "{{ clamav_daemon_socket_group }}"
+    owner: root
+    mode: 0664
+  when: clamav_periodic_scan_enabled

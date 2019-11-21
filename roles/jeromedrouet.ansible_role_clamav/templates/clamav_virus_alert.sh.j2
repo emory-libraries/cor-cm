@@ -1,0 +1,8 @@
+#!/bin/bash
+# Ansible managed file - local changes will be lost !
+# do not modify manually
+
+# hostname call does not work :'(
+SERVERNAME=`cat /etc/hostname`
+echo Found virus: $CLAM_VIRUSEVENT_VIRUSNAME in $CLAM_VIRUSEVENT_FILENAME on server $SERVERNAME | mail -s "$SERVERNAME Virus found in $CLAM_VIRUSEVENT_FILENAME on server $SERVERNAME" {% if clamav_daemon_virus_event_mail_from is defined %}-S "from={{ clamav_daemon_virus_event_mail_from }}"{% endif %} {{clamav_daemon_virus_event_mail_to|join(',') }}
+

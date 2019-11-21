@@ -1,0 +1,17 @@
+---
+# default variables for RedHat family
+
+
+# ClamAV package names
+clamav_packages:
+  - clamav
+  - clamd
+  - clamav-update
+
+# ClamAV configuration files and options
+clamav_daemon_config_path: /etc/clamd.d/scan.conf
+clamav_daemon_localsocket: /var/run/clamd.scan/clamd.sock
+
+# service names
+clamav_daemon: 'clamd@scan'
+clamav_freshclam_daemon: 'clamd-freshclam'

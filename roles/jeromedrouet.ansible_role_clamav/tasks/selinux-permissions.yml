@@ -1,0 +1,19 @@
+---
+
+# getenforce returns "Disabled", "Enforcing" or "Permissive"
+  - name: Check if SElinux is enabled
+    command: getenforce
+    register: getenforce
+    failed_when: false
+    changed_when: false
+
+  - name: Check if SElinux antivirus_can_scan_system is already enabled
+    command: getsebool antivirus_can_scan_system
+    register: antivirus_can_scan_system_
+    failed_when: false
+    changed_when: false
+    when: ( getenforce is defined and getenforce.stdout is defined and ( "Enforcing" in getenforce.stdout or "Permissive" in getenforce.stdout ) )
+
+  - name: Enable SElinux antivirus_can_scan_system if needed
+    command: setsebool antivirus_can_scan_system on -P
+    when: ( antivirus_can_scan_system_ is defined and antivirus_can_scan_system_.stdout is defined and ( "--> off" in antivirus_can_scan_system_.stdout ) )

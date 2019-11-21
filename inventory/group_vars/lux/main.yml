@@ -2,7 +2,7 @@ project_name: "{{ git_repo_url | urlsplit('path') | basename }}"
 git_repo_url: https://github.com/emory-libraries/dlp-lux-temp
 git_repo_branch: setup_capistrano
 idp_name: prod
-ec2_instance_type: t3.large
+#ec2_instance_type: t3.large
 
 dlp_lux_temp_linked_files:
   - content: "{{ lookup('template', 'dotenv_dict.j2') }}"

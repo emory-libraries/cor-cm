@@ -15,7 +15,7 @@ solr_collections:
     type: hyrax
     shards: 1
     replication_factor: 3
-  - name: lux_collection
+  - name: blacklight-core
     type: blacklight7
     shards: 1
     replication_factor: 3
