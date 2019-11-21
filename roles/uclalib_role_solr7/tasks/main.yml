@@ -25,11 +25,31 @@
   when: solr_download_status.changed
 
 - name: Set-up Solr Cores
-  include_tasks: cores.yml
+  include_tasks: 
+    file: cores.yml
+    apply:
+      tags:
+        - solr-core
+  tags:
+    - solr-core
   when: solr_cores | d (False)
 
 - name: Set-up Solr Collections and Enable Solr Cloud Mode
   block:
-    - include_tasks: enable-solr-cloud.yml
-    - include_tasks: collections.yml
+    - include_tasks: 
+        file: enable-solr-cloud.yml
+        apply:
+          tags:
+            - enable-solr-cloud
+      tags: enable-solr-cloud
+    - include_tasks: 
+        file: collections.yml
+        apply:
+          tags:
+            - solr-collection
+      tags:
+        - solr-collection
   when: solr_collections | d (False)
+  tags:
+    - enable-solr-cloud
+    - solr-collection

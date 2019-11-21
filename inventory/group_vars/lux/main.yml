@@ -18,9 +18,9 @@ dlp_lux_temp_dotenv:
   contact_us_email: test@emory.edu
   database_adapter: mysql2
   database_pool: 10
-  database_name: '{{ dlp_lux_mysql_db.name | d ("") }}'
-  database_username: '{{ dlp_lux_mysql_db.user | d ("") }}'
-  database_password: '{{ dlp_lux_mysql_db.password | d ("") }}'
+  database_name: '{{ dlp_lux_temp_mysql_db.name | d ("") }}'
+  database_username: '{{ dlp_lux_temp_mysql_db.user | d ("") }}'
+  database_password: '{{ dlp_lux_temp_mysql_db.password | d ("") }}'
   database_host: '{{ rds_endpoint | d ("") }}'
   database_min_messages: warning
   project_name: '{{ project_name }}'
