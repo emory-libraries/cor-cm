@@ -1,10 +1,10 @@
 project_name: "{{ git_repo_url | urlsplit('path') | basename }}"
-git_repo_url: https://github.com/emory-libraries/dlp-lux-temp
-git_repo_branch: setup_capistrano
+git_repo_url: https://github.com/emory-libraries/dlp-lux
+git_repo_branch: master
 idp_name: prod
 #ec2_instance_type: t3.large
 
-dlp_lux_temp_linked_files:
+dlp_lux_linked_files:
   - content: "{{ lookup('template', 'dotenv_dict.j2') }}"
     dest: "{{ capistrano_base }}/{{ project_name }}/shared/.env.production"
     mode: 0644
@@ -12,20 +12,20 @@ dlp_lux_temp_linked_files:
 get_metadata:
   download: no
 
-dlp_lux_temp_dotenv:
+dlp_lux_dotenv:
   admin_password: '{{ vault_dlp.project.default_admin_password | d ("") }}'
   cable_channel_prefix: lux_production
   contact_us_email: test@emory.edu
   database_adapter: mysql2
   database_pool: 10
-  database_name: '{{ dlp_lux_temp_mysql_db.name | d ("") }}'
-  database_username: '{{ dlp_lux_temp_mysql_db.user | d ("") }}'
-  database_password: '{{ dlp_lux_temp_mysql_db.password | d ("") }}'
+  database_name: '{{ dlp_lux_mysql_db.name | d ("") }}'
+  database_username: '{{ dlp_lux_mysql_db.user | d ("") }}'
+  database_password: '{{ dlp_lux_mysql_db.password | d ("") }}'
   database_host: '{{ rds_endpoint | d ("") }}'
   database_min_messages: warning
   project_name: '{{ project_name }}'
   sidekiq_workers: 5
-  solr_url: '{{ __dlp_lux_temp_dotenv.solr_url | d () }}'
+  solr_url: '{{ __dlp_lux_dotenv.solr_url | d () }}'
   rails_host: localhost
   rails_serve_static_files: true
 

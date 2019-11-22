@@ -4,14 +4,14 @@ efs_mount_points:
     dns_name: fs-7bda9999.efs.us-east-1.amazonaws.com
 elb_targets:
   - target_group_name: lux-arch-80
-dlp_lux_temp_mysql_db:
+dlp_lux_mysql_db:
   name: '{{ vault_lux.arch.db.name }}'
   user: '{{ vault_lux.arch.db.user }}'
   password: '{{ vault_lux.arch.db.pass }}'
 
 sp_entity_id: https://digital.library.emory.edu
 
-__dlp_lux_temp_dotenv:
+__dlp_lux_dotenv:
   solr_url: http://solr-cor-arch.library.emory.edu/solr/blacklight-core
 
 ec2_security_groups:
