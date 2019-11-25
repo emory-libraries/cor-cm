@@ -30,3 +30,8 @@ ec2_security_groups:
 
 elb_targets:
   - target_group_name: curate-test-443
+
+git_repo_branch: virus-check-two
+clamav_add_users:
+  - user: deploy
+  - user: redis
