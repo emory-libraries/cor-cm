@@ -22,7 +22,7 @@
     #- { role: uclalib_role_clamav } #The Pip role was behind here
     - { role: dce_role_rds_mysql }
     - { role: uclalib_role_imagemagick }
-#    - { role: uclalib_role_libreoffice }
+    - { role: uclalib_role_libreoffice }
     - { role: uclalib_role_ffmpeg }
     - { role: uclalib_role_fits }
     - { role: uclalib_role_nodejs }
