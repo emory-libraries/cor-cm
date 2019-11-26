@@ -18,6 +18,7 @@
     - { role: uclalib_role_pip }
     - { role: uclalib_role_java }
     - { role: uclalib_role_apache }
+    - { role: jeromedrouet.ansible_role_clamav }
     #- { role: uclalib_role_clamav } #The Pip role was behind here
     - { role: dce_role_rds_mysql }
     - { role: uclalib_role_imagemagick }
@@ -32,23 +33,10 @@
     - { role: uclalib_role_yarn }
     - { role: uclalib_role_redis }
     - { role: uclalib_role_samvera_capdeploy }
-    - { role: jeromedrouet.ansible_role_clamav }
-
-  post_tasks:
-    - name: Add users to clamav socket group
-      user: 
-        name: '{{ item.user }}'
-        groups: '{{ clamav_daemon_socket_group }}'
-        append: yes
-      loop: '{{ clamav_add_users }}'
-      register: add_users
     
-    - debug:
-        var: add_users
-
-    - name: Restart Clamav
-      service:
-        name: '{{ clamav_daemon }}'
-        state: restarted
-        daemon_reload: yes
-
+  post_tasks:
+    - name: Relax permissions on clam daemon socket directory
+      file: 
+        path: '{{ clamav_daemon_localsocket | dirname }}'
+        state: directory
+        mode: 0711
