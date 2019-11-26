@@ -40,3 +40,8 @@
         path: '{{ clamav_daemon_localsocket | dirname }}'
         state: directory
         mode: 0711
+
+    - name: Install ghostscript
+      yum:
+        name: ghostscript
+        state: installed
