@@ -51,6 +51,7 @@ dlp_curate_dotenv:
   solr_url: "{{ __dlp_curate_dotenv.solr_url | d ('') }}" 
   redis_host: localhost
   redis_port: 6379
+  honeybadger_api_key: "{{ vault_dlp.honeybadger_api_key | d ('') }}"
 
 mysql_dbs:
   - id: curate
