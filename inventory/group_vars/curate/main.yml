@@ -42,6 +42,7 @@ dlp_curate_dotenv:
   database_host: "{{ rds_endpoint | d ('') }}"
   database_password: "{{ dlp_curate_mysql_db.password | d ('') }}"
   geonames_username: "{{ vault_geonames_username  | d ('') }}"
+  iiif_server_url: '{{ __dlp_curate_dotenv.iiif_server_url | d () }}'
   import_path: /mnt/import_efs/Collections
   project_name: "dlp-curate"
   sidekiq_workers: 10
