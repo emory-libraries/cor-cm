@@ -2,7 +2,7 @@ project_name: "{{ git_repo_url | urlsplit('path') | basename }}"
 git_repo_url: https://github.com/emory-libraries/dlp-curate
 enable_ssl: "yes"
 ec2_instance_type: t3.large
-git_repo_branch: v0.4.32
+git_repo_branch: v0.4.33
 
 seed_hyrax_db: yes
 idp_name: "prod"
@@ -41,6 +41,7 @@ dlp_curate_dotenv:
   database_host: "{{ rds_endpoint | d ('') }}"
   database_password: "{{ dlp_curate_mysql_db.password | d ('') }}"
   geonames_username: "{{ vault_geonames_username  | d ('') }}"
+  honeybadger_api_key: "{{ vault_dlp.honeybadger_api_key | d ('') }}"
   iiif_server_url: '{{ __dlp_curate_dotenv.iiif_server_url | d () }}'
   import_path: /mnt/import_efs/Collections
   project_name: "dlp-curate"
@@ -51,8 +52,7 @@ dlp_curate_dotenv:
   solr_url: "{{ __dlp_curate_dotenv.solr_url | d ('') }}" 
   redis_host: localhost
   redis_port: 6379
-  honeybadger_api_key: "{{ vault_dlp.honeybadger_api_key | d ('') }}"
-
+  
 mysql_dbs:
   - id: curate
     db_name: "{{ dlp_curate_mysql_db.name | d ('') }}"
