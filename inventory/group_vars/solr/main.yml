@@ -15,6 +15,10 @@ solr_collections:
     type: hyrax
     shards: 1
     replication_factor: 3
+  - name: blacklight-core
+    type: blacklight7
+    shards: 1
+    replication_factor: 3
 
 ec2_default_volume:
   - device_name: /dev/sda1

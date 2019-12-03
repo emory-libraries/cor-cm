@@ -1,0 +1,33 @@
+#!/bin/bash
+# Ansible managed file - local changes will be lost !
+# do not modify manually
+
+
+###############################################################################
+# ClamAV Periodic Scan
+###############################################################################
+START_TIME=`date`
+echo "Starting ClamAV Scan at ${START_TIME}" &>> {{ clamav_periodic_scan_logfile }}
+{% if clamav_onaccess_scanning %}
+# if clamd runs as root (needed if on access scan enabled), let's use clamdscan instead of clamscan (but it only takes includes and such other clamscan options from configuration file)
+# we parallelise scans with multiscan option
+clamdscan --multiscan -v --log {{ clamav_periodic_scan_logfile }} /
+{% else %}
+clamscan --infected --recursive=yes --exclude-dir= {{ clamav_periodic_scan_exclusions|join(' --exclude-dir=') }} --log {{ clamav_periodic_scan_logfile }} /
+{% endif %}
+
+case $? in
+  1)
+    echo "Virus Detected!"
+  ;;
+  2)
+    echo "Error Occured!"
+  ;;
+  *)
+    echo "No Viruses Detected!"
+  ;;
+esac
+
+FINISH_TIME=`date`
+echo "Finished ClamAV Scan at ${FINISH_TIME}" &>> {{ clamav_periodic_scan_logfile }}
+

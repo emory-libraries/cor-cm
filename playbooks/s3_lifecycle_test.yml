@@ -1,0 +1,4 @@
+---
+- hosts: localhost
+  roles:
+    - emorylib_role_s3_lifecycle_configuration

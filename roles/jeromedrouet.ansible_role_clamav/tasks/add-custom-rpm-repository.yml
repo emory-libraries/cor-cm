@@ -1,0 +1,122 @@
+# Add custom rpm repository using given initial RPM
+# parameters : 
+# - custom_repo_package :        initial "release" RPM URL to add new repository
+# - custom_repo_sourcetemplate : source template to deploy in repository file custom_repofile
+# - custom_repofile :            repository file (should be added by one of the above source : RPM installation or template)
+#                                note that if this file is already present it won't be overwritten unless you provide the source template above
+#                                release RPM won't be installed if already present, template will overwrite existing file
+#                                Checks for custom_repofile to be present if given
+# optional parameters :
+# - disable_custom_repositories : list of repositories to disable from repofile (make sure they are disabled)
+# - enable_custom_repositories  : list of repositories to enable from repofile (make sure they are enabled)
+#
+#
+# if you provide both custom_repo_package and custom_repo_sourcetemplate only the source template will be used : please do NOT : this task will always have the "changed" status
+# please do not provide the same repository name in both disable_custom_repositories and enable_custom_repositories : it will be enabled and this task will always have the "changed" status 
+# repositories not listed in disable_custom_repositories or enable_custom_repositories won't be enabled not disabled : they won't be touched
+#
+---
+
+  - name: Check for a supported Operating System
+    assert:
+      that:
+        - (ansible_distribution == 'RedHat' and ansible_distribution_major_version == '7') or
+          (ansible_distribution == 'CentOS' and ansible_distribution_major_version == '7')
+      msg: >-
+        The only supported platforms for this playbook are for now RedHat 7 and CentOS 7,
+        Please update accordingly this playbook to support more if you need.
+    when: (check_operating_system | default(True))| bool
+    tags:
+      - check-operating-system
+
+  - name: "Check if custom repository file {{ custom_repofile }} already exists"
+    stat:
+      path: "{{ custom_repofile }}"
+    register: custom_repofile_
+    failed_when: false
+    when: custom_repofile is defined and ( ansible_distribution == 'RedHat' or ansible_distribution == 'CentOS' )
+
+  - name: "Add custom repositories using package {{ custom_repo_package }}"
+    package:
+       name: "{{ custom_repo_package }}"
+       state: present
+    environment:
+      http_proxy: "{{ rpm_proxy | default('') }}"
+      https_proxy: "{{ rpm_proxy | default('') }}"
+    when: custom_repo_package is defined and
+          custom_repofile is defined and ( custom_repofile_.stat is not defined or not custom_repofile_.stat.exists ) and
+          ( ansible_distribution == 'RedHat' or ansible_distribution == 'CentOS' )
+
+  - name: Define custom repository using given source template for repofile
+    template:
+      src: "{{ custom_repo_sourcetemplate }}"
+      dest: "{{ custom_repofile }}"
+      group: root
+      owner: root
+      mode: 0644
+    when: custom_repo_sourcetemplate is defined
+
+#
+# NOTE : at this point custom_repofile must exist, if not this looks like this task was called incorrectly : throw an error
+  - name: "Check if custom repository file {{ custom_repofile }} already exists"
+    stat:
+      path: "{{ custom_repofile }}"
+    register: custom_repofile__
+    failed_when: false
+    when: custom_repofile is defined
+  - name: Ensure custom repository file exists before going further
+    assert:
+      that:
+        - custom_repofile__.stat.exists
+      msg: >-
+        Something went wrong the custom_repofile variable you provided seems wrong,
+        this files does not exist
+    when:
+      - (check_custom_repofile | default(True))| bool
+      - not ansible_check_mode
+    tags:
+      - check-custom-repofile
+
+# enable or disable repositories from given repofile
+  - name: Disable unused custom repositories
+    ini_file:
+      dest: "{{ custom_repofile }}"
+      section: "{{ item }}"
+      option: enabled
+      value: 0
+      no_extra_spaces: yes
+    with_items:
+       - "{{ disable_custom_repositories | difference(enable_custom_repositories) }}"
+    when:
+       - (ansible_distribution == 'RedHat' and ansible_distribution_major_version == '7') or
+         (ansible_distribution == 'CentOS' and ansible_distribution_major_version == '7')
+       - disable_custom_repositories is defined
+
+  - name: Enable needed custom repositories
+    ini_file:
+      dest: "{{ custom_repofile }}"
+      section: "{{ item }}"
+      option: enabled
+      value: "1"
+      no_extra_spaces: yes
+    with_items:
+       - "{{ enable_custom_repositories }}"
+    when:
+       - (ansible_distribution == 'RedHat' and ansible_distribution_major_version == '7') or
+         (ansible_distribution == 'CentOS' and ansible_distribution_major_version == '7')
+       - enable_custom_repositories is defined
+
+  - name: Enable needed custom repositories proxy for enabled repositories
+    ini_file:
+      dest: "{{ custom_repofile }}"
+      section: "{{ item }}"
+      option: proxy
+      value: "{{ rpm_proxy }}"
+      no_extra_spaces: yes
+    with_items:
+       - "{{ enable_custom_repositories }}"
+    when:
+       - (ansible_distribution == 'RedHat' and ansible_distribution_major_version == '7') or
+         (ansible_distribution == 'CentOS' and ansible_distribution_major_version == '7')
+       - rpm_proxy is defined
+       - enable_custom_repositories is defined

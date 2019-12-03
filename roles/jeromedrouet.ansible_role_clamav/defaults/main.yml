@@ -1,0 +1,86 @@
+---
+# defaults file for clamav
+# see OS-specific defaults in vars/ directory
+
+# ClamAV daemon
+clamav_daemon_state: started
+clamav_daemon_enabled: true
+
+# need to add users to this group for them to launch clamdscan
+# beware that soket is default world writable but its directory path is access restricted to this group
+clamav_daemon_socket_group: 'virusgroup'
+
+clamav_daemon_temporary_directory: "/var/tmp"
+
+# ClamAV freshclam
+clamav_freshclam_daemon_state: started
+clamav_freshclam_daemon_enabled: true
+
+clamav_freshclam_daemon_config_path: /etc/freshclam.conf
+
+# periodic scan
+clamav_periodic_scan_enabled: true
+clamav_periodic_scan_allowed_periodicity:
+ - "hourly"
+ - "daily"
+ - "weekly"
+ - "monthly"
+
+clamav_periodic_scan_periodicity: "weekly"
+clamav_periodic_scan_script: "/usr/local/sbin/clamav_periodic_scan.sh"
+clamav_periodic_scan_logfile: "/var/log/clamav_periodic_scan.log"
+clamav_periodic_scan_logrotate_file: "/etc/logrotate.d/clamav-periodic-scan"
+
+clamav_periodic_scan_exclusions:
+  - /dev
+  - /proc
+  - /run
+  - /sys
+
+# same thing in regexp format for clamd configuration (and periodic clamdscan)
+clamav_daemon_scan_exclusion_regexps:
+  - "^/dev/"
+  - "^/proc/"
+  - "^/run/"
+  - "^/sys/"
+  - "^/var/lib/sss/pipes/"
+  - "^{{ clamav_daemon_temporary_directory }}/"
+# access denied on /var/log/audit/audit.log* anyway :p (and the following files/drectories) :
+  - "^/var/log/audit/"
+  - "^/etc/audit/"
+  - "^/etc/selinux/"
+  - "^/etc/(g)?shadow(-)?$"
+  - "^/etc/krb5.keytab$"
+  - "^/etc/security/opasswd$"
+
+# infected files access prevention
+clamav_daemon_access_prevention: no
+
+
+#other available variables :
+#
+# clamav_daemon_max_scan_size: maximum amount of data to be scanned for each input file. 
+#                              Archives and other containers are recursively extracted and scanned up tothis value.
+#
+# clamav_daemon_max_file_size: Files larger than this limit won't be scanned. Affects the input file itself
+#                              as well as files contained inside it (when the input file is an archive, a document or some other kind of container).
+#
+#
+# *note* : OnAccessIncludePath option will be ignored if OnAccessMountPath is enabled (from clamd documentation)
+# clamav_onaccess_include_paths : paths to be included to On Access scan
+# clamav_onaccess_mount_paths : mount paths to be included to On Access scan
+# clamav_onaccess_exclude_paths : paths to be excluded from On Access scan
+#
+# clamav_daemon_virus_event_command : command when virus is found, ie 'echo $(date) - ${CLAM_VIRUSEVENT_VIRUSNAME}: ${CLAM_VIRUSEVENT_FILENAME} | wall'
+# OR clamav_daemon_virus_event_use_script : boolean : launch external script when virus is found, (deployed from template clamav_virus_alert.sh.j2 to /usr/local/sbin/clamav_virus_alert.sh
+
+clamav_daemon_virus_event_use_script: true
+clamav_daemon_virus_event_ansible_deploy_script: true
+clamav_daemon_virus_event_script_name: "/usr/local/sbin/clamav_virus_alert.sh"
+
+# alerting email : From: using "Fancy Name <email@ddre.ss>", for instance
+#clamav_daemon_virus_event_mail_from: "Virus Alert <noreply@mydomain.org>"
+# To: using adressses list :
+clamav_daemon_virus_event_mail_to:
+  - "root@mydomain.org"
+  - "security@mydomain.org"

@@ -1,0 +1,24 @@
+---
+# tasks file for wm_role_mount_efs_volumes
+- name: Install nfs-utils
+  package:
+    name:
+      - nfs-utils
+    lock_timeout: 180
+
+- name: Create EFS mount point path
+  file: 
+    path: '{{ item.path | d ("/mnt/efs") }}'
+    owner: '{{ item.owner | d ("ec2-user") }}'
+    mode: '777'
+    state: directory
+  loop: '{{ efs_mount_points }}'
+
+- name: Mount efs mount points
+  mount:
+    path: '{{ item.path | d ("/mnt/efs")}}'
+    src: '{{ item.dns_name }}:{{ item.dir | d ("/") }}'
+    fstype: nfs4
+    opts: nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2
+    state: mounted
+  loop: '{{ efs_mount_points }}'

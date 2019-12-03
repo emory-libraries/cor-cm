@@ -26,3 +26,6 @@
 
     - role: ansible-role-acm-cert
       delegate_to: localhost
+
+    - role: emorylib_role_s3_batch_operations
+      delegate_to: localhost

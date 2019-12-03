@@ -6,7 +6,9 @@ capistrano_home_dir: "/home/{{ capistrano_user }}"
 
 capistrano_base: /opt
 
-capistrano_directories:
+capistrano_directories: '{{ default_capistrano_directories + additional_capistrano_directories | d ([]) }}'
+
+default_capistrano_directories:
   - "{{ capistrano_base }}/{{ project_name }}/shared/config"
   - "{{ capistrano_base }}/{{ project_name }}/shared/log"
   - "{{ capistrano_base }}/{{ project_name }}/shared/public/assets"

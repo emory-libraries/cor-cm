@@ -1,0 +1,29 @@
+---
+# ClamAV ansible role
+# prefligh checks : ensure configuration consistency
+
+- name: Ensure configuration consistency between clamav_onaccess_mount_paths/clamav_onaccess_include_paths and clamav_daemon_temporary_directory
+  assert:
+    that:
+      - (clamav_onaccess_mount_paths is not defined or clamav_daemon_temporary_directory not in clamav_onaccess_mount_paths )
+      - (clamav_onaccess_include_paths is not defined or clamav_daemon_temporary_directory not in clamav_onaccess_include_paths )
+    msg: >-
+      you specified your TemporaryDirector as an OnAccessIncludePath (or OnAccessMountPath)
+      See https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=904111
+      this is *NOT* possible : system will hang,
+      Please update your settings accordingly.
+
+  when: clamav_onaccess_scanning
+  tags:
+    - check-configuration-consistency
+
+- name: Ensure periodic scan configuration consistency
+  assert:
+    that:
+      - ( not clamav_periodic_scan_enabled or clamav_periodic_scan_periodicity in clamav_periodic_scan_allowed_periodicity )
+    msg: >-
+      You enabled periodic scan without a proper periodicity.
+      Please only use one in the following list {{ clamav_periodic_scan_allowed_periodicity }}.
+
+  tags:
+    - check-configuration-consistency

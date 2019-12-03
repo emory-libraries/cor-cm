@@ -1,0 +1,5 @@
+# EPEL variables for CentOS 7
+
+# EPEL repository variables
+epel_repofile: "/etc/yum.repos.d/epel.repo"
+epel_release_rpm: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm

@@ -1,0 +1,28 @@
+# Add EPEL rpm repository using add-custom-rpm-repository task
+---
+  - name: gather os specific variables
+    include_vars: "{{ item }}"
+    with_first_found:
+      - "epel-{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+      - "epel-{{ ansible_distribution }}.yml"
+    tags: vars
+
+  - name: Check for a supported Operating System
+    assert:
+      that:
+        - (ansible_distribution == 'RedHat' and ansible_distribution_major_version == '7') or
+          (ansible_distribution == 'CentOS' and ansible_distribution_major_version == '7')
+      msg: >-
+        The only supported platforms for this playbook are for now RedHat 7 and CentOS 7,
+        Please update accordingly this playbook to support more if you need.
+    when: (check_operating_system | default(True))| bool
+    tags:
+      - check-operating-system
+
+
+  - include_tasks: add-custom-rpm-repository.yml
+    vars:
+      custom_repo_package: "{{ epel_release_rpm }}"
+      custom_repofile: "{{ epel_repofile }}"
+      enable_custom_repositories:
+      - epel

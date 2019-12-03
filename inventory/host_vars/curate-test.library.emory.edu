@@ -1,11 +1,9 @@
-efs_mounts:
+efs_mount_points:
   - path: /mnt/test_efs
     dns_name: fs-97466374.efs.us-east-1.amazonaws.com
-  - path: /mnt/prod_efs
+  - path: /mnt/import_efs
     dns_name: fs-a1416442.efs.us-east-1.amazonaws.com
 rds_host: dlp-tst-rdsmys-sz
-ec2_instance_type: t3.large
-git_repo_branch: v0.4.7
 
 symblink_dirs:
   - src: "/mnt/test_efs/uploads"
@@ -14,7 +12,6 @@ symblink_dirs:
 __dlp_curate_dotenv:
   fedora_url: "http://fedora-cor-test.library.emory.edu/fcrepo/rest"
   solr_url: "http://solr-cor-test.library.emory.edu/solr/curate_collection"
-  import_path: "/mnt/prod_efs/Collections/dmfiles/MARBL/Manuscripts/MSS_1218_Langmuir/"
 
 dlp_curate_mysql_db:
   name: "{{ vault_curate.test.db.name }}"
@@ -33,3 +30,5 @@ ec2_security_groups:
 
 elb_targets:
   - target_group_name: curate-test-443
+
+git_repo_branch: virus-check-two

@@ -8,9 +8,9 @@
     name: security_shibboleth
     description: "Shibboleth ({{ ansible_distribution }})"
     enabled: no
-    baseurl: "{{ repo_base_url }}"
+    mirrorlist: "{{ mirrorlist_url }}"
     gpgcheck: yes
-    gpgkey: "{{ repo_base_url }}/repodata/repomd.xml.key"
+    gpgkey: https://shibboleth.net/downloads/service-provider/RPMS/repomd.xml.key
 
 - name: Install or update shibboleth
   yum:

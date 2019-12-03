@@ -1,25 +1,22 @@
-ursus_dotenv:
-  admin_password: "{{ vault_dlp.project.default_admin_password }}"
-  cable_channel_prefix: "ursus_production"
-  contact_us_email: "test@emory.edu"
-  database_adapter: "mysql2"
-  database_pool: 10
-  database_name: "{{ ursus_mysql_db.name }}"
-  database_username: "{{ ursus_mysql_db.user }}"
-  database_password: "{{ ursus_mysql_db.password }}"
-  database_host: "{{ rds_endpoint }}"
-  database_min_messages: "warning"
-  project_name: "{{ project_name }}"
-  sidekiq_workers: 5
-  solr_url: "https://util-cor-test.library.emory.edu/solr/curatecore"
-  rails_host: "localhost"
-  rails_serve_static_files: true
+rds_host: dlp-tst-rdsmys-sz
+efs_mount_points:
+  - path: /mnt/test_efs
+    dns_name: fs-97466374.efs.us-east-1.amazonaws.com
+elb_targets:
+  - target_group_name: lux-test-80
+dlp_lux_mysql_db:
+  name: '{{ vault_lux.test.db.name }}'
+  user: '{{ vault_lux.test.db.user }}'
+  password: '{{ vault_lux.test.db.pass }}'
 
-ursus_mysql_db:
-  name: "{{ vault_lux.test.db.name }}"
-  user: "{{ vault_lux.test.db.user }}"
-  password: "{{ vault_lux.test.db.pass }}"
+sp_entity_id: https://digital.library.emory.edu
 
-sp_entity_id: "https://digital.library.emory.edu"
-get_metadata:
-  download: no
+__dlp_lux_dotenv:
+  solr_url: http://solr-cor-test.library.emory.edu/solr/blacklight-core
+
+ec2_security_groups:
+  - "{{ sg_pre }}-tp-apache-ssh"
+  - "{{ sg_pre }}-t-nfs"
+  - "{{ sg_pre }}-t-mysql"
+  - "{{ sg_pre }}-t-solr"
+  - "{{ sg_pre }}-t-redis"

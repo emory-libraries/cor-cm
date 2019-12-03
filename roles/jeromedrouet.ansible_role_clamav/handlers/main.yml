@@ -1,0 +1,8 @@
+---
+# handlers file for clamav
+
+- name: restart ClamAV daemon
+  service:
+    name: "{{ clamav_daemon }}"
+    state: restarted
+  when: clamav_daemon_state != 'stopped'

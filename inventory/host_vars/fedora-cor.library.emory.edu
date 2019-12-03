@@ -3,8 +3,8 @@ fedora_mysql_db:
   user: "{{ vault_fedora.prod.db.user }}"
   password: "{{ vault_fedora.prod.db.pass }}"
 
-fedora_aws_access_key: "{{ vault_fedora.prod.aws.access_key }}"
-fedora_aws_secret_key: "{{ vault_fedora.prod.aws.secret_key }}"
+fedora_aws_access_key: "{{ vault_fedora.prod.aws2.access_key }}"
+fedora_aws_secret_key: "{{ vault_fedora.prod.aws2.secret_key }}"
 fedora_aws_bucket: fedora-cor-binaries
 
 rds_host: dlp-prd-rdsmys-mz

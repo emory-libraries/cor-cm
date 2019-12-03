@@ -1,0 +1,26 @@
+---
+#- name: Define clamav_daemon name
+#  set_fact:
+#    clamav_daemon: "{{ __clamav_daemon }}"
+#  when: clamav_daemon is not defined
+
+#- name: Define clamav_freshclam_daemon name
+#  set_fact:
+#    clamav_freshclam_daemon: "{{ __clamav_freshclam_daemon }}"
+#  when: clamav_freshclam_daemon is not defined
+
+#- name: Define clamav_packages list from defau
+#  set_fact:
+#    clamav_packages: "{{ __clamav_packages | list }}"
+#  when: clamav_packages is not defined
+
+- name: Define clamav_freshclam_daemon_run boolean
+  set_fact:
+    clamav_freshclam_daemon_run: "{{ clamav_freshclam_daemon_state == 'started' | bool }}"
+  when: clamav_freshclam_daemon_run is not defined
+
+# when on access scanning is enabled ClamAV daemon need to run as root user
+- name: Define on access scanning boolean
+  set_fact:
+    clamav_onaccess_scanning: "{{ clamav_onaccess_mount_paths is defined or clamav_onaccess_include_paths is defined }}"
+  when: clamav_onaccess_scanning is not defined

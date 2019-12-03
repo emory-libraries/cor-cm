@@ -1,0 +1,58 @@
+---
+# ClamAV ansible role
+# services configuration tasks
+
+- name: Ensure ClamAV freshclam daemon is running (if configured so)
+  service:
+    name: "{{ clamav_freshclam_daemon }}"
+    state: "{{ clamav_freshclam_daemon_state }}"
+    enabled: "{{ clamav_freshclam_daemon_enabled }}"
+    daemon_reload: yes
+  when: clamav_freshclam_configuration.changed or clamav_packages_install.changed
+  # TODO : migrate this to a handler an re activate ansible lint
+  tags:
+    - skip_ansible_lint
+
+- name: Manually launch freshclam after ClamAV packages installation or configuration changes (if ClamAV freshclam daemon is not enabled)
+  command: freshclam
+  register: freshclam
+  notify: restart ClamAV daemon
+  when:
+    - not clamav_freshclam_daemon_run
+    - clamav_packages_install.changed or clamav_configuration.changed
+  # TODO : migrate this to a handler an re activate ansible lint
+  tags:
+    - skip_ansible_lint
+
+- debug:
+    var: clamav_freshclam_daemon_run
+
+- debug:
+    msg: "{{ clamav_freshclam_daemon_state == 'started' }}"
+
+- name: Waiting until ClamAV database files can be found in /var/lib/clamav (freshclam should provide them)
+  tags:
+    - freshclam-database
+    # TODO : migrate this to a handler an re activate ansible lint
+    - skip_ansible_lint
+  register: freshclam_database
+  wait_for:
+    path:  "{{ item }}"
+    delay: 10
+    timeout: 50
+    state: present
+    msg: "ClamAV virus database not yet created by freshclam"
+  with_items:
+    - "/var/lib/clamav/main.cvd"
+    - "/var/lib/clamav/daily.cvd"
+  ignore_errors: true
+#  when:
+#    - not clamav_freshclam_daemon_run
+#    - clamav_packages_install.changed or clamav_configuration.changed
+
+- name: Ensure ClamAV daemon is running (if configured so)
+  service:
+    name: "{{ clamav_daemon }}"
+    state: "{{ clamav_daemon_state }}"
+    enabled: "{{ clamav_daemon_enabled }}"
+    daemon_reload: yes

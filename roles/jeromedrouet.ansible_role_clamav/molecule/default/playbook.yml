@@ -1,0 +1,8 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: true
+  roles:
+    - role: jeromedrouet.ansible_role_clamav
+      parameter1: value1
+      parameter2: value2

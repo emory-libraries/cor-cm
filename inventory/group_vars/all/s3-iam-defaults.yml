@@ -2,6 +2,11 @@ s3_buckets: #manage-s3-bucket
   - name: cor-devops-binaries 
   - name: fedora-cor-binaries
   - name: fedora-cor-test-binaries
+  - name: cor-s3-inventory-1
+    region: us-west-1
+  - name: cor-s3-inventory-2
+    region: us-east-1
+
 
 get_s3_bucket_name: cor-devops-binaries 
 
@@ -12,23 +17,87 @@ iam_policies: #iam-manage-policy
   - policy_name: AccessToCorDevOpsBinaries
     policy_template_path: iam_policy_s3_bucket_access_json.j2
     resource: cor-devops-binaries 
-  - policy_name: AccessToFedoraCorTestBucket
+  - policy_name: AccessToFedoraCorTestBinaries
     policy_template_path: iam_policy_s3_bucket_access_json.j2
-    resource: fedora-cor-test-bucket
-    state: absent
-  - policy_name: AccessToFedoraCorBucket
+    resource: fedora-cor-test-binaries
+  - policy_name: AccessToFedoraCorArchBinaries
     policy_template_path: iam_policy_s3_bucket_access_json.j2
-    resource: fedora-cor-bucket
-    state: absent
+    resource: fedora-cor-arch-binaries
+  - policy_name: AccessToFedoraCorBinaries
+    policy_template_path: iam_policy_s3_bucket_access_json.j2
+    resource: fedora-cor-binaries
   - policy_name: AllowEC2sToPrintLogs
     policy_file_path: allow_ec2_to_print_logs.json
+  - policy_name: S3BatchJobForFedoraCor
+    policy_template_path: iam_policy_s3_batch_operation_tags_json.j2
+    target_bucket: fedora-cor-binaries
+    manifest_bucket: cor-s3-inventory-1
+    report_bucket: cor-s3-inventory-1
+  - policy_name: S3BatchJobForFedoraCorTest
+    policy_template_path: iam_policy_s3_batch_operation_tags_json.j2
+    target_bucket: fedora-cor-test-binaries
+    manifest_bucket: cor-s3-inventory-1
+    report_bucket: cor-s3-inventory-1
+  - policy_name: S3BatchJobForFedoraCorArch
+    policy_template_path: iam_policy_s3_batch_operation_tags_json.j2
+    target_bucket: fedora-cor-arch-binaries
+    manifest_bucket: cor-s3-inventory-2
+    report_bucket: cor-s3-inventory-2
+  - policy_name: S3BatchPutCopyOpFromFedoraCorToFedoraCorArch
+    destination_bucket: fedora-cor-arch-binaries
+    source_bucket: fedora-cor-binaries
+    manifest_bucket: cor-s3-inventory-1
+    report_bucket: cor-s3-inventory-2
+    policy_template_path: iam_policy_s3_batch_operation_putcopy_json.j2
+  - policy_name: S3BatchPutCopyOpFromFedoraCorTestToFedoraCorArch
+    destination_bucket: fedora-cor-arch-binaries
+    source_bucket: fedora-cor-test-binaries
+    manifest_bucket: cor-s3-inventory-1
+    report_bucket: cor-s3-inventory-2
+    policy_template_path: iam_policy_s3_batch_operation_putcopy_json.j2
+  - policy_name: S3BatchPutCopyTestDLP
+    destination_bucket: temp-bucket-dlp-test
+    source_bucket: fedora-cor-test-binaries
+    manifest_bucket: cor-s3-inventory-1
+    report_bucket: cor-s3-inventory-1
+    policy_template_path: iam_policy_s3_batch_operation_putcopy_json.j2
+  - policy_name: S3BatchPutCopyFromFedoraArchToTestDLP
+    destination_bucket: temp-bucket-dlp-test
+    source_bucket: fedora-cor-arch-binaries
+    manifest_bucket: cor-s3-inventory-2
+    report_bucket: cor-s3-inventory-2
+    policy_template_path: iam_policy_s3_batch_operation_putcopy_json.j2
 
 iam_roles: #iam-manage-role
   - name: general-ec2-role
     managed_policy: 
-      - AccessToBinariesBucket
+      - CloudWatchFullAccess
+      - AllowEC2sToPrintLogs
+      - AccessToCorDevOpsBinaries
+      - rhedcloud-aws-vpc-type1-73-RHEDcloudManagementSubnetPolicy
+      - RHEDcloudAdministratorRolePolicy
     description: General role for ec2
     policy_file_path: ec2_assume_role.json
+  - name: s3-batch-job-role
+    managed_policy:
+      - RHEDcloudAdministratorRolePolicy
+      - rhedcloud-aws-vpc-type1-73-RHEDcloudManagementSubnetPolicy
+      - S3BatchJobForFedoraCor
+      - S3BatchJobForFedoraCorTest
+      - S3BatchJobForFedoraCorArch
+      - S3BatchPutCopyOpFromFedoraCorToFedoraCorArch
+      - S3BatchPutCopyOpFromFedoraCorTestToFedoraCorArch
+      - S3BatchPutCopyFromFedoraArchToTestDLP
+    description: Controls batch operations
+    policy_file_path: s3_batch_job_role.json
+  - name: s3testrole
+    managed_policy:
+      - RHEDcloudAdministratorRolePolicy
+      - rhedcloud-aws-vpc-type1-73-RHEDcloudManagementSubnetPolicy
+      - S3BatchPutCopyOpFromFedoraCorTestToFedoraCorArch
+      - AccessToFedoraCorTestBinaries
+      - S3BatchPutCopyTestDLP
+    policy_file_path: s3_batch_job_role.json
 
 #iam_users:
 #  - name: fedora-cor-user
@@ -58,6 +127,11 @@ efs_mounts: #manage-efs-mount
   - name: dlp-prod-efs
     targets:
       - subnet_id: "{{ ec2_vpc_subnet_id }}"
+        security_groups:
+          - sg-0ceaebfaef6068ee6
+  - name: dlp_new_prod_efs
+    targets:
+      - subnet_id: '{{ ec2_vpc_subnet_id }}'
         security_groups:
           - sg-0ceaebfaef6068ee6
 

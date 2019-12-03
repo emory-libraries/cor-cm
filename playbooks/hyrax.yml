@@ -14,13 +14,15 @@
     - { role: uclalib_role_rhel7repos }
     - { role: uclalib_role_epel }
     - { role: uclalib_role_samvera_basepackages }
+    - { role: wm_role_mount_efs_volumes, when: efs_mount_points | d (False) }
     - { role: uclalib_role_pip }
     - { role: uclalib_role_java }
     - { role: uclalib_role_apache }
-    - { role: uclalib_role_clamav } #The Pip role was behind here
+    - { role: jeromedrouet.ansible_role_clamav }
+    #- { role: uclalib_role_clamav } #The Pip role was behind here
     - { role: dce_role_rds_mysql }
     - { role: uclalib_role_imagemagick }
-#    - { role: uclalib_role_libreoffice }
+    - { role: uclalib_role_libreoffice }
     - { role: uclalib_role_ffmpeg }
     - { role: uclalib_role_fits }
     - { role: uclalib_role_nodejs }
@@ -31,3 +33,15 @@
     - { role: uclalib_role_yarn }
     - { role: uclalib_role_redis }
     - { role: uclalib_role_samvera_capdeploy }
+    
+  post_tasks:
+    - name: Relax permissions on clam daemon socket directory
+      file: 
+        path: '{{ clamav_daemon_localsocket | dirname }}'
+        state: directory
+        mode: 0711
+
+    - name: Install ghostscript
+      yum:
+        name: ghostscript
+        state: installed

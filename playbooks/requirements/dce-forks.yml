@@ -13,6 +13,6 @@
 - src: https://github.com/curationexperts/uclalib_role_java # Shouldn't be needed anymore
 - src: https://github.com/curationexperts/uclalib_role_passenger
   version: make-idempotent
-#- src: https://github.com/curationexperts/uclalib_role_rhel7repos ##Rename this repo into something else
+- src: https://github.com/curationexperts/uclalib_role_rhel7repos ##Rename this repo into something else
 #- src: https://github.com/curationexperts/uclalib_role_ruby ##Check on this one possibly delete
   #  version: use-s3

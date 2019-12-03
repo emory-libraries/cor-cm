@@ -1,0 +1,12 @@
+---
+# tasks file for emorylib_role_s3_lifecycle_polcies
+
+- name: Create new lifecycle policies
+  include_tasks:
+    file: create_lifecycle_policy.yml
+    apply:
+      tags: 
+        - new-lifecycle
+  tags:
+    - new-lifecycle
+

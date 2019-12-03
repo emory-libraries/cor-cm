@@ -1,4 +1,3 @@
-jsw_version: 3.5.40
 region: "{{ aws_region }}" #For the ACM role I downloaded
 use_s3_java: yes
 ec2_fqdn: "{{ inventory_hostname }}"

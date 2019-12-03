@@ -1,0 +1,15 @@
+---
+s3_lifecycle_configurations: '{{ test_delete }}'
+test_delete:
+- bucket: temp-bucket-dlp-test
+  lifecycle_configuration:
+    Rules:
+    - ID: ExampleRule3
+      Filter:
+        #Prefix: /
+        Tag:
+          Key: ObjectFromFedoraArch
+          Value: DeletePlz
+      Status: Enabled
+      Expiration:
+        Days: 1
