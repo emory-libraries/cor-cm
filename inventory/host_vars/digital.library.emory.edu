@@ -14,6 +14,7 @@ additional_assertion_bindings:
 
 __dlp_lux_dotenv:
   solr_url: http://solr-cor.library.emory.edu/solr/blacklight-core
+  iiif_manifest_url: https://curate.library.emory.edu/concern/curate_generic_works/
 
 ec2_security_groups:
   - "{{ sg_pre }}-tp-apache-ssh"

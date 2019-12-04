@@ -24,6 +24,7 @@ dlp_lux_dotenv:
   database_host: '{{ rds_endpoint | d ("") }}'
   database_min_messages: warning
   project_name: '{{ project_name }}'
+  iiif_manifest_url: '{{ __dlp_lux_dotenv.iiif_manifest_url | d () }}'
   sidekiq_workers: 5
   solr_url: '{{ __dlp_lux_dotenv.solr_url | d () }}'
   rails_host: localhost
