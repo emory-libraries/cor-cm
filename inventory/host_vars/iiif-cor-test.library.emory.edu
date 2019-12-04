@@ -2,3 +2,8 @@ cantaloupe_fedora_url: "http://fedora-cor-test.library.emory.edu/fcrepo/rest"
 
 elb_targets:
   - target_group_name: iiif-test-80
+
+cantaloupe_S3Source_access_key_id: '{{ vault_fedora.test.aws2.access_key }}'
+cantaloupe_S3Source_secret_key: '{{ vault_fedora.test.aws2.secret_key }}'
+cantaloupe_S3Source_BasicLookupStrategy_bucket_name: fedora-cor-test-binaries
+cantaloupe_S3Source_endpoint: s3.us-west-1.amazonaws.com

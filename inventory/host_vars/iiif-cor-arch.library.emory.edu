@@ -3,35 +3,6 @@ cantaloupe_fedora_url: http://fedora-cor-arch.library.emory.edu/fcrepo/rest
 elb_targets:
   - target_group_name: iiif-arch-80
 
-cantaloupe_version: 4.0.3 #There is a 4.1.2 out, consider upgrade path
-cantaloupe_temp_pathname: /tmp
-cantaloupe_delegate_script_enabled: 'true'
-cantaloupe_delegate_script_url: 'https://raw.githubusercontent.com/UCLALibrary/cantaloupe-delegate/master/lib/delegates.rb' 
-#'https://gist.githubusercontent.com/SolomonHD/cd751d24d8d245394720d1c2a44f7915/raw/c488972846a8c2d2c29566c08581d7d1290fbf9d/delegates.rb' # Delegate with CGI unescape enabled
-#"https://raw.githubusercontent.com/UCLALibrary/cantaloupe-delegate/master/lib/delegates.rb" OG Delegates file
-
-cantaloupe_fedora_base_path: /prod
-cantaloupe_endpoint_admin_enabled: 'true'
-cantaloupe_source_static: S3Source
-cantaloupe_S3Source_lookup_strategy: BasicLookupStrategy
 cantaloupe_S3Source_access_key_id: '{{ vault_fedora.arch.aws.access_key }}'
 cantaloupe_S3Source_secret_key: '{{ vault_fedora.arch.aws.secret_key }}'
 cantaloupe_S3Source_BasicLookupStrategy_bucket_name: fedora-cor-arch-binaries
-cantaloupe_S3Source_BasicLookupStrategy_path_suffix: .jpg
-cantaloupe_S3Source_endpoint: s3.amazonaws.com
-cantaloupe_delegate_script_cache_enabled: 'false'
-
-cantaloupe_source_delegate: 'true'
-#cantaloupe_FilesystemSource_lookup_strategy: "ScriptLookupStrategy"
-#cantaloupe_HttpSource_lookup_strategy: "ScriptLookupStrategy"
-cantaloupe_install_path: '{{ tomcatapp_install_path }}/cantaloupe/ext'
-
-cantaloupe_log_error_FileAppender_enabled: 'true'
-cantaloupe_log_error_FileAppender_pathname: /usr/local/webapps/cantaloupe/logs/error.log
-cantaloupe_log_access_FileAppender_enabled: 'true'
-cantaloupe_log_access_FileAppender_pathname: /usr/local/webapps/cantaloupe/logs/access.log
-
- 
-
-cantaloupe_base_dir: '{{ tomcatapp_install_path }}/cantaloupe'
-
