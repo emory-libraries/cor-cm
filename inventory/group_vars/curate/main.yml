@@ -16,6 +16,7 @@ ssh_pub_keys:
   - https://github.com/little9.keys
   - https://github.com/mark-dce.keys
   - https://github.com/wulman16.keys
+  - https://github.com/maxkadel.keys
 
 symblink_dirs:
 #  - src: "/mnt/efs/{{ project_name }}" Removed due to poor performance
@@ -49,6 +50,7 @@ dlp_curate_dotenv:
   fedora_url: "{{ __dlp_curate_dotenv.fedora_url | d ('') }}" 
   fedora_user: "{{ vault_fedora.admin.user | d ('') }}"
   fedora_password: "{{ vault_fedora.admin.pass | d ('') }}"
+  fedora_adapter: S3
   solr_url: "{{ __dlp_curate_dotenv.solr_url | d ('') }}" 
   redis_host: localhost
   redis_port: 6379

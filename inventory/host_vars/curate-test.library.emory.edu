@@ -1,3 +1,4 @@
+git_repo_branch: iiif-builder-changes
 efs_mount_points:
   - path: /mnt/test_efs
     dns_name: fs-97466374.efs.us-east-1.amazonaws.com
@@ -11,7 +12,9 @@ symblink_dirs:
 
 __dlp_curate_dotenv:
   fedora_url: "http://fedora-cor-test.library.emory.edu/fcrepo/rest"
+  iiif_server_url: https://iiif-cor-test.library.emory.edu/cantaloupe/iiif/2/
   solr_url: "http://solr-cor-test.library.emory.edu/solr/curate_collection"
+  
 
 dlp_curate_mysql_db:
   name: "{{ vault_curate.test.db.name }}"
