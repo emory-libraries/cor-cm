@@ -1,4 +1,3 @@
-git_repo_branch: iiif-builder-changes
 efs_mount_points:
   - path: /mnt/test_efs
     dns_name: fs-97466374.efs.us-east-1.amazonaws.com
