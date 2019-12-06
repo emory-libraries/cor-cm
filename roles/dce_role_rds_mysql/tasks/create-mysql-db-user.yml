@@ -35,4 +35,4 @@
     priv: '{{ _mysql_db.name }}.*:ALL'
     state: "{{ db_user_state }}"
     host: "{{ _mysql_db.host | d(hostvars[inventory_hostname]['private_ip_address']) | d('localhost') }}"
-    host_all: "{{ mysql_host_all }}"
+    host_all: "{{ omit_mysql_host_all | d (false) | ternary(omit, mysql_host_all, mysql_host_all) }}"
