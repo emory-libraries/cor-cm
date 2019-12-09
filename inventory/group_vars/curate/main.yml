@@ -3,7 +3,7 @@ project_name: "{{ git_repo_url | urlsplit('path') | basename }}"
 git_repo_url: https://github.com/emory-libraries/dlp-curate
 enable_ssl: "yes"
 ec2_instance_type: t3.large
-git_repo_branch: v0.4.34
+git_repo_branch: v0.5.0
 
 seed_hyrax_db: yes
 idp_name: "prod"
