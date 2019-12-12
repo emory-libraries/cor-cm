@@ -6,4 +6,3 @@ elb_targets:
 cantaloupe_S3Source_access_key_id: '{{ vault_fedora.prod.aws2.access_key }}'
 cantaloupe_S3Source_secret_key: '{{ vault_fedora.prod.aws2.secret_key }}'
 cantaloupe_S3Source_BasicLookupStrategy_bucket_name: fedora-cor-binaries
-cantaloupe_S3Source_endpoint: s3.us-west-1.amazonaws.com

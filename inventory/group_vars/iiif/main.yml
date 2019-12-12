@@ -1,3 +1,4 @@
+ec2_instance_type: t3a.xlarge
 project_name: cantaloupe
 tomcat_enable_ssl: no
 enable_ssl: no

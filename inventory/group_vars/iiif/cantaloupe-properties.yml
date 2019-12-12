@@ -24,3 +24,10 @@ cantaloupe_base_dir: '{{ tomcatapp_install_path }}/cantaloupe'
 cantaloupe_endpoint_admin_enabled: 'true'
 cantaloupe_endpoint_admin_username: iiifadmin
 cantaloupe_endpoint_admin_secret: '{{ vault_dlp.cantaloupe_admin_password }}'
+
+## Caching Setting
+cantaloupe_cache_server_source: FilesystemCache
+cantaloupe_cache_server_source_ttl_seconds: 172800
+cantaloupe_cache_server_derivative_enabled: 'true'
+cantaloupe_cache_server_derivative_ttl_seconds: 172800
+cantaloupe_cache_server_worker_enabled: 'true'
