@@ -47,3 +47,4 @@ cantaloupe_processor_mov: FfmpegProcessor
 cantaloupe_processor_mp4: FfmpegProcessor
 cantaloupe_processor_mpg: FfmpegProcessor
 cantaloupe_processor_webm: FfmpegProcessor
+cantaloupe_processor_jp2: KakaduDemoProcessor
