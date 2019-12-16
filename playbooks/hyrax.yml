@@ -42,7 +42,7 @@
       lineinfile:
         path: /etc/httpd/vhosts.d/dlp-curate.httpd.conf
         insertafter: ServerName
-        line: '  Header set Access-Control-Allow-Origin "*.library.emory.edu"'
+        line: '  Header set Access-Control-Allow-Origin "*"'
     
     - name: Restart apache
       systemd:
