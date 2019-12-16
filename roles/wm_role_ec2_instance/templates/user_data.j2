@@ -2,3 +2,6 @@
 hostname: {{ ec2_fqdn }}
 fqdn: {{ ec2_fqdn }} 
 manage_etc_hosts: true
+write_files:
+  - path: /etc/profile.d/path.sh
+    content: 'export PATH=$PATH:/usr/local/bin'

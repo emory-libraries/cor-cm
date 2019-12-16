@@ -31,3 +31,19 @@ cantaloupe_cache_server_source_ttl_seconds: 172800
 cantaloupe_cache_server_derivative_enabled: 'true'
 cantaloupe_cache_server_derivative_ttl_seconds: 172800
 cantaloupe_cache_server_worker_enabled: 'true'
+
+## Binary Paths
+cantaloupe_FfmpegProcessor_path_to_binaries: /usr/local/bin
+cantaloupe_ImageMagickProcessor_path_to_binaries: /bin
+cantaloupe_KakaduDemoProcessor_path_to_binaries: /usr/local/bin
+cantaloupe_OpenJpegProcessor_path_to_binaries: /usr/local/bin
+
+
+## Processsor Settings
+cantaloupe_processor_fallback: ImageMagickProcessor
+cantaloupe_processor_avi: FfmpegProcessor
+cantaloupe_processor_flv: FfmpegProcessor
+cantaloupe_processor_mov: FfmpegProcessor
+cantaloupe_processor_mp4: FfmpegProcessor
+cantaloupe_processor_mpg: FfmpegProcessor
+cantaloupe_processor_webm: FfmpegProcessor

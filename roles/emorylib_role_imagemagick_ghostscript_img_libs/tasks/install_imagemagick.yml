@@ -1,0 +1,10 @@
+---
+- name: Remove Old ImageMagick
+  yum:
+    name: ImageMagick
+    state: absent
+  when: __imagemagick_installed
+
+- name: Install ImageMagick RPM
+  yum:
+    name: '{{ imagemagick_download_url }}'

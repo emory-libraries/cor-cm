@@ -1,0 +1,29 @@
+---
+- name: Create Temporary Directory
+  file:
+    dest: '/tmp/{{ libpng_filename }}'
+    state: directory
+
+- name: Download LibPNG Binaries Archive
+  unarchive:
+    src: '{{ libpng_download_url }}'
+    dest: '/tmp/{{ libpng_filename }}'
+    remote_src: yes
+
+- name: Copy LibPNG Files to Destination Folder
+  synchronize:
+    dest: '{{ item.0 }}'
+    src: '{{ item.1 }}'
+  delegate_to: '{{ inventory_hostname }}'
+  loop: '{{ paths | zip(sources) | list }}'
+  vars:
+    paths:
+      - '{{ binaries_base_path }}/bin/'
+      - '{{ binaries_base_path }}/lib64/'
+      - '{{ binaries_base_path }}/include/'
+    sources:
+      - '/tmp/{{ libpng_filename }}/usr/bin/'
+      - '/tmp/{{ libpng_filename }}/usr/lib64/'
+      - '/tmp/{{ libpng_filename }}/usr/include/'
+  notify: ldconfig
+    

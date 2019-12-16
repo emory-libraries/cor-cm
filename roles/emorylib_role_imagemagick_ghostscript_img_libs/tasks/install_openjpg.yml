@@ -1,0 +1,21 @@
+--- 
+- name: Download OpenJPG Binaries
+  unarchive:
+    src: '{{ openjpg_download_url }}'
+    dest: /tmp
+    remote_src: yes
+
+- name: Copy OpenJPG Files to Destination Folder
+  synchronize:
+    dest: '{{ item.0 }}'
+    src: '{{ item.1 }}'
+  delegate_to: '{{ inventory_hostname }}'
+  loop: '{{ paths | zip(sources) | list }}'
+  vars:
+    paths:
+      - '{{ binaries_base_path }}/bin/'
+      - '{{ binaries_base_path }}/lib64/'
+    sources:
+      - '/tmp/{{ openjpg_filename }}/bin/'
+      - '/tmp/{{ openjpg_filename }}/lib/'
+  notify: ldconfig
