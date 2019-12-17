@@ -1,5 +1,5 @@
-- hosts: "{{ host | d ('all') }}"
+- hosts: '{{ host | d ("all") }}'
   become: yes
 
   roles:
-    - { role: wm_role_Shibboleth_SP }
+    - wm_role_Shibboleth_SP
