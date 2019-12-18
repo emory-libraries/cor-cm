@@ -24,6 +24,12 @@ elb_target_groups: #manage-elb-target-group
     protocol: https
   - name: curate-443
     protocol: https
+  - name: lux-arch-443
+    protocol: https
+  - name: lux-test-443
+    protocol: https
+  - name: lux-443
+    protocol: https
   - name: lux-arch-80
     protocol: http
   - name: lux-test-80

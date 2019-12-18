@@ -3,7 +3,7 @@ efs_mount_points:
   - path: /mnt/arch_efs
     dns_name: fs-7bda9999.efs.us-east-1.amazonaws.com
 elb_targets:
-  - target_group_name: lux-arch-80
+  - target_group_name: lux-arch-443
 dlp_lux_mysql_db:
   name: '{{ vault_lux.arch.db.name }}'
   user: '{{ vault_lux.arch.db.user }}'
