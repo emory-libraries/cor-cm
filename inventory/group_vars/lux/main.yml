@@ -4,6 +4,9 @@ git_repo_branch: master
 idp_name: prod
 #ec2_instance_type: t3.large
 
+
+enable_ssl: "yes"
+
 dlp_lux_linked_files:
   - content: "{{ lookup('template', 'dotenv_dict.j2') }}"
     dest: "{{ capistrano_base }}/{{ project_name }}/shared/.env.production"
