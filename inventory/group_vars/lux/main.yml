@@ -1,6 +1,6 @@
 project_name: "{{ git_repo_url | urlsplit('path') | basename }}"
 git_repo_url: https://github.com/emory-libraries/dlp-lux
-git_repo_branch: master
+git_repo_branch: more-shib-setup
 idp_name: prod
 #ec2_instance_type: t3.large
 
