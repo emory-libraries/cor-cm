@@ -13,6 +13,7 @@ sp_entity_id: https://digital.library.emory.edu
 
 __dlp_lux_dotenv:
   solr_url: http://solr-cor-test.library.emory.edu/solr/blacklight-core
+  thumbnail_url: https://curate-test.library.emory.edu/
   iiif_manifest_url: https://curate-test.library.emory.edu/concern/curate_generic_works/
 
 ec2_security_groups:

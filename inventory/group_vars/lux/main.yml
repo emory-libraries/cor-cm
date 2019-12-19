@@ -30,6 +30,7 @@ dlp_lux_dotenv:
   iiif_manifest_url: '{{ __dlp_lux_dotenv.iiif_manifest_url | d () }}'
   sidekiq_workers: 5
   solr_url: '{{ __dlp_lux_dotenv.solr_url | d () }}'
+  thumbnail_url: '{{ __dlp_lux_dotenv.thumbnail_url | d () }}'
   rails_host: localhost
   rails_serve_static_files: true
 
