@@ -44,3 +44,27 @@ all:
           hosts:
             dlp-tst-rdsmys-sz:
             dlp-prd-rdsmys-mz:
+        arch:
+          children:
+            solr-arch:
+          hosts:
+            curate-arch.library.emory.edu:
+            digital-arch.library.emory.edu:
+            fedora-cor-arch.library.emory.edu:
+            iiif-cor-arch.library.emory.edu:
+        test:
+          children:
+            solr-test:
+          hosts:
+            curate-test.library.emory.edu:
+            digital-test.library.emory.edu:
+            fedora-cor-test.library.emory.edu:
+            iiif-cor-test.library.emory.edu:
+        prod:
+          children:
+            solr-prod:
+          hosts:
+            curate.library.emory.edu:
+            digital.library.emory.edu:
+            fedora-cor.library.emory.edu:
+            iiif-cor.library.emory.edu:

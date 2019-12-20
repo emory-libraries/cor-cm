@@ -1,0 +1,3 @@
+{% for host in groups[update_group] %}
+{{ hostvars[host][ip_address_type]}} {{ hostvars[host]["inventory_hostname"] }}
+{% endfor %}

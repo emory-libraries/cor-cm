@@ -1,6 +1,0 @@
----
-- hosts: all
-  become: yes
-
-  roles:
-    - emorylib_role_imagemagick_ghostscript_image_libraries

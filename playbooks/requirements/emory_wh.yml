@@ -13,3 +13,6 @@
 - src: git@github.service.emory.edu:LITS/wm_role_zookeeper_jsw.git
   scm: git
   version: initial-development
+
+- src: git+https://github.com/emory-libraries/emorylib_aws_host_mapping.git
+  version: initial-devel

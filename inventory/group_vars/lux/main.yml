@@ -1,6 +1,6 @@
 project_name: "{{ git_repo_url | urlsplit('path') | basename }}"
 git_repo_url: https://github.com/emory-libraries/dlp-lux
-git_repo_branch: more-shib-setup
+git_repo_branch: master
 idp_name: prod
 #ec2_instance_type: t3.large
 
@@ -52,3 +52,10 @@ ec2_default_volume:
       volume_type: gp2
       volume_size: 150
       delete_on_termination: yes
+
+ec2_image: ami-0e9678b77e3f7cc96
+
+aws_repos:
+  - rhui-rhel-7-server-rhui-extras-rpms
+  - rhui-rhel-server-rhui-rhscl-7-rpms
+  - rhui-rhel-7-server-rhui-optional-rpms
