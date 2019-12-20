@@ -5,11 +5,6 @@ idp_name: prod
 
 enable_ssl: "yes"
 
-dlp_lux_linked_files:
-  - content: "{{ lookup('template', 'dotenv_dict.j2') }}"
-    dest: "{{ capistrano_base }}/{{ project_name }}/shared/.env.production"
-    mode: 0644
-
 get_metadata:
   download: no
 
