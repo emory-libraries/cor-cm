@@ -2,7 +2,7 @@
 project_name: "{{ git_repo_url | urlsplit('path') | basename }}"
 git_repo_url: https://github.com/emory-libraries/dlp-curate
 enable_ssl: "yes"
-git_repo_branch: v0.5.1
+git_repo_branch: v0.5.2
 
 imagemagick_version: 7.0.9-9
 openjpg_version: no
