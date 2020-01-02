@@ -4,7 +4,6 @@ git_repo_url: https://github.com/emory-libraries/dlp-curate
 enable_ssl: "yes"
 git_repo_branch: v0.5.2
 
-imagemagick_version: 7.0.9-9
 openjpg_version: no
 libpng_version: no
 install_kakadu: no

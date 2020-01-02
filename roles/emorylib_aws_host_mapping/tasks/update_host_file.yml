@@ -3,8 +3,4 @@
     path: '{{ host_file_path }}'
     block: '{{ lookup("template", "map_ip_address_of_group.j2") }}'
   loop: '{{ groups[update_group] }}'
-  register: host_file_fact
-  until: host_file_fact.results is succeeded
-  retries: 10
-  delay: 45
   delegate_to: '{{ item }}'
