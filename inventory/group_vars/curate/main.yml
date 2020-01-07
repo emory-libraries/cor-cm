@@ -34,7 +34,6 @@ dlp_curate_dotenv:
   iiif_server_url: '{{ __dlp_curate_dotenv.iiif_server_url | d () }}'
   import_path: /mnt/import_efs/Collections
   project_name: "dlp-curate"
-  sidekiq_workers: 10
   fedora_url: "{{ __dlp_curate_dotenv.fedora_url | d ('') }}" 
   fedora_user: "{{ vault_fedora.admin.user | d ('') }}"
   fedora_password: "{{ vault_fedora.admin.pass | d ('') }}"
