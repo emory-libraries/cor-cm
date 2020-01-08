@@ -24,7 +24,7 @@ dlp_curate_dotenv:
   derivatives_path: "/opt/uploads/dlp-curate/derivatives/"
   database_auth: false
   database_adapter: "mysql2"
-  database_pool: 20
+  database_pool: 50
   database_name: "{{ dlp_curate_mysql_db.name | d ('') }}"
   database_username: "{{ dlp_curate_mysql_db.user | d ('') }}"
   database_host: "{{ rds_endpoint | d ('') }}"
