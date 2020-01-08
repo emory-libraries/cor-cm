@@ -30,8 +30,8 @@ WorkingDirectory={{ capistrano_base }}/{{ project_name }}/current
 # If you use rbenv:
 # ExecStart=/bin/bash -lc '/home/deploy/.rbenv/shims/bundle exec sidekiq -e production'
 # If you use the system's ruby:
-ExecStart={{ sidekiq_pre_exec if sidekiq_pre_exec is defined else '' }}bundle exec sidekiq -e production -C config/sidekiq.yml -L log/sidekig.log -P tmp/sidekiq.pid
-ExecStop={{ sidekiq_pre_exec if sidekiq_pre_exec is defined else '' }}bundle exec sidekiqctl stop -e production tmp/sidekiq.pid 0
+ExecStart={{ sidekiq_pre_exec if sidekiq_pre_exec is defined else '' }}bundle exec sidekiq -e production -C config/sidekiq.yml -L log/sidekig.log 
+ExecStop={{ sidekiq_pre_exec if sidekiq_pre_exec is defined else '' }}bundle exec sidekiqctl stop -e production
 # use `systemctl reload sidekiq` to send the quiet signal to Sidekiq
 # at the start of your deploy process.
 ExecReload=/usr/bin/kill -TSTP $MAINPID
