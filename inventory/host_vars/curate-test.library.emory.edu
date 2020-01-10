@@ -5,6 +5,8 @@ efs_mount_points:
     dns_name: fs-a1416442.efs.us-east-1.amazonaws.com
 rds_host: dlp-tst-rdsmys-sz
 
+ec2_instance_type: t3.2xlarge
+
 symblink_dirs:
   - src: "/mnt/test_efs/uploads"
     path: "{{ capistrano_base }}/uploads"
