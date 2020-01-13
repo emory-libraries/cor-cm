@@ -1,0 +1,5 @@
+---
+# defaults file for emorylib_solr_cloud_backup_to_s3
+sc_backup_server: localhost
+sc_backup_port: 8983
+sc_backup_location: /mnt/efs

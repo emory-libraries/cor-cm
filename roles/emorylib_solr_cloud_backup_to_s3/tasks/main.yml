@@ -1,0 +1,6 @@
+---
+# tasks file for emorylib_solr_cloud_backup_to_s3
+
+- name: Include tasks for backup solr cloud
+  include_tasks:
+    file: backup-solr-cloud.yml
