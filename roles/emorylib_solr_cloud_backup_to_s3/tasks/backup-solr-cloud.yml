@@ -1,18 +1,16 @@
 ---
 - name: Backup Solr Cloud collection
   uri:
-    url: http://{{ sc_backup_server }}:{{ sc_backup_port }}/solr/{{ item.name }}/replication?
-    body: '{{ body_params | join("&") }}'
+    url: '{{ sc_base_url }}/replication?'
+    body: '{{ sc_backup_params | join("&") }}'
     method: POST
+    creates: '{{ item.location | d (sc_backup_location) }}/{{ item.name }}-{{ ansible_date_time.epoch }}'
   run_once: yes
   loop: '{{ sc_backup_list }}'
-  vars:
-    body_params:
-      - command=backup
-      - 'location={{ item.location | d (sc_backup_location) }}'
-      - 'name={{ item.name }}-{{ ansible_date_time.epoch }}'
   register: sc_backup_collection
 
-- debug:
+- name: SC BACKUP COLLECTION
+  debug:
     var: sc_backup_collection
+
     
