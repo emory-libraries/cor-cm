@@ -1,0 +1,24 @@
+---
+- name: Get list of snapshot dir folders
+  set_fact:
+    snapshot_dir_list: '{{ snapshot_dir_list | d ([]) + [item | dirname] }}'
+  loop: '{{ snapshot_paths }}'
+
+- name: Find snapshot folders
+  find:
+    paths: '{{ snapshot_dir_list }}'
+    patterns: 'snapshot*'
+    file_type: directory
+  register: find_snapshot_folders
+
+- name: Build list of folders to be deleted
+  set_fact:
+    folders_to_delete: '{{ find_snapshot_folders.files | map(attribute="path") | reject("undefined") | list }}'
+  when: find_snapshot_folders.matched > 0
+
+- name: Cleanup snapshot directories on shared drive space
+  file: 
+    path: '{{ item }}'
+    state: absent
+  loop: '{{ folders_to_delete }}'
+  when: find_snapshot_folders.matched > 0

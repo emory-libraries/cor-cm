@@ -14,8 +14,12 @@ efs_mount_points:
   - path: /mnt/arch_efs
     dns_name: fs-7bda9999.efs.us-east-1.amazonaws.com
 
-sc_backup_location: /mnt/arch_efs/solr_backups
 
+## Solr Backup Settings
+sc_backup_location: /mnt/arch_efs/solr_backups
+sc_backup_bucket: cor-devops-binaries
+sc_backup_bucket_key: solr-backups/solr-arch
 sc_backup_list:
   - name: curate_collection
+  - name: lux_collection
    

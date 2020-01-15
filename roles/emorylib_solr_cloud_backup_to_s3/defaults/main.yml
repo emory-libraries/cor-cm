@@ -3,8 +3,15 @@
 sc_backup_server: localhost
 sc_backup_port: 8983
 sc_backup_location: /mnt/efs
+sc_backup_location_cleanup: yes
+
+## Solr Cloud Backup bucket
+sc_backup_bucket:
+sc_backup_bucket_key:
 
 sc_base_url: 'http://{{ sc_backup_server }}:{{ sc_backup_port }}/solr/{{ item.name }}'
+
+
 
 sc_backup_params:
   - command=backup

@@ -4,13 +4,37 @@
     url: '{{ sc_base_url }}/replication?'
     body: '{{ sc_backup_params | join("&") }}'
     method: POST
-    creates: '{{ item.location | d (sc_backup_location) }}/{{ item.name }}-{{ ansible_date_time.epoch }}'
+    creates: '{{ item.location | d (sc_backup_location) }}/snapshot.{{ item.name }}-{{ ansible_date_time.epoch }}'
   run_once: yes
   loop: '{{ sc_backup_list }}'
   register: sc_backup_collection
 
-- name: SC BACKUP COLLECTION
-  debug:
-    var: sc_backup_collection
+- name: Create list of snapshot paths
+  set_fact:
+    snapshot_paths: '{{ sc_backup_collection.results | map(attribute="invocation") | map(attribute="module_args") | map(attribute="creates") | reject("undefined") | list }}'
 
+- name: Check snapshots until job has finished writing files to the directories
+  find:
+    paths: '{{ snapshot_paths }}'
+    age: -5s
+  register: find_new_files
+  retries: 100
+  delay: 3
+  until: find_new_files.matched == 0
+
+- name: Create .tar.gz file from snapshot directory
+  archive:
+    path: '{{ item }}'
+    dest: '/tmp/{{ item | basename }}.tar.gz'
+  loop: '{{ snapshot_paths }}'
+
+- name: Copy tar.gz file to S3 bucket
+  aws_s3:
+    bucket: '{{ item.0.bucket | d (sc_backup_bucket) }}'
+    object: '{{ item.0.bucket_key | d (sc_backup_bucket_key) | regex_replace(get_trailing_slash, "") }}/{{ item.1 | basename }}.tar.gz'
+    src: '/tmp/{{ item.1 | basename }}.tar.gz'
+    mode: put
+  vars:
+    get_trailing_slash: \/$
+  loop: '{{ sc_backup_list | zip(snapshot_paths) | list }}'
     

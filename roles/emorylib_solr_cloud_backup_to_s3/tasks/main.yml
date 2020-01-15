@@ -4,3 +4,8 @@
 - name: Include tasks for backup solr cloud
   include_tasks:
     file: backup-solr-cloud.yml
+
+- name: Include tasks for cleanup of old snapshot folders
+  include_tasks:
+    file: cleanup-snapshot-folders.yml
+  when: sc_backup_location_cleanup
