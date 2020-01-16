@@ -6,7 +6,7 @@
 
 - name: Find snapshot folders
   find:
-    paths: '{{ snapshot_dir_list }}'
+    paths: '{{ snapshot_dir_list | unique }}'
     patterns: 'snapshot*'
     file_type: directory
   register: find_snapshot_folders

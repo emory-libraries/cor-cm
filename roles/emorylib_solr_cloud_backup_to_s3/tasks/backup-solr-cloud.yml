@@ -13,7 +13,7 @@
   set_fact:
     snapshot_paths: '{{ sc_backup_collection.results | map(attribute="invocation") | map(attribute="module_args") | map(attribute="creates") | reject("undefined") | list }}'
 
-- name: Check snapshots until job has finished writing files to the directories
+- name: Check snapshot folder until no files are being written to it
   find:
     paths: '{{ snapshot_paths }}'
     age: -5s
