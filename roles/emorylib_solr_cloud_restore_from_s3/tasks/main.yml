@@ -1,2 +1,5 @@
 ---
 # tasks file for emorylib_solr_cloud_restore_from_s3
+- name: Include tasks for getting snapshot .tar.gz from S3
+  include_tasks:
+    file: get-snapshot-from-s3-bucket.yml

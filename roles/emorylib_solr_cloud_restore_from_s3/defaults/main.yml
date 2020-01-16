@@ -1,2 +1,14 @@
 ---
 # defaults file for emorylib_solr_cloud_restore_from_s3
+
+## S3 Bucket settings:
+sc_restore_delete_collection: yes # Will delete a collection before attempting to restore it, otherwise it throws an error
+sc_restore_bucket_name:
+sc_restore_bucket_prefix:
+
+sc_restore_list:
+  - restore_name: #Name of collection to be restored from
+    restore_epoch: #Epoch time of restore, can also accept "latest"
+    bucket_name: # defaults to sc_restore_bucket_name
+    bucket_prefix: #Optional Bucket prefix, defaults to sc_restore_bucket_prefix
+    collection_name: #Name of collection to be restored. Optionally will delete a collection that matches this name, then restore

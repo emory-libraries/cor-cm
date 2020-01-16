@@ -1,0 +1,17 @@
+---
+- name: List objects in s3
+  aws_s3:
+    bucket: '{{ item.bucket_name | d (sc_restore_bucket_name) }}'
+    prefix: '{{ item.bucket_prefix | d (sc_restore_bucket_prefix) | d (omit) }}'
+    mode: list
+  loop: '{{ sc_restore_list }}'
+  register: s3_objects
+
+- name: Show s3 objects
+  debug:
+    var: s3_objects
+    
+- pause:
+
+- set_fact:
+    combined_key_list: '{{ s3_objects.results }}'
