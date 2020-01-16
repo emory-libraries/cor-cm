@@ -1,17 +1,25 @@
 ---
 - name: List objects in s3
   aws_s3:
-    bucket: '{{ item.bucket_name | d (sc_restore_bucket_name) }}'
+    bucket: '{{ item.bucket_name | d (sc_restore_bucket) }}'
     prefix: '{{ item.bucket_prefix | d (sc_restore_bucket_prefix) | d (omit) }}'
     mode: list
   loop: '{{ sc_restore_list }}'
   register: s3_objects
 
-- name: Show s3 objects
-  debug:
-    var: s3_objects
-    
-- pause:
+- name: Get combined unique list of objects
+  set_fact:
+    combined_object_list: '{{ s3_objects | json_query("results[].s3_keys[]") | list | unique }}'
 
-- set_fact:
-    combined_key_list: '{{ s3_objects.results }}'
+- name: Get latest object
+  set_fact:
+    latest_backup_list: '{{ combined_object_list | select("search", search_query) | d (False) | list }}'
+  loop: '{{ sc_restore_list }}'
+  when: item.restore_epoch | lower == 'latest' 
+  vars:
+    search_query: '*{{ item.restore_name }}*'
+
+- debug:
+    var: sc_restore_list | length
+
+- pause:
