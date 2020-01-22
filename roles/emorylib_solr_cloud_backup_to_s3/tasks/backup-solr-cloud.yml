@@ -18,8 +18,8 @@
     paths: '{{ snapshot_paths }}'
     age: -5s
   register: find_new_files
-  retries: 100
-  delay: 3
+  retries: '{{ sc_backup_retries }}'
+  delay: '{{ sc_backup_delay }}'
   until: find_new_files.matched == 0
 
 - name: Create .tar.gz file from snapshot directory

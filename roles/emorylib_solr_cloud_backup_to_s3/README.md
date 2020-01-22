@@ -1,22 +1,25 @@
-Role Name
+emorylib_solr_cloud_backup_to_s3
 =========
 
-A brief description of the role goes here.
+This role will backup a list of solr cloud collections to a S3 bucket. The role uses the Solr Cloud backup API which can be found [here](https://lucene.apache.org/solr/guide/6_6/making-and-restoring-backups.html).
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+The solr cloud backup api requires that each solr instance in the cluster be connected to the same share drive. Considering this role is tuned for AWS, my recommendation is running another role I've created: wm_role_mount_efs_volumes (role is not on public github yet).
 
 Role Variables
 --------------
+```yaml
+sc_backup_server: #Server address, defaults to localhost
+sc_backup_port: #Server Port
+sc_backup_location: #Share drive path
+sc_backup_location_cleanup: #Controls where the snapshot. directories on the share drive are deleted, defaults to true
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
-
-Dependencies
-------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+sc_backup_list: #List of solr cloud collections to be backed up
+  - name: #Required, name of collection to be backed up
+    location: # Optional, path of shared drive, defaults to sc_backup_location
+```
 
 Example Playbook
 ----------------

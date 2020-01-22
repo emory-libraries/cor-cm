@@ -18,19 +18,19 @@ efs_mount_points:
 ## Solr Backup Settings
 sc_backup_location: /mnt/arch_efs/solr_backups
 sc_backup_bucket: cor-devops-binaries
-sc_backup_bucket_key: solr-backups/solr-arch
+sc_backup_bucket_key: 'solr-backups/solr-arch/{{ item.0.name }}'
 sc_backup_list:
   - name: curate_collection
   - name: lux_collection
    
 ## S3 Bucket settings:
 sc_restore_bucket: '{{ sc_backup_bucket }}'
-sc_restore_bucket_prefix: '{{ sc_backup_bucket_key }}'
+sc_restore_bucket_prefix: 'solr-backups/solr-arch/{{ item.restore_name }}'
 
 sc_restore_list:
   - restore_name: curate_collection
     restore_epoch: latest
     collection_name: new_curate_collection
   - restore_name: lux_collection
-    restore_epoch: 1579117714
+    restore_epoch: 1579640459
     collection_name: new_lux_collection

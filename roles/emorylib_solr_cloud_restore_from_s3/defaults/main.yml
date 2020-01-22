@@ -6,6 +6,8 @@ sc_restore_delete_collection: yes # Will delete a collection before attempting t
 sc_restore_bucket_name:
 sc_restore_bucket_prefix:
 
+sc_restore_temp_path: /tmp
+
 sc_restore_list:
   - restore_name: #Name of collection to be restored from
     restore_epoch: #Epoch time of restore, can also accept "latest"

@@ -5,6 +5,9 @@ sc_backup_port: 8983
 sc_backup_location: /mnt/efs
 sc_backup_location_cleanup: yes
 
+sc_backup_retries: 100
+sc_backup_delay: 3
+
 ## Solr Cloud Backup bucket
 sc_backup_bucket:
 sc_backup_bucket_key:
