@@ -1,13 +1,23 @@
 ---
-- name: Backup Solr Cloud collection
+- name: API Call Backup Solr Cloud Collection
   uri:
-    url: '{{ sc_base_url }}/replication?'
+    url: '{{ sc_base_url }}/collections?'
     body: '{{ sc_backup_params | join("&") }}'
     method: POST
-    creates: '{{ item.location | d (sc_backup_location) }}/snapshot.{{ item.name }}-{{ ansible_date_time.epoch }}'
-  run_once: yes
+    creates: '{{ item.location | d (sc_backup_location) }}/{{ item.name }}-{{ ansible_date_time.epoch }}'
   loop: '{{ sc_backup_list }}'
+  loop_control:
+    extended: yes
   register: sc_backup_collection
+
+- name: Get request IDs
+  set_fact:
+    request_ids: '{{ sc_backup_collection | json_query("results[].json.requestid") }}'
+
+- debug:
+    var: sc_backup_collection
+
+- pause: 
 
 - name: Create list of snapshot paths
   set_fact:
@@ -17,6 +27,7 @@
   find:
     paths: '{{ snapshot_paths }}'
     age: -5s
+    recurse: yes
   register: find_new_files
   retries: '{{ sc_backup_retries }}'
   delay: '{{ sc_backup_delay }}'
