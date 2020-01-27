@@ -3,3 +3,10 @@
 - name: Include tasks for getting snapshot .tar.gz from S3
   include_tasks:
     file: get-snapshot-from-s3-bucket.yml
+
+- name: Include tasks for restoring collection
+  include_tasks:
+    file: restore-collection.yml
+    apply:
+      tags: restore-collection
+  tags: restore-collection

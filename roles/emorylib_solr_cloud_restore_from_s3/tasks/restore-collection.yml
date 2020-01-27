@@ -1,0 +1,68 @@
+---
+- name: List existing collections
+  uri:
+    url: '{{ sc_restore_base_url }}/admin/collections?'
+    body: 'action=LIST'
+    method: POST
+  register: collections_list
+
+- name: Get list of restore collections that already exists
+  set_fact:
+    existing_collections: '{{ pre_existing_collections | intersect (collection_names) }}'
+  vars:
+    pre_existing_collections:  '{{ collections_list | json_query(query) }}'
+    collection_names: '{{ sc_restore_list | json_query(query2) }}'
+    query: 'json.collections[]'
+    query2: '[].collection_name'
+
+- name: Fail if collections exists and delete collection is set to no
+  fail:
+    msg: 'Collection(s) already exists for {{ existing_collections }} and sc_restore_delete_collection has been set to no, please set this variable to yes to proceed with restore'
+  when:
+    - not sc_restore_delete_collection
+    - existing_collections | length > 0
+
+- name: Delete collection(s)
+  uri:
+    url: '{{ sc_restore_base_url }}/admin/collections?'
+    body: '{{ params | join ("&") }}'
+    method: POST
+  vars:
+    params:
+      - action=DELETE
+      - 'name={{ item }}'
+      - 'async={{ ansible_date_time.epoch }}-{{ ansible_loop.index }}'
+  when:
+    - sc_restore_delete_collection
+    - existing_collections | length > 0
+  loop: '{{ existing_collections }}'
+  loop_control:
+    extended: yes
+  register: delete_colection_call
+
+- debug:
+    var: delete_colection_call
+    
+- pause:
+
+- name: Restore collection(s)
+  uri:
+    url: '{{ sc_restore_base_url }}/admin/collections?'
+    body: '{{ params | join ("&") }}'
+    method: POST
+  loop: '{{ __sc_restore_list }}'
+  loop_control:
+    extended: yes
+  vars:
+    object_name: '{{ item.restore_key | ternary (item.restore_key, item.s3_keys[-1]) }}'
+    params:
+      - action=RESTORE
+      - 'name={{ object_name | basename | regex_replace(".tar.gz") }}'
+      - 'location={{ sc_restore_location }}'
+      - 'collection={{ item.collection_name }}'
+      - 'async={{ ansible_date_time.epoch }}-{{ ansible_loop.index }}'
+  register: collection_call
+
+- debug:
+    var: collection_call
+    

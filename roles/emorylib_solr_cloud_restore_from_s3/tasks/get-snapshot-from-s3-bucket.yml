@@ -36,4 +36,18 @@
     mode: get
   vars:
     object_name: '{{ item.restore_key | ternary (item.restore_key, item.s3_keys[-1]) }}'
+  register: get_snapshot
   loop: '{{ __sc_restore_list }}'
+
+- name: Get list of tar.gz files
+  set_fact:
+    snapshot_files:  '{{ get_snapshot | json_query(query) }}'
+  vars:
+    query: 'results[].invocation.module_args.dest'  
+
+- name: Unarchive tar.gz files to shared drive location
+  unarchive:
+    src: '{{ item }}'
+    dest: '{{ sc_restore_location }}'
+    remote_src: yes
+  loop: '{{ snapshot_files }}'

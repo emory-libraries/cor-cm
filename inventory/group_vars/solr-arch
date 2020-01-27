@@ -16,7 +16,8 @@ efs_mount_points:
 
 
 ## Solr Backup Settings
-sc_backup_location: /mnt/arch_efs/solr_backups
+sc_backup_location: /mnt/arch_efs/solr/backup
+sc_backup_location_cleanup: no
 sc_backup_bucket: cor-devops-binaries
 sc_backup_bucket_key: 'solr-backups/solr-arch/{{ item.0.name }}'
 sc_backup_list:
@@ -26,6 +27,7 @@ sc_backup_list:
 ## S3 Bucket settings:
 sc_restore_bucket: '{{ sc_backup_bucket }}'
 sc_restore_bucket_prefix: 'solr-backups/solr-arch/{{ item.restore_name }}'
+sc_restore_location: /mnt/arch_efs/solr/restore
 
 sc_restore_list:
   - restore_name: curate_collection
