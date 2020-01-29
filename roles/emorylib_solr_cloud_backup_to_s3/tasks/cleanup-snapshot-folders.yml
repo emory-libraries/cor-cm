@@ -2,7 +2,7 @@
 - name: Get list of snapshot dir folders
   set_fact:
     snapshot_dir_list: '{{ snapshot_dir_list | d ([]) + [item | dirname] }}'
-  loop: '{{ snapshot_paths }}'
+  loop: '{{ backup_dirs }}'
 
 - name: Find snapshot folders
   find:

@@ -14,38 +14,20 @@
   set_fact:
     request_ids: '{{ sc_backup_collection | json_query("results[].json.requestid") }}'
 
-- debug:
-    var: sc_backup_collection
+- name: Pause three seconds before directory check
+  pause:
+    seconds: 3
 
-- pause: 
-
-- name: Create list of snapshot paths
+- name: Create list of backup directories
   set_fact:
-    snapshot_paths: '{{ sc_backup_collection.results | map(attribute="invocation") | map(attribute="module_args") | map(attribute="creates") | reject("undefined") | list }}'
+    backup_dirs: '{{ sc_backup_collection.results | map(attribute="invocation") | map(attribute="module_args") | map(attribute="creates") | reject("undefined") | list }}'
 
-- name: Check snapshot folder until no files are being written to it
+- name: Ensure backup directories have not been written to for at least 5 seconds
   find:
-    paths: '{{ snapshot_paths }}'
+    paths: '{{ backup_dirs }}'
     age: -5s
     recurse: yes
   register: find_new_files
   retries: '{{ sc_backup_retries }}'
   delay: '{{ sc_backup_delay }}'
   until: find_new_files.matched == 0
-
-- name: Create .tar.gz file from snapshot directory
-  archive:
-    path: '{{ item }}'
-    dest: '/tmp/{{ item | basename }}.tar.gz'
-  loop: '{{ snapshot_paths }}'
-
-- name: Copy tar.gz file to S3 bucket
-  aws_s3:
-    bucket: '{{ item.0.bucket | d (sc_backup_bucket) }}'
-    object: '{{ item.0.bucket_key | d (sc_backup_bucket_key) | regex_replace(get_trailing_slash, "") }}/{{ item.1 | basename }}.tar.gz'
-    src: '/tmp/{{ item.1 | basename }}.tar.gz'
-    mode: put
-  vars:
-    get_trailing_slash: \/$
-  loop: '{{ sc_backup_list | zip(snapshot_paths) | list }}'
-    

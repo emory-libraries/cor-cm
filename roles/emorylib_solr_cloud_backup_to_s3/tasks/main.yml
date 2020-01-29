@@ -5,6 +5,10 @@
   include_tasks:
     file: backup-solr-cloud.yml
 
+- name: Include tasks for confirm and push to s3
+  include_tasks:
+    file: confirm-and-push-to-s3.yml
+
 - name: Include tasks for cleanup of old snapshot folders
   include_tasks:
     file: cleanup-snapshot-folders.yml
