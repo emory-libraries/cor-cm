@@ -28,6 +28,7 @@ __dlp_curate_dotenv:
   fedora_url: "http://fedora-cor.library.emory.edu/fcrepo/rest"
   iiif_server_url: https://iiif-cor.library.emory.edu/cantaloupe/iiif/2/
   solr_url: "http://solr-cor-1.library.emory.edu/solr/curate_collection"
+  redis_database: 0
 
 dlp_curate_mysql_db:
   name: "{{ vault_curate.prod.db.name }}"

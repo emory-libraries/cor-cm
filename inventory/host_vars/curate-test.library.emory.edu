@@ -16,6 +16,7 @@ __dlp_curate_dotenv:
   fedora_url: "http://fedora-cor-test.library.emory.edu/fcrepo/rest"
   iiif_server_url: https://iiif-cor-test.library.emory.edu/cantaloupe/iiif/2/
   solr_url: "http://solr-cor-test-1.library.emory.edu/solr/curate_collection"
+  redis_database: 1
   
 
 dlp_curate_mysql_db:

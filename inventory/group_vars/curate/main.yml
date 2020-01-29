@@ -38,9 +38,10 @@ dlp_curate_dotenv:
   fedora_user: "{{ vault_fedora.admin.user | d ('') }}"
   fedora_password: "{{ vault_fedora.admin.pass | d ('') }}"
   fedora_adapter: S3
-  solr_url: "{{ __dlp_curate_dotenv.solr_url | d ('') }}" 
-  redis_host: localhost
-  redis_port: 6379
+  solr_url: "{{ __dlp_curate_dotenv.solr_url | d ('') }}"
+  sidekiq_workers: 25
+  redis_database: "{{ __dlp_curate_dotenv.redis_database | d () }}"
+  redis_host: dlp-redis-001.mmsay6.0001.use1.cache.amazonaws.com
   
 
 additional_capistrano_directories:
