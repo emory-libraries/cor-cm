@@ -14,9 +14,24 @@
   set_fact:
     request_ids: '{{ sc_backup_collection | json_query("results[].json.requestid") }}'
 
+- name: Check request ids for completed backups
+  uri:
+    url: '{{ sc_base_url }}/collections?'
+    body: '{{ params | join("&") }}'
+    method: POST
+  vars:
+    params:
+      - action=requeststatus
+      - 'requestid={{ item }}'
+    status: '{{ backup_status | json_query("results[].json.status.state") | select("contains", "running") | list | length }}'
+  loop: '{{ request_ids }}'
+  register: backup_status
+  until: status == '0'
+  retries: 20
+  delay: 10
+
 - name: Pause three seconds before directory check
   pause:
-    seconds: 3
 
 - name: Create list of backup directories
   set_fact:
