@@ -17,7 +17,7 @@ efs_mount_points:
 
 ## Solr Backup Settings
 sc_backup_location: /mnt/arch_efs/solr/backup
-sc_backup_location_cleanup: no
+sc_backup_location_cleanup: yes
 sc_backup_bucket: cor-devops-binaries
 sc_backup_bucket_key: 'solr-backups/solr-arch/{{ item.0.name }}'
 sc_backup_list:
