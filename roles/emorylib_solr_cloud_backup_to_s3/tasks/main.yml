@@ -4,12 +4,18 @@
 - name: Include tasks for backup solr cloud
   include_tasks:
     file: backup-solr-cloud.yml
+    apply:
+      become: yes
 
 - name: Include tasks for confirm and push to s3
   include_tasks:
     file: confirm-and-push-to-s3.yml
+    apply:
+      become: yes
 
 - name: Include tasks for cleanup of old snapshot folders
   include_tasks:
     file: cleanup-snapshot-folders.yml
+    apply:
+      become: yes
   when: sc_backup_location_cleanup

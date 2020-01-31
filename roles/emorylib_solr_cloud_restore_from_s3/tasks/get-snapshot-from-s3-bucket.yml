@@ -9,9 +9,9 @@
 
 - name: Create new restore_list with associated object list
   set_fact:
-    __sc_restore_list: '{{ __sc_restore_list | d([]) + [item.0 | combine({"s3_keys": item.1.s3_keys | d () }, {"restore_key":  item.1.s3_keys | map("regex_search", regexp) | first})] }}'
+    __sc_restore_list: '{{ __sc_restore_list | d([]) + [item.0 | combine({"s3_keys": item.1.s3_keys | d () }, {"restore_key":  item.1.s3_keys | select("contains", search) | list | first | d (False)})] }}'
   vars:
-    regexp: '.*{{ item.0.restore_epoch }}.*'
+    search: '{{ item.0.restore_epoch }}'
   loop: '{{ sc_restore_list | zip(s3_objects.results) | list }}'
 
 - name: Fail task if no backups are found

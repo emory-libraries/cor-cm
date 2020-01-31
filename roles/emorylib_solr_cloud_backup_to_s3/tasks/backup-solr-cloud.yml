@@ -10,9 +10,20 @@
     extended: yes
   register: sc_backup_collection
 
-- name: Get request IDs
+- name: Set facts from API call
   set_fact:
     request_ids: '{{ sc_backup_collection | json_query("results[].json.requestid") }}'
+    backup_dirs: '{{ sc_backup_collection.results | map(attribute="invocation") | map(attribute="module_args") | map(attribute="creates") | reject("undefined") | list }}'
+
+- name: Ensure backup directories have not been written to for at least 5 seconds
+  find:
+    paths: '{{ backup_dirs }}'
+    age: -5s
+    recurse: yes
+  register: find_new_files
+  retries: '{{ sc_backup_retries }}'
+  delay: '{{ sc_backup_delay }}'
+  until: find_new_files.matched == 0 
 
 - name: Check request ids for completed backups
   uri:
@@ -28,9 +39,5 @@
   register: backup_status
   until: state == 'completed'
   failed_when: state == 'failed'
-  retries: 100
-  delay: 5
-
-- name: Create list of backup directories
-  set_fact:
-    backup_dirs: '{{ sc_backup_collection.results | map(attribute="invocation") | map(attribute="module_args") | map(attribute="creates") | reject("undefined") | list }}'
+  retries: '{{ sc_backup_retries }}'
+  delay: '{{ sc_backup_delay }}'

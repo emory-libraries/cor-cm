@@ -31,8 +31,8 @@ sc_restore_location: /mnt/arch_efs/solr/restore
 
 sc_restore_list:
   - restore_name: curate_collection
-    restore_epoch: latest
+    restore_epoch: 1580175859
     collection_name: new_curate_collection
   - restore_name: lux_collection
-    restore_epoch: 1579640459
+    restore_epoch: latest
     collection_name: new_lux_collection

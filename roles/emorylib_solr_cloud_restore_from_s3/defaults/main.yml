@@ -9,6 +9,9 @@ sc_restore_location_cleanup: yes
 
 sc_restore_base_url: 'http://{{ sc_restore_server }}:{{ sc_restore_port }}/solr'
 
+sc_restore_retries: 100
+sc_restore_delay: 3
+
 ## S3 Bucket settings:
 sc_restore_delete_collection: yes # Will delete a collection before attempting to restore it, otherwise it throws an error
 sc_restore_bucket_name:

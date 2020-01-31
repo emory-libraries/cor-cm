@@ -1,0 +1,23 @@
+---
+- name: List existing collections
+  uri:
+    url: '{{ sc_restore_base_url }}/admin/collections?'
+    body: 'action=LIST'
+    method: POST
+  register: collections_list
+
+- name: Get list of restore collections that already exists
+  set_fact:
+    existing_collections: '{{ pre_existing_collections | intersect (collection_names) }}'
+  vars:
+    pre_existing_collections:  '{{ collections_list | json_query(query) }}'
+    collection_names: '{{ sc_restore_list | json_query(query2) }}'
+    query: 'json.collections[]'
+    query2: '[].collection_name'
+
+- name: Fail if collections exists and delete collection is set to no
+  fail:
+    msg: 'Collection(s) already exists for {{ existing_collections }} and sc_restore_delete_collection has been set to no, please set this variable to yes to proceed with restore'
+  when:
+    - not sc_restore_delete_collection
+    - existing_collections | length > 0
