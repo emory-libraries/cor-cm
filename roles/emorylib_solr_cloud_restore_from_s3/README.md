@@ -1,22 +1,40 @@
-Role Name
+emorylib_solr_cloud_restore_from_s3
 =========
 
-A brief description of the role goes here.
+This role will restore a solr cloud collection, the collection is stored in an s3 bucket and copied down to the server.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Solr Cloud Collection restore requires a shared drive between all solr cloud servers.
 
 Role Variables
 --------------
+```yaml
+sc_restore_list:
+  - restore_name: #Name of collection to be restored from
+    restore_epoch: #Epoch time of restore, can also accept "latest"
+    bucket_name: # defaults to sc_restore_bucket_name
+    bucket_prefix: #Optional Bucket prefix, defaults to sc_restore_bucket_prefix
+    collection_name: #Name of collection to be restored. Optionally will delete a collection that matches this name, then restore
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+sc_restore_delete_collection: yes # Will delete a collection before attempting to restore it, otherwise the play will fail
+sc_restore_bucket_name: # Default bucket name, can be overidden inside of sc_restore list
+sc_restore_bucket_prefix: # Default bucket prefix, can be overidden inside of restore list
 
-Dependencies
-------------
+sc_restore_server: localhost
+sc_restore_port: 8983
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+sc_restore_location: /mnt/efs
+sc_restore_location_cleanup: yes # Will clean out the restore directory
+
+sc_restore_temp_path: /tmp
+sc_restore_base_url: 'http://{{ sc_restore_server }}:{{ sc_restore_port }}/solr'
+
+#These variables affect how long the play will wait for a restore to be completed
+sc_restore_retries: 100
+sc_restore_delay: 3
+```
 
 Example Playbook
 ----------------
