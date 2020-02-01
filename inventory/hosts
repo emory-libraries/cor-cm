@@ -1,6 +1,6 @@
 all:
   children:
-    us-east-1:
+    us_east_1:
       children:   
         curate:
           hosts:
@@ -28,16 +28,16 @@ all:
             iiif-cor-arch.library.emory.edu:
         solr:
           children:
-            solr-prod:
+            solr_prod:
               hosts:
                 solr-cor-[1:3].library.emory.edu:
-            solr-test:
+            solr_test:
               hosts:
                 solr-cor-test-[1:3].library.emory.edu:
-            solr-arch:
+            solr_arch:
               hosts:
                 solr-cor-arch-[1:3].library.emory.edu:
-        s3-iam:
+        s3_iam:
           hosts:
             nohost:
         rds:
@@ -46,7 +46,7 @@ all:
             dlp-prd-rdsmys-mz:
         arch:
           children:
-            solr-arch:
+            solr_arch:
           hosts:
             curate-arch.library.emory.edu:
             digital-arch.library.emory.edu:
@@ -54,7 +54,7 @@ all:
             iiif-cor-arch.library.emory.edu:
         test:
           children:
-            solr-test:
+            solr_test:
           hosts:
             curate-test.library.emory.edu:
             digital-test.library.emory.edu:
@@ -62,7 +62,7 @@ all:
             iiif-cor-test.library.emory.edu:
         prod:
           children:
-            solr-prod:
+            solr_prod:
           hosts:
             curate.library.emory.edu:
             digital.library.emory.edu:
