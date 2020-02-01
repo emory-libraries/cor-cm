@@ -10,6 +10,7 @@ Solr Cloud Collection restore requires a shared drive between all solr cloud ser
 
 Role Variables
 --------------
+
 ```yaml
 sc_restore_list:
   - restore_name: #Name of collection to be restored from
@@ -36,14 +37,13 @@ sc_restore_retries: 100
 sc_restore_delay: 3
 ```
 
-Example Playbook
+Tag
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+delete-solr-collection - Will delete the collection_name in sc_restore_list without attempting to restore a collection afterwards
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+Example Playbook
+----------------
 
 License
 -------
