@@ -1,7 +1,7 @@
 fedora_mysql_db:
-  name: "{{ vault_fedora.arch.db.name }}"
-  user: "{{ vault_fedora.arch.db.user }}"
-  password: "{{ vault_fedora.arch.db.pass }}"
+  name: "{{ vault_fedora.jb.db.name }}"
+  user: "{{ vault_fedora.jb.db.user }}"
+  password: "{{ vault_fedora.jb.db.pass }}"
 
 fedora_aws_access_key: "{{ vault_fedora.arch.aws.access_key }}"
 fedora_aws_secret_key: "{{ vault_fedora.arch.aws.secret_key }}"

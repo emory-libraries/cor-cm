@@ -14,7 +14,7 @@ all:
             digital-arch.library.emory.edu:
         fedora:
           hosts:
-            fedora-jb.library.emory.edu
+            fedora-jb.library.emory.edu:
             fedora-cor-test.library.emory.edu:
             fedora-cor.library.emory.edu:
             fedora-cor-arch.library.emory.edu:
