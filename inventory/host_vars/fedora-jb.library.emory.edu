@@ -1,0 +1,19 @@
+fedora_mysql_db:
+  name: "{{ vault_fedora.arch.db.name }}"
+  user: "{{ vault_fedora.arch.db.user }}"
+  password: "{{ vault_fedora.arch.db.pass }}"
+
+fedora_aws_access_key: "{{ vault_fedora.arch.aws.access_key }}"
+fedora_aws_secret_key: "{{ vault_fedora.arch.aws.secret_key }}"
+fedora_aws_bucket: fedora-cor-arch-binaries
+
+rds_host: dlp-tst-rdsmys-sz
+
+elb_targets:
+  - target_group_name: fedora-jb-80
+
+ec2_security_groups:
+  - "{{ sg_pre }}-tp-apache-ssh"
+  - "{{ sg_pre }}-t-mysql"
+
+ec2_instance_type: t3.medium

@@ -50,7 +50,7 @@ fedora_test_to_backup_test_copy:
     Enabled: true
     ReportScope: AllTasks
   priority: 23
-  region: us-east-1
+  region: us-west-2
 
 curate_test_tagging_op:
   - operation:
