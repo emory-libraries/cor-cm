@@ -67,6 +67,18 @@ iam_policies: #iam-manage-policy
     manifest_bucket: cor-s3-inventory-2
     report_bucket: cor-s3-inventory-2
     policy_template_path: iam_policy_s3_batch_operation_putcopy_json.j2
+  - policy_name: S3BatchPutCopyFromFedoraTestToBackupFedoraTest
+    destination_bucket: backup-fedora-cor-test-binaries
+    source_bucket: fedora-cor-test-binaries
+    manifest_bucket: cor-s3-inventory-2
+    report_bucket: cor-s3-inventory-2
+    policy_template_path: iam_policy_s3_batch_operation_putcopy_json.j2
+  - policy_name: S3BatchPutCopyFromFedoraBinToBackupFedoraBin
+    destination_bucket: backup-fedora-cor-binaries
+    source_bucket: fedora-cor-binaries
+    manifest_bucket: cor-s3-inventory-2
+    report_bucket: cor-s3-inventory-2
+    policy_template_path: iam_policy_s3_batch_operation_putcopy_json.j2
 
 iam_roles: #iam-manage-role
   - name: general-ec2-role
@@ -76,6 +88,9 @@ iam_roles: #iam-manage-role
       - AccessToCorDevOpsBinaries
       - rhedcloud-aws-vpc-type1-73-RHEDcloudManagementSubnetPolicy
       - RHEDcloudAdministratorRolePolicy
+      - AccessToFedoraCorTestBinaries
+      - AccessToFedoraCorArchBinaries
+      - AccessToFedoraCorBinaries
     description: General role for ec2
     policy_file_path: ec2_assume_role.json
   - name: s3-batch-job-role
@@ -88,6 +103,8 @@ iam_roles: #iam-manage-role
       - S3BatchPutCopyOpFromFedoraCorToFedoraCorArch
       - S3BatchPutCopyOpFromFedoraCorTestToFedoraCorArch
       - S3BatchPutCopyFromFedoraArchToTestDLP
+      - S3BatchPutCopyFromFedoraTestToBackupFedoraTest
+      - S3BatchPutCopyFromFedoraBinToBackupFedoraBin
     description: Controls batch operations
     policy_file_path: s3_batch_job_role.json
   - name: s3testrole

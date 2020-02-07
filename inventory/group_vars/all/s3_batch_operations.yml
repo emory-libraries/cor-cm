@@ -1,5 +1,5 @@
 # s3-batch-op
-s3_batch_operations: '{{ fedora_arch_to_dlp_test_copy }}'
+s3_batch_operations: '{{ fedora_test_to_backup_test_copy }}'
 
 s3_batch_operation:
   region: us-west-1
@@ -33,6 +33,24 @@ fedora_arch_to_dlp_test_copy:
     ReportScope: AllTasks
   priority: 23
 
+fedora_test_to_backup_test_copy:
+- operation:
+    S3PutObjectCopy:
+      TargetResource: arn:aws:s3:::backup-fedora-cor-test-binaries
+  manifest:
+    Spec:
+      Format: S3InventoryReport_CSV_20161130
+    Location:
+      ObjectArn: arn:aws:s3:::fedora-cor-test-binaries/manifest/2020-02-06T00-00Z/manifest.json
+      ETag: 44dea86208c0c71df234d97b2c114e7e      
+  report:
+    Bucket: arn:aws:s3:::cor-s3-inventory-2
+    Prefix: fedora-cor-test-binaries/completion-report
+    Format: Report_CSV_20180820
+    Enabled: true
+    ReportScope: AllTasks
+  priority: 23
+  region: us-east-1
 
 curate_test_tagging_op:
   - operation:
