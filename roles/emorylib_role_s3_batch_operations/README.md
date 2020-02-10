@@ -6,6 +6,7 @@ A brief description of the role goes here.
 Requirements
 ------------
 
+Put Object copy reference: <https://docs.aws.amazon.com/sdkforruby/api/Aws/S3Control/Types/S3CopyObjectOperation.html>
 Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
 
 Role Variables

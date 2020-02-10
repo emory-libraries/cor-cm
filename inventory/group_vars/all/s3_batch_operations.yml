@@ -41,8 +41,14 @@ fedora_test_to_backup_test_copy:
     Spec:
       Format: S3InventoryReport_CSV_20161130
     Location:
-      ObjectArn: arn:aws:s3:::fedora-cor-test-binaries/manifest/2020-02-06T00-00Z/manifest.json
-      ETag: 44dea86208c0c71df234d97b2c114e7e      
+      Date:
+        Key: cor-s3-inventory-2/fedora-cor-test-binaries/manifest/
+        #Latest: yes
+        Year: '2020'
+        Month: '01'
+        Day: '19'
+      #ObjectArn: arn:aws:s3:::cor-devops-binaries/fedora-cor-test-binaries/manifest/2020-02-06T00-00Z/manifest.json
+      #ETag: 44dea86208c0c71df234d97b2c114e7e      
   report:
     Bucket: arn:aws:s3:::cor-s3-inventory-2
     Prefix: fedora-cor-test-binaries/completion-report
@@ -51,6 +57,25 @@ fedora_test_to_backup_test_copy:
     ReportScope: AllTasks
   priority: 23
   region: us-west-2
+- operation:
+    S3PutObjectCopy:
+      TargetResource: arn:aws:s3:::temp-bucket-dlp-test
+      NewObjectTagging:
+      - Key: ObjectFromFedoraArch
+        Value: DeletePlz
+  manifest:
+    Spec:
+      Format: S3InventoryReport_CSV_20161130
+    Location:
+      ObjectArn: arn:aws:s3:::cor-s3-inventory-2/fedora-cor-arch-binaries/manifest/2019-11-17T00-00Z/manifest.json
+      ETag: 23dfb69aa65bfcc7378ced950f031b0d      
+  report:
+    Bucket: arn:aws:s3:::cor-s3-inventory-2
+    Prefix: fedora-cor-arch-binaries/completion-report
+    Format: Report_CSV_20180820
+    Enabled: true
+    ReportScope: AllTasks
+  priority: 23
 
 curate_test_tagging_op:
   - operation:

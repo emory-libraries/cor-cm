@@ -1,0 +1,31 @@
+---
+- hosts: localhost
+  gather_facts: no
+  vars:
+    test2: For
+    Foods:
+      - Id: 456
+        Tags:
+          - Key: For
+            Value: Heffalump
+          - Key: Purpose
+            Value: Food
+      - Id: 678
+        Tags:
+          - Key: For
+            Value: Tigger
+          - Key: Purpose
+            Value: Food
+      - Id: 911
+        Tags:
+          - Key: For
+            Value: Roo
+          - Key: Purpose
+            Value: Food
+
+  tasks:
+    - debug:
+        var: Foods | json_query(query)
+      vars:
+        query: "[].{id: Id, for: (Tags[?Key==test2].Value)[0]}"
+        test: For
