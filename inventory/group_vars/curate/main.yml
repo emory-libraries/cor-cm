@@ -2,7 +2,7 @@
 project_name: "{{ git_repo_url | urlsplit('path') | basename }}"
 git_repo_url: https://github.com/emory-libraries/dlp-curate
 enable_ssl: "yes"
-git_repo_branch: v0.5.11
+git_repo_branch: v0.5.14
 sidekiq_pre_exec: '/usr/bin/scl enable rh-ruby25 -- '
 openjpg_version: no
 libpng_version: no
@@ -31,8 +31,9 @@ dlp_curate_dotenv:
   database_password: "{{ dlp_curate_mysql_db.password | d ('') }}"
   geonames_username: "{{ vault_geonames_username  | d ('') }}"
   honeybadger_api_key: "{{ vault_dlp.honeybadger_api_key | d ('') }}"
-  iiif_server_url: '{{ __dlp_curate_dotenv.iiif_server_url | d () }}'
+  iiif_server_url: 'https://{{ inventory_hostname }}/iiif/2/'
   import_path: /mnt/import_efs/Collections
+  proxied_iiif_server_url: '{{ __dlp_curate_dotenv.proxied_iiif_server_url | d () }}'
   project_name: "dlp-curate"
   fedora_url: "{{ __dlp_curate_dotenv.fedora_url | d ('') }}" 
   fedora_user: "{{ vault_fedora.admin.user | d ('') }}"

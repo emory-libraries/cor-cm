@@ -48,3 +48,9 @@
       systemd:
         name: httpd
         state: restarted
+    
+    - name: Install a few more things
+      yum:
+        name:
+          - htop
+          - telnet
