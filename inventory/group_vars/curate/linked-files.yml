@@ -35,6 +35,9 @@ dlp_curate_linked_files:
   - content: "{{ lookup('template', 'dotenv_dict.j2') }}"
     dest: "{{ capistrano_base }}/{{ project_name }}/shared/.env.production"
     mode: 0644
+  - content: "{{ lookup('file', 'resources/reading_room_ips.yml') }}"
+    dest: "{{ capistrano_base }}/{{ project_name }}/shared/config/reading_room_ips.yml"
+    mode: 0644
 
 symblink_dirs:
   - src: "/mnt/efs/uploads"
