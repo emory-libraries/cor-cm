@@ -21,6 +21,9 @@ elb_target_groups: #manage-elb-target-group
   - name: fedora-jb-80
     protocol: http
     health_check_path: /fcrepo/
+  - name: fedora-jh-80
+    protocol: http
+    health_check_path: /fcrepo/
   - name: curate-arch-443
     protocol: https
   - name: curate-test-443
