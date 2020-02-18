@@ -1,0 +1,8 @@
+test_default: &test_default
+      milk: value1
+      honey: yes
+list:
+  - <<: *test_default
+    cereral: Cherrios
+    honey: omit
+  - cereral: Frosties
