@@ -1,0 +1,16 @@
+---
+# defaults file for emorylib_install_mydumper
+
+mydumper_version: '0.9.5'
+mydumper_build: '2'
+
+mydumper_base_url: https://github.com/maxbube/mydumper/releases/download
+mydumper_os: el7
+mydumper_architecture: x86_64
+mydumper_filetype: rpm
+
+
+mydumper_download_url_list:
+  - '{{ mydumper_base_url }}/v{{ mydumper_version }}'
+  - '/mydumper-{{ mydumper_version }}-{{ mydumper_build }}.'
+  - '{{ mydumper_os }}.{{ mydumper_architecture }}.{{ mydumper_filetype }}'

@@ -1,0 +1,5 @@
+---
+- hosts: '{{ host | d ("all") }}'
+  become: yes
+  roles:
+    - emorylib_install_mydumper

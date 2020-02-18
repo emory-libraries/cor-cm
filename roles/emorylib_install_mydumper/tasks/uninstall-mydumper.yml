@@ -1,0 +1,11 @@
+---
+- name: Yum remove mydumper
+  yum:
+    name: mydumper
+    state: absent
+  register: mydumper_uninstall
+
+- name: Change logic variable when mydumper is uninstalled
+  set_fact:
+    __mydumper_installed: false
+  when: mydumper_uninstall.changed

@@ -1,0 +1,22 @@
+---
+- name: Check if mydumper installed
+  shell: mydumper -V
+  failed_when: false
+  register: mydumper_check
+
+- name: Set mydumper install status and version
+  set_fact:
+    __mydumper_installed: '{{ mydumper_check.stderr_lines | length == 0 | ternary (true, false) }}'
+    __mydumper_version: '{{ mydumper_check.stdout.split(",")[0].split(" ")[1] | d (False) }}'
+
+- name: Set fact for mydumper version match
+  set_fact:
+    __mydumper_version_match: '{{ __mydumper_version is version (mydumper_version, "==") }}'
+  when: __mydumper_installed
+
+- name: Set fact to force delete mydumper
+  set_fact:
+    __uninstall_mydumper: true
+  tags: 
+    - never
+    - delete-mydumper

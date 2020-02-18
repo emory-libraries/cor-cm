@@ -1,0 +1,5 @@
+---
+- name: Install mydumper rpm
+  yum:
+    name: '{{ mydumper_download_url_list | join () }}'
+  
