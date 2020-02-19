@@ -28,3 +28,13 @@ mydumper_backups:
       - test3
   - output_dir: '{{ ansible_date_time.iso8601 }}'
     user: test-user
+
+mydumper_backups2:
+  - __outputdir: '{{ ansible_date_time.iso8601 }}-{{ ansible_loop.index | d () }}'
+    #index_outputdir: no
+    __host: test-host
+    __user: test-user-2
+    __tables_list: test1,test2,test3
+    __regex: '"regexhere"'
+  - __outputdir: '{{ ansible_date_time.iso8601 }}'
+    __user: test-user

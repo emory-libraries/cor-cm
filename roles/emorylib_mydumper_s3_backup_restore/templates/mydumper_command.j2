@@ -1,0 +1,2 @@
+xmydumper {% for key, value in item.items() %} {% if (( key == "__outputdir" or key == "_o") and (item.index_outputdir | d (false) )) %}
+{{ key | replace("_", "-") }}{{ value }}-{{ ansible_loop.index}}{% endif %}{{ key | replace("_", "-") }} {{ value }} {% endfor %}}

@@ -1,0 +1,11 @@
+- shell: '{{ lookup("template", "test_command.j2") }}'
+  loop: '{{ mydumper_backups2 }}'
+  vars:
+    index: '{{ ansible_loop.index }}'
+  loop_control:
+    extended: yes
+  ignore_errors: yes
+  register: test_cmd
+
+- debug:
+    var: test_cmd

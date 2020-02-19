@@ -1,0 +1,22 @@
+---
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - ./temp_var.yml
+  tasks:
+    - include_tasks: 
+        file: test_inner.yml
+        apply:
+          vars:
+            index: '{{ ansible_loop.index }}'
+      loop:
+         - 1
+         - 2
+         - 3
+         - 7
+         - 8
+         - 9
+      loop_control:
+        loop_var: outer_item
+        extended: yes
+      register: outter_loop

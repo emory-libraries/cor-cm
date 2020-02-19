@@ -1,6 +1,13 @@
 ---
 # tasks file for emorylib_mydumper_s3_backup_restore
 
+
+- name: Test out alternative Mydumper command
+  include_tasks:
+    file: alternative-mydumper-command.yml
+
+- pause:
+  
 - name: Include tasks for backups via mydumper
   include_tasks:
     file: mydumper.yml

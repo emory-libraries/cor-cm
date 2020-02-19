@@ -1,9 +1,0 @@
----
-- hosts: localhost
-  gather_facts: no
-  vars_files:
-    - ./temp_var.yml
-  tasks:
-    - debug:
-        var: nolist | list
-    
