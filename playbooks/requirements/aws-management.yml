@@ -33,3 +33,5 @@
 - src: https://github.com/emory-libraries/emorylib_role_s3_lifecycle_configuration.git
 - src: https://github.com/emory-libraries/emorylib_install_mydumper.git
   version: initial-devel
+- src: https://github.com/emory-libraries/emorylib_mydumper_s3_backup_restore.git
+  version: initial-devel

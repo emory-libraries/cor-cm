@@ -5,4 +5,5 @@
     - ./temp_var.yml
   tasks:
     - debug:
-        var: list
+        var: nolist | list
+    

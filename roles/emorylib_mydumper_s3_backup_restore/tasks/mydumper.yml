@@ -1,0 +1,53 @@
+---
+- name: Create temporary directory
+  file:
+    path: '{{ mydumper_tmp_dir }}/{{ item.output_dir }}-{{ ansible_loop.index }}'
+    state: directory
+  loop: '{{ mydumper_backups }}'
+  loop_control:
+    extended: yes
+  register: output_dirs
+
+- debug:
+    var: output_dirs
+
+- name: Mydumper command
+  shell: <
+    xmydumper {{ item.defaults_file | d (false) | ternary (__defaults_file, "") }} {{ item.host | d (false) | ternary (__host, "") }} {{ item.user | d (false) | ternary (__user, "") }}
+    {{ item.password | d (false) | ternary (__password, "") }} {{ item.port | d (false) | ternary (__port, "") }} {{ item.socket | d (false) | ternary (__socket, "") }}
+    {{ item.database | d (false) | ternary (__database, "") }} {{ item.tables_list | d (false) | ternary (__tables_list, "") }} {{ item.threads | d (false) | ternary (__threads, "") }}
+    {{ item.outputdir | d (false) | ternary (__outputdir, "") }} {{ item.statement_size | d (false) | ternary (__statement_size, "") }} {{ item.rows | d (false) | ternary (__rows, "") }}
+    {{ item.compress | d (false) | ternary (__compress, "") }} {{ item.compress_input | d (false) | ternary (__compress_input, "") }} {{ item.build_empty_files | d (false) | ternary (__build_empty_files , "") }}
+    {{ item.regex | d (false) | ternary (__regex, "") }} {{ item.omit_from_file | d (false) | ternary(__omit_from_file, "") }} {{ item.ignore_engines | d (false) | ternary (__ignore_engines, "") }}
+    {{ item.no_schemas | d (false) | ternary (__no_schemas, "") }} {{ item.no_date | d (false) | ternary (__no_data, "") }} {{ item.triggers | d (false) | ternary (__triggers, "") }}
+  loop: '{{ mydumper_backups }}'
+  ignore_errors: yes
+  register: mydumper_command
+  vars:
+    __defaults_file: '--defaults-file {{ item.defaults_file | d () }}'
+    __host: '--host {{ item.host | d () }}'
+    __user: '--user {{ item.user | d () }}'
+    __password: '--password {{ item.password | d () }}'
+    __socket: '--socket {{ item.socket | d () }}'
+    __database: '--database  {{ item.database | d () }}'
+    __tables_list: '--tables-list {{ item.tables_list | d () | join (",") }}'
+    __threads: '--threads {{ item.threads | d () }}'
+    __outputdir: '--outputdir {{ item.outputdir | d () }}'
+    __statement_size: '--statement-size {{ item.statement_size | d () }}'
+    __rows: '--rows {{ item.rows | d () }}'
+    __compress: '--compress'
+    __compress_input: '--compress-input'
+    __build_empty_files: '--build-empty-files'
+    __regex: '--regex {{ item.regex | d () | quote }}'
+    __omit_from_file: '--omit-from-file {{ item.omit_from_file | d () }}'
+    __ignore_engines: '--ignore-engines {{ item.ignore_engines | d () | join (",") }}'
+    __no_schemas: '--no-schemas'
+    __no_data: '--no-data'
+    __triggers: '--triggers'
+
+
+
+    
+
+- debug:
+    var: mydumper_command

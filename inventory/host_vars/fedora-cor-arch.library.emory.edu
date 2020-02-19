@@ -17,3 +17,14 @@ ec2_security_groups:
   - "{{ sg_pre }}-t-mysql"
 
 ec2_instance_type: t3.2xlarge
+
+mydumper_backups:
+  - output_dir: '{{ ansible_date_time.iso8601 }}'
+    host: test-host
+    user: test-user-2
+    tables_list:
+      - test1
+      - test2
+      - test3
+  - output_dir: '{{ ansible_date_time.iso8601 }}'
+    user: test-user

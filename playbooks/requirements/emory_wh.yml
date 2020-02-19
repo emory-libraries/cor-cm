@@ -19,4 +19,4 @@
 - src: git+https://github.com/emory-libraries/emorylib_aws_host_mapping.git
   version: initial-devel
 
-- src: https://github.com/sujiar37/AWX-HA-InstanceGroup.git
+#- src: https://github.com/sujiar37/AWX-HA-InstanceGroup.git
