@@ -30,7 +30,7 @@ mydumper_backups:
     user: test-user
 
 mydumper_backups2:
-  - __outputdir: '{{ ansible_date_time.iso8601 }}-{{ ansible_loop.index | d () }}'
+  - __outputdir: '{{ ansible_date_time.iso8601 }}-{{ outer_index | d () }}'
     #index_outputdir: no
     __host: test-host
     __user: test-user-2

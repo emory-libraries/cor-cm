@@ -1,13 +1,17 @@
 ---
 # tasks file for emorylib_mydumper_s3_backup_restore
 
-
-- name: Test out alternative Mydumper command
+- name: Loop mydumper backup tasks
   include_tasks:
     file: alternative-mydumper-command.yml
+    apply:
+      vars:
+        outer_index: '{{ ansible_loop.index }}'
+  loop: '{{ mydumper_backups2 }}'
+  loop_control:
+    loop_var: outer_item
+    extended: yes
 
-- pause:
-  
 - name: Include tasks for backups via mydumper
   include_tasks:
     file: mydumper.yml

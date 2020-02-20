@@ -14,7 +14,7 @@ sp_entity_id: https://digital.library.emory.edu
 __dlp_lux_dotenv:
   ga_tracking_code: '{{ vault_lux.arch_test.google_analytics.code | d () }}'
   solr_url: http://solr-cor-arch.library.emory.edu/solr/lux_collection
-  iiif_manifest_url: https://curate-arch.library.emory.edu/concern/curate_generic_works/
+  iiif_manifest_url: https://curate-arch.library.emory.edu/iiif/
   thumbnail_url: https://curate-arch.library.emory.edu/
 
 ec2_security_groups:

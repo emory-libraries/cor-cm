@@ -20,6 +20,7 @@
     {{ item.compress | d (false) | ternary (__compress, "") }} {{ item.compress_input | d (false) | ternary (__compress_input, "") }} {{ item.build_empty_files | d (false) | ternary (__build_empty_files , "") }}
     {{ item.regex | d (false) | ternary (__regex, "") }} {{ item.omit_from_file | d (false) | ternary(__omit_from_file, "") }} {{ item.ignore_engines | d (false) | ternary (__ignore_engines, "") }}
     {{ item.no_schemas | d (false) | ternary (__no_schemas, "") }} {{ item.no_date | d (false) | ternary (__no_data, "") }} {{ item.triggers | d (false) | ternary (__triggers, "") }}
+    {{ item.events | d (false) | ternary (__events, "") }} {{ item.routines | d (false) }}
   loop: '{{ mydumper_backups }}'
   ignore_errors: yes
   register: mydumper_command
@@ -44,6 +45,7 @@
     __no_schemas: '--no-schemas'
     __no_data: '--no-data'
     __triggers: '--triggers'
+    __events: '--events'
 
 
 
