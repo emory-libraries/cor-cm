@@ -116,6 +116,22 @@ iam_roles: #iam-manage-role
       - AccessToFedoraCorTestBinaries
       - S3BatchPutCopyTestDLP
     policy_file_path: s3_batch_job_role.json
+  - name: AWXRole
+    managed_policy:
+      - rhedcloud-aws-vpc-type1-73-RHEDcloudManagementSubnetPolicy
+      - RHEDcloudAdministratorRolePolicy
+      - AmazonEC2FullAccess
+      - CloudWatchFullAccess
+      - AmazonRDSFullAccess
+      - AmazonS3FullAccess
+      - AmazonElastiCacheFullAccess
+      - AWSBackupFullAccess
+      #- AWSElasticBeanstalkFullAccess
+      - AmazonECS_FullAccess
+      - CloudWatchEventsFullAccess
+      #- AWSCloudTrailFullAccess
+      #- AmazonSNSFullAccess
+    policy_file_path: ec2_assume_role.json
 
 #iam_users:
 #  - name: fedora-cor-user

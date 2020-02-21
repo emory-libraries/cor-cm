@@ -1,7 +1,12 @@
 all:
   children:
     us_east_1:
-      children:   
+      children:
+        awx:
+          children:
+            awx_instance_group_web:
+              hosts:
+                awx.library.emory.edu:   
         curate:
           hosts:
             curate-test.library.emory.edu:
