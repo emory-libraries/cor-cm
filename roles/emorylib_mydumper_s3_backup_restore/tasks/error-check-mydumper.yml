@@ -15,4 +15,5 @@
       - item.s3.region is defined
     quiet: yes
     fail_msg: s3.key_prefix, s3.bucket, s3.region are all required to enable copy to s3
+  when: item.s3 is defined
   loop: '{{ mydumper_backups }}'

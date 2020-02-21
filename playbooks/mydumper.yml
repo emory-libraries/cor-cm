@@ -2,5 +2,5 @@
 - hosts: '{{ host | d ("all") }}'
   become: yes
   roles:
-    #- emorylib_install_mydumper
+    - emorylib_install_mydumper
     - emorylib_mydumper_s3_backup_restore

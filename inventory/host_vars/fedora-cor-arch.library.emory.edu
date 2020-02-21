@@ -17,21 +17,20 @@ ec2_security_groups:
   - "{{ sg_pre }}-t-mysql"
 
 ec2_instance_type: t3.2xlarge
-
-mydumper_defaults: &mydumper_defaults
-  #index_outputdir: yes
-  #delete_local: yes
-  __host: '{{ hostvars[rds_host]["endpoint"]["address"] | d () }}'
-  __outputdir: '/tmp/{{ ansible_date_time.iso8601 }}'
-  __compress: 
-  __lock_all_tables: 
-
-mydumper_backups:
-  - <<: *mydumper_defaults
-    __database: '{{ fedora_mysql_db.name | d () }}'
-    __password: '{{ fedora_mysql_db.password | d () }}'
-    __user: '{{ fedora_mysql_db.user | d () }}'
+    
+myloader_download_path: /tmp # Path the restores are downloaded to
+xmyloader_restores:
+  - __user:
+    __host:
+    __database:
+    __directory: /path/to/outputdir
+    download_path: /tmp
+  - __user:
+    __host:
     s3:
-      bucket: cor-devops-binaries
-      key_prefix: mydumper-backups/{{ inventory_hostname_short }}
-      region: us-west-1
+      bucket:
+      key_prefix:
+      date: latest
+  - s3:
+      bucket:
+      object:

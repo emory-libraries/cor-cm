@@ -12,3 +12,6 @@ ec2_security_groups:
 efs_mount_points:
   - path: /mnt/prod_efs
     dns_name: fs-fdf8457c.efs.us-east-1.amazonaws.com
+
+sc_backup_location: /mnt/prod_efs/solr/backup
+sc_backup_bucket_key: 'solr-backups/solr-prod/{{ item.0.name }}'

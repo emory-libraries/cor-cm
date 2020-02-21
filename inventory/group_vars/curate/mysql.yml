@@ -10,3 +10,8 @@ mysql_dbs:
       s3_bucket_path: "/mysqldumps/{{ inventory_hostname_short }}"
       service:
         name: httpd
+
+mydumper:
+  database: "{{ dlp_curate_mysql_db.name | d ('') }}"
+  password: "{{ dlp_curate_mysql_db.password | d ('') }}"
+  user: "{{ dlp_curate_mysql_db.user | d ('') }}"

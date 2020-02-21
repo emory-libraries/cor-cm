@@ -21,12 +21,7 @@ efs_mount_points:
 
 ## Solr Backup Settings
 sc_backup_location: /mnt/test_efs/solr/backup
-sc_backup_location_cleanup: yes
-sc_backup_bucket: cor-devops-binaries
 sc_backup_bucket_key: 'solr-backups/solr-test/{{ item.0.name }}'
-sc_backup_list:
-  - name: curate_collection
-  - name: lux_collection
    
 ## S3 Bucket settings:
 sc_restore_bucket: '{{ sc_backup_bucket }}'
