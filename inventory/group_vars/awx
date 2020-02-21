@@ -5,3 +5,5 @@ ec2_default_volume:
       volume_type: gp2
       volume_size: 250
       delete_on_termination: yes
+
+rds_host: postgres-test-db 
