@@ -1,0 +1,12 @@
+---
+task: all
+fw_rules: true
+
+enable_port:
+   - 15672/tcp
+   - 5672/tcp
+   - 4369/tcp
+   - 25672/tcp
+   - 80/tcp
+   - 443/tcp
+web_node_count: "{{ groups['awx_instance_group_web'] | length }}"
