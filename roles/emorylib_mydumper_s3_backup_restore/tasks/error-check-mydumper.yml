@@ -3,15 +3,16 @@
   assert:
     that:
       - item.__outputdir is defined or item._o is defined
-    fail_msg: 'Outputdir is required, please use __outputdir or _o'
+    fail_msg: Outputdir is required, please use __outputdir or _o
     quiet: yes
   loop: '{{ mydumper_backups }}'
 
 - name: Assert that s3 is fully defined when present
   assert:
     that:
-      - item.s3.object is defined
+      - item.s3.key_prefix is defined
       - item.s3.bucket is defined
+      - item.s3.region is defined
     quiet: yes
-  when: item.s3 is defined
+    fail_msg: s3.key_prefix, s3.bucket, s3.region are all required to enable copy to s3
   loop: '{{ mydumper_backups }}'
