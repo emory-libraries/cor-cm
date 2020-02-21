@@ -85,6 +85,7 @@ iam_roles: #iam-manage-role
     managed_policy: 
       - CloudWatchFullAccess
       - AllowEC2sToPrintLogs
+      - AmazonEC2ReadOnlyAccess
       - AccessToCorDevOpsBinaries
       - rhedcloud-aws-vpc-type1-73-RHEDcloudManagementSubnetPolicy
       - RHEDcloudAdministratorRolePolicy
