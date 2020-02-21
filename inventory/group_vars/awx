@@ -11,6 +11,8 @@ rds_host: postgres-test-db
 awx_unique_secret_key: '{{ vault_awx.prod.secret }}'
 awx_admin_default_pass: '{{ vault_awx.prod.admin.pass }}'
 
+fw_rules: false
+
 ### Postgre DB details
 pg_db_host: '{{ hostvars[rds_host]["endpoint"]["address"] }}'
 pg_db_pass: '{{ vault_awx.prod.db.pass }}'
