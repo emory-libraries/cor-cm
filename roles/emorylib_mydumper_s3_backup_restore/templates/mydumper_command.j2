@@ -1,2 +1,3 @@
-xmydumper {% for key, value in item.items() %} {% if (( key == "__outputdir" or key == "_o") and (item.index_outputdir | d (false) )) %}
-{{ key | replace("_", "-") }}{{ value }}-{{ ansible_loop.index}}{% endif %}{{ key | replace("_", "-") }} {{ value }} {% endfor %}}
+mydumper {% for key, value in outer_item | dictsort -%}{% if (( key == "__outputdir" or key == "_o") and (outer_item.index_outputdir | d (false) )) -%}
+{{ key | replace("_", "-") }} {{ value }}-{{ outer_index1 }} {% elif (key != 'index_outputdir') and (value | lower != 'omit') -%} 
+{{ key | replace("_", "-") }} {{ value }} {% endif -%}{%- endfor %}}

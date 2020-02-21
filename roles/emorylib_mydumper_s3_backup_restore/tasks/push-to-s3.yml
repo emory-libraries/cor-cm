@@ -1,0 +1,16 @@
+---
+- name: Sync files to S3
+  s3_sync:
+    bucket: '{{ item.s3.bucket }}'
+    file_root: '{{ item.dir_path }}'
+    key_prefix: '{{ item.s3.key_prefix }}/{{ item.dir_path | basename }}'
+    region: '{{ item.s3.region }}'
+  loop: '{{ __mydumper_backups }}'
+  when: item.s3 | d (false)
+
+- name: Delete outputdir from local storage
+  file:
+    path: '{{ item.dir_path }}'
+    state: absent
+  when: item.delete_local | d (false)
+  loop: '{{ __mydumper_backups }}'
