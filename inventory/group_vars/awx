@@ -6,4 +6,19 @@ ec2_default_volume:
       volume_size: 250
       delete_on_termination: yes
 
-rds_host: postgres-test-db 
+rds_host: postgres-test-db
+
+awx_unique_secret_key: '{{ vault_awx.prod.secret }}'
+awx_admin_default_pass: '{{ vault_awx.prod.admin.pass }}'
+
+### Postgre DB details
+pg_db_host: '{{ hostvars[rds_host]["endpoint"]["address"] }}'
+pg_db_pass: '{{ vault_awx.prod.db.pass }}'
+pg_db_user: '{{ vault_awx.prod.db.user }}'
+pg_db_name: '{{ vault_awx.prod.db.name }}'
+
+
+###  RabbitMQ default settings
+rabbitmq_cookie: "cookiemonster"
+rabbitmq_username: "awx"
+rabbitmq_password: '{{ vault_awx.rabbitmq.pass }}'
