@@ -6,6 +6,14 @@ ec2_default_volume:
       volume_size: 250
       delete_on_termination: yes
 
+elb_targets:
+  - target_group_name: awx-prod-80
+
+ec2_security_groups:
+  - "{{ sg_pre }}-tp-apache-ssh"
+  - "{{ sg_pre }}-t-nfs"
+  - "{{ sg_pre }}-t-mysql"
+
 rds_host: postgres-test-db
 
 awx_unique_secret_key: '{{ vault_awx.prod.secret }}'
@@ -18,6 +26,7 @@ pg_db_host: '{{ hostvars[rds_host]["endpoint"]["address"] }}'
 pg_db_pass: '{{ vault_awx.prod.db.pass }}'
 pg_db_user: '{{ vault_awx.prod.db.user }}'
 pg_db_name: '{{ vault_awx.prod.db.name }}'
+pg_db_port: '3306'
 
 
 ###  RabbitMQ default settings

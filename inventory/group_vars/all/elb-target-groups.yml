@@ -57,3 +57,5 @@ elb_target_groups: #manage-elb-target-group
   - name: iiif-test-80
     protocol: http
     health_check_path: /cantaloupe/
+  - name: awx-prod-80
+    protocol: http
