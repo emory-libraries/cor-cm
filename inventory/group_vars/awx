@@ -14,7 +14,7 @@ ec2_security_groups:
   - "{{ sg_pre }}-t-nfs"
   - "{{ sg_pre }}-t-mysql"
 
-rds_host: postgres-test-db
+rds_host: pg-db-test-2
 
 awx_unique_secret_key: '{{ vault_awx.prod.secret }}'
 awx_admin_default_pass: '{{ vault_awx.prod.admin.pass }}'
@@ -32,4 +32,4 @@ pg_db_port: '3306'
 ###  RabbitMQ default settings
 rabbitmq_cookie: "cookiemonster"
 rabbitmq_username: "awx"
-rabbitmq_password: '{{ vault_awx.rabbitmq.pass }}'
+rabbitmq_password: '{{ vault_awx.prod.rabbitmq.pass }}'
