@@ -14,7 +14,7 @@ ec2_security_groups:
   - "{{ sg_pre }}-t-nfs"
   - "{{ sg_pre }}-t-mysql"
 
-rds_host: pg-db-test-2
+rds_host: pg-test-3
 
 awx_unique_secret_key: '{{ vault_awx.prod.secret }}'
 awx_admin_default_pass: '{{ vault_awx.prod.admin.pass }}'
