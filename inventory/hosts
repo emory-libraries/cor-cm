@@ -6,10 +6,10 @@ all:
           children:
             awx_instance_group_web:
               hosts:
-                fcor.library.emory.edu: 
-            awx_instance_group_task:
-              hosts:
-                fcor.library.emory.edu:
+                awx.library.emory.edu: 
+            #awx_instance_group_task:
+              #hosts:
+                #fcor.library.emory.edu:
         curate:
           hosts:
             curate-test.library.emory.edu:

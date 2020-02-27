@@ -32,6 +32,7 @@ dlp_curate_dotenv:
   geonames_username: "{{ vault_geonames_username  | d ('') }}"
   honeybadger_api_key: "{{ vault_dlp.honeybadger_api_key | d ('') }}"
   iiif_server_url: 'https://{{ inventory_hostname }}/iiif/2/'
+  iiif_manifest_cache: /opt/uploads/dlp-curate/iiif_manifest_cache
   import_path: /mnt/import_efs/Collections
   proxied_iiif_server_url: '{{ __dlp_curate_dotenv.proxied_iiif_server_url | d () }}'
   project_name: "dlp-curate"

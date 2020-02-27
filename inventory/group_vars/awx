@@ -1,3 +1,4 @@
+
 ec2_instance_role: AWXRole
 ec2_default_volume:
   - device_name: /dev/sda1
