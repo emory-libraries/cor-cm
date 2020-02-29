@@ -19,16 +19,13 @@
     - { role: uclalib_role_java }
     - { role: uclalib_role_apache }
     - { role: jeromedrouet.ansible_role_clamav }
-    #- { role: uclalib_role_clamav } #The Pip role was behind here
     - { role: dce_role_rds_mysql }
-    - { role: uclalib_role_imagemagick }
+    - { role: emorylib_role_imagemagick_ghostscript_img_libs }
     - { role: uclalib_role_libreoffice }
     - { role: uclalib_role_ffmpeg }
     - { role: uclalib_role_fits }
     - { role: uclalib_role_nodejs }
-##    - { role: uclalib_role_rhelscl }
     - { role: emorylib_role_install_ruby_scl }
-##    - { role: uclalib_role_ruby, ruby_version: '2.5.1' }
     - { role: uclalib_role_passenger }
     - { role: uclalib_role_yarn }
     - { role: uclalib_role_redis }
@@ -40,8 +37,20 @@
         path: '{{ clamav_daemon_localsocket | dirname }}'
         state: directory
         mode: 0711
-
-    - name: Install ghostscript
+    
+    - name: Allow Cors for Emory Webpages
+      lineinfile:
+        path: /etc/httpd/vhosts.d/dlp-curate.httpd.conf
+        insertafter: ServerName
+        line: '  Header unset Access-Control-Allow-Origin'
+    
+    - name: Restart apache
+      systemd:
+        name: httpd
+        state: restarted
+    
+    - name: Install a few more things
       yum:
-        name: ghostscript
-        state: installed
+        name:
+          - htop
+          - telnet

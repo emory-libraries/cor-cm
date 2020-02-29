@@ -1,3 +1,12 @@
+ec2_instance_type: t3.2xlarge
+
+ec2_default_volume:
+  - device_name: /dev/sda1
+    ebs:
+      volume_type: gp2
+      volume_size: 2500
+      delete_on_termination: yes
+
 efs_mount_points:
   - path: /mnt/prod_efs
     dns_name: fs-fdf8457c.efs.us-east-1.amazonaws.com
@@ -17,7 +26,9 @@ rds_host: dlp-prd-rdsmys-mz
 
 __dlp_curate_dotenv:
   fedora_url: "http://fedora-cor.library.emory.edu/fcrepo/rest"
-  solr_url: "http://solr-cor.library.emory.edu/solr/curate_collection"
+  proxied_iiif_server_url: http://iiif-cor.library.emory.edu/cantaloupe/iiif/2/
+  solr_url: "http://solr-cor-1.library.emory.edu/solr/curate_collection"
+  redis_database: 0
 
 dlp_curate_mysql_db:
   name: "{{ vault_curate.prod.db.name }}"

@@ -22,6 +22,9 @@
   roles: 
     - role: wm_role_ec2_instance
       delegate_to: localhost
+    - role: emorylib_aws_host_mapping
+      delegate_to: localhost
+      when: ec2_state_name != 'running'
     - role: wm_role_ebs_volume
       when: ec2_volumes | d (False)
 #    - role: dce_role_assign_eip 

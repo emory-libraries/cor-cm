@@ -1,0 +1,24 @@
+- name: Download Kakadu Binaries
+  unarchive:
+    src: '{{ kakadu_download_url }}'
+    dest: /tmp
+    remote_src: yes
+
+- name: Rsync Binaries to {{ binaries_base_path }}
+  synchronize:
+    dest: '{{ binaries_base_path }}/bin/'
+    src: '/tmp/{{ kakadu_filename }}/'
+    rsync_opts:
+      - '--exclude=*.txt'
+      - '--exclude=*.so'
+  delegate_to: '{{ inventory_hostname }}'
+
+- name: Rsync Library Files to {{ binaries_base_path }}/lib64
+  synchronize:
+    dest: '{{ binaries_base_path }}/lib64/'
+    src: '/tmp/{{ kakadu_filename }}/'
+    rsync_opts:
+      - '--include=*.so'
+      - '--exclude=*'
+  delegate_to: '{{ inventory_hostname }}'
+  notify: ldconfig

@@ -17,3 +17,4 @@ ec2_tags:
     value: "{{ 'TEST' if 'test' in inventory_hostname else 'ARCH' if 'arch' in inventory_hostname else 'PROD' }}"
   - key: EmoryApplicationName
     value: "{{ project_name if project_name is defined else '' }}"
+

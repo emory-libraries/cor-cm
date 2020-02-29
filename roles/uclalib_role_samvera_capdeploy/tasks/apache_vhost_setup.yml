@@ -36,6 +36,24 @@
     mode: 0644
   when: use_deflate_module == "yes"
 
+- name: Add X-forwarded-for option to http.conf
+  lineinfile:
+    path: /etc/httpd/conf/httpd.conf
+    insertafter: </IfModule>
+    line: |
+      <IfModule remoteip_module>
+            RemoteIPHeader X-Forwarded-For
+      </IfModule>
+
+- name: Change logs to add x-forwarded-for
+  lineinfile:
+    path: /etc/httpd/conf/httpd.conf
+    regex: '{{ expression }}'
+    line: '{{ line }}'
+  vars:
+    expression: 'LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" combined'
+    line: 'LogFormat "(%{X-Forwarded-For}i) %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" combined'
+  
 - name: Restart Apache HTTPD
   systemd:
     name: httpd

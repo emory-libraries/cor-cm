@@ -1,5 +1,24 @@
 ---
 # tasks file for emorylib_role_s3_batch_operations
+
+- name: Include tasks to error check the input
+  include_tasks:
+    file: error-check-input.yml
+    apply:
+      vars:
+        manifest: '{{ item.manifest | d (s3_batch_operation.manifest) }}'
+      tags: s3-batch-op
+  tags: s3-batch-op
+
+- name: Include tasks to get ObjectArn and Etag from date
+  include_tasks:
+    file: get-objectarn-etag.yml
+    apply:
+      vars:
+        manifest: '{{ item.manifest | d (s3_batch_operation.manifest) | regex_replace("^/") }}'
+      tags: s3-batch-op
+  tags: s3-batch-op
+
 - name: Include tasks to create s3 batch operations
   include_tasks: 
     file: awscli_s3_batch_operation.yml

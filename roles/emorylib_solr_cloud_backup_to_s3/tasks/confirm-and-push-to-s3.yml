@@ -1,0 +1,39 @@
+---
+- name: Check request ids for completed backups
+  uri:
+    url: '{{ sc_base_url }}/collections?'
+    body: '{{ params | join("&") }}'
+    method: POST
+  vars:
+    params:
+      - action=requeststatus
+      - 'requestid={{ item }}'
+    status: '{{ backup_status | json_query("results[].json.status.state") | select("contains", "running") | list }}'
+  loop: '{{ request_ids }}'
+  register: backup_status
+
+- name: Set status list
+  set_fact:
+    status_list: '{{ backup_status | json_query("results[].json.status.state") | select("contains", "running") | list | length }}'
+
+- name: Assert that all request ids are completed
+  assert:
+    that: status_list == '0'
+    success_msg: 'All backup jobs have been completed'
+    fail_msg: 'There was a problem with the backup job'
+
+- name: Create .tar.gz file from backup directory
+  archive:
+    path: '{{ item }}'
+    dest: '/tmp/{{ item | basename }}.tar.gz'
+  loop: '{{ backup_dirs }}'
+
+- name: Copy tar.gz file to S3 bucket
+  aws_s3:
+    bucket: '{{ item.0.bucket | d (sc_backup_bucket) }}'
+    object: '{{ item.0.bucket_key | d (sc_backup_bucket_key) | regex_replace(get_trailing_slash, "") }}/{{ item.1 | basename }}.tar.gz'
+    src: '/tmp/{{ item.1 | basename }}.tar.gz'
+    mode: put
+  vars:
+    get_trailing_slash: \/$
+  loop: '{{ sc_backup_list | zip(backup_dirs) | list }}'

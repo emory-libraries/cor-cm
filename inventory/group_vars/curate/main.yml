@@ -1,27 +1,16 @@
+#capistrano_environment: min_localhost
 project_name: "{{ git_repo_url | urlsplit('path') | basename }}"
 git_repo_url: https://github.com/emory-libraries/dlp-curate
 enable_ssl: "yes"
-ec2_instance_type: t3.large
-git_repo_branch: v0.4.32
+git_repo_branch: v0.5.20
+sidekiq_pre_exec: '/usr/bin/scl enable rh-ruby25 -- '
+openjpg_version: no
+libpng_version: no
+install_kakadu: no
+clamav_periodic_scan_enabled: false  ### ClamAV Role
 
 seed_hyrax_db: yes
 idp_name: "prod"
-ssh_pub_keys:
-  - https://github.com/devanshu-m.keys
-  - https://github.com/mprefer.keys
-  - https://github.com/alexBLR.keys
-  - https://github.com/rotated8.keys
-  - https://github.com/SolomonHD.keys
-  - https://github.com/bess.keys
-  - https://github.com/little9.keys
-  - https://github.com/mark-dce.keys
-  - https://github.com/wulman16.keys
-
-symblink_dirs:
-#  - src: "/mnt/efs/{{ project_name }}" Removed due to poor performance
-#    path: "{{ capistrano_base }}/{{ project_name }}"
-  - src: "/mnt/efs/uploads"
-    path: "{{ capistrano_base }}/uploads"
 
 get_metadata:
   download: no
@@ -35,47 +24,34 @@ dlp_curate_dotenv:
   derivatives_path: "/opt/uploads/dlp-curate/derivatives/"
   database_auth: false
   database_adapter: "mysql2"
-  database_pool: 20
+  database_pool: 50
   database_name: "{{ dlp_curate_mysql_db.name | d ('') }}"
   database_username: "{{ dlp_curate_mysql_db.user | d ('') }}"
   database_host: "{{ rds_endpoint | d ('') }}"
   database_password: "{{ dlp_curate_mysql_db.password | d ('') }}"
   geonames_username: "{{ vault_geonames_username  | d ('') }}"
-  iiif_server_url: '{{ __dlp_curate_dotenv.iiif_server_url | d () }}'
+  honeybadger_api_key: "{{ vault_dlp.honeybadger_api_key | d ('') }}"
+  iiif_server_url: 'https://{{ inventory_hostname }}/iiif/2/'
+  iiif_manifest_cache: /opt/uploads/dlp-curate/iiif_manifest_cache
   import_path: /mnt/import_efs/Collections
+  proxied_iiif_server_url: '{{ __dlp_curate_dotenv.proxied_iiif_server_url | d () }}'
   project_name: "dlp-curate"
-  sidekiq_workers: 10
   fedora_url: "{{ __dlp_curate_dotenv.fedora_url | d ('') }}" 
   fedora_user: "{{ vault_fedora.admin.user | d ('') }}"
   fedora_password: "{{ vault_fedora.admin.pass | d ('') }}"
-  solr_url: "{{ __dlp_curate_dotenv.solr_url | d ('') }}" 
-  redis_host: localhost
-  redis_port: 6379
-  honeybadger_api_key: "{{ vault_dlp.honeybadger_api_key | d ('') }}"
-
-mysql_dbs:
-  - id: curate
-    db_name: "{{ dlp_curate_mysql_db.name | d ('') }}"
-    login_user: "{{ dlp_curate_mysql_db.user | d ('') }}"
-    login_host: "{{ hostvars[rds_host]['endpoint']['address'] | d ('') }}" 
-    login_password: "{{ dlp_curate_mysql_db.password | d ('') }}"
-    mysqldump:
-      s3_bucket: cor-devops-binaries
-      s3_bucket_path: "/mysqldumps/{{ inventory_hostname_short }}"
-      service:
-        name: httpd
+  fedora_adapter: S3
+  solr_url: "{{ __dlp_curate_dotenv.solr_url | d ('') }}"
+  sidekiq_workers: 25
+  redis_database: "{{ __dlp_curate_dotenv.redis_database | d () }}"
+  redis_host: dlp-redis-001.mmsay6.0001.use1.cache.amazonaws.com
+  
 
 additional_capistrano_directories:
   - '{{ capistrano_base }}/curate/upload'
   - '{{ capistrano_base }}/curate/working'
   - '{{ capistrano_base }}/curate/cache'
 
-ec2_default_volume:
-  - device_name: /dev/sda1
-    ebs:
-      volume_type: gp2
-      volume_size: 1500
-      delete_on_termination: yes
 
-### ClamAV Role
-clamav_periodic_scan_enabled: false
+
+
+

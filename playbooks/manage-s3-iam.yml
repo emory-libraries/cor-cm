@@ -1,4 +1,4 @@
-- hosts: s3-iam 
+- hosts: s3_iam 
   gather_facts: no
 
   pre_tasks:

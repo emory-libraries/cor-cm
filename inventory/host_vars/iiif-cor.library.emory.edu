@@ -2,3 +2,7 @@ cantaloupe_fedora_url: "http://fedora-cor.library.emory.edu/fcrepo/rest"
 
 elb_targets:
   - target_group_name: iiif-prod-80
+
+cantaloupe_S3Source_access_key_id: '{{ vault_fedora.prod.aws2.access_key }}'
+cantaloupe_S3Source_secret_key: '{{ vault_fedora.prod.aws2.secret_key }}'
+cantaloupe_S3Source_BasicLookupStrategy_bucket_name: fedora-cor-binaries

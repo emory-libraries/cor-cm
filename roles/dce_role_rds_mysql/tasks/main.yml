@@ -23,6 +23,8 @@
 - include_tasks: 
     file: create-mysql-db-user.yml 
     apply:
+      vars:
+        omit_mysql_host_all: yes
       tags:
         - create-db
         - create-db-user

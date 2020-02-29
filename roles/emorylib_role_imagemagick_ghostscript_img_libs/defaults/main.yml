@@ -1,0 +1,59 @@
+---
+# defaults file for emorylib_role_imagemagick_ghostscript_image_libraries
+
+## Imagemagick defaults
+imagemagick_base_url: https://imagemagick.org/download/linux/CentOS/x86_64
+
+imagemagick_version: 7.0.9-8
+imagemagick_lib_version: '{{ imagemagick_version | d (False) }}'
+imagemagick_filename: 'ImageMagick-{{ imagemagick_version }}.x86_64.rpm'
+imagemagick_lib_filename: 'ImageMagick-libs-{{ imagemagick_lib_version }}.x86_64.rpm'
+imagemagick_download_url: '{{ imagemagick_base_url }}/{{ imagemagick_filename }}'
+imagemagick_lib_download_url: '{{ imagemagick_base_url }}/{{ imagemagick_lib_filename }}'
+
+## Ghostscript
+compile_ghostscript: false
+# ghostscript_version: '9.50' # Need quotes to avoid dropped trailing 0
+# ghostscript_ext: tar.gz
+# ghostscript_base_url: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs950
+# ghostscript_filename: 'ghostscript-{{ ghostscript_version }}.{{ ghostscript_ext }}'
+# ghostscript_download_url: '{{ ghostscript_base_url }}/{{ ghostscript_filename }}'
+
+## Image Library module_defaults
+binaries_base_path: /usr/local
+
+## Openjpg
+openjpg_version: '2.3.1'
+
+openjpg_base_url: https://github.com/uclouvain/openjpeg/releases/download
+openjpg_filename: 'openjpeg-v{{ openjpg_version }}-{{ openjpg_os }}'
+openjpg_os: linux-x86_64
+openjpg_ext: tar.gz
+openjpg_download_url: '{{ openjpg_base_url }}/v{{ openjpg_version }}/{{ openjpg_filename }}.{{ openjpg_ext }}'
+
+## LibPNG
+
+libpng_version: '1.6.37'
+libpng_release: '1'
+
+libpng_base_url: 'http://slackware.osuosl.org/slackware{{ libpng_bool | ternary("64","") }}-current/slackware{{ libpng_bool | ternary("64","") }}/l'
+libpng_download_url: '{{ libpng_base_url }}/{{ libpng_filename }}.{{ libpng_ext }}'
+libpng_ext: txz
+libpng_arch: x86_64 
+libpng_filename: 'libpng-{{ libpng_version }}-{{ libpng_arch }}-{{ libpng_release }}'
+libpng_bool: '{{ "64" in libpng_arch }}'
+libpng_major_version: '{{ libpng_version.split(".")[:2] | join() | d() }}'
+
+## Compile LibPNG
+compile_libpng: yes
+compile_libpng_base_url: 'https://sourceforge.net/projects/libpng/files/libpng{{ libpng_major_version }}/{{ libpng_version }}'
+compile_libpng_filename: 'libpng-{{ libpng_version }}'
+compile_libpng_ext: tar.gz
+compile_libpng_download_url: '{{ compile_libpng_base_url }}/{{ compile_libpng_filename }}.{{ compile_libpng_ext }}/download'
+
+## Kakadu
+install_kakadu: yes
+kakadu_base_url: https://kakadusoftware.com/wp-content/uploads/2014/06
+kakadu_download_url: '{{ kakadu_base_url }}/{{ kakadu_filename }}.{{ kakadu_ext }}'
+kakadu_filename: KDU7A2_Demo_Apps_for_Centos7-x86-64_170827
+kakadu_ext: zip

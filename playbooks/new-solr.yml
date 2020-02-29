@@ -6,6 +6,8 @@
     - dce_role_selinux_reboot
     - uclalib_role_rhel7repos
     - uclalib_role_epel
+    - role: wm_role_mount_efs_volumes
+      when: efs_mount_points | d (False)
     - uclalib_role_pip
     - uclalib_role_java
     - role: wm_role_zookeeper_jsw

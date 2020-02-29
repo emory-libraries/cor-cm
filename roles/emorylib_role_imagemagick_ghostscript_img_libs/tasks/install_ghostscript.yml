@@ -1,0 +1,21 @@
+---
+- name: Remove old Ghostscript version
+  package:
+    name: ghostscript
+    state: absent
+
+- name: Download Ghostscript source
+  unarchive:
+    src: '{{ ghostscript_download_url }}'
+    dest: /tmp
+    remote_src: yes
+
+- name: Configure ghostscript
+  shell: ./configure
+  args:
+    chdir: '/tmp/ghostscript-{{ ghostscript_version }}'
+
+- name: Make install ghostscript
+  make:
+    chdir: '/tmp/ghostscript-{{ ghostscript_version }}'
+    target: install

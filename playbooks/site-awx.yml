@@ -1,0 +1,3 @@
+---
+- import_playbook: new-ec2.yml host=awx
+- import_playbook: awx.yml host=awx

@@ -1,0 +1,23 @@
+---
+- name: Download LinPNG Source Tar
+  get_url:
+    url: '{{ compile_libpng_download_url }}'
+    dest: '/tmp/{{ compile_libpng_filename }}.{{ compile_libpng_ext }}'
+
+- name: Unarchive LibPNG Source Tar
+  unarchive:
+    src: '/tmp/{{ compile_libpng_filename }}.{{ compile_libpng_ext }}'
+    dest: /tmp
+    creates: '/tmp/{{ compile_libpng_filename }}'
+    remote_src: yes
+
+- name: Configure LibPNG
+  shell: ./configure
+  args:
+    chdir: '/tmp/{{ compile_libpng_filename }}'
+
+- name: Make Install LibPNG
+  make:
+    chdir: '/tmp/{{ compile_libpng_filename }}'
+    target: install
+    

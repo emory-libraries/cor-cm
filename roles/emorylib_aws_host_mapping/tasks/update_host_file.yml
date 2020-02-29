@@ -1,0 +1,6 @@
+- name: Update {{ host_file_path }} on each host in {{ update_group }}
+  blockinfile:
+    path: '{{ host_file_path }}'
+    block: '{{ lookup("template", "map_ip_address_of_group.j2") }}'
+  loop: '{{ groups[update_group] }}'
+  delegate_to: '{{ item }}'

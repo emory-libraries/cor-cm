@@ -2,7 +2,7 @@
 
 - name: Put in place the Sidekiq systemd unit file
   template:
-    src: sidekiq_systemd_unit.j2
+    src: sidekiq_systemd_unit2.j2
     dest: "{{ systemd_unit_file_dir }}/sidekiq.service"
     owner: root
     group: root

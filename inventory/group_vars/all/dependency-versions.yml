@@ -1,13 +1,14 @@
 fits_version: 1.5.0
-libreoffice_version: 6.2.8
+libreoffice_version: 6.3.5
 ffmpeg_version: latest
 passenger_version: 6.0.4
 
-tomcat_version: 8.5.47
+tomcat_version: 8.5.49
 oracle_java_version: 1.8.0_231
 java_platform:  oracle
-jsw_version: 3.5.40
+jsw_version: 3.5.41
 
+imagemagick_version: 7.0.9-26 #https://imagemagick.org/download/linux/CentOS/x86_64/
 nodejs_version: 8
 fedora_version: 4.7.5
 

@@ -1,0 +1,11 @@
+---
+- hosts: '{{ host | d ("all") }}'
+  become: yes
+  roles:
+    - dce_role_selinux_reboot
+    - uclalib_role_rhel7repos
+    - uclalib_role_epel
+    - uclalib_role_pip
+    #- ikke_t.awx_pod
+    #- rabbitmq_cluster
+    #- awx_ha

@@ -1,0 +1,48 @@
+---
+- name: API Call Backup Solr Cloud Collection
+  uri:
+    url: '{{ sc_base_url }}/collections?'
+    body: '{{ sc_backup_params | join("&") }}'
+    method: POST
+    creates: '{{ item.location | d (sc_backup_location) }}/{{ item.name }}-{{ ansible_date_time.epoch }}'
+  loop: '{{ sc_backup_list }}'
+  loop_control:
+    extended: yes
+  register: sc_backup_collection
+
+- name: Set facts from API call
+  set_fact:
+    request_ids: '{{ sc_backup_collection | json_query("results[].json.requestid") }}'
+    backup_dirs: '{{ sc_backup_collection.results | map(attribute="invocation") | map(attribute="module_args") | map(attribute="creates") | reject("undefined") | list }}'
+
+- name: Wait for new directories to be available
+  wait_for:
+    path: '{{ item }}'
+  loop: '{{ backup_dirs }}'
+
+- name: Ensure backup directories have not been written to for at least 5 seconds
+  find:
+    paths: '{{ backup_dirs }}'
+    age: -5s
+    recurse: yes
+  register: find_new_files
+  retries: '{{ sc_backup_retries }}'
+  delay: '{{ sc_backup_delay }}'
+  until: find_new_files.matched == 0 
+
+- name: Check request ids for completed backups
+  uri:
+    url: '{{ sc_base_url }}/collections?'
+    body: '{{ params | join("&") }}'
+    method: POST
+  vars:
+    params:
+      - action=requeststatus
+      - 'requestid={{ item }}'
+    state: '{{ backup_status | json_query("json.status.state") }}'
+  loop: '{{ request_ids }}'
+  register: backup_status
+  until: state == 'completed'
+  failed_when: state == 'failed'
+  retries: '{{ sc_backup_retries }}'
+  delay: '{{ sc_backup_delay }}'

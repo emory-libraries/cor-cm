@@ -1,0 +1,10 @@
+- name:  Run mydumper command
+  shell: '{{ lookup("template", "mydumper_command.j2") }}'
+
+- name: Create new list with output dir location
+  set_fact:
+    __mydumper_backups: '{{ __mydumper_backups | d([]) + [mydumper_backups[outer_index0 | int] | combine({"dir_path": outputdir}, recursive=True)] }}'
+  vars:
+    append_outputdir: '{{ outer_item.index_outputdir | d (false) }}'
+    index_outputdir: '-{{ outer_index1 }}'
+    outputdir: '{{ outer_item.__outputdir | d (outer.item._o) }}{{ append_outputdir | ternary (index_outputdir,"") }}'

@@ -1,0 +1,19 @@
+---
+# tasks file for emorylib_aws_host_mapping
+
+- name: Refresh Inventory
+  meta: refresh_inventory
+
+- name: Check {{ inventory_hostname }} against list of hosts to be mapped
+  set_fact:
+    update_groups: '{{ group_names | intersect(host_mapping_groups) }}'
+
+- name: Include tasks for updating host file
+  include_tasks: 
+    file: update_host_file.yml
+    apply:
+      become: yes
+  loop: '{{ update_groups }}'
+  loop_control: 
+    loop_var: update_group
+  

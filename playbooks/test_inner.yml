@@ -1,0 +1,10 @@
+- debug:
+    msg: "outer loop control = {{ index }} inner item={{ item }}"
+  loop:
+    - a
+    - b
+    - c
+#  register: inner_loop
+
+- debug:
+    var: outter_loop

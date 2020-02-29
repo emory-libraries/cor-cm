@@ -1,0 +1,34 @@
+---
+# tasks file for emorylib_solr_cloud_restore_from_s3
+- name: Include tasks for getting snapshot .tar.gz from S3
+  include_tasks:
+    file: get-snapshot-from-s3-bucket.yml
+    apply:
+      become: yes
+
+- name: Include tasks for checking if collection already exists
+  include_tasks:
+    file: check-for-existing-collection.yml
+    apply:
+      become: yes
+      tags: delete-solr-collection
+  tags: delete-solr-collection
+
+- name: Include tasks for deleting collections
+  include_tasks:
+    file: delete-collections.yml
+    apply:
+      become: yes
+      tags: delete-solr-collection
+  tags: delete-solr-collection
+  when:
+    - sc_restore_delete_collection
+    - existing_collections | length > 0
+
+- name: Include tasks for restoring collection
+  include_tasks:
+    file: restore-collection.yml
+    apply:
+      tags: restore-collection
+      become: yes
+  tags: restore-collection

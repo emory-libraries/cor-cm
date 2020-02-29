@@ -1,0 +1,10 @@
+---
+- name: Remove Old ImageMagick Lib
+  yum:
+    name: ImageMagick-lib
+    state: absent
+  when: __imagemagick_lib_installed
+
+- name: Install ImageMagick Lib RPM
+  yum:
+    name: '{{ imagemagick_lib_download_url }}'

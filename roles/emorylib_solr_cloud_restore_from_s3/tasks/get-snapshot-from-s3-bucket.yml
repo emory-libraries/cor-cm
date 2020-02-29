@@ -1,0 +1,53 @@
+---
+- name: List objects in s3
+  aws_s3:
+    bucket: '{{ item.bucket_name | d (sc_restore_bucket) }}'
+    prefix: '{{ item.bucket_prefix | d (sc_restore_bucket_prefix) | d (omit) }}'
+    mode: list
+  loop: '{{ sc_restore_list }}'
+  register: s3_objects
+
+- name: Create new restore_list with associated object list
+  set_fact:
+    __sc_restore_list: '{{ __sc_restore_list | d([]) + [item.0 | combine({"s3_keys": item.1.s3_keys | d () }, {"restore_key":  item.1.s3_keys | select("contains", search) | list | first | d (False)})] }}'
+  vars:
+    search: '{{ item.0.restore_epoch }}'
+  loop: '{{ sc_restore_list | zip(s3_objects.results) | list }}'
+
+- name: Fail task if no backups are found
+  fail:
+    msg: 'No backup files were found at {{ item.bucket_prefix | d (sc_restore_bucket_prefix) }} for {{ item.restore_name }}!'
+  loop: '{{ __sc_restore_list }}'
+  when: item.s3_keys | length == 0
+
+- name: Fail task if given epoch is not found
+  fail:
+    msg: 'No backup matching {{ item.restore_name }}-{{ item.restore_epoch }} was found!'
+  loop: '{{ __sc_restore_list }}'
+  when:
+    - item.restore_epoch | lower != "latest"
+    - not item.restore_key
+  
+- name: Download snapshot from s3 bucket
+  aws_s3:
+    bucket: '{{ item.bucket_name | d (sc_restore_bucket) }}'
+    object: '{{ object_name }}'
+    dest: '{{ sc_restore_temp_path }}/{{ object_name | basename }}'
+    mode: get
+  vars:
+    object_name: '{{ item.restore_key | ternary (item.restore_key, item.s3_keys[-1]) }}'
+  register: get_snapshot
+  loop: '{{ __sc_restore_list }}'
+
+- name: Get list of tar.gz files
+  set_fact:
+    snapshot_files:  '{{ get_snapshot | json_query(query) }}'
+  vars:
+    query: 'results[].invocation.module_args.dest'  
+
+- name: Unarchive tar.gz files to shared drive location
+  unarchive:
+    src: '{{ item }}'
+    dest: '{{ sc_restore_location }}'
+    remote_src: yes
+  loop: '{{ snapshot_files }}'

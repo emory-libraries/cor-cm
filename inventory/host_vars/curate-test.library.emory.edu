@@ -5,13 +5,18 @@ efs_mount_points:
     dns_name: fs-a1416442.efs.us-east-1.amazonaws.com
 rds_host: dlp-tst-rdsmys-sz
 
+ec2_instance_type: t3.2xlarge
+
 symblink_dirs:
   - src: "/mnt/test_efs/uploads"
     path: "{{ capistrano_base }}/uploads"
 
 __dlp_curate_dotenv:
   fedora_url: "http://fedora-cor-test.library.emory.edu/fcrepo/rest"
-  solr_url: "http://solr-cor-test.library.emory.edu/solr/curate_collection"
+  proxied_iiif_server_url: http://iiif-cor-test.library.emory.edu/cantaloupe/iiif/2/
+  solr_url: "http://solr-cor-test-1.library.emory.edu/solr/curate_collection"
+  redis_database: 1
+  
 
 dlp_curate_mysql_db:
   name: "{{ vault_curate.test.db.name }}"
@@ -30,5 +35,3 @@ ec2_security_groups:
 
 elb_targets:
   - target_group_name: curate-test-443
-
-git_repo_branch: virus-check-two

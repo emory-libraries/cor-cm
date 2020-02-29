@@ -1,0 +1,79 @@
+---
+# tasks file for emorylib_role_imagemagick_ghostscript_image_libraries
+
+- name: Ensure Library Folder is in LD Conf Folder
+  copy:
+    dest: '/etc/ld.so.conf.d/{{ binaries_base_path | regex_replace("/", "_") }}_lib64.conf'
+    content: '{{ binaries_base_path }}/lib64'
+
+- name: Gather Package Facts
+  package_facts:
+
+- name: Include tasks to install ImageMagick Lib
+  include_tasks:
+    file: install_imagemagick_lib.yml
+    apply:
+      vars:
+        __imagemagick_lib_installed: '{{ imagemagick_lib_installed }}'
+  when: 
+    - imagemagick_lib_version != false
+    - imagemagick_lib_installed == false or installed != imagemagick_lib_version
+  vars:
+    imagemagick_lib_installed: '{{ true if ansible_facts.packages["ImageMagick-libs"] is defined else false }}'
+    installed_version: '{{ ansible_facts.packages["ImageMagick-libs"][0]["version"] | d() }}'
+    installed_release: '{{ ansible_facts.packages["ImageMagick-libs"][0]["release"] | d() }}'
+    installed: '{{ installed_version }}-{{ installed_release }}'
+
+- name: Include tasks to install ImageMagick
+  include_tasks:
+    file: install_imagemagick.yml
+    apply:
+      vars:
+        __imagemagick_installed: '{{ imagemagick_installed }}'
+  when: 
+    - imagemagick_version != false
+    - imagemagick_installed == false or installed != imagemagick_version
+  vars:
+    imagemagick_installed: '{{ true if ansible_facts.packages["ImageMagick"] is defined else false }}'
+    installed_version: '{{ ansible_facts.packages["ImageMagick"][0]["version"] | d() }}'
+    installed_release: '{{ ansible_facts.packages["ImageMagick"][0]["release"] | d() }}'
+    installed: '{{ installed_version }}-{{ installed_release }}'
+
+- name: Include tasks to compile Ghostscript
+  include_tasks:
+    file: compile_ghostscript.yml
+  when: compile_ghostscript
+
+- name: Include tasks to install Ghostscript
+  include_tasks:
+    file: rpm_install_ghostscript.yml
+  when: not compile_ghostscript
+
+- name: Include tasks to install openjpg binaries
+  include_tasks:
+    file: install_openjpg.yml
+  when:
+    - openjpg_version is defined
+    - openjpg_version != false
+
+- name: Include tasks to install libpng binaries
+  include_tasks:
+    file: install_libpng.yml
+  when:
+    - libpng_version is defined
+    - libpng_version != false
+    - not compile_libpng
+
+- name: Include tasks to compile libpng
+  include_tasks:
+    file: compile_libpng.yml
+  when:
+    - libpng_version is defined
+    - libpng_version != false
+    - compile_libpng
+
+- name: Include tasks to install kakadu
+  include_tasks:
+    file: install_kakadu.yml
+  when: 
+    - install_kakadu

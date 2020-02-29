@@ -23,7 +23,11 @@ mysql_dbs:
       s3_bucket_path: "/mysqldumps/{{ inventory_hostname_short }}"
       service:
         name: fedora 
-
+mydumper:
+  database: "{{ fedora_mysql_db.name }}"
+  user: "{{ fedora_mysql_db.user }}"
+  password: "{{ fedora_mysql_db.password }}"
+  
 #  - type: cantaloupe
 #    conn_port: 8089
 #    shut_port: 8092

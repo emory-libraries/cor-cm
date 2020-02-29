@@ -1,4 +1,4 @@
-- hosts: "{{ host | d('all') }}"
+- hosts: '{{ host | d("all") }}'
   become: yes
 
   roles:
@@ -6,7 +6,16 @@
     - uclalib_role_rhel7repos
     - uclalib_role_epel
     - uclalib_role_samvera_basepackages
+    - emorylib_role_imagemagick_ghostscript_img_libs
+    - uclalib_role_ffmpeg
     - uclalib_role_pip 
     - uclalib_role_java 
     - uclalib_role_apache
     - wm_role_deploy_tomcat_jsw
+  
+  post_tasks:
+    - name: Link ffprobe to bin
+      file:
+        src: /opt/ffmpeg/ffprobe
+        dest: /usr/local/bin/ffprobe
+        state: link

@@ -1,0 +1,37 @@
+---
+- name: Delete collection(s) API call
+  uri:
+    url: '{{ sc_restore_base_url }}/admin/collections?'
+    body: '{{ params | join ("&") }}'
+    method: POST
+  vars:
+    params:
+      - action=DELETE
+      - 'name={{ item }}'
+      - 'async={{ ansible_date_time.epoch }}-{{ ansible_loop.index }}'
+  loop: '{{ existing_collections }}'
+  loop_control:
+    extended: yes
+  register: delete_colection_call
+
+- name: Check request ids for completed deletion of collection
+  uri:
+    url: '{{ sc_restore_base_url }}/admin/collections?'
+    body: '{{ params | join("&") }}'
+    method: POST
+  vars:
+    params:
+      - action=requeststatus
+      - 'requestid={{ item }}'
+    request_ids: '{{ delete_colection_call | json_query("results[].json.requestid") }}'
+    state: '{{ delete_status | json_query("json.status.state") }}'
+  loop: '{{ request_ids }}'
+  register: delete_status
+  until: state == 'completed'
+  failed_when: state == 'failed'
+  retries: '{{ sc_restore_retries }}'
+  delay: '{{ sc_restore_delay }}'
+
+- name: Get index offset from delete tasks
+  set_fact:
+    index_offset: '{{ delete_colection_call | json_query("results[-1].ansible_loop.index") }}'

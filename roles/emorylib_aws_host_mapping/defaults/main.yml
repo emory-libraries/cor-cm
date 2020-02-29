@@ -1,0 +1,9 @@
+---
+# defaults file for emorylib_aws_host_mapping
+
+ip_address_type: private_ip_address
+host_file_path: /etc/hosts
+host_mapping_groups:
+  - arch
+  - test
+  - prod

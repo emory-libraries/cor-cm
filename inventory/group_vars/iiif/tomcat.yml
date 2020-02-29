@@ -1,0 +1,12 @@
+---
+tomcat_install_path:  "/opt"
+tomcatapp_install_path: "/usr/local/webapps"
+tomcat_enable_ssl: no
+tomcat_applications:
+  - app_name: cantaloupe
+    type: cantaloupe
+    shut_port: 8008
+    conn_port: 8081
+    rproxy_path: cantaloupe
+    app_long_name: Cantaloupe Server via JSW
+    proxypass_extra_params: "nocanon keepalive=on retry=1"

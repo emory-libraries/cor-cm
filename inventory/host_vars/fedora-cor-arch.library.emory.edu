@@ -17,3 +17,20 @@ ec2_security_groups:
   - "{{ sg_pre }}-t-mysql"
 
 ec2_instance_type: t3.2xlarge
+    
+myloader_download_path: /tmp # Path the restores are downloaded to
+xmyloader_restores:
+  - __user:
+    __host:
+    __database:
+    __directory: /path/to/outputdir
+    download_path: /tmp
+  - __user:
+    __host:
+    s3:
+      bucket:
+      key_prefix:
+      date: latest
+  - s3:
+      bucket:
+      object:

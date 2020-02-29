@@ -1,0 +1,6 @@
+---
+sc_backup_location_cleanup: yes
+sc_backup_bucket: cor-devops-binaries
+sc_backup_list:
+  - name: curate_collection
+  - name: lux_collection

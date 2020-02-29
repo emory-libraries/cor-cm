@@ -18,11 +18,23 @@ elb_target_groups: #manage-elb-target-group
   - name: fedora-80
     protocol: http
     health_check_path: /fcrepo/
+  - name: fedora-jb-80
+    protocol: http
+    health_check_path: /fcrepo/
+  - name: fedora-jh-80
+    protocol: http
+    health_check_path: /fcrepo/
   - name: curate-arch-443
     protocol: https
   - name: curate-test-443
     protocol: https
   - name: curate-443
+    protocol: https
+  - name: lux-arch-443
+    protocol: https
+  - name: lux-test-443
+    protocol: https
+  - name: lux-443
     protocol: https
   - name: lux-arch-80
     protocol: http
@@ -45,3 +57,5 @@ elb_target_groups: #manage-elb-target-group
   - name: iiif-test-80
     protocol: http
     health_check_path: /cantaloupe/
+  - name: awx-prod-80
+    protocol: http

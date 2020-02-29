@@ -3,7 +3,7 @@ efs_mount_points:
   - path: /mnt/test_efs
     dns_name: fs-97466374.efs.us-east-1.amazonaws.com
 elb_targets:
-  - target_group_name: lux-test-80
+  - target_group_name: lux-test-443
 dlp_lux_mysql_db:
   name: '{{ vault_lux.test.db.name }}'
   user: '{{ vault_lux.test.db.user }}'
@@ -12,7 +12,10 @@ dlp_lux_mysql_db:
 sp_entity_id: https://digital.library.emory.edu
 
 __dlp_lux_dotenv:
-  solr_url: http://solr-cor-test.library.emory.edu/solr/blacklight-core
+  ga_tracking_code: '{{ vault_lux.arch_test.google_analytics.code | d () }}'
+  solr_url: http://solr-cor-test.library.emory.edu/solr/lux_collection
+  thumbnail_url: https://curate-test.library.emory.edu/
+  iiif_manifest_url: https://curate-test.library.emory.edu/iiif/
 
 ec2_security_groups:
   - "{{ sg_pre }}-tp-apache-ssh"

@@ -13,6 +13,6 @@
 
 - name: Set-up MySQL yum repository
   include_tasks: setup_mysql_yumrepo.yml
-
+  
 - name: Install MySQL packages
   include_tasks: install_mysql_packages.yml
