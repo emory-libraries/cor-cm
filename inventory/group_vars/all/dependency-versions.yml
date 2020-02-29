@@ -8,7 +8,7 @@ oracle_java_version: 1.8.0_231
 java_platform:  oracle
 jsw_version: 3.5.41
 
-imagemagick_version: 7.0.9-22
+imagemagick_version: 7.0.9-26 #https://imagemagick.org/download/linux/CentOS/x86_64/
 nodejs_version: 8
 fedora_version: 4.7.5
 
