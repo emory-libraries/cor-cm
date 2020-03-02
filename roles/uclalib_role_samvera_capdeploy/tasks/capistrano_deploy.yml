@@ -26,6 +26,7 @@
     apply:
       tags: hyrax-check-db
       become_user: "{{ capistrano_user }}"
+  when: check_hyrax | d (False)
   vars:
     tee_path: "/tmp/{{ ansible_date_time.epoch }}-{{ step_name }}.txt"
   tags: hyrax-check-db

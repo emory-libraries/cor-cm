@@ -21,6 +21,8 @@ Please take note of the following assumptions:
 
 Role Variables
 --------------
+* `check_hyrax` Set to yes if you want to check the hyrax database and perform a seeding
+
 Variables the need to be defined in the **play file** or the **host inventory file** - please note these should match the naming used for the vars file:
 * `project_name` - defines the name of the rails application project - there is no default value
 * `env_name` - defines the name of the deploy environment (e.g. test, stage, prod) - there is no default value
