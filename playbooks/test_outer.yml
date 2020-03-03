@@ -3,29 +3,12 @@
   gather_facts: yes
   
   tasks:
-    - name: Print some debug information 
-      vars: 
-        msg: |
-            Module Variables ("vars"):
-            --------------------------------
-            {{ vars | to_nice_json }} 
-    
-            Environment Variables ("environment"):
-            --------------------------------
-            {{ environment | to_nice_json }} 
-    
-            GROUP NAMES Variables ("group_names"):
-            --------------------------------
-            {{ group_names | to_nice_json }}
-    
-            GROUPS Variables ("groups"):
-            --------------------------------
-            {{ groups | to_nice_json }}
-    
-            HOST Variables ("hostvars"):
-            --------------------------------
-            {{ hostvars | to_nice_json }} 
-    
-      debug: 
-        msg: "{{ msg.split('\n') }}"       
-      tags: debug_info
+    - name: Output if running in Core
+      debug:
+        msg: 'Running in Ansible Core !!'
+      when: not ansible_env.AWX_HOST | d (False)
+
+    - name: Output if running in Tower
+      debug:
+        msg: 'Running on AWX at {{ ansible_env.AWX_HOST | d (False) }}'
+      when: ansible_env.AWX_HOST | d (False)
