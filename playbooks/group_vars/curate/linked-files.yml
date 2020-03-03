@@ -32,7 +32,7 @@ dlp_curate_linked_files:
   - content: "{{ lookup('file', 'resources/rose_viewer.yml') }}"
     dest: "{{ capistrano_base }}/{{ project_name }}/shared/config/emory/groups/rose_viewer.yml"
     mode: 0644
-  - content: "{{ lookup('template', 'dotenv_dict.j2') }}"
+  - content: "{{ lookup('template', '../roles/uclalib_role_samvera_capdeploy/templates/dotenv_dict.j2') }}"
     dest: "{{ capistrano_base }}/{{ project_name }}/shared/.env.production"
     mode: 0644
 

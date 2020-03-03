@@ -1,25 +1,31 @@
 ---
 - hosts: localhost
-  gather_facts: no
-  vars_files:
-    - ./temp_var.yml
-  tasks:
-    - name: Add X-forwarded-for option to http.conf
-      lineinfile:
-        path: /home/Solomon/Code/CM/cor-cm/httpd.conf
-        insertafter: </IfModule>
-        line: |
-
-          <IfModule remoteip_module>
-              RemoteIPHeader X-Forwarded-For
-          </IfModule>
-    
-    - name: Change logs to add x-forwarded-for
-      lineinfile:
-        path: /home/Solomon/Code/CM/cor-cm/httpd.conf
-        regex: LogFormat
-        line: '{{ line }}'
-        firstmatch: yes
-      vars:
-        line: '    LogFormat "(%{X-Forwarded-For}i) %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" combined'
+  gather_facts: yes
   
+  tasks:
+    - name: Print some debug information 
+      vars: 
+        msg: |
+            Module Variables ("vars"):
+            --------------------------------
+            {{ vars | to_nice_json }} 
+    
+            Environment Variables ("environment"):
+            --------------------------------
+            {{ environment | to_nice_json }} 
+    
+            GROUP NAMES Variables ("group_names"):
+            --------------------------------
+            {{ group_names | to_nice_json }}
+    
+            GROUPS Variables ("groups"):
+            --------------------------------
+            {{ groups | to_nice_json }}
+    
+            HOST Variables ("hostvars"):
+            --------------------------------
+            {{ hostvars | to_nice_json }} 
+    
+      debug: 
+        msg: "{{ msg.split('\n') }}"       
+      tags: debug_info
