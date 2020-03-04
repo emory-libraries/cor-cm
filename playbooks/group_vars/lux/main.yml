@@ -13,7 +13,7 @@ dlp_lux_dotenv:
   cable_channel_prefix: lux_production
   contact_us_email: test@emory.edu
   database_adapter: mysql2
-  database_pool: 10
+  database_pool: 15
   database_name: '{{ dlp_lux_mysql_db.name | d ("") }}'
   database_username: '{{ dlp_lux_mysql_db.user | d ("") }}'
   database_password: '{{ dlp_lux_mysql_db.password | d ("") }}'
