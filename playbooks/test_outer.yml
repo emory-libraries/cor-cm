@@ -3,16 +3,6 @@
   gather_facts: yes
   
   tasks:
-    - name: Get URI of github releases
-      get_url:
-        url: https://imagemagick.org/download/linux/CentOS/x86_64/
-        dest: /tmp
-      register: uri_output
-
-    - debug:
-        var: uri_output
-    - pause:
-
     - name: Output if running in Core
       debug:
         msg: 'Running in Ansible Core !!'
@@ -20,5 +10,5 @@
 
     - name: Output if running in Tower
       debug:
-        msg: 'Running on AWX at {{ ansible_env.AWX_HOST | d (False) }}'
+        msg: 'Running on AWX at {{ ansible_env | d (False) }}'
       when: ansible_env.AWX_HOST | d (False)
