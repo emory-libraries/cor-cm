@@ -38,7 +38,7 @@
 
 - name: Add X-Forwarded-For option to http.conf
   lineinfile:
-    path: /home/Solomon/Code/CM/cor-cm/httpd.conf
+    path: /etc/httpd/conf/httpd.conf
     insertafter: </IfModule>
     line: |
 
@@ -48,7 +48,7 @@
 
 - name: Add X-Forwarded-For to logs
   lineinfile:
-    path: /home/Solomon/Code/CM/cor-cm/httpd.conf
+    path: /etc/httpd/conf/httpd.conf
     regex: LogFormat
     line: '{{ line }}'
     firstmatch: yes
