@@ -1,7 +1,8 @@
 ---
-- hosts: s3_iam
+- hosts: localhost
+  gather_facts: 
   roles:
-    - roles: emorylib_manage_aws_services
+    - role: emorylib_manage_aws_services
       vars:
         aws_services:
           - elb_target
