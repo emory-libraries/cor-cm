@@ -1,0 +1,8 @@
+---
+- hosts: s3_iam
+  roles:
+    - roles: emorylib_manage_aws_services
+      vars:
+        aws_services:
+          - elb_target
+      

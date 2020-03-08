@@ -35,3 +35,5 @@
   version: initial-devel
 - src: https://github.com/emory-libraries/emorylib_mydumper_s3_backup_restore.git
   version: initial-devel
+- src: https://github.com/emory-libraries/emorylib_manage_aws_services.git
+  version: initial-devel

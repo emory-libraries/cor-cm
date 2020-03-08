@@ -1,0 +1,8 @@
+---
+# tasks file for emorylib_manage_aws_services
+
+- name: Manage {{ item }} aws service
+  include_tasks:
+    file: '{{ item }}/main.yml'
+  loop: '{{ aws_services }}'
+     
