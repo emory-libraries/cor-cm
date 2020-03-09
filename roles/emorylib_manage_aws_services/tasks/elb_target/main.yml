@@ -1,4 +1,4 @@
-- fail:
+- debug:
     msg: You reached elb_target!!
 
 - name: Register with Target group
@@ -11,4 +11,5 @@
     target_group_arn: "{{ item.target_group_arn | d (omit) }}"
     target_group_name: "{{ item.target_group_name | d (omit) }}"
     target_port: "{{ item.target_port | d (omit) }}"
+  when: False
   loop: "{{ elb_targets }}"

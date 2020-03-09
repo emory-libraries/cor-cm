@@ -1,7 +1,7 @@
 ---
-- fail:
+- debug:
     msg: 'You reached elb_application!'
-    
+
 - name: Manage Applciaton Elastic Load Balancers
   elb_application_lb:
     name: "{{ item.name }}"
@@ -21,4 +21,5 @@
     purge_listeners: "{{ item.purge_listeners | d (omit) }}"
     purge_rules: "{{ item.purge_rules | d (omit) }}"
     purge_tags: "{{ item.purge_tags | d (omit) }}"
+  when: False
   loop: "{{ elb_application_lbs }}"

@@ -1,19 +1,9 @@
-prod_varnames_test: 
-  - value: here
-    another_value: again
-
-test_varnames_test: 
-  - value: dict
-    another_value: twice
-
-nolist2:
-list1:
-  - test
-list2:
-  - test2
-  - test3
-list3:
-  - 
+list_var_names:
+  - title1
+  - title2
+var_value1:
+  - test: here
+  - another: test
 private_key: |
   -----BEGIN RSA PRIVATE KEY-----
   MIIJKAIBAAKCAgEA1PdGTrEbz3bcu813La/fWsFuW123unvGForCTifNfmvgWQwV

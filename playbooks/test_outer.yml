@@ -4,37 +4,9 @@
   vars_files: temp_var.yml
   
   tasks:
-    - name: Test out varnames lookup
-      set_fact:
-        __varnames: '{{ lookup("varnames", ".+_varnames_test")  }}'
-
-    - assert:
-        that: __varnames | length > 0
-        fail_msg: No variables matched the varnames pattern
-        quiet: yes
-        
-    - set_fact:
-        __varnames: '{{ __varnames.split(",") }}'
-
-    - debug:
-        var: __varnames
-    
-    - pause:
-    
-    - name: Combine lists
-      set_fact:
-        __list2: '{{ __list2 | d ([]) + lookup("vars", item) }}'
-      loop: '{{ __varnames }}'
-
-    - name: Include tasks to combine lists
-      include_tasks:
+    - include_tasks:
         file: test_inner.yml
-      loop: '{{ __varnames }}'
-      loop_control:
-        loop_var: varnames
+      loop: '{{ list_var_names }}'
     
     - debug:
-        var: __list
-    
-    - debug:
-        var: __list2
+        var: title1

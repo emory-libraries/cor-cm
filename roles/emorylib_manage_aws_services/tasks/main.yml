@@ -1,8 +1,17 @@
 ---
 # tasks file for emorylib_manage_aws_services
 
-- name: Manage {{ item }} aws service
+- name: Get AWS account info
+  aws_caller_info:
+  register: caller_info
+
+- name: Set AWS account info
+  set_fact:
+    aws_account_number: '{{ caller_info.account }}'
+
+- name: Manage {{ aws_services }} services
   include_tasks:
-    file: '{{ item }}/main.yml'
+    file: '{{ aws_service }}/main.yml'
   loop: '{{ aws_services }}'
-     
+  loop_control:
+    loop_var: aws_service 

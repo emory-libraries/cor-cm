@@ -1,7 +1,11 @@
 ---
-- fail:
-   msg: Reached elb_target_group
-   
+- name: Include role for set varnames list helper task
+  include_role:
+    name: emorylib_ansible_helper_tasks
+      
+- debug:
+   msg: Reached elb_target_grou!!
+
 - name: Manage ELB target group
   elb_target_group:
     name: "{{ item.name }}"
@@ -30,6 +34,7 @@
     unhealthy_threshold_count: "{{ item.unhealthy_threshold_count | d (omit) }}"
     wait: "{{ item.wait | d (omit) }}"
     wait_timeout: "{{ item.wait_timeout | d (omit) }}"
+  when: False
   loop: "{{ elb_target_groups }}"
   vars:
     health_check_logic: "{{ item.health_check_protocol if item.health_check_protocol is defined else item.protocol if item.protocol is defined else omit }}"
