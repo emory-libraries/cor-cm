@@ -1,12 +1,12 @@
 fedora_mysql_db:
-  name: "{{ vault_fedora.test.db.name }}"
-  user: "{{ vault_fedora.test.db.user }}"
-  password: "{{ vault_fedora.test.db.pass }}"
+  name: '{{ vault_fedora.test.db.name }}'
+  user: '{{ vault_fedora.test.db.user }}'
+  password: '{{ vault_fedora.test.db.pass }}'
 
 #ec2_instance_type: t3a.2xlarge
 
-fedora_aws_access_key: "{{ vault_fedora.test.aws2.access_key }}"
-fedora_aws_secret_key: "{{ vault_fedora.test.aws2.secret_key }}"
+fedora_aws_access_key: '{{ vault_fedora.test.aws2.access_key }}'
+fedora_aws_secret_key: '{{ vault_fedora.test.aws2.secret_key }}'
 fedora_aws_bucket: fedora-cor-test-binaries
 
 rds_host: dlp-tst-rdsmys-sz
@@ -15,5 +15,6 @@ elb_targets:
   - target_group_name: fedora-test-80
 
 ec2_security_groups:
-  - "{{ sg_pre }}-tp-apache-ssh"
-  - "{{ sg_pre }}-t-mysql"
+  - '{{ sg_pre }}-tp-apache'
+  - '{{ sg_pre }}-tp-ssh'
+  - '{{ sg_pre }}-t-mysql'

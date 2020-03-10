@@ -1,5 +1,3 @@
-ec2_security_groups:
-  - "{{ sg_pre }}-tp-apache-ssh"
 ec2_instance_type: t3a.xlarge
 ec2_default_volume:
   - device_name: /dev/sda1

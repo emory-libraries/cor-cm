@@ -2,7 +2,69 @@
 sg_pre: "security-group-{{ aws_region }}"
 sg_managed: "** This security group is managed by Ansible, any manual changes may be overridden **"
 ec2_groups: #manage-sg
-  - name: "{{ sg_pre }}-tp-apache"
+  - name: '{{ sg_pre }}-t-http/https-to-self-arch'
+    description: Group that allows http only to other servers in group
+    rules:
+      - proto: tcp
+        ports:
+          - 80
+          - 443
+        group_name: '{{ sg_pre }}-t-http/https-to-self-arch'
+        rule_desc: HTTP/HTTPS
+    rules_egress:
+      - proto: tcp
+        ports:
+          - 80
+          - 443
+        group_name: '{{ sg_pre }}-t-http/https-to-self-arch'
+        rule_desc: HTTP/HTTPS
+  - name: '{{ sg_pre }}-t-http/https-to-self-test'
+    description: Group that allows http only to other servers in group
+    rules:
+      - proto: tcp
+        ports:
+          - 80
+          - 443
+        group_name: '{{ sg_pre }}-t-http/https-to-self-test'
+        rule_desc: HTTP/HTTPS
+    rules_egress:
+      - proto: tcp
+        ports:
+          - 80
+          - 443
+        group_name: '{{ sg_pre }}-t-http/https-to-self-test'
+        rule_desc: HTTP/HTTPS
+  - name: '{{ sg_pre }}-t-http/https-to-self-prod'
+    description: Group that allows http only to other servers in group
+    rules:
+      - proto: tcp
+        ports:
+          - 80
+          - 443
+        group_name: '{{ sg_pre }}-t-http/https-to-self-prod'
+        rule_desc: HTTP/HTTPS
+    rules_egress:
+      - proto: tcp
+        ports:
+          - 80
+          - 443
+        group_name: '{{ sg_pre }}-t-http/https-to-self-prod'
+        rule_desc: HTTP/HTTPS
+  - name: '{{ sg_pre }}-tp-ssh'
+    description: 'SSH {{ sg_managed }}'
+    rules:
+      - proto: tcp
+        ports:
+          - 22
+        cidr_ip: 0.0.0.0/0
+        rule_desc: Open SSH to internet
+    rules_egress:
+      - proto: tcp
+        ports:
+          - 22
+        rule_desc: Open SSH to internet
+        cidr_ip: 0.0.0.0/0
+  - name: '{{ sg_pre }}-tp-apache'
     description: "HTTP/HTTPS  {{ sg_managed }}"
     rules:
       - proto: tcp
@@ -19,7 +81,7 @@ ec2_groups: #manage-sg
         cidr_ip: 0.0.0.0/0
         rule_desc: Open apache websever ports to internet
   - name: "{{ sg_pre }}-tp-apache-ssh"
-    description: "HTTP/HTTPS, SSH traffic  {{ sg_managed }}"
+    description: "HTTP/HTTPS, SSH traffic  {{ sg_managed }}" #Remove This one
     rules: 
       - proto: tcp
         ports:

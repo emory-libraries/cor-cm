@@ -20,8 +20,9 @@ __dlp_lux_dotenv:
   iiif_manifest_url: https://curate.library.emory.edu/iiif/
 
 ec2_security_groups:
-  - "{{ sg_pre }}-tp-apache-ssh"
-  - "{{ sg_pre }}-p-nfs"
-  - "{{ sg_pre }}-p-mysql"
-  - "{{ sg_pre }}-p-solr"
-  - "{{ sg_pre }}-p-redis"
+  - '{{ sg_pre }}-tp-apache'
+  - '{{ sg_pre }}-tp-ssh'
+  - '{{ sg_pre }}-p-nfs'
+  - '{{ sg_pre }}-p-mysql'
+  - '{{ sg_pre }}-p-solr'
+  - '{{ sg_pre }}-p-redis'

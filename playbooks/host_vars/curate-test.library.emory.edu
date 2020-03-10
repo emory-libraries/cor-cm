@@ -8,30 +8,32 @@ rds_host: dlp-tst-rdsmys-sz
 ec2_instance_type: t3.2xlarge
 
 symblink_dirs:
-  - src: "/mnt/test_efs/uploads"
-    path: "{{ capistrano_base }}/uploads"
+  - src: /mnt/test_efs/uploads
+    path: '{{ capistrano_base }}/uploads'
 
 __dlp_curate_dotenv:
-  fedora_url: "http://fedora-cor-test.library.emory.edu/fcrepo/rest"
+  fedora_url: http://fedora-cor-test.library.emory.edu/fcrepo/rest
   proxied_iiif_server_url: http://iiif-cor-test.library.emory.edu/cantaloupe/iiif/2/
-  solr_url: "http://solr-cor-test-1.library.emory.edu/solr/curate_collection"
+  solr_url: http://solr-cor-test-1.library.emory.edu/solr/curate_collection
   redis_database: 1
   
 
 dlp_curate_mysql_db:
-  name: "{{ vault_curate.test.db.name }}"
-  user: "{{ vault_curate.test.db.user }}"
-  password: "{{ vault_curate.test.db.pass }}"
+  name: '{{ vault_curate.test.db.name }}'
+  user: '{{ vault_curate.test.db.user }}'
+  password: '{{ vault_curate.test.db.pass }}'
 
-sp_entity_id: "https://curate.library.emory.edu"
-idp_name: "prod"
+sp_entity_id: https://curate.library.emory.edu
+idp_name: prod
 
 ec2_security_groups:
-  - "{{ sg_pre }}-tp-apache-ssh"
-  - "{{ sg_pre }}-t-nfs"
-  - "{{ sg_pre }}-t-mysql"
-  - "{{ sg_pre }}-t-solr"
-  - "{{ sg_pre }}-t-redis"
+  - '{{ sg_pre }}-t-http/https-to-self-test'
+  - '{{ sg_pre }}-tp-ssh'
+  - '{{ sg_pre }}-tp-apache'
+  - '{{ sg_pre }}-t-nfs'
+  - '{{ sg_pre }}-t-mysql'
+  - '{{ sg_pre }}-t-solr'
+  - '{{ sg_pre }}-t-redis'
 
 elb_targets:
   - target_group_name: curate-test-443

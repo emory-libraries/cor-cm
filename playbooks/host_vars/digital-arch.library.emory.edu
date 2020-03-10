@@ -18,8 +18,9 @@ __dlp_lux_dotenv:
   thumbnail_url: https://curate-arch.library.emory.edu/
 
 ec2_security_groups:
-  - "{{ sg_pre }}-tp-apache-ssh"
-  - "{{ sg_pre }}-t-nfs"
-  - "{{ sg_pre }}-t-mysql"
-  - "{{ sg_pre }}-t-solr"
-  - "{{ sg_pre }}-t-redis"
+  - '{{ sg_pre }}-tp-apache'
+  - '{{ sg_pre }}-tp-ssh'
+  - '{{ sg_pre }}-t-nfs'
+  - '{{ sg_pre }}-t-mysql'
+  - '{{ sg_pre }}-t-solr'
+  - '{{ sg_pre }}-t-redis'

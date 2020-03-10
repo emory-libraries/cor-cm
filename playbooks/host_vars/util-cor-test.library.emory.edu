@@ -1,14 +1,15 @@
-#proxy_solr_tomcat_conf: "no"
+#proxy_solr_tomcat_conf: 'no'
 
-java_home: "/usr/java/latest"
-tomcat_install_path:  "/opt"
-tomcatapp_install_path: "/usr/local/webapps"
-#cantaloupe_install_path: "{{ tomcatapp_install_path }}"
-cantaloupe_base_dir: "{{ tomcatapp_install_path }}/cantaloupe"
-cantaloupe_fedora_url: "http://fedora-cor-test.library.emory.edu/fcrepo/rest"
+java_home: /usr/java/latest
+tomcat_install_path: /opt
+tomcatapp_install_path: /usr/local/webapps
+#cantaloupe_install_path: '{{ tomcatapp_install_path }}'
+cantaloupe_base_dir: '{{ tomcatapp_install_path }}/cantaloupe'
+cantaloupe_fedora_url: http://fedora-cor-test.library.emory.edu/fcrepo/rest
 
 elb_targets:
   - target_group_name: util-test-80
 
 ec2_security_groups:
-  - "{{ sg_pre }}-tp-apache-ssh"
+  - '{{ sg_pre }}-tp-apache'
+  - '{{ sg_pre }}-tp-ssh'

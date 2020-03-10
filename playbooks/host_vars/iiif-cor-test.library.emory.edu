@@ -1,5 +1,9 @@
 cantaloupe_fedora_url: http://fedora-cor-test.library.emory.edu/fcrepo/rest
 
+ec2_security_groups:
+  - '{{ sg_pre }}-tp-ssh'
+  - '{{ sg_pre }}-t-http/https-to-self-test'
+
 elb_targets:
   - target_group_name: iiif-test-80
 
