@@ -5,15 +5,16 @@ zk_inventory_group: solr-test
 elb_targets:
   - target_group_name: solr-test-cluster-80
   
-solr_data_dir: "/opt/data/{{ solr_service_name }}"
+solr_data_dir: '/opt/data/{{ solr_service_name }}'
 
 solr_alias: solr-cor-test.library.emory.edu
 
 ec2_security_groups:
-  - "{{ sg_pre }}-tp-apache-ssh"
-  - "{{ sg_pre }}-t-nfs"
-  - "{{ sg_pre }}-t-zookeeper"
-  - "{{ sg_pre }}-t-solr"
+  - '{{ sg_pre }}-tp-apache'
+  - '{{ sg_pre }}-tp-ssh'
+  - '{{ sg_pre }}-t-nfs'
+  - '{{ sg_pre }}-t-zookeeper'
+  - '{{ sg_pre }}-t-solr'
 
 efs_mount_points:
   - path: /mnt/test_efs

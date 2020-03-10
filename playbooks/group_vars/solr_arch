@@ -2,13 +2,14 @@ solr_cloud_inventory_group: solr-arch
 zk_inventory_group: solr-arch
 elb_targets:
   - target_group_name: solr-arch-cluster-80
-solr_data_dir: "/opt/data/{{ solr_service_name }}"
+solr_data_dir: '/opt/data/{{ solr_service_name }}'
 solr_alias: solr-cor-arch.library.emory.edu
 ec2_security_groups:
-  - "{{ sg_pre }}-tp-apache-ssh"
-  - "{{ sg_pre }}-t-nfs"
-  - "{{ sg_pre }}-t-zookeeper"
-  - "{{ sg_pre }}-t-solr"
+  - '{{ sg_pre }}-tp-apache'
+  - '{{ sg_pre }}-tp-ssh'
+  - '{{ sg_pre }}-t-nfs'
+  - '{{ sg_pre }}-t-zookeeper'
+  - '{{ sg_pre }}-t-solr'
 
 efs_mount_points:
   - path: /mnt/arch_efs

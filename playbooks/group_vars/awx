@@ -11,10 +11,11 @@ elb_targets:
   - target_group_name: awx-prod-80
 
 ec2_security_groups:
-  - "{{ sg_pre }}-tp-apache-ssh"
-  - "{{ sg_pre }}-t-nfs"
-  - "{{ sg_pre }}-t-mysql"
-
+  - '{{ sg_pre }}-tp-apache'
+  - '{{ sg_pre }}-tp-ssh'
+  - '{{ sg_pre }}-t-nfs'
+  - '{{ sg_pre }}-t-mysql'
+  
 rds_host: pg-test-3
 
 awx_unique_secret_key: '{{ vault_awx.prod.secret }}'
@@ -31,6 +32,6 @@ pg_db_port: '3306'
 
 
 ###  RabbitMQ default settings
-rabbitmq_cookie: "cookiemonster"
-rabbitmq_username: "awx"
+rabbitmq_cookie: cookiemonster
+rabbitmq_username: awx
 rabbitmq_password: '{{ vault_awx.prod.rabbitmq.pass }}'
