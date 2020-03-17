@@ -52,6 +52,10 @@ See OS-specific variable files in var/
 * ClamAV freshclam configuration file
 	* **clamav\_freshclam\_daemon\_config\_path**: /etc/freshclam.conf
 
+* If you do want to change default permissions on ClamAV daemon socket to switch the allowed group to use it
+ *Beware that any user user within this group can talk to the clamav daemon, even to shut it down -> DoS*
+	* **clamav_daemon_socket_group**: virusgroup
+
 * What to do when a virus if found :
 	* command to launch when virus is found :  
       **clamav\_daemon\_virus\_event\_command** : 'echo $(date) - ${CLAM\_VIRUSEVENT\_VIRUSNAME}: ${CLAM\_VIRUSEVENT\_FILENAME} | wall'

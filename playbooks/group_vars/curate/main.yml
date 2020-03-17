@@ -7,10 +7,14 @@ sidekiq_pre_exec: '/usr/bin/scl enable rh-ruby25 -- '
 openjpg_version: no
 libpng_version: no
 install_kakadu: no
-clamav_periodic_scan_enabled: false  ### ClamAV Role
+
+### ClamAV Role
+clamav_periodic_scan_enabled: false  
+clamav_daemon_socketdir_mode: '0711'
 
 seed_hyrax_db: yes
-idp_name: "prod"
+
+idp_name: prod
 
 get_metadata:
   download: no
@@ -50,8 +54,3 @@ additional_capistrano_directories:
   - '{{ capistrano_base }}/curate/upload'
   - '{{ capistrano_base }}/curate/working'
   - '{{ capistrano_base }}/curate/cache'
-
-
-
-
-
