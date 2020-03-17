@@ -2,7 +2,7 @@
 project_name: "{{ git_repo_url | urlsplit('path') | basename }}"
 git_repo_url: https://github.com/emory-libraries/dlp-curate
 enable_ssl: "yes"
-git_repo_branch: v0.5.20
+git_repo_branch: v0.5.24
 sidekiq_pre_exec: '/usr/bin/scl enable rh-ruby25 -- '
 openjpg_version: no
 libpng_version: no
