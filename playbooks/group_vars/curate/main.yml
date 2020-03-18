@@ -11,6 +11,7 @@ install_kakadu: no
 ### ClamAV Role
 clamav_periodic_scan_enabled: false  
 clamav_daemon_socketdir_mode: '0711'
+clamav_daemon_socket_mode: '666'
 
 seed_hyrax_db: yes
 
