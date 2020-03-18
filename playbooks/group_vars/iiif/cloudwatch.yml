@@ -1,11 +1,11 @@
 ec2_collect_list:
-  - file_path: "/usr/local/webapps/cantaloupe/logs/access.log"
+  - file_path: "/usr/local/webapps/cantaloupe/logs/access*.log"
     log_group_name: iiif_access_log
-  - file_path: "/usr/local/webapps/cantaloupe/logs/error.log"
+  - file_path: "/usr/local/webapps/cantaloupe/logs/error*.log"
     log_group_name: iiif_access_log
-  - file_path: "/usr/local/webapps/cantaloupe/logs/cantaloupe.log"
+  - file_path: "/usr/local/webapps/cantaloupe/logs/cantaloupe*.log"
     log_group_name: iiif_cantaloupe_log
-  - file_path: "/usr/local/webapps/cantaloupe/logs/wrapper.log"
+  - file_path: "/usr/local/webapps/cantaloupe/logs/wrapper*.log"
     log_group_name: iiif_wrapper_log
 
     
