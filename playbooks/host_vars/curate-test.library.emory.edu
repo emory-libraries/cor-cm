@@ -12,6 +12,8 @@ symblink_dirs:
     path: '{{ capistrano_base }}/uploads'
 
 __dlp_curate_dotenv:
+  iiif_cookie_salt_1: '{{ vault_dlp.iiif.test.cookie.salt_1 }}'
+  iiif_cookie_salt_2: '{{ vault_dlp.iiif.test.cookie.salt_2 }}'
   fedora_url: http://fedora-cor-test.library.emory.edu/fcrepo/rest
   proxied_iiif_server_url: http://iiif-cor-test.library.emory.edu/cantaloupe/iiif/2/
   solr_url: http://solr-cor-test-1.library.emory.edu/solr/curate_collection

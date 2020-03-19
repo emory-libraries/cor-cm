@@ -10,15 +10,17 @@ symblink_dirs:
     path: '{{ capistrano_base }}/uploads'
 
 __dlp_curate_dotenv:
+  iiif_cookie_salt_1: '{{ vault_dlp.iiif.arch.cookie.salt_1 }}'
+  iiif_cookie_salt_2: '{{ vault_dlp.iiif.arch.cookie.salt_2 }}'
   fedora_url: http://fedora-cor-arch.library.emory.edu/fcrepo/rest
   solr_url: http://solr-cor-arch-1.library.emory.edu/solr/curate_collection
   proxied_iiif_server_url: http://iiif-cor-arch.library.emory.edu/cantaloupe/iiif/2/
   redis_database: 2
 
 dlp_curate_mysql_db:
-  name: '{{ vault_curate.arch.db.name  | d ('') }}'
-  user: '{{ vault_curate.arch.db.user | d ('') }}'
-  password: '{{ vault_curate.arch.db.pass | d('') }}'
+  name: '{{ vault_curate.arch.db.name  | d () }}'
+  user: '{{ vault_curate.arch.db.user | d () }}'
+  password: '{{ vault_curate.arch.db.pass | d() }}'
 
 sp_entity_id: https://curate.library.emory.edu
 idp_name: prod

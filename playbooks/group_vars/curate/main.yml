@@ -38,6 +38,8 @@ dlp_curate_dotenv:
   honeybadger_api_key: "{{ vault_dlp.honeybadger_api_key | d ('') }}"
   iiif_server_url: 'https://{{ inventory_hostname }}/iiif/2/'
   iiif_manifest_cache: /opt/uploads/dlp-curate/iiif_manifest_cache
+  iiif_cookie_salt_1: '{{ __dlp_curate_dotenv.iiif_cookie_salt_1 | d () }}'
+  iiif_cookie_salt_2: '{{ __dlp_curate_dotenv.iiif_cookie_salt_2 | d () }}'
   import_path: /mnt/import_efs/Collections
   proxied_iiif_server_url: '{{ __dlp_curate_dotenv.proxied_iiif_server_url | d () }}'
   project_name: "dlp-curate"
