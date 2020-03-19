@@ -22,6 +22,8 @@ dlp_lux_dotenv:
   ga_tracking_code: '{{ __dlp_lux_dotenv.ga_tracking_code }}'
   project_name: '{{ project_name }}'
   iiif_manifest_url: '{{ __dlp_lux_dotenv.iiif_manifest_url | d () }}'
+  iiif_cookie_salt_1: '{{ __dlp_lux_dotenv.iiif_cookie_salt_1 | d () }}'
+  iiif_cookie_salt_2: '{{ __dlp_lux_dotenv.iiif_cookie_salt_2 | d () }}'
   sidekiq_workers: 5
   solr_url: '{{ __dlp_lux_dotenv.solr_url | d () }}'
   thumbnail_url: '{{ __dlp_lux_dotenv.thumbnail_url | d () }}'
