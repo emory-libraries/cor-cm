@@ -37,3 +37,6 @@ ec2_security_groups:
 
 elb_targets:
   - target_group_name: curate-arch-443
+
+git_repo_branch: branding-path
+#cap_branding_symblink_path: /mnt/arch_efs/uploads/dlp-curate/branding/
