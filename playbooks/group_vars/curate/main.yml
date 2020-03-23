@@ -1,4 +1,4 @@
-project_name: '{{ git_repo_url | urlsplit('path') | basename }}'
+project_name: '{{ git_repo_url | urlsplit("path") | basename }}'
 git_repo_url: https://github.com/emory-libraries/dlp-curate
 enable_ssl: 'yes'
 git_repo_branch: v0.5.26
