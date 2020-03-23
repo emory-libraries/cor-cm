@@ -25,6 +25,7 @@ additional_assertion_bindings:
 rds_host: dlp-prd-rdsmys-mz
 
 __dlp_curate_dotenv:
+  branding_path: /mnt/prod_efs/uploads/dlp-curate/branding
   iiif_cookie_salt_1: '{{ vault_dlp.iiif.prod.cookie.salt_1 }}'
   iiif_cookie_salt_2: '{{ vault_dlp.iiif.prod.cookie.salt_2 }}'
   fedora_url: http://fedora-cor.library.emory.edu/fcrepo/rest

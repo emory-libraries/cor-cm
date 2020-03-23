@@ -12,6 +12,7 @@ symblink_dirs:
     path: '{{ capistrano_base }}/uploads'
 
 __dlp_curate_dotenv:
+  branding_path: /mnt/test_efs/uploads/dlp-curate/branding
   iiif_cookie_salt_1: '{{ vault_dlp.iiif.test.cookie.salt_1 }}'
   iiif_cookie_salt_2: '{{ vault_dlp.iiif.test.cookie.salt_2 }}'
   fedora_url: http://fedora-cor-test.library.emory.edu/fcrepo/rest
