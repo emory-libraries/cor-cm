@@ -48,3 +48,5 @@ ec2_security_groups:
 
 elb_targets:
   - target_group_name: curate-443
+
+cap_branding_symblink_path: /mnt/prod_efs/uploads/dlp-curate/branding
