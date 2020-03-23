@@ -9,12 +9,12 @@
   become_user: "{{ ansible_username }}"
   shell: >
     BRANCH={{ git_repo_branch }} bundle exec cap {{ capistrano_environment | d('localhost') }} deploy
-    {{ (capistrano_roles | d (false)) | ternary (cap_role_output, '') }} {{ (cap_branding_symblink_path | d (false)) | ternary (cap_branding_symblink_output, '') }}
+    {{ (capistrano_roles | d (false)) | ternary (cap_role_output, '') }} {{ (cap_branding_symlink_path | d (false)) | ternary (cap_branding_symlink_output, '') }}
   args:
     chdir: /home/{{ ansible_username }}/{{ project_name }}
   vars:
     cap_role_output: " ROLES={{ capistrano_roles | d ('place_holder') | join (',') }}"
-    cap_branding_symblink_output: " BRANDING_SYMBLINK_PATH={{ cap_branding_symblink_path | d (false) }}"
+    cap_branding_symlink_output: " BRANDING_SYMLINK_PATH={{ cap_branding_symlink_path | d (false) }}"
 
 - name: Restart Apache HTTPD to reload passenger application
   systemd:
