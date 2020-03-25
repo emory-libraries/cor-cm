@@ -21,8 +21,8 @@ dlp_lux_dotenv:
   database_min_messages: warning
   ga_tracking_code: '{{ __dlp_lux_dotenv.ga_tracking_code }}'
   http_password_protect: 'true'
-  http_username: 
-  http_password:
+  http_username: '{{ vault_lux.http.user }}'
+  http_password: '{{ vault_lux.http.pass }}'
   project_name: '{{ project_name }}'
   iiif_manifest_url: '{{ __dlp_lux_dotenv.iiif_manifest_url | d () }}'
   iiif_cookie_salt_1: '{{ __dlp_lux_dotenv.iiif_cookie_salt_1 | d () }}'
