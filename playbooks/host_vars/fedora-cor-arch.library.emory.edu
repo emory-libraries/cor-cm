@@ -13,7 +13,7 @@ elb_targets:
   - target_group_name: fedora-arch-80
 
 ec2_security_groups:
-  - '{{ sg_pre }}-tp-apache'
+  - '{{ sg_pre }}-t-http/https-to-self-arch'
   - '{{ sg_pre }}-tp-ssh'
   - '{{ sg_pre }}-t-mysql'
 

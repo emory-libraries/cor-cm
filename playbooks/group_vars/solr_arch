@@ -5,7 +5,7 @@ elb_targets:
 solr_data_dir: '/opt/data/{{ solr_service_name }}'
 solr_alias: solr-cor-arch.library.emory.edu
 ec2_security_groups:
-  - '{{ sg_pre }}-tp-apache'
+  - '{{ sg_pre }}-t-http/https-to-self-arch'
   - '{{ sg_pre }}-tp-ssh'
   - '{{ sg_pre }}-t-nfs'
   - '{{ sg_pre }}-t-zookeeper'

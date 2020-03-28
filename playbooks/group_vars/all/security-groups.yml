@@ -16,7 +16,7 @@ ec2_groups: #manage-sg
         ports:
           - 80
           - 443
-        group_name: '{{ sg_pre }}-t-http/https-to-self-arch'
+        cidr_ip: 0.0.0.0/0
         rule_desc: HTTP/HTTPS
   - name: '{{ sg_pre }}-t-http/https-to-self-test'
     description: Group that allows http only to other servers in group
@@ -32,7 +32,7 @@ ec2_groups: #manage-sg
         ports:
           - 80
           - 443
-        group_name: '{{ sg_pre }}-t-http/https-to-self-test'
+        cidr_ip: 0.0.0.0/0
         rule_desc: HTTP/HTTPS
   - name: '{{ sg_pre }}-t-http/https-to-self-prod'
     description: Group that allows http only to other servers in group
@@ -48,7 +48,7 @@ ec2_groups: #manage-sg
         ports:
           - 80
           - 443
-        group_name: '{{ sg_pre }}-t-http/https-to-self-prod'
+        cidr_ip: 0.0.0.0/0
         rule_desc: HTTP/HTTPS
   - name: '{{ sg_pre }}-tp-ssh'
     description: 'SSH {{ sg_managed }}'

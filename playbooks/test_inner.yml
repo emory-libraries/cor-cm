@@ -1,3 +1,0 @@
-- name: Loop to add lists together
-  set_fact:
-    '{{ item }}': '{{var_value1}}'
