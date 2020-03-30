@@ -39,7 +39,9 @@ dlp_curate_mysql_db:
   password: '{{ vault_curate.prod.db.pass }}'
 
 ec2_security_groups:
-  - '{{ sg_pre }}-t-http/https-to-self-prod'
+  - '{{ sg_pre }}-p-http-to-iiif'
+  - '{{ sg_pre }}-p-http-to-fedora'
+  - '{{ sg_pre }}-p-http-to-solr'
   - '{{ sg_pre }}-tp-ssh'
   - '{{ sg_pre }}-tp-apache'
   - '{{ sg_pre }}-p-nfs'

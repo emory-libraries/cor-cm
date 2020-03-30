@@ -34,7 +34,9 @@ ec2_security_groups:
   - '{{ sg_pre }}-t-mysql'
   - '{{ sg_pre }}-t-solr'
   - '{{ sg_pre }}-t-redis'
-  - '{{ sg_pre }}-t-http/https-to-self-arch'
+  - '{{ sg_pre }}-a-http-to-fedora'
+  - '{{ sg_pre }}-a-http-to-solr'
+  - '{{ sg_pre }}-a-http-to-iiif'
 
 elb_targets:
   - target_group_name: curate-arch-443

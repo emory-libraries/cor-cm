@@ -1,7 +1,7 @@
 cantaloupe_fedora_url: http://fedora-cor-arch.library.emory.edu/fcrepo/rest
 ec2_security_groups:
   - '{{ sg_pre }}-tp-ssh'
-  - '{{ sg_pre }}-t-http/https-to-self-arch'
+  - '{{ sg_pre }}-a-http-to-iiif'
 
 
 elb_targets:

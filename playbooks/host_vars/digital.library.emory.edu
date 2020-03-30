@@ -28,3 +28,4 @@ ec2_security_groups:
   - '{{ sg_pre }}-p-mysql'
   - '{{ sg_pre }}-p-solr'
   - '{{ sg_pre }}-p-redis'
+  - '{{ sg_pre }}-p-http-to-solr'

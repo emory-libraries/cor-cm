@@ -19,7 +19,7 @@ fedora_aws_bucket: fedora-cor-binaries
 rds_host: dlp-prd-rdsmys-mz
 
 ec2_security_groups:
-  - '{{ sg_pre }}-t-http/https-to-self-prod'
+  - '{{ sg_pre }}-p-http-to-fedora'
   - '{{ sg_pre }}-tp-ssh'
   - '{{ sg_pre }}-p-mysql'
 

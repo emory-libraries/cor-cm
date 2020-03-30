@@ -25,4 +25,4 @@ ec2_security_groups:
   - '{{ sg_pre }}-t-nfs'
   - '{{ sg_pre }}-t-mysql'
   - '{{ sg_pre }}-t-solr'
-  - '{{ sg_pre }}-t-redis'
+  - '{{ sg_pre }}-a-http-to-solr'
