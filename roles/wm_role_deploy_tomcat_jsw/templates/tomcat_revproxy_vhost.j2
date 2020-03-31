@@ -47,7 +47,7 @@
   ProxyPass /{{ app.rproxy_path }} http://localhost:{{ app.conn_port }}/{{ app.rproxy_path }}
 {% endif %}
   ProxyPassReverse /{{ app.rproxy_path }} http://localhost:{{ app.conn_port }}/{{ app.rproxy_path }}
-  ProxyTimeout 300
+  ProxyTimeout 999999
   <Location /{{ app.rproxy_path }}>
     Require all granted
   </Location>
@@ -57,7 +57,7 @@
   ### Proxy Solr
   ProxyPass /solr http://localhost:8983/solr
   ProxyPassReverse /solr http://localhost:8983/solr
-  ProxyTimeout 300
+  ProxyTimeout 999999
   <Location /solr>
     Require all granted
   </Location>
