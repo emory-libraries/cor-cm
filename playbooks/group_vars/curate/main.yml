@@ -43,6 +43,7 @@ dlp_curate_dotenv:
   import_path: /mnt/import_efs/Collections
   proxied_iiif_server_url: '{{ __dlp_curate_dotenv.proxied_iiif_server_url | d () }}'
   project_name: dlp-curate
+  lux_base_url: '{{ __dlp_curate_dotenv.lux_base_url | d () }}'
   fedora_url: '{{ __dlp_curate_dotenv.fedora_url | d () }}' 
   fedora_user: '{{ vault_fedora.admin.user | d () }}'
   fedora_password: '{{ vault_fedora.admin.pass | d () }}'
