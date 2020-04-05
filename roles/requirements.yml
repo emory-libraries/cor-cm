@@ -1,2 +1,3 @@
 #Test role
-- src: https://github.com/emory-libraries/emorylib_role_s3_batch_operations.git
+# This will override what ever role is actually in the /roles folder for awx
+#- src: https://github.com/emory-libraries/emorylib_role_s3_batch_operations.git
