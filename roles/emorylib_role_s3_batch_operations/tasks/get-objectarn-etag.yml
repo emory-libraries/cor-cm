@@ -1,63 +1,59 @@
 ---
-- name: List objects in Location Key
+- name: List objects in location KeyPrefix
   aws_s3:
     bucket: '{{ key.split("/")[0] }}'
     prefix: '{{ key.split("/")[1:] | join("/") }}'
     mode: list
   vars:
-    key: '{{ manifest.Location.Date.Key }}'
-  loop: '{{ s3_batch_operations }}'
+    key: '{{ s3_batch_op.location.KeyPrefix }}'
   register: list_keys
-  when: manifest.Location.Date is defined
+  when: s3_batch_op.location is defined
 
-- debug:
-    var: list_keys
-
-- name: Create first placeholder list with associated keys
+- name: Create first placeholder variable with associated keys
   set_fact:
-    _s3_batch_operations: |
-      {{ _s3_batch_operations | d([]) + [item.0 | combine({"checksum_key": item.1.s3_keys | d (False) 
-      | select("contains", checksum_search) | list | last | d (False) }, {"json_key": item.1.s3_keys | d (False) 
-      | select("contains", json_search) | list | last | d (False) })] }}
+    _s3_batch_op: |
+      {{ s3_batch_op | combine({"checksum_key": list_keys.s3_keys | d (False) 
+      | select("contains", checksum_search) | list | last | d (False) }, {"json_key": list_keys.s3_keys | d (False) 
+      | select("contains", json_search) | list | last | d (False) }) }}
   vars:
-    checksum_search: '{{ manifest_conditional | ternary("manifest.checksum", checksum_full) }}'
-    checksum_full: '{{ manifest_string }}/manifest.checksum'
-    json_search: '{{ manifest_conditional | ternary("manifest.json", json_full) }}'
-    json_full: '{{ manifest_string }}/manifest.json'
-    manifest: '{{ item.0.manifest | d (s3_batch_operation.manifest) }}'
-    manifest_conditional: '{{ manifest_date.Latest | d (False) }}'
-    manifest_date: '{{ manifest.Location.Date | d () }}'
-    manifest_string: '{{ manifest_date.Year | d () }}-{{ manifest_date.Month | d () }}-{{ manifest_date.Day | d () }}T00-00Z'
-  loop: '{{ s3_batch_operations | zip(list_keys.results) | list }}'
+    checksum_search: '{{ location_is_latest | ternary("manifest.checksum", checksum_full) }}'
+    checksum_full: '{{ location_date_string }}/manifest.checksum'
+    json_search: '{{ location_is_latest | ternary("manifest.json", json_full) }}'
+    json_full: '{{ location_date_string }}/manifest.json'
+    location: '{{ s3_batch_op.location | d () }}'
+    location_date: '{{ location.Date | d () | lower }}'
+    location_date_string: '{{ location_date }}T00-00Z'
+    location_is_latest: '{{ location_date == "latest" | d (False) }}'
+    manifest: '{{ s3_batch_op.manifest }}'
 
-
-- debug:
-    var: _s3_batch_operations
+- name: Assert that specified date is valid
+  assert:
+    that:
+      - _s3_batch_op.checksum_key
+      - _s3_batch_op.json_key
+    quiet: yes
+    fail_msg: 'No matching key was found in S3 for the given date, please check the KeyPrefix or date.'
+  when: 
+    - location_date_input != 'latest'
+    - _s3_batch_op.manifest.Location is undefined
+  vars:
+    location_date_input: '{{ _s3_batch_op.location.Date | d () | lower }}'
 
 - name: Get checksum values as string
   aws_s3:
     bucket: '{{ key.split("/")[0] }}'
-    object: '{{ item.checksum_key }}'
+    object: '{{ _s3_batch_op.checksum_key }}'
     mode: getstr
   register: checksum_values
-  loop: '{{ _s3_batch_operations }}'
-  when: item.checksum_key 
+  when: _s3_batch_op.checksum_key
   vars:
-    key: '{{ manifest.Location.Date.Key }}'
+    key: '{{ _s3_batch_op.location.KeyPrefix }}'
 
-- name: Create finalized version of input 
+- name: Prep variable for submission to awscli 
   set_fact:
-    __s3_batch_operations: |
-      {{ __s3_batch_operations | d([]) + [item.0 | combine({"manifest": {"Location": {"ETag": item.1.contents | d (item.0.manifest.Location.ETag) | d () | trim,
-      "ObjectArn": item.0.checksum_key | ternary(object_arn_string, item.0.manifest.Location.ObjectArn) }}}, recursive=True)] }}
-      #} }}, recursive=True)] }}
+    __s3_batch_op: |
+      {{ _s3_batch_op | combine ({"manifest": {"Location": {"ETag": checksum_values.contents | d (_s3_batch_op.manifest.Location.ETag) | d () | trim,
+      "ObjectArn": _s3_batch_op.checksum_key | ternary(object_arn_string, _s3_batch_op.manifest.Location.ObjectArn) }}}, recursive=True) }}
   vars:
-    date: '{{ item.0.manifest.Location.Date | d () }}'
-    key: '{{ date.Key | d () }}'
-    object_arn_string: 'arn:aws:s3:::{{ key.split("/")[0] }}/{{ item.0.json_key }}'
-  loop: '{{ _s3_batch_operations | zip(checksum_values.results) | list }}'
-
-- debug:
-    var: __s3_batch_operations
-
-- pause:
+    key: '{{ _s3_batch_op.location.KeyPrefix | d () }}'
+    object_arn_string: 'arn:aws:s3:::{{ key.split("/")[0] }}/{{ _s3_batch_op.json_key }}'

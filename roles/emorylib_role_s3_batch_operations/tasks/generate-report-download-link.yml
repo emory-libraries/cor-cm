@@ -1,0 +1,32 @@
+---
+- name: List objects in report prefix
+  aws_s3:
+    bucket: '{{ report_bucket }}'
+    prefix: '{{ report_prefix }}'
+    mode: list
+  register: completion_report
+
+- set_fact:
+    report_key: '{{ completion_report.s3_keys | d (False) | select("contains", job_id) | select ("contains", ".csv") | list | last | d ("none") }}'
+
+- name: Generate direct download link for report
+  aws_s3:
+    bucket: '{{ report_bucket }}'
+    object: '{{ report_key }}'
+    mode: geturl
+  when:
+    - s3_batch_op_generate_direct_download
+    - report_key != 'none'
+  register: get_url
+
+- name: Set fact direct download link
+  set_fact:
+    report_direct_download_link: '{{ get_url.url | d (False) }}'
+  when: get_url | d (False)
+
+- name: Generate Console link
+  set_fact:
+    report_console_download_link: '{{ s3_batch_op_console_base_url }}/{{ report_bucket }}/{{ report_key }}'
+  when:
+    - s3_batch_op_generate_console_download
+    - report_key != 'none'

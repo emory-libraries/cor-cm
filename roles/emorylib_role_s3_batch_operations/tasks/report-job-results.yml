@@ -1,0 +1,30 @@
+---
+- name: Build job reports
+  set_fact:
+    fail_report: |
+      The s3 batch operation has failed. The failure reasons given by AWS:
+      {{ s3_batch_op_job["FailureReasons"] | to_nice_yaml(indent=8, width=1337) }}
+      {{ s3_batch_op_generate_console_download | ternary (console_download_message, "" )}}
+      {{ s3_batch_op_generate_direct_download | ternary (direct_download_message, "" )}}
+    success_report: |
+      The S3 Batch Operation job has succeeded.
+      {{ s3_batch_op_job["ProgressSummary"] | to_nice_yaml(indent=8, width=1337) }}
+      {{ s3_batch_op_generate_console_download | ternary (console_download_message, "" )}}
+      {{ s3_batch_op_generate_direct_download | ternary (direct_download_message, "" )}}
+  vars:
+    console_download_message: |
+      The following is a link to the report, please log into AWS console before using this link:
+      {{ report_console_download_link | d ("No report was found!") }}
+    direct_download_message: |
+      The following is a direct link to the report, private buckets are valid for 10 minutes:
+      {{ report_direct_download_link | d ("No report was found!") }}
+
+- name: Fail play if job fails
+  fail:
+    msg: '{{ fail_report.split("\n") }}'
+  when: s3_batch_op_job["Status"] == "Failed"
+
+- name: Display success job report
+  debug:
+    msg: '{{ success_report.split("\n") }}'
+  when: s3_batch_op_job["Status"] == "Complete"
