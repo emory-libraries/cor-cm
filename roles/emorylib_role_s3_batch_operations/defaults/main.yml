@@ -5,6 +5,16 @@ s3_batch_op_submit_only: true
 s3_batch_op_generate_direct_download: false
 s3_batch_op_generate_console_download: false
 
+### Slack options
+s3_batch_op_report_to_slack: false
+s3_batch_op_slack_token: omit
+s3_batch_op_slack_channel: omit
+s3_batch_op_slack_username: omit
+s3_batch_op_slack_thread_id: omit
+s3_batch_op_slack_link_names: omit
+s3_batch_op_slack_icon_url: omit
+s3_batch_op_slack_parse: omit
+
 
 s3_batch_op_describe_job_retries: 50
 s3_batch_op_describe_job_delay: 20

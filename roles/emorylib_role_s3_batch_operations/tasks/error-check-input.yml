@@ -1,4 +1,18 @@
 ---
+
+- name: Test out slack functionality
+  slack:
+    token: '{{ s3_batch_op_slack_token }}'
+    msg: 'Test'
+    channel: '{{ s3_batch_op_slack_channel }}'
+    thread_id: '{{ s3_batch_op_slack_thread_id }}'
+    username: '{{ s3_batch_op_slack_username }}'
+    icon_url: '{{ s3_batch_op_slack_icon_url }}'
+    link_names: '{{ s3_batch_op_slack_link_names }}'
+    parse: '{{ s3_batch_op_slack_parse }}'
+
+- pause: 
+
 - name: Assert that location and Location are exclusive (1st)
   assert:
     that:
