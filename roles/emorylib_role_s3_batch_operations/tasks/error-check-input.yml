@@ -1,5 +1,8 @@
 ---
 
+- debug:
+    var: ansible_facts
+
 - name: Test out slack functionality
   slack:
     attachments: '{{ s3_batch_op_slack_attachments | d (omit) }}'
@@ -16,7 +19,7 @@
     optional_variable: none
     required_variable: Required Variable is Required
 
-- pause: 
+- fail: 
 
 - name: Assert that location and Location are exclusive (1st)
   assert:
