@@ -5,11 +5,11 @@
     token: '{{ s3_batch_op_slack_token }}'
     msg: 'Test'
     channel: '{{ s3_batch_op_slack_channel }}'
-    thread_id: '{{ s3_batch_op_slack_thread_id }}'
-    username: '{{ s3_batch_op_slack_username }}'
-    icon_url: '{{ s3_batch_op_slack_icon_url }}'
-    link_names: '{{ s3_batch_op_slack_link_names }}'
-    parse: '{{ s3_batch_op_slack_parse }}'
+    thread_id: '{{ s3_batch_op_slack_thread_id | d (omit) }}'
+    username: '{{ s3_batch_op_slack_username | d (omit) }}'
+    icon_url: '{{ s3_batch_op_slack_icon_url | d (omit) }}'
+    link_names: '{{ s3_batch_op_slack_link_names | d (omit) }}'
+    parse: '{{ s3_batch_op_slack_parse | d (omit) }}'
 
 - pause: 
 
