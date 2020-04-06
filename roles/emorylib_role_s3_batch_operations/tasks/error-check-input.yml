@@ -2,14 +2,19 @@
 
 - name: Test out slack functionality
   slack:
+    attachments: '{{ s3_batch_op_slack_attachments | d (omit) }}'
     token: '{{ s3_batch_op_slack_token }}'
-    msg: 'Test'
+    msg: '{{ s3_batch_op_slack_msg | d (omit) }}'
     channel: '{{ s3_batch_op_slack_channel }}'
     thread_id: '{{ s3_batch_op_slack_thread_id | d (omit) }}'
     username: '{{ s3_batch_op_slack_username | d (omit) }}'
     icon_url: '{{ s3_batch_op_slack_icon_url | d (omit) }}'
+    icon_emoji: '{{ s3_batch_op_slack_icon_emoji | d (omit) }}'
     link_names: '{{ s3_batch_op_slack_link_names | d (omit) }}'
     parse: '{{ s3_batch_op_slack_parse | d (omit) }}'
+  vars:
+    optional_variable: none
+    required_variable: Required Variable is Required
 
 - pause: 
 

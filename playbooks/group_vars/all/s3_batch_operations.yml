@@ -11,6 +11,13 @@ s3_batch_op_generate_console_download: true
 
 s3_batch_op_slack_token: '{{ vault_dlp.slack.token }}'
 s3_batch_op_slack_channel: '#dlp-backups'
+s3_batch_op_slack_attachments: 
+  - title: S3 Batch Operation Job Summary
+    text: |
+      How does slack handle,
+      Newlines?
+       {{ (optional_variable != "none") | ternary (optional_variable, "") }}
+      {{ required_variable }}
 
 curate_arch_tagging_op:
   operation:
