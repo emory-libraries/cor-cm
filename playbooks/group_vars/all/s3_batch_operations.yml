@@ -6,7 +6,7 @@ default_s3_batch_op_account_id: '{{ aws_account_number }}'
 default_s3_batch_op_role_arn: 'arn:aws:iam::{{ aws_account_number }}:role/s3-batch-job-role'
 
 s3_batch_op_submit_only: false
-s3_batch_op_generate_direct_download: true
+s3_batch_op_generate_direct_download: false
 s3_batch_op_generate_console_download: true
 
 s3_batch_op_slack_token: '{{ vault_dlp.slack.token }}'

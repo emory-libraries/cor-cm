@@ -39,8 +39,8 @@ s3_batch_op_slack_msg_awx: |
 
 s3_batch_op_slack_attachments: '{{ s3_batch_op_slack_attachment_console + s3_batch_op_slack_attachment_direct }}'
 
-s3_batch_op_slack_attachment_console: '{{ report_console_download_link is defined | ternary (s3_batch_op_slack_attachment_console_content, []) }}'
-s3_batch_op_slack_attachment_direct: '{{ report_direct_download_link is defined | ternary (s3_batch_op_slack_attachment_direct_content, []) }}'
+s3_batch_op_slack_attachment_console: '{{ s3_batch_op_generate_console_download | ternary (s3_batch_op_slack_attachment_console_content, []) }}'
+s3_batch_op_slack_attachment_direct: '{{ s3_batch_op_generate_direct_download | ternary (s3_batch_op_slack_attachment_direct_content, []) }}'
 
 s3_batch_op_slack_attachment_console_content:
   - title: Batch Operation Report Console Link
