@@ -11,6 +11,7 @@ s3_batch_op_generate_console_download: true
 
 s3_batch_op_slack_token: '{{ vault_dlp.slack.token }}'
 s3_batch_op_slack_channel: '#dlp-backups'
+s3_batch_op_report_to_slack: true
 
 curate_arch_tagging_op:
   operation:
