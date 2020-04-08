@@ -1,6 +1,8 @@
 ---
 # defaults file for emorylib_role_s3_batch_operations
 
+#s3_batch_op: #Primary variable input
+
 s3_batch_op_submit_only: true
 s3_batch_op_generate_direct_download: false
 s3_batch_op_generate_console_download: false

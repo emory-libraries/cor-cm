@@ -24,7 +24,7 @@ s3_batch_op_slack_msg_no_awx: |
   S3 Batch Operation Job Details
   {{ s3_batch_op_job["ProgressSummary"] }}
 s3_batch_op_slack_msg_awx: |
-  S3 Batch Operation Job {{"#"}}{{ ansible_facts.env.JOB_ID | d () }} Details
+  Job {{"#"}}{{ ansible_facts.env.JOB_ID | d () }} Details (S3 Batch Operation)
   {{ s3_batch_op_job["ProgressSummary"] }}
 
 s3_batch_op_slack_attachment_console: '{{ s3_batch_op_generate_console_download | ternary (s3_batch_op_slack_attachment_console_content, []) }}'
