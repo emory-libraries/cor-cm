@@ -1,0 +1,18 @@
+---
+# defaults file for emorylib_role_s3_batch_operations
+
+s3_batch_op_submit_only: true
+s3_batch_op_generate_direct_download: false
+s3_batch_op_generate_console_download: false
+
+## Control how long an often the role will poll AWS for job results
+s3_batch_op_describe_job_retries: 50
+s3_batch_op_describe_job_delay: 20
+
+s3_batch_op_console_base_url: https://s3.console.aws.amazon.com/s3/object
+
+# Set the following variables to avoid having to define region, account id and role arn in each batch operation variable. Can still be overriden if needed.
+
+#default_s3_batch_op_region:
+#default_s3_batch_op_account_id:
+#default_s3_batch_op_role_arn:

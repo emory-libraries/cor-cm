@@ -1,0 +1,40 @@
+### Slack options
+s3_batch_op_report_to_slack: false
+s3_batch_op_slack_token: slack/token/goes/here
+
+####### Optional Slack Variables ##############
+#s3_batch_op_slack_icon_emoji: 
+#s3_batch_op_slack_token: 
+#s3_batch_op_slack_channel: '#channel'
+#s3_batch_op_slack_username: 
+#s3_batch_op_slack_thread_id: 
+#s3_batch_op_slack_link_names: 
+#s3_batch_op_slack_icon_url: 
+#s3_batch_op_slack_parse: 
+
+
+### The following variables define the default message for slack, they can be overridden entirely
+s3_batch_op_slack_msg: '{{ ansible_facts.env.AWX_HOST is defined | ternary (s3_batch_op_slack_msg_awx, s3_batch_op_slack_msg_no_awx) }}'
+s3_batch_op_slack_attachments: '{{ s3_batch_op_slack_attachment_console + s3_batch_op_slack_attachment_direct }}'
+
+
+############# Logic variables, not called directly #####################################
+
+s3_batch_op_slack_msg_no_awx: |
+  S3 Batch Operation Job Details
+  {{ s3_batch_op_job["ProgressSummary"] }}
+s3_batch_op_slack_msg_awx: |
+  S3 Batch Operation Job {{"#"}}{{ ansible_facts.env.JOB_ID | d () }} Details
+  {{ s3_batch_op_job["ProgressSummary"] }}
+
+s3_batch_op_slack_attachment_console: '{{ s3_batch_op_generate_console_download | ternary (s3_batch_op_slack_attachment_console_content, []) }}'
+s3_batch_op_slack_attachment_direct: '{{ s3_batch_op_generate_direct_download | ternary (s3_batch_op_slack_attachment_direct_content, []) }}'
+
+s3_batch_op_slack_attachment_console_content:
+  - title: Console Link to Report CSV File
+    title_link: '{{ report_console_download_link | d () }}'
+    text: This is a console link to the report, please log into AWS console before using the link
+s3_batch_op_slack_attachment_direct_content:
+  - title: Direct Link to Report CSV File
+    title_link: '{{ report_direct_download_link | d () }}'
+    text: This is a direct link to the report, links in private buckets are valid for 10 minutes

@@ -1,7 +1,7 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+This role will submit and optionally track a S3 Batch Operation Job. There is also optional slack notifications for the results of the job. This role assumes the batch operations inventory reports are in .csv format.
 
 Requirements
 ------------

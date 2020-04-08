@@ -15,9 +15,9 @@
     quiet: yes
   when: s3_batch_op.manifest.Location is defined
 
-- name: Assert that submit only is false when requesting report links
+- name: Assert that submit only is false when requesting advanced reporting
   assert:
     that: not s3_batch_op_submit_only
-    fail_msg: Requesting report links requires that s3_batch_op_submit_only be set to false. Please change and restart.
+    fail_msg: Requesting advanced reporting requires that s3_batch_op_submit_only be set to false. Please change and restart.
     quiet: yes
-  when: s3_batch_op_generate_direct_download or s3_batch_op_generate_console_download
+  when: s3_batch_op_generate_direct_download or s3_batch_op_generate_console_download or s3_batch_op_report_to_slack
