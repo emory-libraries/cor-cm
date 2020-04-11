@@ -88,7 +88,7 @@ Example Playbook
             ReportScope: AllTasks
           location:
             KeyPrefix: bucket_B/manifest_key_path/manifest/
-            Date: '2020-03-17' #Date must be in this format and it must be in quotes or the role will error out
+            Date: '2020-03-03' #Date must be in this format and it must be in quotes or the role will error out
             #Date: latest      #Using "latest" will look for the latest manifest in the key prefix
 ```
 
