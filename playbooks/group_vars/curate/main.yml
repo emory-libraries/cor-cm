@@ -51,7 +51,7 @@ dlp_curate_dotenv:
   solr_url: '{{ __dlp_curate_dotenv.solr_url | d () }}'
   sidekiq_workers: 25
   redis_database: '{{ __dlp_curate_dotenv.redis_database | d () }}'
-  redis_host: dlp-redis-001.mmsay6.0001.use1.cache.amazonaws.com
+  redis_host: dlp-redis-003.mmsay6.0001.use1.cache.amazonaws.com
   
 
 additional_capistrano_directories:
