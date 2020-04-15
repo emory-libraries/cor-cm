@@ -1,3 +1,10 @@
-- hosts: all
+- hosts: localhost
   tasks:
-    - ping:
+    - shell: aws s3 ls cor-s3-inventory-2/fedora-cor-test-binaries/manifest/ |sed 's/PRE //g'|sed 's/.$//g'
+      register: bucket_key_info
+    
+    - set_fact:
+        bucket_keys: '{{ bucket_key_info.stdout_lines | map("trim") | reject("contains", "data") | reject ("contains", "hive") | list }}'
+
+    - debug:
+        msg: '{{ bucket_keys[-1] }}'

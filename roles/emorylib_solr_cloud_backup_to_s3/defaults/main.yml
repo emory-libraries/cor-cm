@@ -1,24 +1,19 @@
 ---
 # defaults file for emorylib_solr_cloud_backup_to_s3
-sc_backup_server: localhost
-sc_backup_port: 8983
-sc_backup_location: /mnt/efs
-sc_backup_location_cleanup: yes
-
-sc_backup_retries: 100
-sc_backup_delay: 3
 
 ## Solr Cloud Backup bucket
-sc_backup_bucket:
-sc_backup_bucket_key:
+solr_cloud_backup_owner: solr
+solr_cloud_backup_group: solr
 
-sc_base_url: 'http://{{ sc_backup_server }}:{{ sc_backup_port }}/solr/admin'
-
-
-
-sc_backup_params:
+solr_cloud_backup_post_params:
   - action=BACKUP
-  - 'collection={{ item.name }}'
-  - 'location={{ item.location | d (sc_backup_location) }}'
-  - 'name={{ item.name }}-{{ ansible_date_time.epoch }}'
-  - 'async={{ ansible_date_time.epoch }}-{{ ansible_loop.index }}'
+  - 'collection={{ solr_cloud_backup.collection.name }}'
+  - 'location={{ solr_cloud_backup.tmp_path }}/{{ solr_cloud_backup.collection.name }}'
+  - 'name={{ ansible_date_time.iso8601_micro }}'
+  - 'async={{ ansible_date_time.epoch }}-backup'
+solr_cloud_backup_server: localhost
+solr_cloud_backup_port: 8983
+
+solr_cloud_backup_base_url: 'http://{{ solr_cloud_backup_server }}:{{ solr_cloud_backup_port }}/solr/admin'
+solr_cloud_backup_retries: 100
+solr_cloud_backup_delay: 10

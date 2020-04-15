@@ -1,0 +1,14 @@
+- name: Assert that tmp_path and dest path are different
+  assert:
+    that:
+      - solr_cloud_backup.dest.path != solr_cloud_backup.tmp_path
+    quiet: yes
+    fail_msg: tmp_path and dest.path must not be the same
+  when: solr_cloud_backup.dest.path is defined
+
+- name: Assert that a destination has been supplied
+  assert:
+    that:
+      - solr_cloud_backup.dest.path is defined or solr_cloud_backup.dest.s3 is defined
+    quiet: yes
+    fail_msg: No destination was supplied, please add a key of s3 or path to dest

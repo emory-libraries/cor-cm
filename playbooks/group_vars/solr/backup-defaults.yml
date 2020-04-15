@@ -4,3 +4,13 @@ sc_backup_bucket: cor-devops-binaries
 sc_backup_list:
   - name: curate_collection
   - name: lux_collection
+
+solr_cloud_backup:
+  collection:
+    name: curate_collection
+  dest:
+    s3:
+      bucket: cor-devops-binaries
+      key_prefix: solr-backups/solr-arch/curate_collection
+      region: us-west-1
+  tmp_path: /mnt/arch_efs/solr/backup

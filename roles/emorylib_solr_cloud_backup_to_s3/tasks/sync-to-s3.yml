@@ -1,0 +1,9 @@
+- name: Sync files to S3
+  s3_sync:
+    bucket: '{{ solr_cloud_backup.dest.s3.bucket }}'
+    file_root: '{{ temp_dir }}'
+    key_prefix: '{{ solr_cloud_backup.dest.s3.key_prefix }}/{{ temp_dir | basename }}'
+    region: '{{ solr_cloud_backup.dest.s3.region }}'
+    aws_access_key: '{{ solr_cloud_backup.dest.s3.aws_access_key | d (omit) }}'
+    aws_secret_key: '{{ solr_cloud_backup.dest.s3.aws_secret_key | d (omit) }}'
+    security_token: '{{ solr_cloud_backup.dest.s3.security_token | d (omit) }}'
