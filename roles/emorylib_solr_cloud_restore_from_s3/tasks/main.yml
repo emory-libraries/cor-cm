@@ -1,16 +1,17 @@
 ---
 # tasks file for emorylib_solr_cloud_restore_from_s3
-- name: Include tasks for getting snapshot .tar.gz from S3
-  include_tasks:
-    file: get-snapshot-from-s3-bucket.yml
-    apply:
-      become: yes
+#- name: Include tasks for getting directory key from local path
+#  include_tasks:
+#    file: get-directory-key.yml
+
+#- name: Include tasks for downloading folder from s3
+#  include_tasks:
+#    file: download-from-s3.yml
 
 - name: Include tasks for checking if collection already exists
   include_tasks:
     file: check-for-existing-collection.yml
     apply:
-      become: yes
       tags: delete-solr-collection
   tags: delete-solr-collection
 

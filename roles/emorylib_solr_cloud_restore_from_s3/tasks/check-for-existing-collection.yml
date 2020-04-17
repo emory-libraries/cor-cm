@@ -1,23 +1,29 @@
 ---
 - name: List existing collections
   uri:
-    url: '{{ sc_restore_base_url }}/admin/collections?'
+    url: '{{ solr_cloud_restore_base_url }}/collections?'
     body: 'action=LIST'
     method: POST
-  register: collections_list
+  register: collections_info
 
-- name: Get list of restore collections that already exists
+- name: Set list of collections
   set_fact:
-    existing_collections: '{{ pre_existing_collections | intersect (collection_names) }}'
-  vars:
-    pre_existing_collections:  '{{ collections_list | json_query(query) }}'
-    collection_names: '{{ sc_restore_list | json_query(query2) }}'
-    query: 'json.collections[]'
-    query2: '[].collection_name'
+    existing_collections: '{{ collections_info | json_query("json.collections[]") }}'
 
-- name: Fail if collections exists and delete collection is set to no
-  fail:
-    msg: 'Collection(s) already exists for {{ existing_collections }} and sc_restore_delete_collection has been set to no, please set this variable to yes to proceed with restore'
-  when:
-    - not sc_restore_delete_collection
-    - existing_collections | length > 0
+- name: Set check if collection already exists
+  set_fact:
+    check_if_collection_already_exists: '{{ existing_collections | select("match", solr_cloud_restore.collection.name) | list | last | d ("none") }}'
+
+- name: Set matching collections
+  set_fact:
+    matching_collections: '{{ existing_collections | select("contains", solr_cloud_restore.collection.delete_all_matching) | reject("match", solr_cloud_restore.collection.name) | list }}'
+  when: solr_cloud_restore.collection.delete_all_matching is defined
+  
+- name: Assert collection overwrite logic
+  assert:
+    that: solr_cloud_restore.collection.delete_if_collection_exists | d (False)
+    quiet: yes
+    fail_msg: The collection name already exists, if you want to delete it please set solr_cloud_restore.collection.delete_if_collection_exists to yes
+  when: check_if_collection_already_exists != "none"
+
+- pause:

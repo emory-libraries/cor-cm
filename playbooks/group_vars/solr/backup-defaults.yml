@@ -8,9 +8,27 @@ sc_backup_list:
 solr_cloud_backup:
   collection:
     name: curate_collection
-  dest:
+  #dest:
+    #path: /mnt/arch_efs/solr/temp_landing_zone
+    #s3:
+    #  bucket: cor-devops-binaries
+    #  key_prefix: solr-backups/solr-arch/curate_collection
+    #  region: us-west-1
+  tmp_path: /mnt/arch_efs/solr/backup
+
+solr_cloud_restore:
+  collection:
+    name: blacklight_collection
+    delete_if_collection_exists: yes
+    delete_all_matching: blacklight
+    #name: curate_copy
+  source:
+    file:
+      path: /mnt/arch_efs/solr/temp_landing_zone/curate_collection
+      date: latest
     s3:
       bucket: cor-devops-binaries
       key_prefix: solr-backups/solr-arch/curate_collection
-      region: us-west-1
-  tmp_path: /mnt/arch_efs/solr/backup
+      date: latest 
+      tmp_path: /mnt/arch_efs/solr/restore
+  
