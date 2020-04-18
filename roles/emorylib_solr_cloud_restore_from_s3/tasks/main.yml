@@ -55,7 +55,8 @@
 
 - name: Delete local directories containing backups
   file:
-    path: '{{ directory_paths | d () }}'
+    path: '{{ item }}'
     state: absent
+  loop: '{{ directory_paths | d () }}'
   run_once: yes
   when: solr_cloud_restore.source.file.clean_path | d (False)

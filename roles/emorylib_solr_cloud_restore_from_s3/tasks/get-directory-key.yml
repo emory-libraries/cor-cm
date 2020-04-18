@@ -30,6 +30,18 @@
         fail_msg: No directory matching the given date was found
   when: solr_cloud_restore.source.file.date | lower != "latest"
 
+- name: Whole Variable
+  debug:
+    var: directory_paths
+
+- name: First element
+  debug:
+    var: directory_paths[1]
+
+- name: Last Element
+  debug:
+    var: directory_paths[-1]
+
 - name: Set fact directory path from latest
   set_fact:
     directory_path: '{{ directory_paths[-1] }}'

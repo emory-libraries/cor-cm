@@ -1,5 +1,7 @@
 
-solr_cloud_restore:
+solr_cloud_restore: '{{ restore_for_lux_ingest }}'
+
+solr_cloud_restore2: 
   collection:
     #name: blacklight_collection
     delete_if_collection_exists: yes
