@@ -57,4 +57,5 @@
   file:
     path: '{{ directory_paths | d () }}'
     state: absent
+  run_once: yes
   when: solr_cloud_restore.source.file.clean_path | d (False)
