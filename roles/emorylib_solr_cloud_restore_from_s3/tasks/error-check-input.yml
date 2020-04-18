@@ -1,0 +1,28 @@
+---
+- name: Assert file and s3 source are exclusive
+  assert:
+    that: solr_cloud_restore.source.file is undefined or solr_cloud_restore.source.s3 is undefined
+    quiet: yes
+    fail_msg: .source.file and .source.s3 are exclusive options
+
+- name: Set fact for restore location
+  set_fact:
+    solr_cloud_share_path: '{{ solr_cloud_restore.source.file.path | d (solr_cloud_restore.source.s3.tmp_path) }}'
+
+- name: Write test file to restore location
+  template:
+    src: tmp_path_check.j2
+    dest: '{{ solr_cloud_share_path }}/restore_test_if_all_solrs_can_read.yml'
+    owner: '{{ solr_cloud_restore_owner }}'
+    group: '{{ solr_cloud_restore_group }}'
+  run_once: yes
+
+- name: Test if all solrs can slurp file
+  slurp:
+    src: '{{ solr_cloud_share_path }}/restore_test_if_all_solrs_can_read.yml'
+
+- name: Delete test file
+  file:
+    path: '{{ solr_cloud_share_path }}/restore_test_if_all_solrs_can_read.yml'
+    state: absent
+  run_once: yes

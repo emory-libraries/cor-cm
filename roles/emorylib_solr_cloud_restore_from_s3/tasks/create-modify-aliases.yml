@@ -1,16 +1,17 @@
 ---
-- name: Delete collection(s) API call
+- name: Create or Modify Aliases API call
   uri:
     url: '{{ solr_cloud_restore_base_url }}/collections?'
     body: '{{ params | join ("&") }}'
     method: POST
   vars:
     params:
-      - action=DELETE
+      - action=CREATEALIAS
       - 'name={{ item }}'
-      - 'async={{ ansible_date_time.epoch }}-delete-{{ item }}'
-  loop: '{{ delete_collections }}'
-  register: delete_colection_call
+      - 'collections={{ solr_cloud_restore.collection.name }}'
+      - 'async={{ ansible_date_time.epoch }}-{{ item }}-{{ solr_cloud_restore_location | basename }}'
+  loop: '{{ solr_cloud_restore.aliases }}'
+  register: modify_alias_call
 
 - name: Check request ids for completed deletion of collection
   uri:
@@ -21,10 +22,10 @@
     params:
       - action=requeststatus
       - 'requestid={{ item }}'
-    request_ids: '{{ delete_colection_call | json_query("results[].json.requestid") }}'
-    state: '{{ delete_status | json_query("json.status.state") }}'
+    request_ids: '{{ modify_alias_call | json_query("results[].json.requestid") }}'
+    state: '{{ alias_status | json_query("json.status.state") }}'
   loop: '{{ request_ids }}'
-  register: delete_status
+  register: alias_status
   until: state == 'completed'
   failed_when: state == 'failed'
   retries: '{{ solr_cloud_restore_retries }}'

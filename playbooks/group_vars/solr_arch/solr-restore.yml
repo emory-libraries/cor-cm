@@ -1,0 +1,20 @@
+
+solr_cloud_restore:
+  collection:
+    #name: blacklight_collection
+    delete_if_collection_exists: yes
+    delete_all_matching: curate_copy
+    name: 'curate_copy-{{ solr_cloud_restore_location | d () | basename | regex_replace(":","_") }}'
+  aliases:
+    - curate_alias1
+    - curate_alias2
+  source:
+    file:
+      path: /mnt/arch_efs/solr/temp_landing_zone/curate_collection
+      date: '2020-04-15T18:05:41.985293Z'
+      clean_path: yes
+    #s3:
+    #  bucket: cor-devops-binaries
+    #  key_prefix: solr-backups/solr-arch/curate_collection
+    #  date: '2020-04-15T02:32:43.307979Z' 
+    #  tmp_path: /mnt/arch_efs/solr/restore

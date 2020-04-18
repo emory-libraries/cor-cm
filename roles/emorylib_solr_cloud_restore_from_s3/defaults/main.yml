@@ -26,6 +26,9 @@ sc_restore_list:
     bucket_prefix: #Optional Bucket prefix, defaults to sc_restore_bucket_prefix
     collection_name: #Name of collection to be restored. Optionally will delete a collection that matches this name, then restore
 #########################################################
+solr_cloud_restore_retries: 100
+solr_cloud_restore_delay: 3
+
 solr_cloud_restore_server: localhost
 solr_cloud_restore_port: 8983
 

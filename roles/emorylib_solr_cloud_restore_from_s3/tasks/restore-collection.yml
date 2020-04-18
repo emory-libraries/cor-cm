@@ -1,36 +1,31 @@
 ---
-- name: Restore collection(s)
+- name: Restore collection via API call
   uri:
-    url: '{{ sc_restore_base_url }}/admin/collections?'
+    url: '{{ solr_cloud_restore_base_url }}/collections?'
     body: '{{ params | join ("&") }}'
     method: POST
-  loop: '{{ __sc_restore_list }}'
-  loop_control:
-    extended: yes
   vars:
-    object_name: '{{ item.restore_key | ternary (item.restore_key, item.s3_keys[-1]) }}'
     params:
       - action=RESTORE
-      - 'name={{ object_name | basename | regex_replace(".tar.gz") }}'
-      - 'location={{ sc_restore_location }}'
-      - 'collection={{ item.collection_name }}'
-      - 'async={{ ansible_date_time.epoch }}-{{ ansible_loop.index + index_offset | d (0) | int }}'
+      - 'name={{ solr_cloud_restore_location | basename }}'
+      - 'location={{ solr_cloud_restore_location | dirname }}'
+      - 'collection={{ solr_cloud_restore.collection.name }}'
+      - 'async={{ ansible_date_time.epoch }}-restore-{{ solr_cloud_restore_location | basename }}'
   register: collection_call
 
-- name: Check request ids for completed restores
+- name: Check request id for completed restores
   uri:
-    url: '{{ sc_restore_base_url }}/admin/collections?'
+    url: '{{ solr_cloud_restore_base_url }}/collections?'
     body: '{{ params | join("&") }}'
     method: POST
   vars:
     params:
       - action=requeststatus
-      - 'requestid={{ item }}'
-    request_ids: '{{ collection_call | json_query("results[].json.requestid") }}'
+      - 'requestid={{ request_id }}'
+    request_id: '{{ collection_call | json_query("json.requestid") }}'
     state: '{{ restore_status | json_query("json.status.state") }}'
-  loop: '{{ request_ids }}'
   register: restore_status
   until: state == 'completed'
   failed_when: state == 'failed'
-  retries: '{{ sc_restore_retries }}'
-  delay: '{{ sc_restore_delay }}'
+  retries: '{{ solr_cloud_restore_retries }}'
+  delay: '{{ solr_cloud_restore_delay }}'

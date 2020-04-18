@@ -1,7 +1,7 @@
 ---
 - name: Find directory paths from source
   find:
-    path: '{{  solr_cloud_restore.source.file.path }}'
+    path: '{{ solr_cloud_restore.source.file.path }}'
     file_type: directory
   register: directory_path_info
 
@@ -38,8 +38,3 @@
 - name: Set directory key
   set_fact:
     directory_key: '{{ directory_path | basename }}'
-
-- debug:   
-    var: directory_key
-
-- pause:
