@@ -1,5 +1,6 @@
 ---
 - hosts: '{{ host | d ("all") }}'
-
+  become: yes
+  become_user: solr
   roles:
     - emorylib_solr_cloud_restore_from_s3
