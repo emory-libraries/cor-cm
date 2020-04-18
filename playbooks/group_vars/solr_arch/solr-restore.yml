@@ -26,7 +26,7 @@ restore_for_lux_ingest:
     name: 'curate_copy-{{ solr_cloud_restore_location | d () | basename | regex_replace(":","_") }}'
     delete_if_collection_exists: yes
     delete_all_matching: curate_copy
-  alias:
+  aliases:
     - lux_alias
   source: 
     file: 
