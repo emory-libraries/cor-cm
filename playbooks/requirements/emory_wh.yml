@@ -4,7 +4,6 @@
 - src: https://github.com/emory-libraries/emorylib_solr_cloud_restore_from_s3.git
   version: refactor-role
 - src: https://github.com/emory-libraries/emorylib_solr_cloud_backup_to_s3.git
-  version: add-efs-check
 
 - src: git@github.service.emory.edu:LITS/wm_role_Shibboleth_SP.git
   scm: git

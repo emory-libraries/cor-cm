@@ -44,7 +44,7 @@ Example Playbook
 ----------------
 
 ```yaml
-    - hosts: solr-instance-1 # Only run against a single solr cloud instance
+    - hosts: solr-group # Run against the entire solr cluster, this is needed for the tmp_path test
       vars:
         # This example will backup to a directory and s3
         solr_cloud_backup:
