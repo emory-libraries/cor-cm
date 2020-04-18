@@ -7,7 +7,7 @@
 
 - name: Set directory paths
   set_fact:
-    directory_paths: '{{ directory_path_info | json_query("files[].path") }}'
+    directory_paths: '{{ directory_path_info.files | sort(attribute="ctime") | map(attribute="path") | list }}'
 
 - name: Assert that at least one directory path was found
   assert:
@@ -29,18 +29,6 @@
         quiet: yes
         fail_msg: No directory matching the given date was found
   when: solr_cloud_restore.source.file.date | lower != "latest"
-
-- name: Whole Variable
-  debug:
-    var: directory_paths
-
-- name: First element
-  debug:
-    var: directory_paths[1]
-
-- name: Last Element
-  debug:
-    var: directory_paths[-1]
 
 - name: Set fact directory path from latest
   set_fact:

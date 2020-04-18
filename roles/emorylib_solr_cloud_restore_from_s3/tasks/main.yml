@@ -6,7 +6,7 @@
 - name: Include tasks for getting directory key from local path
   include_tasks:
     file: get-directory-key.yml
-  run_once: yes
+  #run_once: yes
   when: solr_cloud_restore.source.file is defined
 
 - name: Include tasks for downloading folder from s3
