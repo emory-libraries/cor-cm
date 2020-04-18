@@ -14,3 +14,4 @@ backup_curate_collection_to_disk:
     name: curate_collection
   dest:
     path: /mnt/arch_efs/solr/local-backup
+  tmp_path: /mnt/arch_efs/solr/backup
