@@ -1,0 +1,14 @@
+
+restore_for_lux_ingest:
+  collection:
+    name: 'curate_copy-{{ solr_cloud_restore_location | d () | basename | regex_replace(":","_") }}'
+    delete_if_collection_exists: yes
+    delete_all_matching: curate_copy
+  aliases:
+    - lux_alias
+  source: 
+    file: 
+      path: /mnt/arch_efs/solr/local-backup/curate_collection
+      date: latest
+      clean_path: yes
+    
