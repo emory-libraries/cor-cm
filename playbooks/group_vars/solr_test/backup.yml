@@ -2,9 +2,10 @@ backup_curate_collection_to_s3:
   collection:
     name: curate_collection
   dest:
-    s3: cor-devops-binaries
-    key_prefix: solr-backups/solr-test/curate_collection
-    region: us-west-1
+    s3: 
+      bucket: cor-devops-binaries
+      key_prefix: solr-backups/solr-test/curate_collection
+      region: us-west-1
   tmp_path: /mnt/test_efs/solr/backup
 
 backup_curate_collection_to_disk:
