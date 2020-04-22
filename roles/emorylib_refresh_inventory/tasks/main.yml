@@ -1,0 +1,9 @@
+---
+# tasks file for emorylib_refresh_inventory
+- name: Include tasks for Ansible Core inventory refresh
+  include_tasks: core-refresh.yml
+  when: ansible_facts.env.AWX_HOST is undefined
+
+- name: Include tasks for Ansible Tower inventory refresh
+  include_tasks: tower-inventory-refresh.yml
+  when: ansible_facts.env.AWX_HOST is defined
