@@ -7,4 +7,4 @@ aws_services:
   - test
   - x
 tower_username: admin
-tower_password: '{{ vault_awx.prod.admin.pass }}
+tower_password: '{{ vault_awx.prod.admin.pass }}'
