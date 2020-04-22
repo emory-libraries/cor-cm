@@ -5,7 +5,7 @@
   register: curl_info
 
 - debug:
-    var: curl_info | from_json
+    var: curl_info.stdout | from_json
 
 - name: Get inventories from JobID
   uri:
