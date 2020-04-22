@@ -1,12 +1,12 @@
 ---
 - name: Attempt to curl tower url
   shell: >
-    curl -f -k -H 'Content-Type: application/json' --user {{ tower_username }}:{{ tower_password }} {{ tower_url }}/v2/jobs/924/
+    curl -f -k -H 'Content-Type: application/json' --user {{ tower_username }}:{{ tower_password }} http://127.0.0.1/v2/jobs/924/
   register: curl_info
 
 - debug:
     var: curl_info
-    
+
 - name: Get inventories from JobID
   uri:
     url: '{{ tower_url }}/v2/jobs/924/'
