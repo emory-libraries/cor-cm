@@ -2,9 +2,10 @@
 - name: Attempt to curl tower url
   shell: >
     curl -f -k -H 'Content-Type: application/json' --user {{ tower_username }}:{{ tower_password }} {{ tower_url }}/api/v2/jobs/924/
+  register: curl_info
 
 - debug:
-    var: curl_info
+    var: curl_info | from_json
 
 - name: Get inventories from JobID
   uri:
@@ -14,6 +15,7 @@
     #headers:
     #  Content-Type: application/json
     body_format: json
+    force_basic_auth: yes
   register: job_inventory_info
 
 - debug:
