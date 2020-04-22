@@ -4,6 +4,8 @@
     url: '{{ tower_url }}/v2/jobs/924/'
     user: '{{ tower_username }}'
     password: '{{ tower_password }}'
+    headers:
+      Content-Type: application/json
     body_format: json
   register: job_inventory_info
 
