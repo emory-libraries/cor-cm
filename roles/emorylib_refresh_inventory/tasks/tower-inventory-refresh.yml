@@ -11,10 +11,9 @@
     url: '{{ tower_url }}/api/v2/jobs/924/'
     user: '{{ tower_username }}'
     password: '{{ tower_password }}'
-    headers:
-      Content-Type: application/json
+    #headers:
+    #  Content-Type: application/json
     body_format: json
-    validate_certs: no
   register: job_inventory_info
 
 - debug:
