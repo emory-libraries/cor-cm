@@ -8,4 +8,4 @@ aws_services:
   - x
 tower_username: admin
 tower_password: '{{ vault_awx.prod.admin.pass }}'
-#tower_url: '{{ ansible_facts.env.AWX_HOST | d () | regex_replace ("https", "http") }}'
+tower_url: '{{ ansible_facts.env.AWX_HOST | d () | regex_replace ("https", "http") }}'

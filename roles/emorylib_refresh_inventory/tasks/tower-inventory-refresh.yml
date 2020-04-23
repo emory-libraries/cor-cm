@@ -13,7 +13,6 @@
     user: '{{ tower_username }}'
     password: '{{ tower_password }}'
     body_format: json
-    #force_basic_auth: yes
     follow_redirects: True
     validate_certs: False
   register: job_inventory_info
