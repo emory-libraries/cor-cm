@@ -3,12 +3,12 @@ libreoffice_version: 6.3.5
 ffmpeg_version: latest
 passenger_version: 6.0.4
 
-tomcat_version: 8.5.49
+tomcat_version: 8.5.54
 oracle_java_version: 1.8.0_231
 java_platform:  oracle
-jsw_version: 3.5.41
+jsw_version: 3.5.43
 
-imagemagick_version: 7.0.10-2 #https://imagemagick.org/download/linux/CentOS/x86_64/
+imagemagick_version: 7.0.10-7 #https://imagemagick.org/download/linux/CentOS/x86_64/
 nodejs_version: 8
 fedora_version: 4.7.5
 
@@ -18,7 +18,6 @@ fits_base_url: "https://github.com/harvard-lts/fits/releases/download/{{ fits_ve
 
 ffmpeg_download_url: "{{ (ffmpeg_version == 'latest') | ternary (ffmpeg_latest_url, ffmpeg_old_releases_url, omit) }}"
 ffmpeg_filename: "{{ (ffmpeg_version == 'latest') | ternary (ffmpeg_latest_filename, ffmpeg_old_releases_filename, omit) }}" 
-
 
 ffmpeg_old_releases_url: "{{ ffmpeg_base_url }}/old-releases/{{ ffmpeg_filename }}"
 ffmpeg_latest_url: "{{ ffmpeg_base_url }}/releases/{{ ffmpeg_filename }}"
