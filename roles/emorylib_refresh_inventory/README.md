@@ -1,7 +1,7 @@
-Role Name
+emorylib_refresh_inventory
 =========
 
-A brief description of the role goes here.
+This role will do an intelligent inventory refresh. It will detect whether you are running in Ansible Core or Ansible Tower. If running in Ansible Tower it will detect a job id and refresh the inventory for that job.  
 
 Requirements
 ------------
@@ -11,21 +11,28 @@ Any pre-requisites that may not be covered by Ansible itself or the role should 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+```yaml
+tower_username: # User name for Ansible Tower, no default
+tower_password: # Password for Ansible Tower, no default
+
+tower_url: # Url where the Tower requests are being sent, default is '{{ ansible_facts.env.AWX_HOST | d () }}'
+tower_refresh_retries: # Number of retries (in seconds) the role will use when checking whether the inventory refresh is completed, default is 100
+tower_refresh_delay: # Delay between retries, default is 5 seconds
+```
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+No dependancies, this role should work in either Ansible Core or Ansible Tower.
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```yaml
+- hosts: localhost
+  roles:
+    - emorylib_refresh_inventory
+```
 
 License
 -------
@@ -35,4 +42,4 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Solomon Hilliard

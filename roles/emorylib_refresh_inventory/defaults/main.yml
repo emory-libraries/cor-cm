@@ -1,5 +1,8 @@
 ---
 # defaults file for emorylib_refresh_inventory
-#tower_username:
-#tower_password:
+tower_username:
+tower_password:
+
 tower_url: '{{ ansible_facts.env.AWX_HOST | d () }}'
+tower_refresh_retries: 100
+tower_refresh_delay: 5

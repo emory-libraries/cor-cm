@@ -1,11 +1,13 @@
 ---
 - name: Get inventories from JobID
   uri:
-    url: '{{ tower_url }}/api/v2/jobs/924/'
+    url: '{{ tower_url }}/api/v2/jobs/{{ job_id }}/'
     user: '{{ tower_username }}'
     password: '{{ tower_password }}'
     body_format: json
     force_basic_auth: yes
+  vars:
+    job_id: '{{ ansible_facts.env.JOB_ID }}'
   register: job_inventory_info
 
 - set_fact:
@@ -33,10 +35,11 @@
     body_format: json
     force_basic_auth: yes
   loop: '{{ updating_inventory_sources }}'
+  when: item.inventory_update is defined
   until: status == "successful"
   failed_when: failed
-  retries: 100
-  delay: 10
+  retries: '{{ tower_refresh_retries }}'
+  delay: '{{ tower_refresh_delay }}'
   vars:
     status: '{{ inventory_job_update_info.json.status }}'
     failed: '{{ inventory_job_update_info.json.failed }}'
