@@ -9,12 +9,17 @@
 
 - name: Get inventories from JobID
   uri:
-    url: '{{ tower_url }}/api/v2/jobs/924/'
+    url: '{{ tower_url }}/api/v2/jobs/1121/'
     user: '{{ tower_username }}'
     password: '{{ tower_password }}'
     body_format: json
     force_basic_auth: yes
   register: job_inventory_info
+
+- debug:
+    var: job_inventory_info
+
+- fail: 
 
 - set_fact:
     inventory_id: "{{ job_inventory_info.json.inventory }}"
