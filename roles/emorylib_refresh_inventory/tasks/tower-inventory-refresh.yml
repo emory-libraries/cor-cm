@@ -34,16 +34,10 @@
     force_basic_auth: yes
   loop: '{{ updating_inventory_sources }}'
   until: status == "successful"
+  failed_when: failed
   retries: 100
   delay: 10
   vars:
     status: '{{ inventory_job_update_info.json.status }}'
     failed: '{{ inventory_job_update_info.json.failed }}'
   register: inventory_job_update_info
-
-- set_fact:
-    failed: '{{ inventory_job_update_info.results[0].json.failed }}'
-
-- debug:
-    msg: 'Its a boolean'
-  when: not failed
