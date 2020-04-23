@@ -37,4 +37,3 @@
 - src: https://github.com/emory-libraries/emorylib_manage_aws_services.git
   version: initial-devel
 - src: https://github.com/emory-libraries/emorylib_refresh_inventory.git
-  version: initial-development
