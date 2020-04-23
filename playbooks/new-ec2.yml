@@ -1,5 +1,5 @@
 - hosts: "{{ host | d('all') }}"
-  #gather_facts: false
+  gather_facts: false
 
   pre_tasks:
     - name: Shut down services when deleting ec2s
