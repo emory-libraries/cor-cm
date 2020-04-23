@@ -33,7 +33,7 @@
     body_format: json
     force_basic_auth: yes
   loop: '{{ updating_inventory_sources }}'
-  until: status is "successful"
+  until: status == "successful"
   retries: 100
   delay: 10
   vars:
