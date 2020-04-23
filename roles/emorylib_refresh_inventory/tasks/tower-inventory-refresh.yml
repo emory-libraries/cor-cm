@@ -16,21 +16,31 @@
     force_basic_auth: yes
   register: job_inventory_info
 
-- debug:
-    var: job_inventory_info.json.inventory
-
 - set_fact:
     inventory_id: "{{ job_inventory_info.json.inventory }}"
   
-- name: Get inventory sources from Inventory ID
+- name: Update inventory sources
   uri: 
     url: '{{ tower_url }}/api/v2/inventories/{{ inventory_id }}/update_inventory_sources/'
     user: '{{ tower_username }}'
     password: '{{ tower_password }}'
     body_format: json
     force_basic_auth: yes
+    method: POST
   register: update_inventory_sources_info
 
-- debug:
-    var: update_inventory_sources_info
+- name: Set fact for updatable inventory
+  set_fact:
+    updating_inventory_sources: '{{ update_inventory_sources_info.json }}'
+  
+- name: Loop through Job IDs of updating inventory
+  uri:
+    url: '{{ tower_url }}/api/v2/jobs/{{ item.inventory_update }}/'
+    user: '{{ tower_username }}'
+    password: '{{ tower_password }}'
+    body_format: json
+    force_basic_auth: yes
+  register: inventory_job_update_info
 
+- debug:
+    var: inventory_job_update_info
