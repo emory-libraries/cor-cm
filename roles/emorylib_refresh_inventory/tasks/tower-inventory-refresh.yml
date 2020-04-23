@@ -1,25 +1,12 @@
 ---
-#- name: Attempt to curl tower url
-#  shell: >
-#    curl -f -k -H 'Content-Type: application/json' --user {{ tower_username }}:{{ tower_password }} {{ tower_url }}/api/v2/jobs/924/
-#  register: curl_info
-
-#- debug:
-#    var: curl_info.stdout | from_json
-
 - name: Get inventories from JobID
   uri:
-    url: '{{ tower_url }}/api/v2/jobs/1121/'
+    url: '{{ tower_url }}/api/v2/jobs/924/'
     user: '{{ tower_username }}'
     password: '{{ tower_password }}'
     body_format: json
     force_basic_auth: yes
   register: job_inventory_info
-
-- debug:
-    var: job_inventory_info
-
-- fail: 
 
 - set_fact:
     inventory_id: "{{ job_inventory_info.json.inventory }}"
@@ -38,15 +25,21 @@
   set_fact:
     updating_inventory_sources: '{{ update_inventory_sources_info.json }}'
   
-- name: Loop through Job IDs of updating inventory
+- name: Ensure inventory update has succeeded
   uri:
-    url: '{{ tower_url }}/api/v2/jobs/{{ item.inventory_update }}/'
+    url: '{{ tower_url }}/api/v2/inventory_updates/{{ item.inventory_update }}/'
     user: '{{ tower_username }}'
     password: '{{ tower_password }}'
     body_format: json
     force_basic_auth: yes
   loop: '{{ updating_inventory_sources }}'
+  until: status is "successful"
+  retries: 100
+  delay: 10
+  vars:
+    status: '{{ inventory_job_update_info.json.status }}'
+    failed: '{{ inventory_job_update_info.json.failed }}'
   register: inventory_job_update_info
 
 - debug:
-    var: inventory_job_update_info
+    var: inventory_job_update_info.json.failed
