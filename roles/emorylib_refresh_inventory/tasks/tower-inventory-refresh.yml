@@ -40,6 +40,7 @@
     password: '{{ tower_password }}'
     body_format: json
     force_basic_auth: yes
+  loop: '{{ updating_inventory_sources }}'
   register: inventory_job_update_info
 
 - debug:
