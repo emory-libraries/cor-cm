@@ -15,6 +15,9 @@
     connect_timeout: 3
   when: not ec2_public_ip | d (False)
 
+- debug:
+    var: ansible_facts.env
+
 - name: Include role to refresh inventory
   include_role:
     name: emorylib_refresh_inventory

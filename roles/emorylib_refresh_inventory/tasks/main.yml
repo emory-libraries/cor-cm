@@ -1,5 +1,11 @@
 ---
 # tasks file for emorylib_refresh_inventory
+- debug:
+    var: ansible_facts.env
+
+- debug:
+    var: ansible_facts.env.AWX_HOST
+    
 - name: Include tasks for Ansible Core inventory refresh
   include_tasks: core-refresh.yml
   when: ansible_facts.env.AWX_HOST is undefined
