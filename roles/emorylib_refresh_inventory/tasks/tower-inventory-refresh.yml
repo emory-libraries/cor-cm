@@ -42,4 +42,4 @@
   register: inventory_job_update_info
 
 - debug:
-    var: inventory_job_update_info.json.failed
+    var: inventory_job_update_info
