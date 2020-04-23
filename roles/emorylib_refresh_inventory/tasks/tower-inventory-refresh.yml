@@ -13,7 +13,7 @@
     user: '{{ tower_username }}'
     password: '{{ tower_password }}'
     body_format: json
-    #force_basic_auth: yes
+    force_basic_auth: yes
   register: job_inventory_info
 
 - debug:
