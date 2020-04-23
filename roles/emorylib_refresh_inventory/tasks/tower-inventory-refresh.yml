@@ -41,5 +41,9 @@
     failed: '{{ inventory_job_update_info.json.failed }}'
   register: inventory_job_update_info
 
+- set_fact:
+    failed: inventory_job_update_info.results[0].failed
+
 - debug:
-    var: inventory_job_update_info
+    msg: 'Its a boolean'
+  when: not failed
