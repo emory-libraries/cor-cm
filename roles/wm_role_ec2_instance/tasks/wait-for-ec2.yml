@@ -17,9 +17,6 @@
 
 - setup:
 
-- debug:
-    var: ansible_facts.env
-
 - name: Include role to refresh inventory
   include_role:
     name: emorylib_refresh_inventory

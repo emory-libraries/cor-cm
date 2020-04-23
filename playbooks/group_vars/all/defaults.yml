@@ -4,7 +4,7 @@ ec2_fqdn: "{{ inventory_hostname }}"
 rails_host_fqdn: "{{ inventory_hostname }}" 
 fedora_server_fqdn: "{{ inventory_hostname }}"
 tomcat_enable_ssl: "no"
-
+tower_url: http://awx.internal.library.emory.edu
 rds_endpoint: "{{ hostvars[rds_host]['endpoint']['address'] }}"
 attribute_map:
   displayName: "urn:oid:2.16.840.1.113730.3.1.241"
