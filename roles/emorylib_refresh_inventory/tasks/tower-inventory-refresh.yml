@@ -1,22 +1,35 @@
 ---
-- name: Attempt to curl tower url
-  shell: >
-    curl -f -k -H 'Content-Type: application/json' --user {{ tower_username }}:{{ tower_password }} {{ tower_url }}/api/v2/jobs/924/
-  register: curl_info
+#- name: Attempt to curl tower url
+#  shell: >
+#    curl -f -k -H 'Content-Type: application/json' --user {{ tower_username }}:{{ tower_password }} {{ tower_url }}/api/v2/jobs/924/
+#  register: curl_info
 
-- debug:
-    var: curl_info.stdout | from_json
+#- debug:
+#    var: curl_info.stdout | from_json
 
 - name: Get inventories from JobID
   uri:
     url: '{{ tower_url }}/api/v2/jobs/924/'
     user: '{{ tower_username }}'
     password: '{{ tower_password }}'
-    #headers:
-    #  Content-Type: application/json
     body_format: json
-    force_basic_auth: yes
+    #force_basic_auth: yes
   register: job_inventory_info
 
 - debug:
-    var: job_inventory_info
+    var: job_inventory_info.json.inventory
+
+- set_fact:
+    inventory_id: "{{ job_inventory_info.json.inventory }}"
+  
+- name: Get inventory sources from Inventory ID
+  uri: 
+    url: '{{ tower_url }}/api/v2/inventories/{{ inventory_id }}/update_inventory_sources/'
+    user: '{{ tower_username }}'
+    password: '{{ tower_password }}'
+    body_format: json
+  register: update_inventory_sources_info
+
+- debug:
+    var: update_inventory_sources_info
+
