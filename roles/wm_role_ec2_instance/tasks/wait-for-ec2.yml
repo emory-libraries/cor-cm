@@ -1,14 +1,4 @@
 ---
-- name: Register internal DNS name
-  route53:
-    state: present
-    type: A
-    ttl: 300
-    value: '{{ ec2_private_ip | d () }}'
-    private_zone: yes
-    record: '{{ inventory_hostname_short }}.internal.emory.edu'
-    wait: yes
-
 - name: Wait for EC2(Public IP)
   wait_for:
     host: "{{ ec2_public_ip }}"
