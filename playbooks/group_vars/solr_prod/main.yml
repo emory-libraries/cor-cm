@@ -14,15 +14,4 @@ efs_mount_points:
   - path: /mnt/prod_efs
     dns_name: fs-fdf8457c.efs.us-east-1.amazonaws.com
 
-sc_backup_location: /mnt/prod_efs/solr/backup
-sc_backup_bucket_key: 'solr-backups/solr-prod/{{ item.0.name }}'
 
-solr_cloud_backup:
-  collection:
-    name: curate_collection
-  dest:
-    s3:
-      bucket: cor-devops-binaries
-      key_prefix: solr-backups/solr-prod/curate_collection
-      region: us-west-1
-  tmp_path: /mnt/prod_efs/solr/backup
