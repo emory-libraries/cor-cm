@@ -1,4 +1,3 @@
-solr_cloud_backup: test
 backup_curate_collection_to_s3:
   collection:
     name: curate_collection
