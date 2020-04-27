@@ -27,6 +27,6 @@
   loop: '{{ request_ids }}'
   register: delete_status
   until: state == 'completed' or 'Could not find collection' in error_msg
-  failed_when: state == 'failed'
+  failed_when: state == 'failed' and 'Could not find collection' not in error_msg
   retries: '{{ solr_cloud_restore_retries }}'
   delay: '{{ solr_cloud_restore_delay }}'
