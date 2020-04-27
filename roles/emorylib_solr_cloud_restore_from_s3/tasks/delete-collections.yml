@@ -23,9 +23,10 @@
       - 'requestid={{ item }}'
     request_ids: '{{ delete_colection_call | json_query("results[].json.requestid") }}'
     state: '{{ delete_status | json_query("json.status.state") }}'
+    error_msg: '{{ delete_status | json_query("json.exception.msg") }}'
   loop: '{{ request_ids }}'
   register: delete_status
-  until: state == 'completed'
+  until: state == 'completed' or 'Could not find collection' in error_msg
   failed_when: state == 'failed'
   retries: '{{ solr_cloud_restore_retries }}'
   delay: '{{ solr_cloud_restore_delay }}'
