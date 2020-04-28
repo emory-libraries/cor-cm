@@ -13,6 +13,7 @@ sp_entity_id: https://digital.library.emory.edu
 
 __dlp_lux_dotenv:
   ga_tracking_code: '{{ vault_lux.arch_test.google_analytics.code | d () }}'
+  http_password_protect: 'true'
   solr_url: http://solr-cor-test.library.emory.edu/solr/lux_alias
   thumbnail_url: https://curate-test.library.emory.edu/
   iiif_manifest_url: https://curate-test.library.emory.edu/iiif/

@@ -20,7 +20,7 @@ dlp_lux_dotenv:
   database_host: '{{ rds_endpoint | d ("") }}'
   database_min_messages: warning
   ga_tracking_code: '{{ __dlp_lux_dotenv.ga_tracking_code }}'
-  http_password_protect: 'true'
+  http_password_protect: '{{ __dlp_lux_dotenv.http_password_protect }}'
   http_username: '{{ vault_lux.http.user }}'
   http_password: '{{ vault_lux.http.pass }}'
   honeybadger_api_key: '{{ vault_dlp.honeybadger_api_key | d () }}'
