@@ -27,6 +27,22 @@
   tags: clamd-conf
   register: clamav_configuration
 
+- name: "Create ClamAV daemon run directory at service startup (using tmpfiles.d) to fix its permissions if needed"
+  template:
+    src: tmpfiles.d_clamd.scan.conf.j2
+    dest: "{{ clamav_tempfiles_d_directory }}/{{ clamav_tempfiles_d_filename }}"
+    mode: 0644
+    seuser: "system_u"
+    serole: "object_r"
+    setype: "etc_t"
+  when: clamav_daemon_socket_group != clamav_daemon_socket_defaultgroup
+
+- name: "Ensure above configuration is absent when not needed"
+  file:
+    path: "{{ clamav_tempfiles_d_directory }}/{{ clamav_tempfiles_d_filename }}"
+    state: absent
+  when: clamav_daemon_socket_group == clamav_daemon_socket_defaultgroup
+
 - name: Deploy ClamAV daemon VirusEvent script if needed
   template:
     src: clamav_virus_alert.sh.j2

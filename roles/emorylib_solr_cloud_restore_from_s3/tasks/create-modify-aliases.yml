@@ -1,0 +1,32 @@
+---
+- name: Create or Modify Aliases API call
+  uri:
+    url: '{{ solr_cloud_restore_base_url }}/collections?'
+    body: '{{ params | join ("&") }}'
+    method: POST
+  vars:
+    params:
+      - action=CREATEALIAS
+      - 'name={{ item }}'
+      - 'collections={{ solr_cloud_restore.collection.name }}'
+      - 'async={{ ansible_date_time.epoch }}-{{ item }}-{{ solr_cloud_restore_location | basename }}'
+  loop: '{{ solr_cloud_restore.aliases }}'
+  register: modify_alias_call
+
+- name: Check request ids for completed deletion of collection
+  uri:
+    url: '{{ solr_cloud_restore_base_url }}/collections?'
+    body: '{{ params | join("&") }}'
+    method: POST
+  vars:
+    params:
+      - action=requeststatus
+      - 'requestid={{ item }}'
+    request_ids: '{{ modify_alias_call | json_query("results[].json.requestid") }}'
+    state: '{{ alias_status | json_query("json.status.state") }}'
+  loop: '{{ request_ids }}'
+  register: alias_status
+  until: state == 'completed'
+  failed_when: state == 'failed'
+  retries: '{{ solr_cloud_restore_retries }}'
+  delay: '{{ solr_cloud_restore_delay }}'

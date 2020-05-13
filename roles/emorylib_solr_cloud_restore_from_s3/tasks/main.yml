@@ -1,34 +1,62 @@
 ---
 # tasks file for emorylib_solr_cloud_restore_from_s3
-- name: Include tasks for getting snapshot .tar.gz from S3
-  include_tasks:
-    file: get-snapshot-from-s3-bucket.yml
-    apply:
-      become: yes
+- name: Include tasks to error check input
+  include_tasks: error-check-input.yml
 
-- name: Include tasks for checking if collection already exists
+- name: Include tasks for getting directory key from local path
   include_tasks:
-    file: check-for-existing-collection.yml
-    apply:
-      become: yes
-      tags: delete-solr-collection
-  tags: delete-solr-collection
+    file: get-directory-key.yml
+  #run_once: yes
+  when: solr_cloud_restore.source.file is defined
 
-- name: Include tasks for deleting collections
+- name: Include tasks for downloading folder from s3
+  include_tasks:
+    file: download-from-s3.yml
+  run_once: yes
+  when: solr_cloud_restore.source.s3 is defined
+
+- name: Include tasks to check for matching collections
+  include_tasks:
+    file: check-for-matching-collection.yml
+  run_once: yes
+
+- name: Include tasks deleting collection that will be recreated
   include_tasks:
     file: delete-collections.yml
-    apply:
-      become: yes
-      tags: delete-solr-collection
-  tags: delete-solr-collection
-  when:
-    - sc_restore_delete_collection
-    - existing_collections | length > 0
+  run_once: yes
+  vars:
+    delete_collections: '{{ tmp_list | d ([]) + [check_if_collection_already_exists] }}'
+  when: check_if_collection_already_exists != "none"
 
 - name: Include tasks for restoring collection
   include_tasks:
     file: restore-collection.yml
-    apply:
-      tags: restore-collection
-      become: yes
-  tags: restore-collection
+  run_once: yes
+
+- name: Include tasks to create/modify aliases
+  include_tasks:
+    file: create-modify-aliases.yml
+  run_once: yes
+  when: solr_cloud_restore.aliases is defined
+
+- name: Include tasks to delete collections based on pattern
+  include_tasks:
+    file: delete-collections.yml
+  run_once: yes
+  vars:
+    delete_collections: '{{ matching_collections }}'
+  when: matching_collections | d (False)
+
+- name: Clean s3 temp folder
+  file:
+    path: '{{ epoch_tmp_path }}'
+    state: absent
+  when: epoch_tmp_path | d (False)
+
+- name: Delete local directories containing backups
+  file:
+    path: '{{ item }}'
+    state: absent
+  loop: '{{ directory_paths | d () }}'
+  run_once: yes
+  when: solr_cloud_restore.source.file.clean_path | d (False)

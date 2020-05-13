@@ -1,0 +1,18 @@
+- name: Register internal DNS name
+  route53:
+    aws_access_key: "{{ lookup('ini', 'aws_access_key_id section={{ aws }} file=~/.aws/credentials') | d (omit) }}"
+    aws_secret_key: "{{ lookup('ini', 'aws_secret_access_key section={{ aws }} file=~/.aws/credentials') | d (omit) }}"
+    security_token: "{{ lookup('ini', 'aws_session_token section={{ aws }} file=~/.aws/credentials') | d (omit) }}"
+    state: present
+    type: A
+    ttl: 300
+    value: '{{ ec2_private_ip | d (hostvars[inventory_hostname]["private_ip_address"]) | d () }}'
+    private_zone: yes
+    zone: internal.emory.edu
+    overwrite: yes
+    record: '{{ inventory_hostname_short }}.internal.emory.edu'
+    wait: no
+  vars:
+    aws_profile: "{{ lookup('env', 'AWS_PROFILE') }}"
+    aws_default_profile: "{{ lookup('env', 'AWS_DEFAULT_PROFILE') }}"
+    aws: "{{ aws_profile if aws_profile != '' else aws_default_profile }}"

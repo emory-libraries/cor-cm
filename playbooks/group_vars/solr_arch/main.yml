@@ -1,0 +1,16 @@
+solr_cloud_inventory_group: solr-arch
+zk_inventory_group: solr-arch
+elb_targets:
+  - target_group_name: solr-arch-cluster-80
+solr_data_dir: '/opt/data/{{ solr_service_name }}'
+solr_alias: solr-cor-arch.library.emory.edu
+ec2_security_groups:
+  - '{{ sg_pre }}-t-http/https-to-self-arch'
+  - '{{ sg_pre }}-tp-ssh'
+  - '{{ sg_pre }}-t-nfs'
+  - '{{ sg_pre }}-t-zookeeper'
+  - '{{ sg_pre }}-t-solr'
+
+efs_mount_points:
+  - path: /mnt/arch_efs
+    dns_name: fs-7bda9999.efs.us-east-1.amazonaws.com

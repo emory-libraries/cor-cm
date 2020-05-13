@@ -1,0 +1,34 @@
+---
+- name: Set restore location
+  set_fact:
+    solr_cloud_restore_location: '{{ solr_cloud_restore.source.file is defined | ternary (use_directory_path, use_s3_tmp_path) }}'
+  vars:
+    use_directory_path: '{{ directory_path | d () }}'
+    use_s3_tmp_path: '{{ epoch_tmp_path | d () }}/{{ bucket_key | d () }}'
+    
+- name: List existing collections
+  uri:
+    url: '{{ solr_cloud_restore_base_url }}/collections?'
+    body: 'action=LIST'
+    method: POST
+  register: collections_info
+
+- name: Set list of collections
+  set_fact:
+    existing_collections: '{{ collections_info | json_query("json.collections[]") }}'
+
+- name: Set check if collection already exists
+  set_fact:
+    check_if_collection_already_exists: '{{ existing_collections | select("match", solr_cloud_restore.collection.name) | list | last | d ("none") }}'
+
+- name: Set matching collections
+  set_fact:
+    matching_collections: '{{ existing_collections | select("contains", solr_cloud_restore.collection.delete_all_matching) | reject("match", solr_cloud_restore.collection.name) | list }}'
+  when: solr_cloud_restore.collection.delete_all_matching is defined
+  
+- name: Assert collection overwrite logic
+  assert:
+    that: solr_cloud_restore.collection.delete_if_collection_exists | d (False)
+    quiet: yes
+    fail_msg: The collection name already exists, if you want to delete it please set solr_cloud_restore.collection.delete_if_collection_exists to yes
+  when: check_if_collection_already_exists != "none"

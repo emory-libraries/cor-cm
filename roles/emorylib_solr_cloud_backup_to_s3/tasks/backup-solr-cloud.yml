@@ -1,48 +1,49 @@
 ---
-- name: API Call Backup Solr Cloud Collection
+- name: Ensure that the tmp directory exists
+  file:
+    path: '{{ solr_cloud_backup.tmp_path }}/{{ solr_cloud_backup.collection.name }}'
+    owner: '{{ solr_cloud_backup_owner }}'
+    group: '{{ solr_cloud_backup_group }}'
+    state: directory
+
+- name: Call Solr API to start backup process
   uri:
-    url: '{{ sc_base_url }}/collections?'
-    body: '{{ sc_backup_params | join("&") }}'
+    url: '{{ solr_cloud_backup_base_url }}/collections?'
+    body: '{{ solr_cloud_backup_post_params | join("&") }}'
     method: POST
-    creates: '{{ item.location | d (sc_backup_location) }}/{{ item.name }}-{{ ansible_date_time.epoch }}'
-  loop: '{{ sc_backup_list }}'
-  loop_control:
-    extended: yes
-  register: sc_backup_collection
+  register: solr_cloud_backup_request_info
 
 - name: Set facts from API call
   set_fact:
-    request_ids: '{{ sc_backup_collection | json_query("results[].json.requestid") }}'
-    backup_dirs: '{{ sc_backup_collection.results | map(attribute="invocation") | map(attribute="module_args") | map(attribute="creates") | reject("undefined") | list }}'
+    request_id: '{{ solr_cloud_backup_request_info | json_query("json.requestid") }}'
+    temp_dir: '{{ solr_cloud_backup.tmp_path }}/{{ solr_cloud_backup.collection.name }}/{{ ansible_date_time.iso8601_micro }}'
 
-- name: Wait for new directories to be available
+- name: Wait for temp directory to become available
   wait_for:
-    path: '{{ item }}'
-  loop: '{{ backup_dirs }}'
+    path: '{{ temp_dir }}'
 
-- name: Ensure backup directories have not been written to for at least 5 seconds
+- name: Ensure temp directory has not be written to for at least 5 seconds
   find:
-    paths: '{{ backup_dirs }}'
+    paths: '{{ temp_dir }}'
     age: -5s
     recurse: yes
   register: find_new_files
-  retries: '{{ sc_backup_retries }}'
-  delay: '{{ sc_backup_delay }}'
+  retries: '{{ solr_cloud_backup_retries }}'
+  delay: '{{ solr_cloud_backup_delay }}'
   until: find_new_files.matched == 0 
 
-- name: Check request ids for completed backups
+- name: Ensure backup job completed via request id lookup
   uri:
-    url: '{{ sc_base_url }}/collections?'
+    url: '{{ solr_cloud_backup_base_url }}/collections?'
     body: '{{ params | join("&") }}'
     method: POST
   vars:
     params:
       - action=requeststatus
-      - 'requestid={{ item }}'
+      - 'requestid={{ request_id }}'
     state: '{{ backup_status | json_query("json.status.state") }}'
-  loop: '{{ request_ids }}'
   register: backup_status
   until: state == 'completed'
   failed_when: state == 'failed'
-  retries: '{{ sc_backup_retries }}'
-  delay: '{{ sc_backup_delay }}'
+  retries: '{{ solr_cloud_backup_retries }}'
+  delay: '{{ solr_cloud_backup_delay }}'

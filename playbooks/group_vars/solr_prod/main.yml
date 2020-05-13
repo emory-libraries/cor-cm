@@ -1,0 +1,17 @@
+solr_cloud_inventory_group: solr-prod
+zk_inventory_group: solr-prod
+elb_targets: 
+  - target_group_name: solr-prod-cluster-80
+solr_data_dir: '/opt/data/{{ solr_service_name }}'
+solr_alias: solr-cor.library.emory.edu
+ec2_security_groups:
+  - '{{ sg_pre }}-t-http/https-to-self-prod'
+  - '{{ sg_pre }}-tp-ssh'
+  - '{{ sg_pre }}-p-nfs'
+  - '{{ sg_pre }}-p-zookeeper'
+  - '{{ sg_pre }}-p-solr'
+efs_mount_points:
+  - path: /mnt/prod_efs
+    dns_name: fs-fdf8457c.efs.us-east-1.amazonaws.com
+
+

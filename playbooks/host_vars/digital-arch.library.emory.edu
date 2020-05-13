@@ -1,0 +1,29 @@
+rds_host: dlp-tst-rdsmys-sz
+efs_mount_points:
+  - path: /mnt/arch_efs
+    dns_name: fs-7bda9999.efs.us-east-1.amazonaws.com
+elb_targets:
+  - target_group_name: lux-arch-443
+dlp_lux_mysql_db:
+  name: '{{ vault_lux.arch.db.name }}'
+  user: '{{ vault_lux.arch.db.user }}'
+  password: '{{ vault_lux.arch.db.pass }}'
+
+sp_entity_id: https://digital.library.emory.edu
+
+__dlp_lux_dotenv:
+  ga_tracking_code: '{{ vault_lux.arch_test.google_analytics.code | d () }}'
+  http_password_protect: 'true'
+  solr_url: http://solr-cor-arch.library.emory.edu/solr/lux_alias
+  iiif_manifest_url: https://curate-arch.library.emory.edu/iiif/
+  thumbnail_url: https://curate-arch.library.emory.edu/
+  iiif_cookie_salt_1: '{{ vault_dlp.iiif.arch.cookie.salt_1 }}'
+  iiif_cookie_salt_2: '{{ vault_dlp.iiif.arch.cookie.salt_2 }}'
+
+ec2_security_groups:
+  - '{{ sg_pre }}-tp-apache'
+  - '{{ sg_pre }}-tp-ssh'
+  - '{{ sg_pre }}-t-nfs'
+  - '{{ sg_pre }}-t-mysql'
+  - '{{ sg_pre }}-t-solr'
+  - '{{ sg_pre }}-a-http-to-solr'

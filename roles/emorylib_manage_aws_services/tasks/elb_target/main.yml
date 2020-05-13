@@ -1,0 +1,15 @@
+- debug:
+    msg: You reached elb_target!!
+
+- name: Register with Target group
+  elb_target:
+    target_id: "{{ item.target_id | d (ec2_id) }}"
+    state: "{{ item.state | d ('present') }}"
+    deregister_unused: "{{ item.deregister_unused | d (True) }}"
+    region: "{{ item.region | d (aws_region) | d (omit) }}"
+    target_az: "{{ item.target_az | d (omit) }}"
+    target_group_arn: "{{ item.target_group_arn | d (omit) }}"
+    target_group_name: "{{ item.target_group_name | d (omit) }}"
+    target_port: "{{ item.target_port | d (omit) }}"
+  when: False
+  loop: "{{ elb_targets }}"

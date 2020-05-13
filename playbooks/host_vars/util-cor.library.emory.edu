@@ -1,0 +1,12 @@
+#java_home: '/usr/java/latest'
+tomcat_install_path:  /opt
+tomcatapp_install_path: /usr/local/webapps
+cantaloupe_base_dir: '{{ tomcatapp_install_path }}/cantaloupe'
+cantaloupe_fedora_url: http://fedora-cor.library.emory.edu/fcrepo/rest
+
+elb_targets:
+  - target_group_name: util-prod-80
+
+ec2_security_groups:
+  - '{{ sg_pre }}-tp-apache'
+  - '{{ sg_pre }}-tp-ssh'

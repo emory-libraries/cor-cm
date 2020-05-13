@@ -1,31 +1,18 @@
-- hosts: s3_iam 
-  gather_facts: no
-
+- hosts: localhost
   pre_tasks:
     - name: Get AWS account info
-      aws_caller_facts:
-      register: caller_facts
-      delegate_to: localhost
+      aws_caller_info:
+      register: caller_info
       tags: always
 
     - name: Set AWS account info
       set_fact:
-        aws_account_number: "{{ caller_facts.account }}"
-      delegate_to: localhost
+        aws_account_number: "{{ caller_info.account }}"
       tags: always
 
   roles:
-    - role: wm_role_iam_s3
-      delegate_to: localhost
-
-    - role: wm_role_manage_sg_s3_bucket 
-      delegate_to: localhost
-
-    - role: wm_role_manage_efs
-      delegate_to: localhost
-
-    - role: ansible-role-acm-cert
-      delegate_to: localhost
-
-    - role: emorylib_role_s3_batch_operations
-      delegate_to: localhost
+    - wm_role_iam_s3
+    - wm_role_manage_sg_s3_bucket 
+    - wm_role_manage_efs
+    - ansible-role-acm-cert
+    - emorylib_role_s3_batch_operations

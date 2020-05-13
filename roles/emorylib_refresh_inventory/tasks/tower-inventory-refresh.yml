@@ -1,0 +1,46 @@
+---
+- name: Get inventories from JobID
+  uri:
+    url: '{{ tower_url }}/api/v2/jobs/{{ job_id }}/'
+    user: '{{ tower_username }}'
+    password: '{{ tower_password }}'
+    body_format: json
+    force_basic_auth: yes
+  vars:
+    job_id: '{{ ansible_facts.env.JOB_ID }}'
+  register: job_inventory_info
+
+- set_fact:
+    inventory_id: "{{ job_inventory_info.json.inventory }}"
+  
+- name: Update inventory sources
+  uri: 
+    url: '{{ tower_url }}/api/v2/inventories/{{ inventory_id }}/update_inventory_sources/'
+    user: '{{ tower_username }}'
+    password: '{{ tower_password }}'
+    body_format: json
+    force_basic_auth: yes
+    method: POST
+  register: update_inventory_sources_info
+
+- name: Set fact for updatable inventory
+  set_fact:
+    updating_inventory_sources: '{{ update_inventory_sources_info.json }}'
+  
+- name: Ensure inventory update has succeeded
+  uri:
+    url: '{{ tower_url }}/api/v2/inventory_updates/{{ item.inventory_update }}/'
+    user: '{{ tower_username }}'
+    password: '{{ tower_password }}'
+    body_format: json
+    force_basic_auth: yes
+  loop: '{{ updating_inventory_sources }}'
+  when: item.inventory_update is defined
+  until: status == "successful"
+  failed_when: failed
+  retries: '{{ tower_refresh_retries }}'
+  delay: '{{ tower_refresh_delay }}'
+  vars:
+    status: '{{ inventory_job_update_info.json.status }}'
+    failed: '{{ inventory_job_update_info.json.failed }}'
+  register: inventory_job_update_info

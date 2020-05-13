@@ -10,7 +10,8 @@ clamav_packages:
 
 # ClamAV configuration files and options
 clamav_daemon_config_path: /etc/clamav/clamd.conf
-clamav_daemon_localsocket: /var/run/clamav/clamd.ctl
+clamav_daemon_rundir: /run/clamav
+clamav_daemon_localsocket: "{{ clamav_daemon_rundir }}/clamd.ctl"
 
 # service names
 clamav_daemon: 'clamav-daemon'

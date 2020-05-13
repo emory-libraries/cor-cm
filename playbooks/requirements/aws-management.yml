@@ -1,6 +1,5 @@
 #Test role
 - src: https://github.com/emory-libraries/emorylib_role_s3_batch_operations.git
-  version: refactor-role
 - src: https://github.com/sunshine69/ansible-role-acm-cert
 - src: christiangda.amazon_cloudwatch_agent
 - src: git@github.service.emory.edu:LITS/wm_role_dynamic_aws_vars.git
@@ -35,3 +34,6 @@
   version: initial-devel
 - src: https://github.com/emory-libraries/emorylib_mydumper_s3_backup_restore.git
   version: initial-devel
+- src: https://github.com/emory-libraries/emorylib_manage_aws_services.git
+  version: initial-devel
+- src: https://github.com/emory-libraries/emorylib_refresh_inventory.git

@@ -22,6 +22,17 @@
   tags:
     - create-ec2
 
+- name: Include tasks for route53
+  include_tasks:
+    file: set-route-53.yml
+    apply:
+      tags:
+        - create-ec2
+        - set-route-53
+  tags:
+    - create-ec2
+    - set-route-53
+
 - include_tasks: 
     file: wait-for-ec2.yml
     apply:

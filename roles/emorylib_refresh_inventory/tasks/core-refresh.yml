@@ -1,0 +1,3 @@
+---
+- name: Ansible Core inventory refresh
+  meta: refresh_inventory

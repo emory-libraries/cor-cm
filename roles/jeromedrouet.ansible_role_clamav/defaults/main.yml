@@ -6,9 +6,14 @@
 clamav_daemon_state: started
 clamav_daemon_enabled: true
 
-# need to add users to this group for them to launch clamdscan
-# beware that soket is default world writable but its directory path is access restricted to this group
+# you will need to add users to this (clamav_daemon_socket_group) group for them to launch clamdscan
+# beware that socket is ( by clamAV's defaults ) world writable but its directory path is access restricted to this group
+# changing the default value of "virusgroup" will require to override (tmpfiles.d) directory creation at service startup
+# in this case you will also have to create the group yourself (usually created by ClamAV packaging)
+clamav_daemon_socket_defaultgroup: 'virusgroup'
 clamav_daemon_socket_group: 'virusgroup'
+clamav_daemon_socketdir_mode: '0710'
+clamav_daemon_socket_mode: '660'
 
 clamav_daemon_temporary_directory: "/var/tmp"
 
@@ -84,3 +89,7 @@ clamav_daemon_virus_event_script_name: "/usr/local/sbin/clamav_virus_alert.sh"
 clamav_daemon_virus_event_mail_to:
   - "root@mydomain.org"
   - "security@mydomain.org"
+
+## tmpfiles.d configuration (override default /run subdirectory when using custom socket group)
+clamav_tempfiles_d_directory: "/etc/tmpfiles.d"
+clamav_tempfiles_d_filename: "clamd.scan.conf"

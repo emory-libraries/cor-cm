@@ -91,7 +91,7 @@ TemporaryDirectory {{ clamav_daemon_temporary_directory }}
 # Default: no
 #OfficialDatabaseOnly no
 
-# The daemon can work in local mode, network mode or both. 
+# The daemon can work in local mode, network mode or both.
 # Due to security reasons we recommend the local mode.
 
 # Path to a local socket file the daemon will listen on.
@@ -102,10 +102,16 @@ LocalSocket {{ clamav_daemon_localsocket }}
 # Sets the group ownership on the unix socket.
 # Default: disabled (the primary group of the user running clamd)
 #LocalSocketGroup virusgroup
+{% if clamav_daemon_socket_group is defined %}
+LocalSocketGroup {{ clamav_daemon_socket_group }}
+{% endif %}
 
 # Sets the permissions on the unix socket to the specified mode.
 # Default: disabled (socket is world accessible)
-#LocalSocketMode 660
+#LocalSocketMode 666
+{% if clamav_daemon_socket_mode is defined %}
+LocalSocketMode {{ clamav_daemon_socket_mode }}
+{% endif %}
 
 # Remove stale socket after unclean shutdown.
 # Default: yes

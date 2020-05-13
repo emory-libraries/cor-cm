@@ -4,14 +4,14 @@
 
   pre_tasks:
     - name: Get AWS account info
-      aws_caller_facts:
-      register: caller_facts
+      aws_caller_info:
+      register: caller_info
       delegate_to: localhost
       tags: always
 
     - name: Set AWS account info
       set_fact:
-        aws_account_number: "{{ caller_facts.account }}"
+        aws_account_number: "{{ caller_info.account }}"
       delegate_to: localhost
       tags: always
   

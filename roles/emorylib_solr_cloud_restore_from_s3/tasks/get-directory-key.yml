@@ -1,0 +1,40 @@
+---
+- name: Find directory paths from source
+  find:
+    path: '{{ solr_cloud_restore.source.file.path }}'
+    file_type: directory
+  register: directory_path_info
+
+- name: Set directory paths
+  set_fact:
+    directory_paths: '{{ directory_path_info.files | sort(attribute="ctime") | map(attribute="path") | list }}'
+
+- name: Assert that at least one directory path was found
+  assert:
+    that:
+      directory_paths | length > 0
+    quiet: yes
+    fail_msg: No directories were found at the given location
+
+- name: Block out selecting directory path via given date
+  block:
+    - name: Set fact directory_path from given date
+      set_fact:
+        directory_path: '{{ directory_paths | select("contains", solr_cloud_restore.source.file.date) | list | last | d ("none") }}'
+    
+    - name: Assert that directory path matching given date was found
+      assert:
+        that:
+          - directory_path != "none"
+        quiet: yes
+        fail_msg: No directory matching the given date was found
+  when: solr_cloud_restore.source.file.date | lower != "latest"
+
+- name: Set fact directory path from latest
+  set_fact:
+    directory_path: '{{ directory_paths[-1] }}'
+  when: solr_cloud_restore.source.file.date | lower == "latest"
+
+- name: Set directory key
+  set_fact:
+    directory_key: '{{ directory_path | basename }}'

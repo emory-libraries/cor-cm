@@ -1,22 +1,20 @@
 ---
 - name: Delete collection(s) API call
   uri:
-    url: '{{ sc_restore_base_url }}/admin/collections?'
+    url: '{{ solr_cloud_restore_base_url }}/collections?'
     body: '{{ params | join ("&") }}'
     method: POST
   vars:
     params:
       - action=DELETE
       - 'name={{ item }}'
-      - 'async={{ ansible_date_time.epoch }}-{{ ansible_loop.index }}'
-  loop: '{{ existing_collections }}'
-  loop_control:
-    extended: yes
+      - 'async={{ ansible_date_time.epoch }}-delete-{{ item }}'
+  loop: '{{ delete_collections }}'
   register: delete_colection_call
 
 - name: Check request ids for completed deletion of collection
   uri:
-    url: '{{ sc_restore_base_url }}/admin/collections?'
+    url: '{{ solr_cloud_restore_base_url }}/collections?'
     body: '{{ params | join("&") }}'
     method: POST
   vars:
@@ -25,13 +23,10 @@
       - 'requestid={{ item }}'
     request_ids: '{{ delete_colection_call | json_query("results[].json.requestid") }}'
     state: '{{ delete_status | json_query("json.status.state") }}'
+    error_msg: '{{ delete_status | json_query("json.exception.msg") }}'
   loop: '{{ request_ids }}'
   register: delete_status
-  until: state == 'completed'
-  failed_when: state == 'failed'
-  retries: '{{ sc_restore_retries }}'
-  delay: '{{ sc_restore_delay }}'
-
-- name: Get index offset from delete tasks
-  set_fact:
-    index_offset: '{{ delete_colection_call | json_query("results[-1].ansible_loop.index") }}'
+  until: state == 'completed' or 'Could not find collection' in error_msg
+  failed_when: state == 'failed' and 'Could not find collection' not in error_msg
+  retries: '{{ solr_cloud_restore_retries }}'
+  delay: '{{ solr_cloud_restore_delay }}'

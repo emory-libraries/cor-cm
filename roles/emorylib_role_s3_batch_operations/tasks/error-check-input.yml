@@ -1,39 +1,23 @@
 ---
-- name: Check when Location date is defined
+- name: Assert that location and Location are exclusive (1st)
   assert:
     that:
-      - manifest.Location.ObjectArn is undefined
-      - manifest.Location.ETag is undefined
-    fail_msg: 'Date and ObjectArn/Etag are exclusive options, please remove one'
+      - s3_batch_op.manifest.Location is undefined
+    fail_msg: 'location and manifest.Location are exclusive options, please remove one'
     quiet: yes
-  loop: '{{ s3_batch_operations }}'
-  when: manifest.Location.Date is defined
+  when: s3_batch_op.location is defined
 
-- name: Check when latest date is defined
+- name: Assert that location and Location are exclusive (2nd)
   assert:
     that:
-      - manifest.Location.Date.Day is undefined
-      - manifest.Location.Date.Month is undefined
-      - manifest.Location.Date.Year is undefined
-    fail_msg: 'Latest and Day/Month/Year are exclusive options, please remove one'
+      - s3_batch_op.location is undefined
+    fail_msg: 'location and manifest.Location are exclusive options, please remove one'
     quiet: yes
-  loop: '{{ s3_batch_operations }}'
-  when: manifest.Location.Date.Latest is defined
+  when: s3_batch_op.manifest.Location is defined
 
-- name: Check if Date Key is defined
+- name: Assert that submit only is false when requesting advanced reporting
   assert:
-    that:
-      - manifest.Location.Date.Key is defined
-    fail_msg: 'The Date option requires a Key variable that is the S3 bucket path to where the manifest dates folders are'
+    that: not s3_batch_op_submit_only
+    fail_msg: Requesting advanced reporting requires that s3_batch_op_submit_only be set to false. Please change and restart.
     quiet: yes
-  loop: '{{ s3_batch_operations }}'
-  when: manifest.Location.Date is defined
-
-- name: Check when Location ObjectArn/Etag is defined
-  assert:
-    that:
-      - manifest.Location.Date is undefined
-    fail_msg: 'Date and ObjectArn/Etag are exclusive options, please remove one'
-    quiet: yes
-  loop: '{{ s3_batch_operations }}'
-  when: manifest.Location.ObjectArn is defined or manifest.Location.ETag is defined
+  when: s3_batch_op_generate_direct_download or s3_batch_op_generate_console_download or s3_batch_op_report_to_slack

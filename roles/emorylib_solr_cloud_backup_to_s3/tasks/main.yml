@@ -1,21 +1,35 @@
 ---
 # tasks file for emorylib_solr_cloud_backup_to_s3
 
-- name: Include tasks for backup solr cloud
+- name: Include tasks to error check input
+  include_tasks:
+    file: error-check-input.yml
+  run_once: yes
+
+- name: Include tasks to check tmp path
+  include_tasks:
+    file: check-tmp-path.yml
+
+- name: Include tasks to backup solr cloud via API call
   include_tasks:
     file: backup-solr-cloud.yml
-    apply:
-      become: yes
+  run_once: yes
 
-- name: Include tasks for confirm and push to s3
+- name: Include task for copying backup directory to file destination
   include_tasks:
-    file: confirm-and-push-to-s3.yml
-    apply:
-      become: yes
+    file: copy-to-dest-path.yml
+  run_once: yes
+  when: solr_cloud_backup.dest.path is defined
 
-- name: Include tasks for cleanup of old snapshot folders
-  include_tasks:
-    file: cleanup-snapshot-folders.yml
-    apply:
-      become: yes
-  when: sc_backup_location_cleanup
+- name: Include tasks for syncing backup directory to s3
+  include_tasks: 
+    file: sync-to-s3.yml
+  run_once: yes
+  when: solr_cloud_backup.dest.s3 is defined
+
+- name: Delete temp directory
+  file:
+    path: '{{ temp_dir }}'
+    state: absent
+  run_once: yes
+

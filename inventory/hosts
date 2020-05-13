@@ -50,6 +50,7 @@ all:
         s3_iam:
           hosts:
             nohost:
+            localhost:
         rds:
           hosts:
             dlp-tst-rdsmys-sz:

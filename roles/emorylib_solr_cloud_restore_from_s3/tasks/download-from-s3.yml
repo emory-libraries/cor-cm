@@ -1,0 +1,68 @@
+---
+- name: Pip install awscli
+  pip:
+    name: awscli
+
+- name: Get bucket keys via aws s3 ls
+  shell: aws s3 ls {{ solr_cloud_restore.source.s3.bucket }}/{{ solr_cloud_restore.source.s3.key_prefix  | regex_replace(get_trailing_slash, '') }}/ | sed 's/PRE //g' | sed 's/.$//g'
+  vars:
+    get_trailing_slash: \/$
+  register: bucket_key_info
+
+- name: Set bucket keys
+  set_fact:
+    bucket_keys: '{{ bucket_key_info.stdout_lines | map("trim") | list }}'
+    epoch_tmp_path: '{{ solr_cloud_restore.source.s3.tmp_path }}/{{ ansible_date_time.epoch }}'
+
+- name: Assert that at least one bucket key was found
+  assert:
+    that:
+      - bucket_keys | length > 0
+    quiet: yes
+    fail_msg: No bucket keys were found
+
+- name: Get bucket key from date
+  block:
+    - name: Set bucket key
+      set_fact:
+        bucket_key: '{{ bucket_keys | select("equalto", solr_cloud_restore.source.s3.date) | list | last | d ("none") }}'
+    
+    - name: Assert that speficied key was found
+      assert:
+        that:
+          - bucket_key != "none"
+        quiet: yes
+        fail_msg: No matching date key was found
+  when: solr_cloud_restore.source.s3.date | lower != "latest"
+
+- name: Get latest bucket_key
+  set_fact:
+    bucket_key: '{{ bucket_keys[-1] }}'
+  when: solr_cloud_restore.source.s3.date | lower == "latest"
+
+- name: Create tmp directories
+  file:
+    path: '{{ item }}'
+    state: directory
+    owner: '{{ solr_cloud_restore_owner }}'
+    group: '{{ solr_cloud_restore_group }}'
+  loop: '{{ tmp_dirs }}'
+  vars:
+    tmp_dirs:
+      - '{{ epoch_tmp_path }}'
+      - '{{ epoch_tmp_path }}/{{ bucket_key }}'
+
+- name: Download bucket key to epoch tmp via aws s3 sync
+  shell: >
+    aws s3 sync s3://{{ solr_cloud_restore.source.s3.bucket }}/{{ solr_cloud_restore.source.s3.key_prefix | regex_replace(get_trailing_slash, "") }}/{{ bucket_key }}/
+    {{ epoch_tmp_path }}/{{ bucket_key }}
+  vars:
+    get_trailing_slash: \/$
+
+- name: Set proper permissons on input folder
+  file:
+    path: '{{ epoch_tmp_path }}'
+    state: directory
+    recurse: yes
+    owner: '{{ solr_cloud_restore_owner }}'
+    group: '{{ solr_cloud_restore_group }}'

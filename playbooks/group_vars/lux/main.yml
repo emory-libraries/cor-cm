@@ -1,0 +1,35 @@
+project_name: "{{ git_repo_url | urlsplit('path') | basename }}"
+git_repo_url: https://github.com/emory-libraries/dlp-lux
+git_repo_branch: v0.7.8
+idp_name: prod
+
+enable_ssl: "yes"
+
+get_metadata:
+  download: no
+
+dlp_lux_dotenv:
+  admin_password: '{{ vault_dlp.project.default_admin_password | d ("") }}'
+  cable_channel_prefix: lux_production
+  contact_us_email: test@emory.edu
+  database_adapter: mysql2
+  database_pool: 15
+  database_name: '{{ dlp_lux_mysql_db.name | d ("") }}'
+  database_username: '{{ dlp_lux_mysql_db.user | d ("") }}'
+  database_password: '{{ dlp_lux_mysql_db.password | d ("") }}'
+  database_host: '{{ rds_endpoint | d ("") }}'
+  database_min_messages: warning
+  ga_tracking_code: '{{ __dlp_lux_dotenv.ga_tracking_code }}'
+  http_password_protect: '{{ __dlp_lux_dotenv.http_password_protect }}'
+  http_username: '{{ vault_lux.http.user }}'
+  http_password: '{{ vault_lux.http.pass }}'
+  honeybadger_api_key: '{{ vault_dlp.honeybadger_api_key | d () }}'
+  project_name: '{{ project_name }}'
+  iiif_manifest_url: '{{ __dlp_lux_dotenv.iiif_manifest_url | d () }}'
+  iiif_cookie_salt_1: '{{ __dlp_lux_dotenv.iiif_cookie_salt_1 | d () }}'
+  iiif_cookie_salt_2: '{{ __dlp_lux_dotenv.iiif_cookie_salt_2 | d () }}'
+  sidekiq_workers: 5
+  solr_url: '{{ __dlp_lux_dotenv.solr_url | d () }}'
+  thumbnail_url: '{{ __dlp_lux_dotenv.thumbnail_url | d () }}'
+  rails_host: localhost
+  rails_serve_static_files: true

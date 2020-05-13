@@ -1,0 +1,48 @@
+efs_mount_points:
+  - path: /mnt/test_efs
+    dns_name: fs-97466374.efs.us-east-1.amazonaws.com
+  - path: /mnt/import_efs
+    dns_name: fs-a1416442.efs.us-east-1.amazonaws.com
+rds_host: dlp-tst-rdsmys-sz
+
+ec2_instance_type: t3.2xlarge
+
+symblink_dirs:
+  - src: /mnt/test_efs/uploads
+    path: '{{ capistrano_base }}/uploads'
+
+__dlp_curate_dotenv:
+  branding_path: /mnt/test_efs/uploads/dlp-curate/branding
+  iiif_cookie_salt_1: '{{ vault_dlp.iiif.test.cookie.salt_1 }}'
+  iiif_cookie_salt_2: '{{ vault_dlp.iiif.test.cookie.salt_2 }}'
+  lux_base_url: digital-test.library.emory.edu
+  fedora_url: http://fedora-cor-test.internal.emory.edu/fcrepo/rest
+  proxied_iiif_server_url: http://iiif-cor-test.internal.emory.edu/cantaloupe/iiif/2/
+  solr_url: http://solr-cor-test.library.emory.edu/solr/curate_collection
+  redis_database: 1
+  
+
+dlp_curate_mysql_db:
+  name: '{{ vault_curate.test.db.name }}'
+  user: '{{ vault_curate.test.db.user }}'
+  password: '{{ vault_curate.test.db.pass }}'
+
+sp_entity_id: https://curate.library.emory.edu
+idp_name: prod
+
+ec2_security_groups:
+  - '{{ sg_pre }}-t-http-to-fedora'
+  - '{{ sg_pre }}-t-http-to-solr'
+  - '{{ sg_pre }}-t-http-to-iiif'
+  - '{{ sg_pre }}-tp-ssh'
+  - '{{ sg_pre }}-tp-apache'
+  - '{{ sg_pre }}-t-nfs'
+  - '{{ sg_pre }}-p-nfs'
+  - '{{ sg_pre }}-t-mysql'
+  - '{{ sg_pre }}-t-solr'
+  - '{{ sg_pre }}-t-redis'
+
+elb_targets:
+  - target_group_name: curate-test-443
+
+cap_branding_symlink_path: /mnt/test_efs/uploads/dlp-curate/branding
