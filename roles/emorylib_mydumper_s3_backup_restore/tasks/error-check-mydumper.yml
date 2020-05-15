@@ -1,19 +1,18 @@
 ---
-- name: Assert that list has output dir
+- name: Assert that option and outputdir are defined
   assert:
     that:
-      - item.__outputdir is defined or item._o is defined
-    fail_msg: Outputdir is required, please use __outputdir or _o
+      - mydumper_backup.option is defined
+      - mydumper_backup.option.__outputdir is defined or mydumper_backup.option._o is defined
+    fail_msg: Outputdir is required, please use option.__outputdir or option._o
     quiet: yes
-  loop: '{{ mydumper_backups }}'
 
 - name: Assert that s3 is fully defined when present
   assert:
     that:
-      - item.s3.key_prefix is defined
-      - item.s3.bucket is defined
-      - item.s3.region is defined
+      - mydumper_backup.s3.key_prefix is defined
+      - mydumper_backup.s3.bucket is defined
+      - mydumper_backup.s3.region is defined
     quiet: yes
     fail_msg: s3.key_prefix, s3.bucket, s3.region are all required to enable copy to s3
-  when: item.s3 is defined
-  loop: '{{ mydumper_backups }}'
+  when: mydumper_backup.s3 is defined

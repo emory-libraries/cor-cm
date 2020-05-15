@@ -4,33 +4,11 @@
 - name: Include tasks to error check mydumper
   include_tasks:
     file: error-check-mydumper.yml
-    apply:
-      tags:
-        - mydumper
-  tags:
-    - mydumper
 
 - name: Include tasks to run mydumper command
   include_tasks:
     file: mydumper.yml
-    apply:
-      vars:
-        outer_index1: '{{ ansible_loop.index }}'
-        outer_index0: '{{ ansible_loop.index0 }}'
-      tags:
-        - mydumper
-  loop: '{{ mydumper_backups }}'
-  loop_control:
-    loop_var: outer_item
-    extended: yes
-  tags:
-    - mydumper
 
 - name: Include tasks to copy mydumper outputdirs to S3
   include_tasks:
     file: push-to-s3.yml
-    apply:
-      tags:
-        - mydumper
-  tags:
-    - mydumper
