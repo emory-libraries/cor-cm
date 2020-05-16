@@ -1,0 +1,4 @@
+dlp_curate_mysql_db:
+  name: '{{ vault_curate.test.db.name }}'
+  user: '{{ vault_curate.test.db.user }}'
+  password: '{{ vault_curate.test.db.pass }}'
