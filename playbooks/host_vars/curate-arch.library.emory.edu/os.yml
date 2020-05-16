@@ -1,0 +1,13 @@
+efs_mount_points:
+  - path: /mnt/arch_efs
+    dns_name: fs-7bda9999.efs.us-east-1.amazonaws.com
+  - path: /mnt/import_efs
+    dns_name: fs-a1416442.efs.us-east-1.amazonaws.com
+
+symblink_dirs:
+  - src: /mnt/arch_efs/uploads
+    path: '{{ capistrano_base }}/uploads'
+
+sp_entity_id: https://curate.library.emory.edu
+idp_name: prod
+

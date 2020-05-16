@@ -1,0 +1,16 @@
+ec2_security_groups:
+  - '{{ sg_pre }}-tp-ssh'
+  - '{{ sg_pre }}-tp-apache'
+  - '{{ sg_pre }}-t-nfs'
+  - '{{ sg_pre }}-p-nfs'
+  - '{{ sg_pre }}-t-mysql'
+  - '{{ sg_pre }}-t-solr'
+  - '{{ sg_pre }}-t-redis'
+  - '{{ sg_pre }}-a-http-to-fedora'
+  - '{{ sg_pre }}-a-http-to-solr'
+  - '{{ sg_pre }}-a-http-to-iiif'
+
+elb_targets:
+  - target_group_name: curate-arch-443
+
+rds_host: dlp-tst-rdsmys-sz

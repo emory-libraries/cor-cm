@@ -1,0 +1,19 @@
+dlp_curate_mysql_db:
+  name: '{{ vault_curate.arch.db.name  | d () }}'
+  user: '{{ vault_curate.arch.db.user | d () }}'
+  password: '{{ vault_curate.arch.db.pass | d() }}'
+
+curate_backup_to_s3:
+  delete_output: yes
+  option:
+    _o: '/tmp/{{ ansible_date_time.iso8601_micro }}'
+    _h: '{{ hostvars[rds_host]["endpoint"]["address"] }}'
+    _B: '{{ vault_curate.arch.db.name  | d () }}'
+    _u: '{{ vault_curate.arch.db.user | d () }}'
+    _p: '{{ vault_curate.arch.db.pass | d() }}'
+    _t: 8
+    _c:
+  s3:
+    bucket: cor-devops-binaries
+    key_prefix: mydumper-backups/curate-arch
+    region: us-west-1
