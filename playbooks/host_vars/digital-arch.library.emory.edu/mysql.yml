@@ -1,0 +1,6 @@
+rds_host: dlp-tst-rdsmys-sz
+
+dlp_lux_mysql_db:
+  name: '{{ vault_lux.arch.db.name }}'
+  user: '{{ vault_lux.arch.db.user }}'
+  password: '{{ vault_lux.arch.db.pass }}'

@@ -1,3 +1,5 @@
+rds_host: dlp-prd-rdsmys-mz
+
 dlp_curate_mysql_db:
   name: '{{ vault_curate.prod.db.name }}'
   user: '{{ vault_curate.prod.db.user }}'

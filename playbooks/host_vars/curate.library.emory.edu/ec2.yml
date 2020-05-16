@@ -20,5 +20,3 @@ ec2_security_groups:
   - '{{ sg_pre }}-p-mysql'
   - '{{ sg_pre }}-p-solr'
   - '{{ sg_pre }}-p-redis'
-
-rds_host: dlp-prd-rdsmys-mz

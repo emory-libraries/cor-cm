@@ -12,5 +12,3 @@ ec2_security_groups:
 
 elb_targets:
   - target_group_name: curate-arch-443
-
-rds_host: dlp-tst-rdsmys-sz
