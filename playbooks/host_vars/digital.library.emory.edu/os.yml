@@ -1,0 +1,7 @@
+efs_mount_points:
+  - path: /mnt/prod_efs
+    dns_name: fs-fdf8457c.efs.us-east-1.amazonaws.com
+
+additional_assertion_bindings:
+  - digital-test.library.emory.edu
+  - digital-arch.library.emory.edu
