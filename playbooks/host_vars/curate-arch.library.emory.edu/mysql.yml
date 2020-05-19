@@ -14,7 +14,7 @@ curate_backup_to_s3:
     _u: '{{ vault_curate.arch.db.user | d () }}'
     _p: '{{ vault_curate.arch.db.pass | d() }}'
     _t: 8
-    _c: ''
+    _c:
   s3:
     bucket: cor-devops-binaries
     key_prefix: mydumper-backups/curate-arch
