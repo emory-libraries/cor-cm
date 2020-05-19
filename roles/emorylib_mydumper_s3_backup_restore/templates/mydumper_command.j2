@@ -1,1 +1,1 @@
-mydumper {% for key, value in mydumper_backup.option | dictsort -%} {{ key | replace("_", "-") }} {{ value }}{%- endfor %}}
+mydumper {% for key, value in mydumper_backup.option | dictsort -%} {{ key | replace("_", "-") }} {{ value }} {%- endfor %}}
