@@ -5,6 +5,7 @@
     file_root: '{{ __mydumper_backup.dir_path }}'
     key_prefix: '{{ __mydumper_backup.s3.key_prefix }}/{{ __mydumper_backup.dir_path | basename }}'
     region: '{{ __mydumper_backup.s3.region }}'
+  register: s3_sync_info
   when: __mydumper_backup.s3 | d (false)
 
 - name: Delete outputdir from local storage
@@ -12,3 +13,6 @@
     path: '{{ __mydumper_backup.dir_path }}'
     state: absent
   when: __mydumper_backup.delete_output | d (false)
+
+- debug:
+    msg: '{{ s3_sync_info.uploads | map(attribute="bytes") | map("int") | sum(start=0) }}'
