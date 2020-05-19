@@ -1,0 +1,6 @@
+ec2_instance_type: t3a.2xlarge
+ec2_security_groups:
+  - '{{ sg_pre }}-tp-ssh'
+  - '{{ sg_pre }}-a-http-to-iiif'
+elb_targets:
+  - target_group_name: iiif-arch-80

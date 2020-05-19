@@ -1,0 +1,7 @@
+elb_targets:
+  - target_group_name: fedora-test-80
+
+ec2_security_groups:
+  - '{{ sg_pre }}-t-http-to-fedora'
+  - '{{ sg_pre }}-tp-ssh'
+  - '{{ sg_pre }}-t-mysql'

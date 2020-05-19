@@ -1,0 +1,6 @@
+ec2_security_groups:
+  - '{{ sg_pre }}-tp-ssh'
+  - '{{ sg_pre }}-t-http-to-iiif'
+
+elb_targets:
+  - target_group_name: iiif-test-80
