@@ -13,6 +13,7 @@ curate_backup_to_s3:
     _B: '{{ vault_curate.arch.db.name | d () }}'
     _u: '{{ vault_curate.arch.db.user | d () }}'
     _p: '{{ vault_curate.arch.db.pass | d () }}'
+    __lock_all_tables: 
     _t: 8
     _c:
   s3:
