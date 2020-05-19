@@ -19,3 +19,5 @@ curate_backup_to_s3:
     bucket: cor-devops-binaries
     key_prefix: mydumper-backups/curate-arch
     region: us-west-1
+    
+mydumper_backup: '{{ curate_backup_to_s3 }}'

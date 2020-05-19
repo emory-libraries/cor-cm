@@ -20,7 +20,7 @@ Example:
 New mydumper variable scheme:
 ```yaml
 mydumper_backup:
-  delete_output:                       # Will delete the output dir folder at the end of the script when true, default is false
+  delete_output: no                    # Will delete the output dir folder at the end of the script when true, default is false
   option:                              # Command line options or flags, underscores are converted into dashes
     __outputdir: /path/to/output/dir   # required, strongly suggest a iso8601 timestamp if S3 storage is desired
     __compress:                        # will set the compress flag, do not add a value.
