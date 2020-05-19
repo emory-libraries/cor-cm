@@ -10,9 +10,9 @@ curate_backup_to_s3:
   option:
     _o: '/tmp/{{ ansible_date_time.iso8601_micro }}'
     _h: '{{ hostvars[rds_host]["endpoint"]["address"] }}'
-    _B: '{{ vault_curate.arch.db.name  | d () }}'
+    _B: '{{ vault_curate.arch.db.name | d () }}'
     _u: '{{ vault_curate.arch.db.user | d () }}'
-    _p: '{{ vault_curate.arch.db.pass | d() }}'
+    _p: '{{ vault_curate.arch.db.pass | d () }}'
     _t: 8
     _c:
   s3:
