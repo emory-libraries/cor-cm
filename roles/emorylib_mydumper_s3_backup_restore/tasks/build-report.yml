@@ -39,24 +39,15 @@
     key_path: '{{ __mydumper_backup.s3.bucket }}/{{ __mydumper_backup.s3.key_prefix }}/{{ __mydumper_backup.dir_path | basename }}'
     s3_console_link: '{{ mydumper_backup_console_base_url }}/{{ key_path }}/?region={{ __mydumper_backup.s3.region}}'
   when:
-
-- setup:
+  
+- name: Gather and Delegate facts on localhost
+  setup:
   delegate_to: localhost
   delegate_facts: true
 
-- debug:
-    var: hostvars["localhost"]["ansible_facts"]
-
-- debug:
-    var: ansible_facts
-  delegate_to: localhost
-
-- debug:
-    var: ansible_facts
-
 - name: Build default attachment and message variables
   set_fact:
-    mydumper_backup_slack_msg: '{{ ansible_facts.env.AWX_HOST is defined | ternary (awx, core) }}'
+    mydumper_backup_slack_msg: '{{ hostvars["localhost"]["ansible_facts"]["env"]["AWX_HOST"] is defined | ternary (awx, core) }}'
     mydumper_backup_slack_attachments: '{{ __local_output_attachment | d ([]) + __s3_attachment | d ([]) }}'
   vars:
     awx: 'Job {{"#"}}{{ ansible_facts.env.JOB_ID | d () }} Details (Mydumper Backup)'
