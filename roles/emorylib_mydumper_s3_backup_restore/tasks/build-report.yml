@@ -40,8 +40,18 @@
     s3_console_link: '{{ mydumper_backup_console_base_url }}/{{ key_path }}/?region={{ __mydumper_backup.s3.region}}'
   when:
 
+- setup:
+  delegate_to: localhost
+
 - debug:
     var: hostvars["localhost"]["ansible_facts"]
+
+- debug:
+    var: ansible_facts
+  delegate_to: localhost
+
+- debug:
+    var: ansible_facts
 
 - name: Build default attachment and message variables
   set_fact:
