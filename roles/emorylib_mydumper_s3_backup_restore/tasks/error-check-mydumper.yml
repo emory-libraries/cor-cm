@@ -7,6 +7,13 @@
     fail_msg: Outputdir is required, please use option.__outputdir or option._o
     quiet: yes
 
+- name: Assert that delete ouput is true or s3 is present
+  assert:
+    that: mydumper_backup.s3 is defined
+    fail_msg: Either delete output must be set to false or an S3 key defined
+    quiet: yes
+  when: mydumper_backup.delete_output | d (False)
+
 - name: Assert that s3 is fully defined when present
   assert:
     that:

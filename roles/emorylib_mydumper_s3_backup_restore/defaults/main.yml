@@ -1,3 +1,8 @@
 ---
 # defaults file for emorylib_mydumper_s3_backup_restore
 mydumper_tmp_dir: /tmp
+
+
+mydumper_backup_console_base_url: https://s3.console.aws.amazon.com/s3/buckets
+
+#mydumper_backup_slack:

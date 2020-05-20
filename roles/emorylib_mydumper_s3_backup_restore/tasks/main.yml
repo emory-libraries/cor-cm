@@ -9,6 +9,17 @@
   include_tasks:
     file: mydumper.yml
 
-- name: Include tasks to copy mydumper outputdirs to S3
+- name: Include tasks to sync mydumper outputdir to S3
   include_tasks:
     file: push-to-s3.yml
+  when: __mydumper_backup.s3 | d (false)
+
+- name: Include tasks to notify slack
+  include_tasks:
+    file: notify.yml
+
+- name: Delete outputdir from local storage
+  file:
+    path: '{{ __mydumper_backup.dir_path }}'
+    state: absent
+  when: __mydumper_backup.delete_output | d (false)
