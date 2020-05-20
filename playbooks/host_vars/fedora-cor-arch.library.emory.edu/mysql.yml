@@ -5,20 +5,19 @@ fedora_mysql_db:
   user: '{{ vault_fedora.arch.db.user }}'
   password: '{{ vault_fedora.arch.db.pass }}'
 
-
-myloader_download_path: /tmp # Path the restores are downloaded to
-xmyloader_restores:
-  - __user:
-    __host:
-    __database:
-    __directory: /path/to/outputdir
-    download_path: /tmp
-  - __user:
-    __host:
-    s3:
-      bucket:
-      key_prefix:
-      date: latest
-  - s3:
-      bucket:
-      object:
+fedora_cor_arch_backup_to_s3:
+  delete_output: yes
+  notify_slack: yes
+  option:
+    _o: '/tmp/{{ ansible_date_time.iso8601_micro }}'
+    _h: '{{ hostvars[rds_host]["endpoint"]["address"] }}'
+    _B: '{{ vault_fedora.arch.db.name | d () }}'
+    _u: '{{ vault_fedora.arch.db.user | d () }}'
+    _p: '{{ vault_fedora.arch.db.pass | d () }}'
+    __lock_all_tables: 
+    _t: 8
+    _c:
+  s3:
+    bucket: cor-devops-binaries
+    key_prefix: mydumper-backups/fedora-cor-arch
+    region: us-west-1
