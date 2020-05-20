@@ -1,8 +1,10 @@
 - block:
     - name: Get stats on local output dir
-      stat:
-        path: '{{ __mydumper_backup.dir_path }}'
-      register: outputdir_stat_info
+      shell: du -sh {{ __mydumper_backup.dir_path }}
+      register: outputdir_size_info
+    
+    - debug:
+        var: outputdir_size_info
 
     - name: Create local output report and attachment
       set_fact:
@@ -14,9 +16,9 @@
       vars:
         local_output_report: |
           The mydumper outputdir is located at:
-          {{ outputdir_stat_info.stat.path }}
+          {{ __mydumper_backup.dir_path }}
           The file size is:
-          {{ outputdir_stat_info.stat.size | human_readable }}
+          {{ outputdir_size_info.stdout.split()[0] }}
   when: not __mydumper_backup.delete_output | d (true)
 
 - name: Create Report and Console Link
@@ -33,9 +35,9 @@
   vars:
     s3_report: |
       Backup was sucessfully synced to {{ key_path }}
-      With a size of {{ s3_sync_info.uploads | map(attribute="bytes") | map("int") | sum(start=0) | human_readable }}
+      File size: {{ s3_sync_info.uploads | map(attribute="bytes") | map("int") | sum(start=0) | human_readable }}
     key_path: '{{ __mydumper_backup.s3.bucket }}/{{ __mydumper_backup.s3.key_prefix }}/{{ __mydumper_backup.dir_path | basename }}'
-    s3_console_link: '{{ mydumper_backup_console_base_url }}/{{ key_path }}'
+    s3_console_link: '{{ mydumper_backup_console_base_url }}/{{ key_path }}/?region={{ __mydumper_backup.s3.region}}'
   when:
 
 - name: Build default attachment and message variables

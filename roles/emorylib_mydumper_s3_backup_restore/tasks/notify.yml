@@ -5,8 +5,8 @@
   when: item.1 
   vars:
     reports:
-      - '{{ __local_output_report }}'
-      - '{{ __s3_report }}'
+      - '{{ __local_output_report | d () }}'
+      - '{{ __s3_report | d () }}'
     bools:
       - '{{ __local_output_bool | d (false) }}'
       - '{{ __s3_bool | d (false) }}' 

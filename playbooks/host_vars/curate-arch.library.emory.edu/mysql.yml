@@ -7,6 +7,7 @@ dlp_curate_mysql_db:
 
 curate_backup_to_s3:
   delete_output: yes
+  notify_slack: yes
   option:
     _o: '/tmp/{{ ansible_date_time.iso8601_micro }}'
     _h: '{{ hostvars[rds_host]["endpoint"]["address"] }}'
