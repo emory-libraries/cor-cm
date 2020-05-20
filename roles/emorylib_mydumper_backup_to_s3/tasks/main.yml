@@ -1,5 +1,5 @@
 ---
-# tasks file for emorylib_mydumper_s3_backup_restore
+# tasks file for emorylib_mydumper_backup_to_s3
 
 - name: Include tasks to error check mydumper
   include_tasks: error-check-mydumper.yml
@@ -14,7 +14,7 @@
 - name: Include tasks to build report
   include_tasks: build-report.yml
 
-- name: Include tasks to notify slack
+- name: Include tasks to notify to slack and console
   include_tasks: notify.yml
 
 - name: Delete outputdir from local storage

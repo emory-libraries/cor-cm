@@ -1,10 +1,7 @@
 - block:
-    - name: Get stats on local output dir
+    - name: Get size of directory via du
       shell: du -sh {{ __mydumper_backup.dir_path }}
       register: outputdir_size_info
-    
-    - debug:
-        var: outputdir_size_info
 
     - name: Create local output report and attachment
       set_fact:
