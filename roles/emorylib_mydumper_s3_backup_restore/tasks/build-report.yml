@@ -41,7 +41,7 @@
   when:
 
 - debug:
-    var: ansible_facts
+    var: hostvars["localhost"]["ansible_facts"]
 
 - name: Build default attachment and message variables
   set_fact:
