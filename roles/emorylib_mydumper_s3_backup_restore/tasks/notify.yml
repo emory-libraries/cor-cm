@@ -2,11 +2,10 @@
 - name: Output reports to console
   debug:
     var: item
-  when: item
+  when: item is defined
   loop:
-    - __local_output_report | d (false)
-    - __s3_report | d (false)
-
+    - '{{ __local_output_report }}' 
+    - '{{ __s3_report }}'
 
 - name: Notify Slack
   slack:
