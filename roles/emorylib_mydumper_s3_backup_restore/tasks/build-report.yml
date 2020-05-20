@@ -40,6 +40,9 @@
     s3_console_link: '{{ mydumper_backup_console_base_url }}/{{ key_path }}/?region={{ __mydumper_backup.s3.region}}'
   when:
 
+- debug:
+    var: ansible_facts.env
+    
 - name: Build default attachment and message variables
   set_fact:
     mydumper_backup_slack_msg: '{{ ansible_facts.env.AWX_HOST is defined | ternary (awx, core) }}'

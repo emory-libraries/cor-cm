@@ -1,7 +1,7 @@
 Role Name
 =========
 
-This role will perform a mysql dump using the 3rd party tool called mydumper. The backup folder will be pushed to s3 and/or a path on the file system.
+This role will perform a mysql dump using the 3rd party tool [mydumper](https://github.com/maxbube/mydumper/). The backup folder will be pushed to s3 and/or a path on the file system.
 
 Requirements
 ------------
@@ -15,9 +15,10 @@ The main input of the role is a varible named __mydumper_backup__. This variable
 For example if wanting to use the --outputdir flag (also -o), just use ___outputdir__ or ___o__.
 Please look at the mydumper manual [here](https://github.com/maxbube/mydumper/blob/master/docs/mydumper_usage.rst)
 
+The second variable is called __mydumper_backup_slack__. This variable mimics the Ansible Slack module, with the same options. There is some "default" functionality built in with msg and attachments. These can be overridden by defining msg and attachments in the __mydumper_backup_slack__ variable.
+
 Example:
 
-New mydumper variable scheme:
 ```yaml
 mydumper_backup:
   delete_output: no                    # Will delete the output dir folder at the end of the script when true, default is false
@@ -49,37 +50,39 @@ mydumper_backup_slack:
   channel: undefined # not required. Channel to send the message to. If absent, the message goes to the channel selected for the I(token).
 ```
 
-
-
-```yaml
-mydumper_backups:
-  - __outputdir: /path/to/output/dir   # required, strongly suggest a iso8601 timestamp if S3 storage is desired
-    __compress:                        # will set the compress flag, do not add a value.
-    _S: 1234                           # Flags are case sensitive
-    _h: mysql.db.com                   # Shortname flags work too, note the single underscore.
-    __regex: '"^/"'                    # Regex need single and double quotes
-    __tables_list: tb1,tb2,tb3         # This input needs a commma seperate list
-    index_outputdir: false             # This will add a '-{{loop index }}' number to the outputdir, useful for keeping multi dumps seperate from each other.
-    delete_local: false                # This bool will trigger the backup to be deleted at the end of the process, useful if you only want to store in s3
-    s3:                                # Defining this key will trigger upload to S3
-      bucket:                          # S3 Bucket
-      key_prefix:                      # Path to the folder, note that the outputdir will be appended to this prefix automatically
-      region:                          # Region the bucket is in
-```
-
 Dependencies
 ------------
 
-I have a Redhat/Centos role that will install mydumper called _emorylib_install_mydumper_
+Optional role that will install mydumper:
+
+__emorylib_install_mydumper__
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```yaml
+- hosts: host_with_db_to_dump
+  vars:
+    mydumper_backup:
+      delete_output: yes
+      notify_slack: yes
+      option:
+        _o: '/tmp/{{ ansible_date_time.iso8601_micro }}'
+        _h: external_db_host_address
+        _B: db_name
+        _u: db_username
+        _p: db_password
+        __lock_all_tables:                                       # Needed option for dumping RDS instances
+        _t: 8
+        _c:
+      s3:
+        bucket: s3_bucket
+        key_prefix: path/to/folder
+        region: us-east-1
+    mydumper_backup_slack:
+      token: slack/token/here
+      channel: '#channelname'
+```
 
 License
 -------
