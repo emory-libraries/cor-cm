@@ -23,6 +23,3 @@ curate_backup_to_s3:
     region: us-west-1
     
 mydumper_backup: '{{ curate_backup_to_s3 }}'
-mydumper_backup_slack:
-  token: '{{ vault_dlp.slack.token }}'
-  channel: '#dlp-backups'
