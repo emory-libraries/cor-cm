@@ -47,8 +47,9 @@
 
 - name: Build default attachment and message variables
   set_fact:
-    mydumper_backup_slack_msg: '{{ hostvars["localhost"]["ansible_facts"]["env"]["AWX_HOST"] is defined | ternary (awx, core) }}'
+    mydumper_backup_slack_msg: '{{ localhost_env.AWX_HOST is defined | ternary (awx, core) }}'
     mydumper_backup_slack_attachments: '{{ __local_output_attachment | d ([]) + __s3_attachment | d ([]) }}'
   vars:
-    awx: 'Job {{"#"}}{{ ansible_facts.env.JOB_ID | d () }} Details (Mydumper Backup)'
+    awx: 'Job {{"#"}}{{ localhost_env.JOB_ID | d () }} Details (Mydumper Backup)'
     core: Mydumper Backup Details
+    localhost_env: '{{ hostvars["localhost"]["ansible_facts"]["env"] }}'
