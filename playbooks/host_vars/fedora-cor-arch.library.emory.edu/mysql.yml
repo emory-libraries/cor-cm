@@ -5,7 +5,7 @@ fedora_mysql_db:
   user: '{{ vault_fedora.arch.db.user }}'
   password: '{{ vault_fedora.arch.db.pass }}'
 
-fedora_cor_arch_backup_to_s3:
+fedora_cor_backup_to_s3:
   delete_output: yes
   notify_slack: yes
   option:
