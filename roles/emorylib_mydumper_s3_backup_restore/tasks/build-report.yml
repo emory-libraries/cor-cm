@@ -6,6 +6,7 @@
 
     - name: Create local output report and attachment
       set_fact:
+        __local_output_bool: true
         __local_output_report: '{{ local_output_report }}'
         __local_output_attachment:
           - title: Local Backup on Disk
@@ -20,6 +21,7 @@
 
 - name: Create Report and Console Link
   set_fact:
+    __s3_bool: true
     __s3_report: '{{ s3_report }}'
     __s3_attachment: 
       - title: Console Link to Backup Directory
