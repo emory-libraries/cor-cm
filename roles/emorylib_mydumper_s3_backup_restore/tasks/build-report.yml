@@ -42,6 +42,7 @@
 
 - setup:
   delegate_to: localhost
+  delegate_facts: true
 
 - debug:
     var: hostvars["localhost"]["ansible_facts"]
