@@ -1,7 +1,7 @@
 
 - name: Output reports to console
   debug:
-    var: item.0
+    msg: '{{ item.0 }}'
   when: item.1 
   vars:
     reports:
