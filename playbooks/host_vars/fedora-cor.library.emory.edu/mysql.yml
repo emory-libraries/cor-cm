@@ -1,0 +1,23 @@
+rds_host: dlp-prd-rdsmys-mz
+
+fedora_mysql_db:
+  name: '{{ vault_fedora.prod.db.name }}'
+  user: '{{ vault_fedora.prod.db.user }}'
+  password: '{{ vault_fedora.prod.db.pass }}'
+
+fedora_cor_backup_to_s3:
+  delete_output: yes
+  notify_slack: yes
+  option:
+    _o: '/tmp/{{ ansible_date_time.iso8601_micro }}'
+    _h: '{{ hostvars[rds_host]["endpoint"]["address"] }}'
+    _B: '{{ vault_fedora.prod.db.name | d () }}'
+    _u: '{{ vault_fedora.prod.db.user | d () }}'
+    _p: '{{ vault_fedora.prod.db.pass | d () }}'
+    __lock_all_tables: 
+    _t: 8
+    _c:
+  s3:
+    bucket: cor-devops-binaries
+    key_prefix: mydumper-backups/fedora-cor
+    region: us-west-1

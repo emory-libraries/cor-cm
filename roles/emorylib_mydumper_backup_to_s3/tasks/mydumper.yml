@@ -1,0 +1,8 @@
+- name:  Run mydumper command
+  shell: '{{ lookup("template", "mydumper_command.j2") }}'
+
+- name: Create new variable with output dir location
+  set_fact:
+    __mydumper_backup: '{{ mydumper_backup | combine({"dir_path": outputdir}, recursive=True) }}'
+  vars:
+    outputdir: '{{ mydumper_backup.option.__outputdir | d (mydumper_backup.option._o) }}'

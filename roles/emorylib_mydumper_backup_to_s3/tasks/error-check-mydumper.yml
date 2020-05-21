@@ -1,0 +1,25 @@
+---
+- name: Assert that option and outputdir are defined
+  assert:
+    that:
+      - mydumper_backup.option is defined
+      - mydumper_backup.option.__outputdir is defined or mydumper_backup.option._o is defined
+    fail_msg: Outputdir is required, please use option.__outputdir or option._o
+    quiet: yes
+
+- name: Assert that delete ouput is true or s3 is present
+  assert:
+    that: mydumper_backup.s3 is defined
+    fail_msg: Either delete output must be set to false or an S3 key defined
+    quiet: yes
+  when: mydumper_backup.delete_output | d (False)
+
+- name: Assert that s3 is fully defined when present
+  assert:
+    that:
+      - mydumper_backup.s3.key_prefix is defined
+      - mydumper_backup.s3.bucket is defined
+      - mydumper_backup.s3.region is defined
+    quiet: yes
+    fail_msg: s3.key_prefix, s3.bucket, s3.region are all required to enable copy to s3
+  when: mydumper_backup.s3 is defined

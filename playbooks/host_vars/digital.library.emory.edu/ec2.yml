@@ -1,0 +1,11 @@
+elb_targets:
+  - target_group_name: lux-443
+
+ec2_security_groups:
+  - '{{ sg_pre }}-tp-apache'
+  - '{{ sg_pre }}-tp-ssh'
+  - '{{ sg_pre }}-p-nfs'
+  - '{{ sg_pre }}-p-mysql'
+  - '{{ sg_pre }}-p-solr'
+  - '{{ sg_pre }}-p-redis'
+  - '{{ sg_pre }}-p-http-to-solr'

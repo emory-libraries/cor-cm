@@ -1,0 +1,25 @@
+rds_host: dlp-tst-rdsmys-sz
+
+dlp_curate_mysql_db:
+  name: '{{ vault_curate.arch.db.name  | d () }}'
+  user: '{{ vault_curate.arch.db.user | d () }}'
+  password: '{{ vault_curate.arch.db.pass | d() }}'
+
+curate_backup_to_s3:
+  delete_output: yes
+  notify_slack: yes
+  option:
+    _o: '/tmp/{{ ansible_date_time.iso8601_micro }}'
+    _h: '{{ hostvars[rds_host]["endpoint"]["address"] }}'
+    _B: '{{ vault_curate.arch.db.name | d () }}'
+    _u: '{{ vault_curate.arch.db.user | d () }}'
+    _p: '{{ vault_curate.arch.db.pass | d () }}'
+    __lock_all_tables: 
+    _t: 8
+    _c:
+  s3:
+    bucket: cor-devops-binaries
+    key_prefix: mydumper-backups/curate-arch
+    region: us-west-1
+    
+mydumper_backup: '{{ curate_backup_to_s3 }}'

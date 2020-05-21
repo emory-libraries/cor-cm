@@ -1,0 +1,3 @@
+fedora_aws_access_key: '{{ vault_fedora.prod.aws2.access_key }}'
+fedora_aws_secret_key: '{{ vault_fedora.prod.aws2.secret_key }}'
+fedora_aws_bucket: fedora-cor-binaries

@@ -1,0 +1,16 @@
+ec2_security_groups:
+  - '{{ sg_pre }}-t-http-to-fedora'
+  - '{{ sg_pre }}-t-http-to-solr'
+  - '{{ sg_pre }}-t-http-to-iiif'
+  - '{{ sg_pre }}-tp-ssh'
+  - '{{ sg_pre }}-tp-apache'
+  - '{{ sg_pre }}-t-nfs'
+  - '{{ sg_pre }}-p-nfs'
+  - '{{ sg_pre }}-t-mysql'
+  - '{{ sg_pre }}-t-solr'
+  - '{{ sg_pre }}-t-redis'
+
+elb_targets:
+  - target_group_name: curate-test-443
+
+ec2_instance_type: t3.2xlarge

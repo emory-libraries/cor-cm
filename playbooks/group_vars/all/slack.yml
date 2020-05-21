@@ -1,0 +1,3 @@
+mydumper_backup_slack:
+  token: '{{ vault_dlp.slack.token }}'
+  channel: '#dlp-backups'
