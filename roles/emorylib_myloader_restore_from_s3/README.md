@@ -1,17 +1,32 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+This role download a mydumper backup from s3, then perform a myloader restore with desired options.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+The remote executing this role must have awscli and boto3 installed.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+```yaml
+myloader_restore:
+  notify_slack:
+  option:
+    _B: whatever
+  # Can't specify dir flags when using date, otherwise it's same as mydumper
+  s3:
+    bucket:
+  key_prefix:
+  date:
+  download:
+    delete: yes
+    path: /tmp
+
+myloader_restore_slack:
+```
 
 Dependencies
 ------------

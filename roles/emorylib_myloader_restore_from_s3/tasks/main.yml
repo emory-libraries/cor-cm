@@ -1,2 +1,5 @@
 ---
 # tasks file for emorylib_myloader_restore_from_s3
+
+- name: Include tasks to error check input variable
+  include_tasks: error-check-input.yml
