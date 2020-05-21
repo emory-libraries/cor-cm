@@ -1,0 +1,23 @@
+rds_host: dlp-tst-rdsmys-sz
+
+fedora_mysql_db:
+  name: '{{ vault_fedora.test.db.name }}'
+  user: '{{ vault_fedora.test.db.user }}'
+  password: '{{ vault_fedora.test.db.pass }}'
+
+fedora_cor_backup_to_s3:
+  delete_output: yes
+  notify_slack: yes
+  option:
+    _o: '/tmp/{{ ansible_date_time.iso8601_micro }}'
+    _h: '{{ hostvars[rds_host]["endpoint"]["address"] }}'
+    _B: '{{ vault_fedora.test.db.name | d () }}'
+    _u: '{{ vault_fedora.test.db.user | d () }}'
+    _p: '{{ vault_fedora.test.db.pass | d () }}'
+    __lock_all_tables: 
+    _t: 8
+    _c:
+  s3:
+    bucket: cor-devops-binaries
+    key_prefix: mydumper-backups/fedora-cor-test
+    region: us-west-1

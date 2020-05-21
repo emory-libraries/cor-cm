@@ -1,0 +1,23 @@
+rds_host: dlp-tst-rdsmys-sz
+
+dlp_lux_mysql_db:
+  name: '{{ vault_lux.arch.db.name }}'
+  user: '{{ vault_lux.arch.db.user }}'
+  password: '{{ vault_lux.arch.db.pass }}'
+
+digital_backup_to_s3:
+  delete_output: yes
+  notify_slack: yes
+  option:
+    _o: '/tmp/{{ ansible_date_time.iso8601_micro }}'
+    _h: '{{ hostvars[rds_host]["endpoint"]["address"] }}'
+    _B: '{{ vault_lux.arch.db.name | d () }}'
+    _u: '{{ vault_lux.arch.db.user | d () }}'
+    _p: '{{ vault_lux.arch.db.pass | d () }}'
+    __lock_all_tables: 
+    _t: 8
+    _c:
+  s3:
+    bucket: cor-devops-binaries
+    key_prefix: mydumper-backups/digital-arch
+    region: us-west-1

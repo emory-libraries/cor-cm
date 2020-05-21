@@ -1,0 +1,8 @@
+__dlp_lux_dotenv:
+  ga_tracking_code: '{{ vault_lux.arch_test.google_analytics.code | d () }}'
+  http_password_protect: 'true'
+  solr_url: http://solr-cor-test.library.emory.edu/solr/lux_alias
+  thumbnail_url: https://curate-test.library.emory.edu/
+  iiif_manifest_url: https://curate-test.library.emory.edu/iiif/
+  iiif_cookie_salt_1: '{{ vault_dlp.iiif.test.cookie.salt_1 }}'
+  iiif_cookie_salt_2: '{{ vault_dlp.iiif.test.cookie.salt_2 }}'

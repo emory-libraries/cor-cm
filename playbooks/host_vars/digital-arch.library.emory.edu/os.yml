@@ -1,0 +1,5 @@
+efs_mount_points:
+  - path: /mnt/arch_efs
+    dns_name: fs-7bda9999.efs.us-east-1.amazonaws.com
+
+sp_entity_id: https://digital.library.emory.edu
