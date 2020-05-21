@@ -2,4 +2,4 @@
 - hosts: localhost
   remote_user: root
   roles:
-    - emorylib_mydumper_s3_backup_restore
+    - emorylib_mydumper_backup_to_s3

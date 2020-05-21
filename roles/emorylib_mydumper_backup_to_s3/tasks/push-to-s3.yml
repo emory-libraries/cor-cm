@@ -1,0 +1,8 @@
+---
+- name: Push files to s3 via s3 sync
+  s3_sync:
+    bucket: '{{ __mydumper_backup.s3.bucket }}'
+    file_root: '{{ __mydumper_backup.dir_path }}'
+    key_prefix: '{{ __mydumper_backup.s3.key_prefix }}/{{ __mydumper_backup.dir_path | basename }}'
+    region: '{{ __mydumper_backup.s3.region }}'
+  register: s3_sync_info

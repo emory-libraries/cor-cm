@@ -1,0 +1,24 @@
+---
+# tasks file for emorylib_mydumper_backup_to_s3
+
+- name: Include tasks to error check mydumper
+  include_tasks: error-check-mydumper.yml
+
+- name: Include tasks to run mydumper command
+  include_tasks: mydumper.yml
+
+- name: Include tasks to sync mydumper outputdir to S3
+  include_tasks: push-to-s3.yml
+  when: __mydumper_backup.s3 | d (false)
+
+- name: Include tasks to build report
+  include_tasks: build-report.yml
+
+- name: Include tasks to notify to slack and console
+  include_tasks: notify.yml
+
+- name: Delete outputdir from local storage
+  file:
+    path: '{{ __mydumper_backup.dir_path }}'
+    state: absent
+  when: __mydumper_backup.delete_output | d (false)

@@ -1,0 +1,30 @@
+
+- name: Output reports to console
+  debug:
+    msg: '{{ item.0 }}'
+  when: item.1 
+  vars:
+    reports:
+      - '{{ __local_output_report | d () }}'
+      - '{{ __s3_report | d () }}'
+    bools:
+      - '{{ __local_output_bool | d (false) }}'
+      - '{{ __s3_bool | d (false) }}' 
+  loop: '{{ reports | zip (bools) | list }}'
+     
+- name: Notify Slack
+  slack:
+    token: '{{ mydumper_backup_slack.token }}' # required. Slack integration token.  This authenticates you to the slack service. Prior to 1.8, a token looked like C(3Ffe373sfhRE6y42Fg3rvf4GlK).  In 1.8 and above, ansible adapts to the new slack API where tokens look like C(G922VJP24/D921DW937/3Ffe373sfhRE6y42Fg3rvf4GlK).  If tokens are in the new format then slack will ignore any value of domain.  If the token is in the old format the domain is required.  Ansible has no control of when slack will get rid of the old API.  When slack does that the old format will stop working.  ** Please keep in mind the tokens are not the API tokens but are the webhook tokens.  In slack these are found in the webhook URL which are obtained under the apps and integrations. The incoming webhooks can be added in that area.  In some cases this may be locked by your Slack admin and you must request access.  It is there that the incoming webhooks can be added.  The key is on the end of the URL given to you in that section.
+    username: '{{ mydumper_backup_slack.username | d (omit) }}' # not required. This is the sender of the message.
+    domain: '{{ mydumper_backup_slack.domain | d (omit) }}' # not required. Slack (sub)domain for your environment without protocol. (i.e. C(example.slack.com)) In 1.8 and beyond, this is deprecated and may be ignored.  See token documentation for information.
+    attachments: '{{ mydumper_backup_slack.attachments | d (mydumper_backup_slack_attachments) | d (omit) }}' # not required. Define a list of attachments. This list mirrors the Slack JSON API.,For more information, see also in the (U(https://api.slack.com/docs/attachments)).
+    color: '{{ mydumper_backup_slack.color | d (omit) }}' # not required. choices: normal;good;warning;danger. Allow text to use default colors - use the default of 'normal' to not send a custom color bar at the start of the message
+    icon_url: '{{ mydumper_backup_slack.icon_url | d (omit) }}' # not required. Url for the message sender's icon (default C(https://www.ansible.com/favicon.ico))
+    parse: '{{ mydumper_backup_slack.parse | d (omit) }}' # not required. choices: full;none. Setting for the message parser at Slack
+    icon_emoji: '{{ mydumper_backup_slack.icon_emoji | d (omit) }}' # not required. Emoji for the message sender. See Slack documentation for options. (if I(icon_emoji) is set, I(icon_url) will not be used)
+    link_names: '{{ mydumper_backup_slack.link_names | d (omit) }}' # not required. choices: 1;0. Automatically create links for channels and usernames in I(msg).
+    msg: '{{ mydumper_backup_slack.msg | d (mydumper_backup_slack_msg) | d (omit) }}' # not required. Message to send. Note that the module does not handle escaping characters. Plain-text angle brackets and ampersands should be converted to HTML entities (e.g. & to &amp;) before sending. See Slack's documentation (U(https://api.slack.com/docs/message-formatting)) for more.
+    validate_certs: '{{ mydumper_backup_slack.validate_certs | d (omit) }}' # not required. If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
+    channel: '{{ mydumper_backup_slack.channel | d (omit) }}' # not required. Channel to send the message to. If absent, the message goes to the channel selected for the I(token).:
+  when: mydumper_backup.notify_slack | d (false)
+
