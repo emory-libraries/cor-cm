@@ -12,9 +12,36 @@
 
 - name: Include tasks to shutdown specified programs
   include_tasks: stop-programs.yml
+  vars:
+    state: stopped
   when: myloader_stop_programs is defined
 
 - name: Run myloader command
   shell: 'echo {{ lookup ("template", "myloader_command.j2") }}'
 
+- name: Include tasks to restart specified programs
+  include_tasks: stop-programs.yml
+  vars:
+    state: started
+  when: myloader_stop_programs is defined
+
+- name: Include tasks to build reports
+  include_tasks: build-reports.yml
+  vars:
+    directory: '{{ myloader_restore.option.__directory | d (myloader_restore.option._d) | d () }}'
+    db_name: '{{ myloader_restore.option.__database | d (myloader_restore.option._B) | d () }}'
+    host: '{{ myloader_restore.option.__host | d (myloader_restore.option._h) | d () }}'
   
+- name: Include tasks to notify slack
+  include_tasks: notify-slack.yml
+  when: myloader_restore.notify_slack | d (false)
+
+- name: Delete downloaded backup
+  file:
+    path: '{{ bucket_key_path | d () }}'
+    state: absent
+  vars:
+    download: '{{ myloader_restore.download | d () }}'
+  when: 
+    - myloader_restore.s3 is defined
+    - download.delete | d (true)

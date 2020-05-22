@@ -21,9 +21,12 @@ myloader_restore:
     bucket:
   key_prefix:
   date:
-  download:
+  download:             # Optional Key, default is /tmp path and to delete the s3 directory after the myloader restore is complete
     delete: yes
     path: /tmp
+
+myloader_restore_owner: # Optional owner for directory downloaded from S3
+myloader_restore_group: # Optional group for directory downloaded from S3
 
 myloader_restore_slack:
 myloader_stop_programs:

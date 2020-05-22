@@ -1,0 +1,20 @@
+---
+- name: Build report for local restore
+  set_fact:
+    restore_report: |
+      Database Name: {{ db_name }} | Remote: {{ inventory_hostname_short }}
+      Input directory: {{ directory }} | Host: {{ host }}
+  when: myloader_restore.s3 is undefined
+
+- name: Build report for s3 restore
+  set_fact:
+    restore_report: |
+      Database Name: {{ db_name }} | Remote: {{ inventory_hostname_short }}
+      S3 Key: {{ s3_key }} | Host: {{ host }}
+  vars:
+    s3_key: '{{ bucket_key | d () }}'
+  when: myloader_restore.s3 is defined
+
+- name: Output report to console
+  debug:
+    msg: '{{ restore_report }}'
