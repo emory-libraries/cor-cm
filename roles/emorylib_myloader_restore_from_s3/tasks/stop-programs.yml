@@ -1,5 +1,8 @@
 ---
-- name:  {{ myloader_stop_programs }}
+- name: '{{ (state == "stopped") | ternary ("Stop", "Start") }} {{ myloader_stop_programs }}'
   systemd:
-    name: '{{ myloader_stop_programs }}'
+    name: '{{ item }}'
     state: '{{ state }}'
+  loop: '{{ myloader_stop_programs }}'
+  become: '{{ myloader_become }}'
+  become_user: '{{ myloader_become_user | d (omit) }}'

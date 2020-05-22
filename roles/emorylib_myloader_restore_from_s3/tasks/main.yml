@@ -17,7 +17,7 @@
   when: myloader_stop_programs is defined
 
 - name: Run myloader command
-  shell: 'echo {{ lookup ("template", "myloader_command.j2") }}'
+  shell: '{{ lookup ("template", "myloader_command.j2") }}'
 
 - name: Include tasks to restart specified programs
   include_tasks: stop-programs.yml
@@ -41,7 +41,7 @@
     path: '{{ bucket_key_path | d () }}'
     state: absent
   vars:
-    download: '{{ myloader_restore.download | d () }}'
+    download: '{{ myloader_restore.s3.download | d () }}'
   when: 
     - myloader_restore.s3 is defined
     - download.delete | d (true)

@@ -26,10 +26,16 @@ mydumper_backup: '{{ curate_backup_to_s3 }}'
 
 myloader_restore:
   option:
-    #_d: /tmp/test
-    _B: dbnamehere
-    __host: rdshosthere
+    _B: '{{ vault_curate.arch.db.name | d () }}'
+    _u: '{{ vault_curate.arch.db.user | d () }}'
+    _p: '{{ vault_curate.arch.db.pass | d () }}'
+    _o:
+    __host: '{{ hostvars[rds_host]["endpoint"]["address"] }}'
   s3:
     bucket: cor-devops-binaries
-    date: '2020-05-20T17:21:10.590894Z'
-    key_prefix: mydumper-backups/curate-test
+    date: 'latest'
+    key_prefix: mydumper-backups/curate-arch
+
+myloader_stop_programs:
+  - httpd
+  - sidekiq

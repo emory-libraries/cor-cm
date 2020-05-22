@@ -1,2 +1,10 @@
 ---
+
 # defaults file for emorylib_myloader_restore_from_s3
+
+myloader_become: yes
+
+#myloader_restore_group:
+#myloader_restore_owner:
+#myloader_become_user:
+#myloader_stop_programs:
