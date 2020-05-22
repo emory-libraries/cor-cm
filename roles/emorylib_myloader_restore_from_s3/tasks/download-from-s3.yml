@@ -1,0 +1,35 @@
+---
+- name: Get bucket keys via aws s3 ls
+  shell: aws s3 ls {{ s3.bucket }}/{{ s3.key_prefix | regex_replace(get_trailing_slash, '') }}/ | sed 's/PRE //g' | sed 's/.$//g'
+  vars:
+    get_trailing_slash: \/$
+  register: bucket_key_info
+
+- name: Set bucket keys and download path
+  set_fact:
+    bucket_keys: '{{ bucket_key_info.stdout_lines | map("trim") | list }}'
+    download_path: '{{ download.path | d ("/tmp") }}'
+  vars:
+    download: '{{ s3.download | d () }}'
+
+- name: Include tasks to get specific bucket key
+  include_tasks: get-bucket-key.yml
+
+- name: Create download directories
+  file:
+    path: '{{ item }}'
+    state: directory
+    owner: '{{ myloader_restore_owner | d (omit) }}'
+    group: '{{ myloader_restore_group | d (omit) }}'
+  loop: '{{ download_dirs }}'
+  vars:
+    download_dirs:
+      - '{{ download_path }}'
+      - '{{ download_path }}/{{ bucket_key }}'
+
+- name: Download bucket key to epoch tmp via aws s3 sync
+  shell: >
+    aws s3 sync s3://{{ s3.bucket }}/{{ s3.key_prefix | regex_replace(get_trailing_slash, "") }}/{{ bucket_key }}/
+    {{ download_path }}/{{ bucket_key }}
+  vars:
+    get_trailing_slash: \/$

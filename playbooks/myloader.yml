@@ -1,0 +1,4 @@
+---
+- hosts: '{{ host | d ("all") }}'
+  roles:
+    - emorylib_myloader_restore_from_s3

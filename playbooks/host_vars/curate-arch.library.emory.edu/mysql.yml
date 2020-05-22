@@ -23,3 +23,11 @@ curate_backup_to_s3:
     region: us-west-1
     
 mydumper_backup: '{{ curate_backup_to_s3 }}'
+
+myloader_restore:
+  option:
+    #_d: /tmp/test
+  s3:
+    bucket: test
+    date: test
+    key_prefix: test

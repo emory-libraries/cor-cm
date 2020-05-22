@@ -3,3 +3,10 @@
 
 - name: Include tasks to error check input variable
   include_tasks: error-check-input.yml
+
+- name: Include tasks to download mydumper backup from s3
+  include_tasks: download-from-s3.yml
+  vars:
+    s3: '{{ myloader_restore.s3 | d () }}'
+  when: myloader_restore.s3 is defined
+  

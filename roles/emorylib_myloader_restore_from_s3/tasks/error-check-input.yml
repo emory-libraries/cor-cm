@@ -18,4 +18,4 @@
     fail_msg: Please fully defined the s3 options
   vars:
     s3: '{{ myloader_restore.s3 | d () }}'
-  when: s3 is defined
+  when: myloader_restore.s3 is defined
