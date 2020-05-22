@@ -9,4 +9,12 @@
   vars:
     s3: '{{ myloader_restore.s3 | d () }}'
   when: myloader_restore.s3 is defined
+
+- name: Include tasks to shutdown specified programs
+  include_tasks: stop-programs.yml
+  when: myloader_stop_programs is defined
+
+- name: Run myloader command
+  shell: 'echo {{ lookup ("template", "myloader_command.j2") }}'
+
   

@@ -26,6 +26,9 @@ myloader_restore:
     path: /tmp
 
 myloader_restore_slack:
+myloader_stop_programs:
+  - fedora
+  - httpd
 ```
 
 Dependencies

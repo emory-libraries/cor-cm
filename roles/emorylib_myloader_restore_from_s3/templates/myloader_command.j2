@@ -1,0 +1,1 @@
+myloader{% if bucket_key_path is defined %} -d {{ bucket_key_path }}{% endif %} {% for key, value in myloader_restore.option | dictsort %}{{ key | replace("_", "-") }} {{ value }} {% endfor %}

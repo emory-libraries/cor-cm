@@ -1,0 +1,4 @@
+---
+- name: Shutdown {{ myloader_stop_programs }}
+  systemd:
+    name: '{{ myloader_stop_programs }}'
