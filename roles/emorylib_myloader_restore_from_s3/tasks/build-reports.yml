@@ -12,9 +12,18 @@
       Database Name: {{ db_name }} | Remote: {{ inventory_hostname_short }}
       S3 Key: {{ s3_key }} | Host: {{ host }}
   vars:
-    s3_key: '{{ bucket_key | d () }}'
+    s3_key: '{{ s3.bucket }}/{{ s3.key_prefix | regex_replace(get_trailing_slash, "") }}/{{ bucket_key | d () }}/'
+    get_trailing_slash: \/$
+    s3: '{{ myloader_restore.s3 | d () }}'
   when: myloader_restore.s3 is defined
 
 - name: Output report to console
   debug:
     msg: '{{ restore_report }}'
+
+- name: Download bucket key to epoch tmp via aws s3 sync
+  shell: >
+    aws s3 sync s3://{{ s3.bucket }}/{{ s3.key_prefix | regex_replace(get_trailing_slash, "") }}/{{ bucket_key }}/
+    {{ bucket_key_path }}
+  vars:
+    get_trailing_slash: \/$

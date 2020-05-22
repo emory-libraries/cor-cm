@@ -27,8 +27,8 @@ mydumper_backup: '{{ curate_backup_to_s3 }}'
 myloader_restore:
   option:
     #_d: /tmp/test
-    __t: test
-    _dir:
+    _B: dbnamehere
+    __host: rdshosthere
   s3:
     bucket: cor-devops-binaries
     date: '2020-05-20T17:21:10.590894Z'
