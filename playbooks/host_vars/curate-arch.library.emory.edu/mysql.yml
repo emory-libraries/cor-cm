@@ -25,6 +25,7 @@ curate_backup_to_s3:
 mydumper_backup: '{{ curate_backup_to_s3 }}'
 
 myloader_restore:
+  notify_slack: yes
   option:
     _B: '{{ vault_curate.arch.db.name | d () }}'
     _u: '{{ vault_curate.arch.db.user | d () }}'
