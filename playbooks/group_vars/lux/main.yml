@@ -33,3 +33,6 @@ dlp_lux_dotenv:
   thumbnail_url: '{{ __dlp_lux_dotenv.thumbnail_url | d () }}'
   rails_host: localhost
   rails_serve_static_files: true
+
+myloader_stop_programs:
+  - httpd

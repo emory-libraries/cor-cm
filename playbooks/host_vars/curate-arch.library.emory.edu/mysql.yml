@@ -24,7 +24,7 @@ curate_backup_to_s3:
     
 mydumper_backup: '{{ curate_backup_to_s3 }}'
 
-myloader_restore:
+myloader_restore_arch_from_test:
   notify_slack: yes
   option:
     _B: '{{ vault_curate.arch.db.name | d () }}'
@@ -36,7 +36,3 @@ myloader_restore:
     bucket: cor-devops-binaries
     date: 'latest'
     key_prefix: mydumper-backups/curate-arch
-
-myloader_stop_programs:
-  - httpd
-  - sidekiq

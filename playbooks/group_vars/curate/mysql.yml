@@ -15,3 +15,7 @@ mydumper:
   database: "{{ dlp_curate_mysql_db.name | d ('') }}"
   password: "{{ dlp_curate_mysql_db.password | d ('') }}"
   user: "{{ dlp_curate_mysql_db.user | d ('') }}"
+
+myloader_stop_programs:
+  - httpd
+  - sidekiq
