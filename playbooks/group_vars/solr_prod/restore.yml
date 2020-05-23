@@ -11,7 +11,7 @@ restore_for_lux_ingest:
       date: latest
       clean_path: yes
 
-restore_curate_colletcion:
+restore_curate_collection:
   collection:
     name: curate_collection
     delete_if_collection_exists: yes
