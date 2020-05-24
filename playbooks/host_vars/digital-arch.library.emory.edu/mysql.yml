@@ -33,4 +33,4 @@ myloader_restore_arch_from_test:
   s3:
     bucket: cor-devops-binaries
     date: 'latest'
-    key_prefix: mydumper-backups/digital-arch
+    key_prefix: mydumper-backups/digital-test
