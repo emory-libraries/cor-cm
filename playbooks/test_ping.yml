@@ -1,6 +1,45 @@
-- hosts: localhost
-  vars: 
-    test_var:
-      msg: 'Test message'
+- hosts: all
   tasks:
-    - debug: '{{ test_var }}'
+    - shell: 'time ping -c 4 localhost'
+      register: s3_sync_info
+      tags: test2
+
+    - name: Copy s3 test efs to S3
+      shell: 'time aws s3 sync /mnt/arch_efs/uploads s3://cor-devops-binaries/efs-upload-backups/test_efs/{{ ansible_date_time.iso8601_micro }}'
+      register: s3_sync_info
+
+    #- debug:
+    #    msg: '{{ date }}' #to_datetime("%H:%M:%S")
+    #  tags: test2
+    #  vars:
+    #    date: '{{ s3_sync_info.delta | regex_replace("\.(.*)") | to_datetime("%H:%M:%S") }}'
+    
+    - set_fact:
+        upload_time: '{{ real.split() [-1] }}'
+      vars:
+        real: '{{ s3_sync_info.stderr_lines | select ("contains", "real")  | list | first }}'
+      tags: test2
+    
+    - debug:
+        var: upload_time
+    
+    - name: Get info on bucket, size and objects
+      shell: 'aws s3 ls --summarize --human-readable --recursive s3://cor-devops-binaries/efs-upload-backups/test_efs/{{ ansible_date_time.iso8601_micro }}'
+      register: s3_bucket_info
+      tags: test
+      failed_when: false
+
+    - name: Set variables
+      set_fact:
+        total_objects: '{{ objects.split() [-1] }}'
+        total_size: '{{ size.split() [-2] }} {{ size.split() [-1] }}'
+      vars:
+        objects: '{{ s3_bucket_info.stdout_lines | select ("contains", "Total Objects:") | list | first }}'
+        size: '{{ s3_bucket_info.stdout_lines | select ("contains", "Total Size:") | list | first }}'
+      tags: test
+
+    - debug:
+        msg: '{{ item }}'
+      loop: ['{{total_objects}}', '{{total_size}}']
+      tags: test
+    
