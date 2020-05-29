@@ -1,0 +1,11 @@
+---
+# tasks file for emorylib_copy_from_s3
+
+- name: Include tasks to check local path
+  include_tasks: manage-local-path.yml
+  vars:
+    local: '{{ copy_from_s3.local | d () }}'
+    s3: '{{ copy_from_s3.s3 | d () }}'
+    escalate: '{{ copy_from_s3.escalate | d () }}'
+    if: '{{ local.if_path_exists | d ("stop") | lower }}'
+    exists: '{{ path_info.stat.exists | d () }}'
