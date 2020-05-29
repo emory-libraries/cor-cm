@@ -1,0 +1,13 @@
+- name: Build report
+  set_fact:
+    s3_copy_report: |
+      {{ copy_to_s3.name is defined | ternary (name, "") }}
+      Time to Upload: {{ upload_time }}
+      Estimated Upload Size: {{ total_size }}
+      Estimated Number of Objects Uploaded: {{ upload_time }}
+  vars:
+    name: 'Name: {{ copy_to_s3.name | d () }}'
+
+- name: Output report to console
+  debug:
+    msg: '{{ s3_copy_report }}'
