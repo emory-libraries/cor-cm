@@ -7,13 +7,13 @@
 
 - name: Fail play if path exists and stop selected
   assert:
-    that: not exists or (if == "delete" or if == "backup")
+    that: not exists or (if_path == "delete" or if_path == "backup")
     fail_msg: Path already exists, must select delete or backup to continue play    
 
 - name: Rename existing path if backup or delete
   shell: 'mv {{ local.path }} {{ local.path }}-{{ ansible_date_time.epoch }}'
   when: 
-    - if == "delete" or if == "backup"
+    - if_path == "delete" or if_path == "backup"
     - exists
 
 - name: Delete folder async if delete
@@ -24,7 +24,7 @@
   poll: 0
   register: delete_job_info
   when:
-    - if == "delete"
+    - if_path == "delete"
     - exists
 
 - debug:
