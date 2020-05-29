@@ -5,20 +5,27 @@
     follow: '{{ local.follow_symblink | d (true) }}'
   register: path_info
 
+- name: Create path variable
+  set_fact:
+    local_path: '{{ path_info.stat.path }}'
+
+- debug:
+    var: exists
+
 - name: Fail play if path exists and stop selected
   assert:
     that: not exists or (if_path == "delete" or if_path == "backup")
     fail_msg: Path already exists, must select delete or backup to continue play    
 
 - name: Rename existing path if backup or delete
-  shell: 'mv {{ local.path }} {{ local.path }}-{{ ansible_date_time.epoch }}'
+  shell: 'mv {{ local_path }} {{ local_path }}-{{ ansible_date_time.epoch }}'
   when: 
     - if_path == "delete" or if_path == "backup"
     - exists
 
 - name: Delete folder async if delete
   file:
-    path: '{{ local.path }}-{{ ansible_date_time.epoch }}'
+    path: '{{ local_path }}-{{ ansible_date_time.epoch }}'
     state: absent
   async: 10000
   poll: 0
@@ -28,7 +35,7 @@
     - exists
 
 - debug:
-    var: delete_job_info
+    var: delete_job_info | d ()
 
 - name: Confirm delete job
   async_status:
@@ -37,9 +44,12 @@
   until: async_delete_job_info.finished
   retries: 100
   delay: 10
+  when:
+    - if_path == "delete"
+    - exists
 
 - debug:
-    var: async_delete_job_info
+    var: async_delete_job_info | d ()
 
 
     
