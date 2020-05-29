@@ -7,7 +7,7 @@
     date_format: '{{ s3.timestamp_format | d ("iso8601_micro") }}'
 
 - name: Copy to S3
-  shell: 'time aws s3 cp {{ copy.path }} {{ s3_target }}'
+  shell: 'time aws s3 sync {{ copy.path }} {{ s3_target }}'
   become: '{{ escalate.become | d (omit) }}'
   become_user: '{{ escalate.become_user | d (omit) }}'
   become_method: '{{ escalate.become_method | d (omit) }}'

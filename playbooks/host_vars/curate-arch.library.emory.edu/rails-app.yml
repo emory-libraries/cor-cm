@@ -11,10 +11,14 @@ __dlp_curate_dotenv:
 cap_branding_symlink_path: /mnt/arch_efs/uploads/dlp-curate/branding
 
 backup_dlp_curate_efs_to_s3:
-  name: Curate Arch EFS Folder
-  path: /mnt/efs/arch_efs/old_uploads
+  #name: Curate Arch EFS Folder
+  path: /mnt/arch_efs/uploads
   s3:
     bucket: cor-devops-binaries
     key_prefix: efs-upload-backups/test_efs
-
+    timestamp: yes
+  notify_slack: yes
+copy_to_s3_slack:
+  token: '{{ vault_dlp.slack.token }}'
+  channel: '#dlp-backups'
 copy_to_s3: '{{ backup_dlp_curate_efs_to_s3 }}'
