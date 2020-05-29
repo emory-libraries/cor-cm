@@ -25,6 +25,7 @@ copy_to_s3: '{{ backup_dlp_curate_efs_to_s3 }}'
 
 restore_efs_test:
   local: 
-    path: /mnt/arch_efs/old_
+    path: /mnt/arch_efs/test_large_dir2
     #if_path_exists: delete
-    
+
+copy_from_s3: '{{ restore_efs_test }}'

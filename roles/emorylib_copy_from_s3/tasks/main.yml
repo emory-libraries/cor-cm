@@ -4,10 +4,10 @@
 - name: Include tasks to check local path
   include_tasks: 
     file: manage-local-path.yml
-  apply:
-    become: '{{ escalate.become | d (omit) }}'
-    become_user: '{{ escalate.become_user | d (omit) }}'
-    become_method: '{{ escalate.become_method | d (omit) }}'
+    apply:
+      become: '{{ escalate.become | d (omit) }}'
+      become_user: '{{ escalate.become_user | d (omit) }}'
+      become_method: '{{ escalate.become_method | d (omit) }}'
   vars:
     local: '{{ copy_from_s3.local | d () }}'
     s3: '{{ copy_from_s3.s3 | d () }}'
