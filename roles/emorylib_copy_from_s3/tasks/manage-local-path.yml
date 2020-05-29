@@ -38,6 +38,9 @@
   retries: 100
   delay: 10
 
+- debug:
+    var: async_delete_job_info
+
 
     
     
