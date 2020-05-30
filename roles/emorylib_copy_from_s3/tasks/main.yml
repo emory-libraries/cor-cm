@@ -37,5 +37,5 @@
     exists: '{{ path_info.stat.exists | d () }}'
     if_path: '{{ local.if_path_exists | d ("stop") | lower }}'
   when:
-    - if_path == "delete"
-    - exists
+    - copy_from_s3.local.if_path_exists | d () == "delete"
+    - path_info.stat.exists

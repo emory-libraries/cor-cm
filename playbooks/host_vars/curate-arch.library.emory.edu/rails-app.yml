@@ -30,6 +30,6 @@ restore_efs_test:
   s3:
     bucket: cor-devops-binaries
     key_prefix: efs-upload-backups/efs_2nd_test
-    date: '2020-05-27T02:08:11.594066Z'
+    date: 'latest'
 
 copy_from_s3: '{{ restore_efs_test }}'
