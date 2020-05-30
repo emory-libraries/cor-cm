@@ -7,7 +7,7 @@
 
 - name: Create path variable
   set_fact:
-    local_path: '{{ path_info.stat.path }}'
+    local_path: '{{ path_info.stat.path | d (local.path) }}'
 
 - name: Fail play if path exists and stop selected
   assert:
@@ -20,4 +20,3 @@
   when:
     - if_path == "delete" or if_path == "backup"
     - exists
-    

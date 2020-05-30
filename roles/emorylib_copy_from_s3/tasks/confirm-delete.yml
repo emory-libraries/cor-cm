@@ -5,7 +5,5 @@
   register: async_delete_job_info
   until: async_delete_job_info.finished
   retries: 100
-  delay: 10
-  when:
-    - if_path == "delete"
-    - exists
+  delay: 20
+  
