@@ -11,11 +11,11 @@ __dlp_curate_dotenv:
 cap_branding_symlink_path: /mnt/test_efs/uploads/dlp-curate/branding
 
 backup_dlp_curate_efs_to_s3:
-  name: Curate Prod Uploads Folder
-  path: /mnt/prod_efs/uploads
+  name: Curate Test Upload Folder
+  path: /mnt/test_efs/uploads
   s3:
     bucket: cor-devops-binaries
-    key_prefix: file-system-backups/dlp-curate/curate
+    key_prefix: file-system-backups/dlp-curate/curate-test
     timestamp: yes
   notify_slack: yes
 copy_to_s3_slack:
