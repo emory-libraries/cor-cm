@@ -55,6 +55,12 @@ iam_policies: #iam-manage-policy
     manifest_bucket: cor-s3-inventory-1
     report_bucket: cor-s3-inventory-2
     policy_template_path: iam_policy_s3_batch_operation_putcopy_json.j2
+  - policy_name: S3BatchPutCopyOpFromFedoraCorToFedoraCorTest
+    destination_bucket: fedora-cor-test-binaries
+    source_bucket: fedora-cor-binaries
+    manifest_bucket: cor-s3-inventory-2
+    report_bucket: cor-s3-inventory-1
+    policy_template_path: iam_policy_s3_batch_operation_putcopy_json.j2
   - policy_name: S3BatchPutCopyTestDLP
     destination_bucket: temp-bucket-dlp-test
     source_bucket: fedora-cor-test-binaries
