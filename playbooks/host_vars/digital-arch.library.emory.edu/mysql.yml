@@ -21,3 +21,16 @@ digital_backup_to_s3:
     bucket: cor-devops-binaries
     key_prefix: mydumper-backups/digital-arch
     region: us-west-1
+
+myloader_restore_arch_from_test:
+  notify_slack: yes
+  option:
+    _B: '{{ vault_lux.arch.db.name | d () }}'
+    _u: '{{ vault_lux.arch.db.user | d () }}'
+    _p: '{{ vault_lux.arch.db.pass | d () }}'
+    _o:
+    __host: '{{ hostvars[rds_host]["endpoint"]["address"] }}'
+  s3:
+    bucket: cor-devops-binaries
+    date: 'latest'
+    key_prefix: mydumper-backups/digital-test

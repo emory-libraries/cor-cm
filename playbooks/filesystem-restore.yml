@@ -1,0 +1,4 @@
+---
+- hosts: '{{ host | d ("all") }}'
+  roles:
+    - emorylib_copy_from_s3

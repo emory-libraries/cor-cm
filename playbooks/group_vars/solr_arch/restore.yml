@@ -12,7 +12,7 @@ restore_for_lux_ingest:
       date: latest
       clean_path: yes
 
-restore_curate_colletcion:
+restore_curate_collection:
   collection:
     name: curate_collection
     delete_if_collection_exists: yes
@@ -20,5 +20,16 @@ restore_curate_colletcion:
     s3:
       bucket: cor-devops-binaries
       key_prefix: solr-backups/solr-arch/curate_collection
+      tmp_path: /mnt/arch_efs/solr/restore
+      date: latest
+
+restore_arch_from_test_curate_collection:
+  collection:
+    name: curate_collection
+    delete_if_collection_exists: yes
+  source:
+    s3:
+      bucket: cor-devops-binaries
+      key_prefix: solr-backups/solr-test/curate_collection
       tmp_path: /mnt/arch_efs/solr/restore
       date: latest

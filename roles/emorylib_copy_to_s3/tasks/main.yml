@@ -1,0 +1,12 @@
+---
+# tasks file for emorylib_copy_to_s3
+
+- name: Include tasks copying files
+  include_tasks: copy-to-s3.yml
+  vars:
+    copy: '{{ copy_to_s3 | d () }}'
+    escalate: '{{ copy.escalate | d () }}'
+    s3: '{{ copy.s3 | d () }}'
+
+- name: Include tasks to build report
+  include_tasks: reporting.yml

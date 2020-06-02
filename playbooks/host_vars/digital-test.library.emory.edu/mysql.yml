@@ -22,3 +22,16 @@ digital_backup_to_s3:
     bucket: cor-devops-binaries
     key_prefix: mydumper-backups/digital-test
     region: us-west-1
+
+myloader_restore_test_from_prod:
+  notify_slack: yes
+  option:
+    _B: '{{ vault_lux.test.db.name | d () }}'
+    _u: '{{ vault_lux.test.db.user | d () }}'
+    _p: '{{ vault_lux.test.db.pass | d () }}'
+    _o:
+    __host: '{{ hostvars[rds_host]["endpoint"]["address"] }}'
+  s3:
+    bucket: cor-devops-binaries
+    date: 'latest'
+    key_prefix: mydumper-backups/digital

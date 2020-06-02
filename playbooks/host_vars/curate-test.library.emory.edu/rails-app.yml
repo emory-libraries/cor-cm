@@ -9,3 +9,27 @@ __dlp_curate_dotenv:
   redis_database: 1
 
 cap_branding_symlink_path: /mnt/test_efs/uploads/dlp-curate/branding
+
+backup_dlp_curate_efs_to_s3:
+  name: Curate Test Upload Folder
+  path: /mnt/test_efs/uploads
+  s3:
+    bucket: cor-devops-binaries
+    key_prefix: file-system-backups/dlp-curate/curate-test
+    timestamp: yes
+  notify_slack: yes
+copy_to_s3_slack:
+  token: '{{ vault_dlp.slack.token }}'
+  channel: '#dlp-backups'
+
+restore_uploads_folder_from_prod:
+  local:
+    path: /mnt/test_efs/uploads
+    if_path_exists: delete
+  escalate:
+    become: yes
+    become_user: deploy
+  s3:
+    bucket: cor-devops-binaries
+    key_prefix: file-system-backups/dlp-curate/curate
+    date: 'latest'

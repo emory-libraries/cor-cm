@@ -1,0 +1,22 @@
+---
+- name: Check if path already exists
+  stat:
+    path: '{{ local.path }}'
+    follow: '{{ local.follow_symblink | d (true) }}'
+  register: path_info
+
+- name: Create path variable
+  set_fact:
+    local_path: '{{ path_info.stat.path | d (local.path) }}'
+
+- name: Fail play if path exists and stop selected
+  assert:
+    that: not exists or (if_path == "delete" or if_path == "backup")
+    fail_msg: Path already exists, must select delete or backup to continue play
+    quiet: yes
+
+- name: Include tasks for renaming and optionally deleting the path
+  include_tasks: rename-start-delete.yml
+  when:
+    - if_path == "delete" or if_path == "backup"
+    - exists

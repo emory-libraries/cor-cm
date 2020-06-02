@@ -58,6 +58,44 @@ fedora_prod_to_backup_fedora_prod:
     Date: latest
   description: Ansible Managed backup job of fedora-cor-binaries
 
+fedora_cor_arch_binaries_from_fedora_cor_test_binaries:
+  operation:
+    S3PutObjectCopy:
+      TargetResource: arn:aws:s3:::fedora-cor-arch-binaries
+  manifest:
+    Spec:
+      Format: S3InventoryReport_CSV_20161130
+  report:
+    Bucket: arn:aws:s3:::cor-s3-inventory-2
+    Prefix: fedora-cor-arch-binaries/completion-report
+    Format: Report_CSV_20180820
+    Enabled: true
+    ReportScope: AllTasks
+  priority: 12
+  region: us-east-1
+  location:
+    KeyPrefix: cor-s3-inventory-2/fedora-cor-test-binaries/manifest/
+    Date: latest
+
+fedora_cor_test_binaries_from_fedora_cor_binaries:
+  operation:
+    S3PutObjectCopy:
+      TargetResource: arn:aws:s3:::fedora-cor-test-binaries
+  manifest:
+    Spec:
+      Format: S3InventoryReport_CSV_20161130
+  report:
+    Bucket: arn:aws:s3:::cor-s3-inventory-2
+    Prefix: fedora-cor-test-binaries/completion-report
+    Format: Report_CSV_20180820
+    Enabled: true
+    ReportScope: AllTasks
+  priority: 12
+  region: us-east-1
+  location:
+    KeyPrefix: cor-s3-inventory-2/fedora-cor-binaries/manifest/
+    Date: latest
+
 curate_arch_tagging_op:
   operation:
     S3PutObjectTagging:

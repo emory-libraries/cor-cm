@@ -57,6 +57,8 @@ Optional role that will install mydumper:
 
 __emorylib_install_mydumper__
 
+The s3_sync module requires that boto3 be installed on the remote.
+
 Example Playbook
 ----------------
 

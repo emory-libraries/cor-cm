@@ -1,0 +1,21 @@
+- name: Assert that option is defined and that s3 and --directory are exclusive
+  assert:
+    that: 
+      - option is defined
+      - ( option.__directory is undefined and option._d is undefined ) or myloader_restore.s3 is undefined
+    quiet: yes
+    fail_msg: --directory/-d and the .s3 options are exclusive, please remove one
+  vars:
+    option: '{{ myloader_restore.option }}'
+
+- name: Assert that s3 is fully defined when present
+  assert:
+    that:
+      - s3.bucket is defined
+      - s3.key_prefix is defined
+      - s3.date is defined
+    quiet: yes
+    fail_msg: Please fully defined the s3 options
+  vars:
+    s3: '{{ myloader_restore.s3 | d () }}'
+  when: myloader_restore.s3 is defined

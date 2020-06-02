@@ -1,0 +1,14 @@
+
+---
+- name: Rename existing path if backup or delete
+  shell: 'mv {{ local_path }} {{ local_path }}-{{ ansible_date_time.epoch }}'
+
+- name: Delete folder async if delete
+  file:
+    path: '{{ local_path }}-{{ ansible_date_time.epoch }}'
+    state: absent
+  async: 10000
+  poll: 0
+  register: delete_job_info
+  when:
+    - if_path == "delete"
