@@ -25,8 +25,11 @@ copy_to_s3: '{{ backup_dlp_curate_efs_to_s3 }}'
 
 restore_efs_test:
   local: 
-    path: /mnt/arch_efs/no_existing_test1
+    path: /mnt/arch_efs/test_large_dir1
     if_path_exists: delete
+ # escalate:
+ #   become: yes
+ #   become_user: deploy
   s3:
     bucket: cor-devops-binaries
     key_prefix: efs-upload-backups/efs_2nd_test

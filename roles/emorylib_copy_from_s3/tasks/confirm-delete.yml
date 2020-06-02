@@ -1,9 +1,0 @@
----
-- name: Confirm delete job
-  async_status:
-    jid: '{{ delete_job_info.ansible_job_id }}'
-  register: async_delete_job_info
-  until: async_delete_job_info.finished
-  retries: '{{ confirm_delete_retries }}'
-  delay: '{{ confirm_delete_delay }}'
-  
