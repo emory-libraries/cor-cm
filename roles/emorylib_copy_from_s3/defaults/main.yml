@@ -1,2 +1,4 @@
 ---
 # defaults file for emorylib_copy_from_s3
+confirm_delete_retries: 100
+confirm_delete_delay: 30
