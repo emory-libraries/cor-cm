@@ -21,5 +21,3 @@ backup_dlp_curate_efs_to_s3:
 copy_to_s3_slack:
   token: '{{ vault_dlp.slack.token }}'
   channel: '#dlp-backups'
-
-copy_to_s3: '{{ backup_dlp_curate_efs_to_s3 }}'
