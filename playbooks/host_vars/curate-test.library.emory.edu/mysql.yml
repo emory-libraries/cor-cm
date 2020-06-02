@@ -21,3 +21,16 @@ curate_backup_to_s3:
     bucket: cor-devops-binaries
     key_prefix: mydumper-backups/curate-test
     region: us-west-1
+
+myloader_restore_test_from_prod:
+  notify_slack: yes
+  option:
+    _B: '{{ vault_curate.test.db.name | d () }}'
+    _u: '{{ vault_curate.test.db.user | d () }}'
+    _p: '{{ vault_curate.test.db.pass | d () }}'
+    _o:
+    __host: '{{ hostvars[rds_host]["endpoint"]["address"] }}'
+  s3:
+    bucket: cor-devops-binaries
+    date: 'latest'
+    key_prefix: mydumper-backups/curate
