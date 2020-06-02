@@ -32,5 +32,5 @@ myloader_restore_test_from_prod:
     __host: '{{ hostvars[rds_host]["endpoint"]["address"] }}'
   s3:
     bucket: cor-devops-binaries
-    date: 'latest'
+    date: '2020-06-02T06:44:56.177336Z'
     key_prefix: mydumper-backups/fedora-cor
