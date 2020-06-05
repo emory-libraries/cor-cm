@@ -1,0 +1,28 @@
+---
+# tasks file for emorylib_sync_s3_buckets
+
+- name: Include tasks to get stats of dest bucket (initial)
+  include_tasks: get-stats-dest-bucket.yml
+  vars:
+    dest_s3: '{{ sync_s3_bucket.dest_s3 }}'
+    size_var_name: initial_size
+    object_var_name: initial_object_count
+
+#- name: Include task to perform bucket sync
+#  include_tasks: sync-buckets.yml
+#  vars:
+#    dest_s3: '{{ sync_s3_bucket.dest_s3 }}'
+#    source_s3: '{{ sync_s3_bucket.source_s3 }}'
+
+- name: Include tasks to get stats of dest bucket (final)
+  include_tasks: get-stats-dest-bucket.yml
+  vars:
+    dest_s3: '{{ sync_s3_bucket.dest_s3 }}'
+    size_var_name: final_size
+    object_var_name: final_object_count
+
+- debug:
+    var: initial_size
+
+- debug:
+    var: final_size

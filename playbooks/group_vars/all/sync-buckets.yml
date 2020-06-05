@@ -1,0 +1,3 @@
+sync_s3_bucket:
+  dest_s3:
+    bucket: fedora-cor-arch-binaries

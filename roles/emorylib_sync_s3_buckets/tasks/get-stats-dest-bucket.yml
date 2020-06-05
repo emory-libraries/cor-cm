@@ -1,0 +1,11 @@
+- name: AWS s3 ls command
+  shell: 'aws s3 ls --summarize --human-readable --recursive s3://{{ dest_s3.bucket }}/{{ dest_s3.key_prefix | d () }}'
+  register: s3_ls_info
+  failed_when: false
+
+- name: Set fact for size variable
+  '{{ size_var_name }}': '{{ size.split() [-2] }} {{ size.split() [-1] }}'
+  '{{ object_var_name }}': '{{ objects.split() [-1] }}'
+  vars:
+    objects: '{{ s3_ls_info.stdout_lines | select ("contains", "Total Objects:") | list | first }}'
+    size: '{{ s3_ls_info.stdout_lines | select ("contains", "Total Size:") | list | first }}'

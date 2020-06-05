@@ -1,0 +1,3 @@
+- hosts: localhost
+  roles:
+    - emorylib_sync_s3_buckets
