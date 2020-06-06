@@ -3,9 +3,12 @@
   register: s3_ls_info
   failed_when: false
 
-- name: Set fact for size variable
-  '{{ size_var_name }}': '{{ size.split() [-2] }} {{ size.split() [-1] }}'
-  '{{ object_var_name }}': '{{ objects.split() [-1] }}'
+- name: Set fact for size and number of objects
+  set_fact:
+    '{{ size_var_name }}': '{{ get_size }}'
+    '{{ object_var_name }}': '{{ objects.split() [-1] }}'
+    '{{ byte_var_name }}': '{{ get_size | regex_replace("i") | human_to_bytes }}'
   vars:
     objects: '{{ s3_ls_info.stdout_lines | select ("contains", "Total Objects:") | list | first }}'
     size: '{{ s3_ls_info.stdout_lines | select ("contains", "Total Size:") | list | first }}'
+    get_size: '{{ size.split() [-2] }} {{ size.split() [-1] }}'
