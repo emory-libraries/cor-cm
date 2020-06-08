@@ -1,32 +1,51 @@
-Role Name
+emorylib_sync_s3_buckets
 =========
 
-A brief description of the role goes here.
+This role with sync the contents of two s3 buckets and optionally report the results to slack
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+The remote running this role must have awscli and boto3 installed via pip.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+```yaml
+# Main Input Variable
+sync_s3_bucket:
+  name:                                       # Optional, name to associate job with; this will be used when reporting to slack
+  source_s3:
+    bucket:                                   # Required, the bucket of the s3 to be synced from
+    key_prefix:                               # Optional, key prefix if syncing a specific folder is desired
+  dest_s3:
+    bucket:                                   # Required, the bucket of the s3 to be synced to
+    key_prefix:                               # Optional, key prefix if syncing to a specific folder is desired
+  notify_slack: no                            # Optional, output results of job to slack, requires the sync_s3_bucket_slack variable to be set
+
+# Slack
+sync_s3_bucket_slack:                         # Follows the same logic as the ansible slack module. Only requirement is the token. There is a default sync_s3_bucket_slack_attachments
+                                              # variable that can be overriden by sync_s3_bucket_slack.attachments if desired
+```
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
-
+```yaml
+# Sync buckets and report to slack
+sync_s3_bucket:
+  name: Sync Bucket A to Bucket B
+  source_s3:
+    bucket: bucket-A
+  dest_s3: bucket-B
+  notify_slack: yes
+sync_s3_bucket_slack:
+  token: 'slack/token/to/desired/channel/here'       # By default number of objects and estimated size of sync are displayed in report
+```
 License
 -------
 
@@ -35,4 +54,4 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Solomon Hilliard for Emory Libaries

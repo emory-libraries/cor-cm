@@ -11,8 +11,8 @@
 - name: Build default text variable
   set_fact:
     text: |
-      Number of bytes transferred: {{ byte_output }}
-      Number of objects transferred: {{ objects_transferred }}
+      Number of bytes synced: {{ byte_output }}
+      Number of objects synced: {{ objects_transferred }}
 
 - name: Output text variable to console
   debug:
