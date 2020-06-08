@@ -1,3 +1,7 @@
 sync_s3_bucket:
   dest_s3:
-    bucket: fedora-cor-arch-binaries
+    bucket: cor-solr-backups
+  source_s3:
+    bucket: temp-bucket-dlp-test
+  name: Nightly sync from temp-bucket to cor-solr-backup test here
+  notify_slack: yes

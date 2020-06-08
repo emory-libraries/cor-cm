@@ -6,13 +6,12 @@
 
 - name: Set fact for human readable output
   set_fact:
-    byte_output: '{{ bytes_transferred | human_readable }}'
-  when: bytes_transferred != "0"
+    byte_output: '{{ bytes_transferred | int | human_readable }}'
 
 - name: Build default text variable
   set_fact:
     text: |
-      Number of bytes transferred: {{ byte_output | d ("0 Bytes") }}
+      Number of bytes transferred: {{ byte_output }}
       Number of objects transferred: {{ objects_transferred }}
 
 - name: Output text variable to console
