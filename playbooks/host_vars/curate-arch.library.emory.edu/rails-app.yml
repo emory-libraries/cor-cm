@@ -18,9 +18,6 @@ backup_dlp_curate_efs_to_s3:
     key_prefix: file-system-backups/dlp-curate/curate-arch
     timestamp: yes
   notify_slack: yes
-copy_to_s3_slack:
-  token: '{{ vault_dlp.slack.dlp_backups }}'
-  channel: '#dlp-backups'
 
 restore_efs_test:
   local: 

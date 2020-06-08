@@ -10,9 +10,6 @@ s3_batch_op_generate_direct_download: false
 s3_batch_op_generate_console_download: true
 s3_batch_op_report_to_slack: true
 
-s3_batch_op_slack_token: '{{ vault_dlp.slack.dlp_backups }}'
-s3_batch_op_slack_channel: '#dlp-backups'
-
 s3_batch_op_describe_job_retries: 100
 s3_batch_op_describe_job_delay: 35
 
