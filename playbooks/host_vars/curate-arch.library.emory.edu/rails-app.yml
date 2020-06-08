@@ -12,23 +12,9 @@ cap_branding_symlink_path: /mnt/arch_efs/uploads/dlp-curate/branding
 
 backup_dlp_curate_efs_to_s3:
   name: Curate Arch Upload Folder
-  path: /mnt/prod_efs/uploads
+  path: /mnt/arch_efs/uploads
   s3:
     bucket: cor-devops-binaries
     key_prefix: file-system-backups/dlp-curate/curate-arch
     timestamp: yes
   notify_slack: yes
-
-restore_efs_test:
-  local: 
-    path: /mnt/arch_efs/test_large_dir1
-    if_path_exists: delete
- # escalate:
- #   become: yes
- #   become_user: deploy
-  s3:
-    bucket: cor-devops-binaries
-    key_prefix: efs-upload-backups/efs_2nd_test
-    date: 'latest'
-
-copy_from_s3: '{{ restore_efs_test }}'
