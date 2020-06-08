@@ -25,3 +25,11 @@
 
 - name: Include tasks to calculate object and bytes transferred
   include_tasks: get-transfer-stats.yml
+
+- name: Notify Slack
+  include_tasks: notify-slack.yml
+  vars:
+    localhost_fact: '{{ hostvars["localhost"]["ansible_facts"]["_facts_gathered"] | d (false) }}'
+    localhost_env: '{{ hostvars["localhost"]["ansible_facts"]["env"] | d () }}'
+    awx: '{{ localhost_env.JOB_ID is defined | ternary (true,false) }}'
+  when: sync_s3_bucket.notify_slack | d (false)

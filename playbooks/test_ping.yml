@@ -1,3 +1,11 @@
-- hosts: all
+- hosts: localhost
+  gather_facts: true
   tasks:
-    - ping:
+    - set_fact:
+        local_fact: '{{ hostvars["localhost"]["ansible_facts"]["_facts_gathered"] | d (false) }}'
+    - debug:
+        msg: There are no localhost facts!
+      when: not local_fact
+    - debug:
+        msg: Localhost facts are defined!
+      when: local_fact

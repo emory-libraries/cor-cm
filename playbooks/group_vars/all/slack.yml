@@ -5,3 +5,7 @@ mydumper_backup_slack:
 myloader_restore_slack:
   token: '{{ vault_dlp.slack.token }}'
   channel: '#dlp-backups'
+
+sync_s3_bucket_slack:
+  token: '{{ vault_dlp.slack.token }}'
+  channel: '#dlp-backups'
