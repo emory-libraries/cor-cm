@@ -1,4 +1,4 @@
-sync_s3_bucket:
+quick_bucket_test:
   dest_s3:
     bucket: cor-solr-backups
   source_s3:
