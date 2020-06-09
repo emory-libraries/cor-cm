@@ -7,7 +7,7 @@
   file:
     path: '{{ local_path }}-{{ ansible_date_time.epoch }}'
     state: absent
-  async: 10000
+  async: '{{ copy_from_s3_delete_async }}'
   poll: 0
   register: delete_job_info
   when:

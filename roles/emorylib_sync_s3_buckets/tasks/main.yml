@@ -7,7 +7,6 @@
     dest_s3: '{{ sync_s3_bucket.dest_s3 }}'
     size_var_name: initial_size
     object_var_name: initial_object_count
-    byte_var_name: initial_byte
 
 - name: Include task to perform bucket sync
   include_tasks: sync-buckets.yml
@@ -21,7 +20,6 @@
     dest_s3: '{{ sync_s3_bucket.dest_s3 }}'
     size_var_name: final_size
     object_var_name: final_object_count
-    byte_var_name: final_byte
 
 - name: Include tasks to calculate object and bytes transferred
   include_tasks: get-transfer-stats.yml

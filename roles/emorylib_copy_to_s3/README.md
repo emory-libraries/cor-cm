@@ -1,4 +1,4 @@
-Role Name
+emorylib_copy_to_s3
 =========
 
 This is a simple role that will copy a path on a local machine to an S3 bucket. It can be called standalone or from another role.

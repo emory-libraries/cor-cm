@@ -38,5 +38,5 @@
     upload_time: '{{ real.split() [-1] }}'
   vars:
     objects: '{{ s3_ls_info.stdout_lines | select ("contains", "Total Objects:") | list | first }}'
-    real: '{{ s3_cp_info.stderr_lines | select ("contains", "real")  | list | first }}'
+    real: '{{ s3_cp_result.stderr_lines | select ("contains", "real")  | list | first }}'
     size: '{{ s3_ls_info.stdout_lines | select ("contains", "Total Size:") | list | first }}'

@@ -1,8 +1,8 @@
 ---
 - name: Gather localhost facts if they are undefined
   setup:
-    delegate_to: localhost
-    delegate_facts: true
+  delegate_to: localhost
+  delegate_facts: true
   when: not localhost_fact    
 
 - name: Build title when running in awx

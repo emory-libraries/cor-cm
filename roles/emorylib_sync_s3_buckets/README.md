@@ -26,11 +26,15 @@ sync_s3_bucket:
 # Slack
 sync_s3_bucket_slack:                         # Follows the same logic as the ansible slack module. Only requirement is the token. There is a default sync_s3_bucket_slack_attachments
                                               # variable that can be overriden by sync_s3_bucket_slack.attachments if desired
+
+# Async control variables                     # The following options control how long the play will wait for the aws s3 sync job to finish
+sync_s3_bucket_sync_async: 18000
+sync_s3_bucket_sync_retries: 300
+sync_s3_bucket_sync_delay: 60
 ```
 
 Dependencies
 ------------
-
 
 Example Playbook
 ----------------
@@ -46,6 +50,7 @@ sync_s3_bucket:
 sync_s3_bucket_slack:
   token: 'slack/token/to/desired/channel/here'       # By default number of objects and estimated size of sync are displayed in report
 ```
+
 License
 -------
 
@@ -54,4 +59,4 @@ BSD
 Author Information
 ------------------
 
-Solomon Hilliard for Emory Libaries
+Solomon Hilliard for Emory Libraries

@@ -1,2 +1,5 @@
 ---
 # defaults file for emorylib_sync_s3_buckets
+sync_s3_bucket_sync_async: 18000
+sync_s3_bucket_sync_retries: 300
+sync_s3_bucket_sync_delay: 60

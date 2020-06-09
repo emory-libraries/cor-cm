@@ -27,9 +27,14 @@ copy_from_s3:
     become_user:
     become_method:
 
-# Extra variables
-confirm_delete_retries: 100
-confirm_delete_delay: 30
+# Async variables                                                         # The following variables controls the async timing, defaults are as shown
+copy_from_s3_delete_async: 18000
+copy_from_s3_delete_retries: 100
+copy_from_s3_delete_delay: 30
+
+copy_from_s3_download_async: 18000
+copy_from_s3_download_retries: 300
+copy_from_s3_download_delay: 60
 ```
 
 Dependencies
