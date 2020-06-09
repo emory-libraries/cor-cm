@@ -21,7 +21,8 @@
   become: '{{ escalate.become | d (omit) }}'
   become_user: '{{ escalate.become_user | d (omit) }}'
   become_method: '{{ escalate.become_method | d (omit) }}'
-  until: s3_cp_info.finished
+  register: s3_cp_result
+  until: s3_cp_result.finished
   retries: '{{ copy_to_s3_retries }}'
   delay: '{{ copy_to_s3_delay }}'
 
