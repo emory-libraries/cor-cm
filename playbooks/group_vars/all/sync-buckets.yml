@@ -1,0 +1,16 @@
+quick_bucket_test:
+  dest_s3:
+    bucket: cor-solr-backups
+  source_s3:
+    bucket: temp-bucket-dlp-test
+  name: Nightly sync from temp-bucket to cor-solr-backup test here
+  notify_slack: yes
+
+
+nightly_backup_fedora_cor_test_binaries:
+  name: Regional Backup of Fedora-Test to US-West-2 Bucket
+  dest_s3:
+    bucket: backup-fedora-cor-test-binaries
+  source_s3:
+    bucket: fedora-cor-test-binaries
+  notify_slack: yes

@@ -1,0 +1,4 @@
+---
+- name: AWS S3 Sync between buckets
+  shell: 'aws s3 sync s3://{{ source_s3.bucket }}/{{ source_s3.key_prefix | d () }} s3://{{ dest_s3.bucket }}/{{ dest_s3.key_prefix | d () }}'
+  register: s3_sync_info

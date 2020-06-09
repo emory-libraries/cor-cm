@@ -1,7 +1,14 @@
 mydumper_backup_slack:
-  token: '{{ vault_dlp.slack.token }}'
-  channel: '#dlp-backups'
+  token: '{{ vault_dlp.slack.dlp_backups_mysql }}'
 
 myloader_restore_slack:
-  token: '{{ vault_dlp.slack.token }}'
-  channel: '#dlp-backups'
+  token: '{{ vault_dlp.slack.dlp_backups_mysql }}'
+
+sync_s3_bucket_slack:
+  token: '{{ vault_dlp.slack.dlp_backups_s3 }}'
+
+s3_batch_op_slack_token: '{{ vault_dlp.slack.dlp_backups_s3 }}'
+s3_batch_op_slack_channel: '#dlp-backups'
+
+copy_to_s3_slack:
+  token: '{{ vault_dlp.slack.dlp_backups_file_system }}'
