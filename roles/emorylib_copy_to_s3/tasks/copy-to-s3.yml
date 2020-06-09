@@ -31,6 +31,14 @@
   failed_when: false
   register: s3_ls_info
 
+- name: Show cp_info (async) 
+  debug:
+    var: s3_cp_info
+
+- name: Show cp_result
+  debug:
+    var: s3_cp_result
+    
 - name: Set facts for report variables
   set_fact:
     total_objects: '{{ objects.split() [-1] }}'
