@@ -6,12 +6,21 @@
     timestamp: '/{{ ansible_date_time[date_format] }}'
     date_format: '{{ s3.timestamp_format | d ("iso8601_micro") }}'
 
-- name: Copy to S3
+- name: Copy to S3 (Async)
   shell: 'time aws s3 sync {{ copy.path }} {{ s3_target }}'
   become: '{{ escalate.become | d (omit) }}'
   become_user: '{{ escalate.become_user | d (omit) }}'
   become_method: '{{ escalate.become_method | d (omit) }}'
+  async: '{{ copy_to_s3_async }}'
+  poll: 0
   register: s3_cp_info
+
+- name: Wait until Copy job finishes
+  async_status:
+    jid: '{{ s3_cp_info.ansible_job_id }}'
+  until: s3_cp_info.finished
+  retries: '{{ copy_to_s3_retries }}'
+  delay: '{{ copy_to_s3_delay }}'
 
 - name: Perform LS on s3 target
   shell: 'aws s3 ls --summarize --human-readable --recursive {{ s3_target }}'

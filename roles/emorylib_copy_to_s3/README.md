@@ -30,6 +30,11 @@ copy_to_s3:
     become_method:
 ## Slack Variable
 copy_to_s3_slack:                   # Follows same functionality as the Slack module in standard Ansible.
+
+## Async Variables                  # Controls how long the async call will last during the upload
+copy_to_s3_async: 18000
+copy_to_s3_retries: 300
+copy_to_s3_delay: 60
 ```
 
 Example Playbook

@@ -1,7 +1,17 @@
 - hosts: localhost
-  gather_facts: false
+  gather_facts: true
   tasks:
-    - set_fact:
-        bytes: 0
-    - set_fact:
-        human: '{{ bytes | int | human_readable }}'
+    - shell: ping -c 10 localhost
+      async: 200
+      poll: 0
+      register: ping_test
+  
+    - debug:
+        var: ping_test
+    
+    - async_status:
+        jid: '{{ping_test.ansible_job_id}}'
+      register: job_result
+      until: job_result.finished
+      retries: 100
+      
