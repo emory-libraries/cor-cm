@@ -15,6 +15,44 @@
   poll: 0
   register: s3_cp_info
 
+- name: Display initial s3_cp_result
+  async_status:
+    jid: '{{ s3_cp_info.ansible_job_id }}'
+  become: '{{ escalate.become | d (omit) }}'
+  become_user: '{{ escalate.become_user | d (omit) }}'
+  become_method: '{{ escalate.become_method | d (omit) }}'
+  register: s3_cp_result
+
+- debug:
+    var: s3_cp_result
+
+- pause:
+    minutes: 2
+
+- name: Display after 2 minutes
+  async_status:
+    jid: '{{ s3_cp_info.ansible_job_id }}'
+  become: '{{ escalate.become | d (omit) }}'
+  become_user: '{{ escalate.become_user | d (omit) }}'
+  become_method: '{{ escalate.become_method | d (omit) }}'
+  register: s3_cp_result
+
+- pause:
+    minutes: 3
+
+- name: Display after 3 minutes
+  async_status:
+    jid: '{{ s3_cp_info.ansible_job_id }}'
+  become: '{{ escalate.become | d (omit) }}'
+  become_user: '{{ escalate.become_user | d (omit) }}'
+  become_method: '{{ escalate.become_method | d (omit) }}'
+  register: s3_cp_result
+  
+- debug:
+    var: s3_cp_result
+
+- fail:
+
 - name: Wait until Copy job finishes
   async_status:
     jid: '{{ s3_cp_info.ansible_job_id }}'
