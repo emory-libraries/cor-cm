@@ -2,7 +2,7 @@
 - name: Set fact for stats
   set_fact:
     objects_transferred: '{{ final_object_count | int - initial_object_count | int }}'
-    bytes_transferred: '{{ final_byte | int - initial_byte | int }}'
+    bytes_transferred: '{{ final_size | int - initial_size | int }}'
 
 - name: Set fact for human readable output
   set_fact:

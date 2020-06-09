@@ -1,5 +1,5 @@
 - name: AWS s3 ls command
-  shell: 'aws s3 ls --summarize --human-readable --recursive s3://{{ dest_s3.bucket }}/{{ dest_s3.key_prefix | d () }}'
+  shell: 'aws s3 ls --summarize --recursive s3://{{ dest_s3.bucket }}/{{ dest_s3.key_prefix | d () }}'
   register: s3_ls_info
   failed_when: false
 
@@ -7,8 +7,7 @@
   set_fact:
     '{{ size_var_name }}': '{{ get_size }}'
     '{{ object_var_name }}': '{{ objects.split() [-1] }}'
-    '{{ byte_var_name }}': '{{ get_size | regex_replace("i") | human_to_bytes }}'
   vars:
     objects: '{{ s3_ls_info.stdout_lines | select ("contains", "Total Objects:") | list | first }}'
     size: '{{ s3_ls_info.stdout_lines | select ("contains", "Total Size:") | list | first }}'
-    get_size: '{{ size.split() [-2] }} {{ size.split() [-1] }}'
+    get_size: '{{ size.split() [-1] }}'
