@@ -38,5 +38,6 @@
   version: initial-devel
 - src: https://github.com/emory-libraries/emorylib_sync_s3_buckets.git
 - src: https://github.com/emory-libraries/emorylib_copy_to_s3.git
+  version: fix-async
 - src: https://github.com/emory-libraries/emorylib_copy_from_s3.git
 - src: https://github.com/emory-libraries/emorylib_refresh_inventory.git
