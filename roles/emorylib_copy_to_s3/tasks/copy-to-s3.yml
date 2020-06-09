@@ -18,6 +18,9 @@
 - name: Wait until Copy job finishes
   async_status:
     jid: '{{ s3_cp_info.ansible_job_id }}'
+  become: '{{ escalate.become | d (omit) }}'
+  become_user: '{{ escalate.become_user | d (omit) }}'
+  become_method: '{{ escalate.become_method | d (omit) }}'
   until: s3_cp_info.finished
   retries: '{{ copy_to_s3_retries }}'
   delay: '{{ copy_to_s3_delay }}'
