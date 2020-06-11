@@ -5,7 +5,7 @@ __dlp_curate_dotenv:
   fedora_url: http://fedora-cor.internal.emory.edu/fcrepo/rest
   lux_base_url: digital.library.emory.edu
   proxied_iiif_server_url: http://iiif-cor.internal.emory.edu/cantaloupe/iiif/2/
-  solr_url: http://solr-cor.library.emory.edu/solr/curate_collection
+  solr_url: http://solr-cor.internal.emory.edu/solr/curate_collection
   redis_database: 0
 
 cap_branding_symlink_path: /mnt/prod_efs/uploads/dlp-curate/branding
