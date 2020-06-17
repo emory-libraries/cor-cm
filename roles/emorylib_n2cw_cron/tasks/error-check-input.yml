@@ -1,0 +1,7 @@
+---
+- name: Assert that all environment variable names are unique
+  assert:
+    that: '{{ names | unique | count}}=={{ n2cw_cron_envs | count }}'
+  when: n2cw_cron_envs is defined
+  vars:
+    names: '{{ n2cw_cron_envs | map(attribute="name") | list }}'
