@@ -2,6 +2,14 @@
 - name: Assert that all environment variable names are unique
   assert:
     that: '{{ names | unique | count}}=={{ n2cw_cron_envs | count }}'
+    quiet: yes
   when: n2cw_cron_envs is defined
   vars:
     names: '{{ n2cw_cron_envs | map(attribute="name") | list }}'
+
+- name: Assert that all cron job names are unique
+  assert:
+    that: '{{ names | unique | count}}=={{ n2cw_cron_jobs | count }}'
+    quiet: yes
+  vars:
+    names: '{{ n2cw_cron_jobs | map(attribute="name") | list }}'

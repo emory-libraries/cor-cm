@@ -6,3 +6,13 @@ ansible_python_interpreter: '{{ ansible_playbook_python }}'
 aws_services:
   - test
   - x
+
+#n2cw_cron_envs:
+#  - name: APP_HOME
+#    value: whatever
+#  - name: APP_HOME2
+#    value: whatever
+
+n2cw_cron_jobs:
+  - name: check_name
+  - name: check_name2
