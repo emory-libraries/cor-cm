@@ -10,11 +10,7 @@ aws_services:
 n2cw_cron_envs:
   - name: PATH
     value: '/home/{{ ansible_user }}/.bashrc'
-    disabled: yes
-  - name: APP_HOME2
-    value: whatever
-    disabled: yes 
 
-#n2cw_cron_jobs:
-#  - name: check_name
+n2cw_cron_jobs:
+  - name: check_name
 #  - name: check_name2

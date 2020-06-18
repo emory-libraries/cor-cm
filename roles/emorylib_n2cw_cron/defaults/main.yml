@@ -1,2 +1,8 @@
 ---
 # defaults file for emorylib_n2cw_cron
+n2cw_bin_path: n2cw
+n2cw_plugin_path: /usr/lib64/nagios/plugins
+
+n2cw_job: <
+  {{ n2cw_bin_path }} --dimensions Host={{ inventory_hostname }} {{ item.namespace | d (n2cw_namespace) }} {{ item.plugin | d ( item.name) }} 
+  -- {{ n2cw_plugin_path }}/{{ item.plugin | d ( item.name) }} - {{ item.options | join("") }}

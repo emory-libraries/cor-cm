@@ -5,5 +5,4 @@
   include_tasks: error-check-input.yml
 
 - name: Include tasks to manage cron environment variables
-  include_tasks: manage-cron-envs.yml
-  when: n2cw_cron_envs is defined
+  include_tasks: manage-cron.yml
