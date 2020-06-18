@@ -16,7 +16,6 @@ n2cw_cron_envs:                                         # Optional list of cron 
   - name: APP_HOME                                      # Required, and must be unique
     value: /opt/whatever                                # Required, is the value or 'job' of the environment variable
     state: present                                      # Optional, defaults to present
-    disabled:                                           # Optional, cron.disabled
     insertafter:                                        # Optional, cron.insertafter value
     insertbefore:                                       # Optional, cron.insertbefore value
 ## Options that act as defaults for the n2cw_cron_jobs variable, that CANNOT be overridden by indiviual items inside the list.

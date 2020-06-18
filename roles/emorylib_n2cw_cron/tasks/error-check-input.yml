@@ -11,5 +11,6 @@
   assert:
     that: '{{ names | unique | count}}=={{ n2cw_cron_jobs | count }}'
     quiet: yes
+  when: n2cw_cron_jobs is defined
   vars:
     names: '{{ n2cw_cron_jobs | map(attribute="name") | list }}'

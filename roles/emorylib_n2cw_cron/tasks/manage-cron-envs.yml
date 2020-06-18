@@ -1,0 +1,10 @@
+---
+- name: Manage cron environment variables
+  cron:
+    name: '{{ item.name }}'
+    env: yes
+    insertbefore: '{{ item.insertbefore | d (omit) }}'
+    insertafter: '{{ item.insertbefore | d (omit) }}'
+    value: '{{ item.value }}'
+    state: '{{ item.state | d ("present") }}'
+  loop: '{{ n2cw_cron_envs }}'
