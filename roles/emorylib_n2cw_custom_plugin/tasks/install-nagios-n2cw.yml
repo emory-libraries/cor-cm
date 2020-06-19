@@ -1,6 +1,7 @@
 - name: Install nagios standard plugins
   yum:
     name: '{{ nagios_plugin_package_name }}'
+    update_cache: yes
     state: present
 
 - name: Pip install n2cw
