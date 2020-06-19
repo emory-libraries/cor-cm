@@ -14,12 +14,6 @@ iiif_n2cw_cron_jobs:
     options:
       - C httpd
       - 'c 1:500'
-  - name: check_zombie_procs
-    plugin: check_procs
-    options:
-      - w 5
-      - c 10
-      - s Z
   - name: check_cantaloupe_procs
     plugin: check_procs
     options:

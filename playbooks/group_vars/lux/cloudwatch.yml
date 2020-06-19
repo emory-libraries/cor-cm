@@ -25,10 +25,4 @@ rails_app_n2cw_cron_jobs:
     plugin: check_mountpoints
     options:
       - A
-  - name: check_zombie_procs
-    plugin: check_procs
-    options:
-      - w 5
-      - c 10
-      - s Z
 n2cw_cron_jobs: '{{ rails_app_n2cw_cron_jobs }}'
