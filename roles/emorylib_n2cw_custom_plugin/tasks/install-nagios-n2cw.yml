@@ -19,3 +19,6 @@
     extra_args: '{{ n2cw_pip.extra_args | d (omit) }}' # not required. Extra arguments passed to pip.
     state: '{{ n2cw_pip.state | d ("present") }}' # not required. choices: absent;forcereinstall;latest;present. The state of module,The 'forcereinstall' option is only available in Ansible 2.1 and above.
     version: '{{ n2cw_pip.version | d (omit) }}' # not required. The version number to install of the Python library specified in the I(name) parameter.
+
+- name: Check if n2cw is working
+  shell: n2cw -h
