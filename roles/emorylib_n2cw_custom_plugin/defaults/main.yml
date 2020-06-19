@@ -2,5 +2,7 @@
 # defaults file for emorylib_n2cw_custom_plugin
 
 nagios_plugin_package_name: nagios-plugins-all
-
+n2cw_download_custom_plugins:
+  - dest: /usr/lib64/nagios/plugins/check_mountpoints
+    url: https://raw.githubusercontent.com/echocat/nagios-plugin-check_mountpoints/master/check_mountpoints.sh
 #n2cw_pip:
