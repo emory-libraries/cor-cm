@@ -73,3 +73,10 @@ default_collect_list:
     log_group_name: messages
   - file_path: "/var/log/amazon/amazon-cloudwatch-agent/*.log"
     log_group_name: cloudwatch_agent
+
+n2cw_namespace: nagiostest2
+n2cw_cron_minute: '*/5'
+
+n2cw_cron_envs:
+  - name: BASH_ENV
+    value: '/home/{{ ansible_user }}/.bashrc'

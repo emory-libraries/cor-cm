@@ -8,4 +8,22 @@ ec2_collect_list:
   - file_path: "/usr/local/webapps/cantaloupe/logs/wrapper*.log"
     log_group_name: iiif_wrapper_log
 
-    
+iiif_n2cw_cron_jobs:
+  - name: check_httpd_procs
+    plugin: check_procs
+    options:
+      - C httpd
+      - 'c 1:500'
+  - name: check_zombie_procs
+    plugin: check_procs
+    options:
+      - w 5
+      - c 10
+      - s Z
+  - name: check_cantaloupe_procs
+    plugin: check_procs
+    options:
+      - a cantaloupe
+      - 'c 2:'
+
+n2cw_cron_jobs: '{{ iiif_n2cw_cron_jobs }}'
