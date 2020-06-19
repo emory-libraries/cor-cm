@@ -12,5 +12,10 @@ n2cw_cron_envs:
     value: '/home/{{ ansible_user }}/.bashrc'
 
 n2cw_cron_jobs:
-  - name: check_name
-#  - name: check_name2
+  - name: check_load
+    namespace: nagiostest2
+    disabled: yes
+    minute: '*/5'
+    options:
+      - w 15,10,5
+      - c 30,25,20

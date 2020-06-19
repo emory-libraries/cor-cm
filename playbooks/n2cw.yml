@@ -1,3 +1,3 @@
-- hosts: localhost
+- hosts: digital-arch.*
   roles:
     - emorylib_n2cw_cron
