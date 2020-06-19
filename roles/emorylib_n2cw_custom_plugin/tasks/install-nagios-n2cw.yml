@@ -1,0 +1,20 @@
+- name: Install nagios standard plugins
+  yum:
+    name: '{{ nagios_plugin_package_name }}'
+    state: present
+
+- name: Pip install n2cw
+  pip:
+    virtualenv: '{{ n2cw_pip.virtualenv | d (omit) }}' # not required. An optional path to a I(virtualenv) directory to install into. It cannot be specified together with the 'executable' parameter (added in 2.1). If the virtualenv does not exist, it will be created before installing packages. The optional virtualenv_site_packages, virtualenv_command, and virtualenv_python options affect the creation of the virtualenv.
+    virtualenv_site_packages: '{{ n2cw_pip.virtualenv_site_packages | d (omit) }}' # not required. Whether the virtual environment will inherit packages from the global site-packages directory.  Note that if this setting is changed on an already existing virtual environment it will not have any effect, the environment must be deleted and newly created.
+    virtualenv_command: '{{ n2cw_pip.virtualenv_command | d (omit) }}' # not required. The command or a pathname to the command to create the virtual environment with. For example C(pyvenv), C(virtualenv), C(virtualenv2), C(~/bin/virtualenv), C(/usr/local/bin/virtualenv).
+    chdir: '{{ n2cw_pip.chdir | d (omit) }}' # not required. cd into this directory before running the command
+    requirements: '{{ n2cw_pip.requirements | d (omit) }}' # not required. The path to a pip requirements file, which should be local to the remote system. File can be specified as a relative path if using the chdir option.
+    name: n2cw # not required. The name of a Python library to install or the url(bzr+,hg+,git+,svn+) of the remote package.,This can be a list (since 2.2) and contain version specifiers (since 2.7).
+    virtualenv_python: '{{ n2cw_pip.virtualenv_python | d (omit) }}' # not required. The Python executable used for creating the virtual environment. For example C(python3.5), C(python2.7). When not specified, the Python version used to run the ansible module is used. This parameter should not be used when C(virtualenv_command) is using C(pyvenv) or the C(-m venv) module.
+    editable: '{{ n2cw_pip.editable | d (omit) }}' # not required. Pass the editable flag.
+    umask: '{{ n2cw_pip.umask | d (omit) }}' # not required. The system umask to apply before installing the pip package. This is useful, for example, when installing on systems that have a very restrictive umask by default (e.g., 0077) and you want to pip install packages which are to be used by all users. Note that this requires you to specify desired umask mode in octal, with a leading 0 (e.g., 0077).
+    executable: '{{ n2cw_pip.executable | d (omit) }}' # not required. The explicit executable or a pathname to the executable to be used to run pip for a specific version of Python installed in the system. For example C(pip-3.3), if there are both Python 2.7 and 3.3 installations in the system and you want to run pip for the Python 3.3 installation. It cannot be specified together with the 'virtualenv' parameter (added in 2.1). By default, it will take the appropriate version for the python interpreter use by ansible, e.g. pip3 on python 3, and pip2 or pip on python 2.
+    extra_args: '{{ n2cw_pip.extra_args | d (omit) }}' # not required. Extra arguments passed to pip.
+    state: '{{ n2cw_pip.state | d ("present") }}' # not required. choices: absent;forcereinstall;latest;present. The state of module,The 'forcereinstall' option is only available in Ansible 2.1 and above.
+    version: '{{ n2cw_pip.version | d (omit) }}' # not required. The version number to install of the Python library specified in the I(name) parameter.

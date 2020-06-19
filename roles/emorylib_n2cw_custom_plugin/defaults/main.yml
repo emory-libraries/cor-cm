@@ -1,2 +1,6 @@
 ---
 # defaults file for emorylib_n2cw_custom_plugin
+
+nagios_plugin_package_name: nagios-plugins-all
+
+#n2cw_pip:

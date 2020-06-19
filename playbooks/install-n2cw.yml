@@ -1,0 +1,6 @@
+- hosts: solr-cor-arch-1.*
+  roles:
+    - role: emorylib_n2cw_custom_plugin
+      vars:
+        become: yes
+      
