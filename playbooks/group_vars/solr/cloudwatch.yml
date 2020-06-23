@@ -27,4 +27,16 @@ solr_n2cw_cron_jobs:
     options:
       - C httpd
       - 'c 1:500'
+  - name: check_jmx_used_heap
+    plugin: check_jmx
+    options:
+      - 'U service:jmx:rmi:///jndi/rmi://localhost:9004/jmxrmi'
+      - 'O java.lang:type=Memory'
+      - A HeapMemoryUsage
+      - K used
+      - I HeapMemoryUsage
+      - J used
+      - vvvv
+      - w 9126805504 # 8.5 GB
+      - c 11274289152 # 10.5 GB
 n2cw_cron_jobs: '{{ solr_n2cw_cron_jobs }}'
