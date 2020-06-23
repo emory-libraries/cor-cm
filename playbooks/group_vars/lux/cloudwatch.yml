@@ -9,3 +9,20 @@ ec2_collect_list:
     log_group_name: digital_production_log
   - file_path: "/opt/dlp-lux/shared/log/sidekiq.log*"
     log_group_name: digital_sidekiq_log
+  
+rails_app_n2cw_cron_jobs:
+  - name: check_httpd_procs
+    plugin: check_procs
+    options:
+      - C httpd
+      - 'c 1:500'
+  - name: check_passenger_procs
+    plugin: check_procs
+    options:
+      - a Passenger
+      - 'c 3:'
+  - name: check_efs
+    plugin: check_mountpoints
+    options:
+      - A
+n2cw_cron_jobs: '{{ rails_app_n2cw_cron_jobs }}'

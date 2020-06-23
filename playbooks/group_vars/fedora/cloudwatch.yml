@@ -4,3 +4,29 @@ ec2_collect_list:
     log_group_name: fedora_localhost_access_log
   - file_path: "/var/log/fedora/*.log"
     log_group_name: fedora_log
+
+fedora_n2cw_cron_jobs:
+  - name: check_httpd_procs
+    plugin: check_procs
+    options:
+      - C httpd
+      - 'c 1:500'
+  - name: check_fedora_procs
+    plugin: check_procs
+    options:
+      - a fedora
+      - 'c 2:'
+  - name: check_jmx_used_heap
+    plugin: check_jmx
+    options:
+      - 'U service:jmx:rmi:///jndi/rmi://localhost:9004/jmxrmi'
+      - 'O java.lang:type=Memory'
+      - A HeapMemoryUsage
+      - K used
+      - I HeapMemoryUsage
+      - J used
+      - vvvv
+      - w 9126805504 # 8.5 GB
+      - c 11274289152 # 10.5 GB
+
+n2cw_cron_jobs: '{{ fedora_n2cw_cron_jobs }}'

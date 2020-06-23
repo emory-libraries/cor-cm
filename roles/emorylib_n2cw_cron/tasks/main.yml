@@ -1,0 +1,8 @@
+---
+# tasks file for emorylib_n2cw_cron
+
+- name: Include tasks for error checking input variables
+  include_tasks: error-check-input.yml
+
+- name: Include tasks to manage cron environment variables
+  include_tasks: manage-cron.yml

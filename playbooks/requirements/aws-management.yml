@@ -34,6 +34,8 @@
   version: initial-devel
 - src: https://github.com/emory-libraries/emorylib_mydumper_backup_to_s3.git
 - src: https://github.com/emory-libraries/emorylib_myloader_restore_from_s3.git
+- src: https://github.com/emory-libraries/emorylib_n2cw_cron.git
+- src: https://github.com/emory-libraries/emorylib_n2cw_custom_plugin.git
 - src: https://github.com/emory-libraries/emorylib_manage_aws_services.git
   version: initial-devel
 - src: https://github.com/emory-libraries/emorylib_sync_s3_buckets.git

@@ -1,0 +1,18 @@
+---
+# tasks file for emorylib_n2cw_custom_plugin
+
+- name: Check if n2cw is installed
+  shell: n2cw -h
+  failed_when: false
+  register: n2cw_check_info
+
+- name: Include tasks for installing nagios
+  include_tasks: install-nagios-n2cw.yml
+  when: n2cw_check_info.stderr_lines | count > 0
+
+- name: Include tasks for download custom plugin
+  include_tasks: download-custom-plugin.yml
+  vars:
+    custom_plugins: '{{ n2cw_download_custom_plugins | d (false) }}'
+  when: custom_plugins
+
