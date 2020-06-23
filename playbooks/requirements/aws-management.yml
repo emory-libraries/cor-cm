@@ -32,6 +32,8 @@
 - src: https://github.com/emory-libraries/emorylib_role_s3_lifecycle_configuration.git
 - src: https://github.com/emory-libraries/emorylib_install_mydumper.git
   version: initial-devel
+- src: https://github.com/emory-libraries/emorylib_update_chrony.git
+  version: initial-devel
 - src: https://github.com/emory-libraries/emorylib_mydumper_backup_to_s3.git
 - src: https://github.com/emory-libraries/emorylib_myloader_restore_from_s3.git
 - src: https://github.com/emory-libraries/emorylib_n2cw_cron.git

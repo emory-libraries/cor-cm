@@ -1,0 +1,6 @@
+---
+# tasks file for emorylib_update_chrony
+- name: Delete other servers in chrony file
+  lineinfile:
+    regexp: '^server'
+    state: absent
