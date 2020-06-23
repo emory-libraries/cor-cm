@@ -1,12 +1,12 @@
 emorylib_n2cw_cron
 =========
 
-This role will install nagios and its plugins, and pip install n2cw, which allows nagios plugins to report to cloudwatch. The role will be as flexible as possible while simplifying the cron module of ansible.
+Manage a list of cron jobs using the nagios to CloudWatch (n2cw) pip module to push custom metrics to CloudWatch
 
 Requirements
 ------------
 
-Role is intended for Red Hat 7 Enterprise Linux, but should work on other versions of linux.
+Role is intended for Red Hat 7 Enterprise Linux, but should work on other versions of linux. Nagios and n2cw must be installed. Please run the [emorylib_n2cw_custom_plugin](https://github.com/emory-libraries/emorylib_n2cw_custom_plugin)
 
 Role Variables
 --------------
@@ -24,15 +24,15 @@ n2cw_cron_file:                                         # Optional, sets the cro
 n2cw_cron_backup: no                                    # Optional, sets the cron.backup value, defaults to no
 ## Options that act as defaults for the n2cw_cron_jobs, that CAN be overridden by indiviual items inside the list.
   ## Cron Options
-n2cw_cron_day:
-n2cw_cron_weekday:
-n2cw_cron_hour:
-n2cw_cron_minute:
-n2cw_cron_second:
+n2cw_cron_day: *
+n2cw_cron_weekday: *
+n2cw_cron_hour: *
+n2cw_cron_minute: *
+n2cw_cron_second: *
   ## n2cw Options
 n2cw_namespace:                                         # Required, sets the namespace for cloudwatch
 n2cw_plugin_path:                                       # Required, sets the path for nagios plugins
-n2cw_job:
+n2cw_job:                                               # Sets the cron job, has a default but can be overrridden if desired
 ## Main Input Variable
 n2cw_cron_jobs:
   - name:                                               # Required, and must be unique. Must be the plugin name if plugin is not specified!
@@ -48,18 +48,72 @@ n2cw_cron_jobs:
 Dependencies
 ------------
 
-Pip must be installed.
-
-EPEL must be enabled.
+emorylib_n2cw_custom_plugin
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```yaml
+# Basic variable configuration with needed values set
+- hosts: all
+  vars:
+    n2cw_plugin_path: /usr/lib64/nagios/plugins         # No trailing slash
+    n2cw_namespace: cloudwatch_namespace
+    n2cw_cron_minute: '*/5'                             # Set the default period to once every five minutes
+    n2cw_cron_envs:                                     # Set the user's BASH_ENV
+      - name: BASH_ENV
+        value: '/home/{{ ansible_user }}/.bashrc'
+    n2cw_cron_jobs:                                     # Main input variable
+      - name: check_httpd_procs                         # Name your checks similar to the plugin being used
+        plugin: check_procs
+        options:                                        # This section will output as "-C httpd -c 1:500"
+          - C httpd
+          - 'c 1:500'                                   # Surround special characters with quotes
+  tasks:
+    - include_role:
+        name: emorylib_n2cw_custom_plugin
+        apply:
+          become: yes
+    - include_role:
+        name: emorylib_n2cw_cron
+## More complicated cron jobs
+  vars:
+    n2cw_cron_jobs:
+      - name: check_zookeeper_procs
+        disabled: yes                                 # Will setup the cron job but leave it commented out
+        plugin: check_procs
+        options:
+           - a zookeeper
+           - 'c 2:'
+      - name: check_solr_procs
+        minute: '*/1'                                 # Override default period and check every minute
+        plugin: check_procs
+        options:
+          - a solr
+          - 'c 1:'
+      - name: check_efs
+        plugin: check_mountpoints                     # This is a custom plugin downloaded by the emorylib_n2cw_custom_plugin role
+        options:
+          - A
+      - name: check_httpd_procs
+        namespace: 2nd_cloudwatch_namespace           # Send this check to another namespace
+        plugin: check_procs
+        options:
+          - C httpd
+          - 'c 1:500'
+      - name: check_jmx_used_heap
+        plugin: check_jmx                             # This is a custom plugin downloaded by the emorylib_n2cw_custom_plugin role
+        options:
+          - 'U service:jmx:rmi:///jndi/rmi://localhost:9004/jmxrmi'
+          - 'O java.lang:type=Memory'
+          - A HeapMemoryUsage
+          - K used
+          - I HeapMemoryUsage
+          - J used
+          - vvvv
+          - w 805306368                               # 750 MB
+          - c 1181116006                              # 1.1 GB
+```
 
 License
 -------
@@ -69,4 +123,4 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Solomon Hilliard for Emory Libraries
