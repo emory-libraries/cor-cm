@@ -5,4 +5,8 @@ nagios_plugin_package_name: nagios-plugins-all
 n2cw_download_custom_plugins:
   - dest: /usr/lib64/nagios/plugins/check_mountpoints
     url: https://raw.githubusercontent.com/echocat/nagios-plugin-check_mountpoints/master/check_mountpoints.sh
+  - dest: /usr/lib64/nagios/plugins/check_jmx
+    url: https://raw.githubusercontent.com/atamariya/nagios-check-jmx/master/nagios/plugin/check_jmx
+  - dest: /usr/lib64/nagios/plugins/jmxquery.jar
+    url: https://raw.githubusercontent.com/atamariya/nagios-check-jmx/master/nagios/plugin/jmxquery.jar
 #n2cw_pip:
