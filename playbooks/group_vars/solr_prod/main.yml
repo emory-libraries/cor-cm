@@ -15,3 +15,40 @@ efs_mount_points:
     dns_name: fs-fdf8457c.efs.us-east-1.amazonaws.com
 
 
+solr_n2cw_cron_jobs:
+  - name: check_zookeeper_procs
+    minute: '*/1'
+    plugin: check_procs
+    options:
+       - a zookeeper
+       - 'c 2:'
+  - name: check_solr_procs
+    minute: '*/1'
+    plugin: check_procs
+    options:
+      - a solr
+      - 'c 1:'
+  - name: check_efs
+    plugin: check_mountpoints
+    options:
+      - A
+  - name: check_httpd_procs
+    minute: '*/1'
+    plugin: check_procs
+    options:
+      - C httpd
+      - 'c 1:500'
+  - name: check_jmx_used_heap
+    disabled: yes
+    plugin: check_jmx
+    options:
+      - 'U service:jmx:rmi:///jndi/rmi://localhost:9004/jmxrmi'
+      - 'O java.lang:type=Memory'
+      - A HeapMemoryUsage
+      - K used
+      - I HeapMemoryUsage
+      - J used
+      - vvvv
+      - w 805306368 # 750 MB
+      - c 1181116006 # 1.1 GB
+n2cw_cron_jobs: '{{ solr_n2cw_cron_jobs }}'

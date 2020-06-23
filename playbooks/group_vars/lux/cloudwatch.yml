@@ -12,11 +12,13 @@ ec2_collect_list:
   
 rails_app_n2cw_cron_jobs:
   - name: check_httpd_procs
+    minute: '*/1'
     plugin: check_procs
     options:
       - C httpd
       - 'c 1:500'
   - name: check_passenger_procs
+    minute: '*/1'
     plugin: check_procs
     options:
       - a Passenger
