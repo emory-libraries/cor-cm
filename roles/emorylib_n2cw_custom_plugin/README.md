@@ -1,31 +1,73 @@
-Role Name
+emorylib_n2cw_custom_plugin
 =========
 
-A brief description of the role goes here.
+Install nagios, n2cw (via pip) and optionally, custom nagios checks.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Pip must be installed, if running in AWS, the proper rhui servers must be enabled
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+```yaml
+# Controls the name of the nagios package
+nagios_plugin_package_name: nagios-plugins-all
 
-Dependencies
-------------
+# List of optional plugins to download, if skipping this step is desired, set n2cw_download_custom_plugins to false
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+n2cw_download_custom_plugins:
+  - dest: /usr/lib64/nagios/plugins/check_mountpoints
+    url: https://raw.githubusercontent.com/echocat/nagios-plugin-check_mountpoints/master/check_mountpoints.sh
+  - dest: /usr/lib64/nagios/plugins/check_jmx
+    url: https://raw.githubusercontent.com/atamariya/nagios-check-jmx/master/nagios/plugin/check_jmx
+  - dest: /usr/lib64/nagios/plugins/jmxquery.jar
+    url: https://raw.githubusercontent.com/atamariya/nagios-check-jmx/master/nagios/plugin/jmxquery.jar
+
+# Override the pip install settings with this variable, copy of the pip module with a few defaults:
+n2cw_pip:
+  state: present
+  name: n2cw
+```
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+```yaml
+# Basic Playbook, with default list of custom plugins
+- hosts: all
+  tasks:
+    - include_role:
+        name: emorylib_n2cw_custom_plugin
+      apply:
+        become: yes
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+# Add additional plugins to default list
+- hosts: all
+  vars:
+    n2cw_download_custom_plugins: '{{ n2cw_download_custom_plugins + additional_plugins }}'
+    additional_plugins:
+      - dest: /path/to/nagios/lib/folder
+        url: http://download_url_here.com
+  tasks:
+    - include_role:
+        name: emorylib_n2cw_custom_plugin
+      apply:
+        become: yes
+
+# Skip downloading extra plugins, change some pip settings
+- hosts: all
+  vars:
+    n2cw_download_custom_plugins: false
+    n2cw_pip:
+      umask: '0022'
+  tasks:
+    - include_role:
+        name: emorylib_n2cw_custom_plugin
+      apply:
+        become: yes
+```
 
 License
 -------
@@ -35,4 +77,4 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Solomon Hilliard for Emory Libraries
