@@ -9,9 +9,10 @@
 
 - name: Insert AWS NTP server into Chrony conf
   lineinfile:
-    insertafter: 'Please consider joining the pool (http://www.pool.ntp.org/join.html).'
+    insertafter: '^# Please consider joining the pool'
     state: present
     line: '{{ chrony_aws_server }}'
+    path: '{{ chrony_path }}' 
 
 - name: Restart Chrony service
   systemd:
