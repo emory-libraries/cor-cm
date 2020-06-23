@@ -12,13 +12,13 @@ Role Variables
 --------------
 
 ```yaml
-chrony_path:
+chrony_path: /etc/chrony.conf
 
-chrony_aws_server:
+chrony_aws_server: server 169.254.169.123 prefer iburst minpoll 4 maxpoll 4
 
-chrony_service_name:
+chrony_service_name: chrony
 
-chrony_delete_other_servers:
+chrony_clean_servers: yes
 
 ```
 
@@ -47,4 +47,4 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Solomon Hilliard for Emory Libraries
