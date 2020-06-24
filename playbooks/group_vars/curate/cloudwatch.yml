@@ -27,4 +27,10 @@ rails_app_n2cw_cron_jobs:
     plugin: check_mountpoints
     options:
       - A
+  - name: check_sidekiq_procs
+    plugin: check_procs
+    minute: '*/1'
+    options:
+      - a sidekiq
+      - 'c 2:'
 n2cw_cron_jobs: '{{ rails_app_n2cw_cron_jobs }}'
