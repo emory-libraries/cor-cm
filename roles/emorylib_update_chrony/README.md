@@ -16,9 +16,9 @@ chrony_path: /etc/chrony.conf
 
 chrony_aws_server: server 169.254.169.123 prefer iburst minpoll 4 maxpoll 4
 
-chrony_service_name: chrony
+chrony_service_name: chronyd
 
-chrony_clean_servers: yes
+chrony_clean_servers: yes                                                       # This will delete all the servers in the chrony conf before adding the AWS server
 
 ```
 
