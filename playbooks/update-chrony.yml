@@ -1,0 +1,6 @@
+- hosts: all
+  tasks:
+    - include_role:
+        name: emorylib_update_chrony
+        apply:
+          become: yes

@@ -1,0 +1,20 @@
+---
+# tasks file for emorylib_update_chrony
+- name: Delete other servers in Chrony conf
+  lineinfile:
+    regexp: '^server'
+    state: absent
+    path: '{{ chrony_path }}'
+  when: chrony_clean_servers | d (false)
+
+- name: Insert AWS NTP server into Chrony conf
+  lineinfile:
+    insertafter: '^# Please consider joining the pool'
+    state: present
+    line: '{{ chrony_aws_server }}'
+    path: '{{ chrony_path }}' 
+
+- name: Restart Chrony service
+  systemd:
+    name: '{{ chrony_service_name }}'
+    state: restarted
