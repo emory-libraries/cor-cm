@@ -27,4 +27,5 @@ rails_app_n2cw_cron_jobs:
     plugin: check_mountpoints
     options:
       - A
+      - T 180
 n2cw_cron_jobs: '{{ rails_app_n2cw_cron_jobs }}'

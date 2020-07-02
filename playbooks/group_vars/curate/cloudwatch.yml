@@ -27,6 +27,7 @@ rails_app_n2cw_cron_jobs:  # Include sidekiq for curate
     plugin: check_mountpoints
     options:
       - A
+      - T 180
   - name: check_sidekiq_procs
     plugin: check_procs
     minute: '*/1'
