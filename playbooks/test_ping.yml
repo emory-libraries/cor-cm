@@ -1,17 +1,9 @@
-- hosts: localhost
-  gather_facts: true
+- hosts: curate-test.library.emory.edu
   tasks:
-    - shell: ping -c 10 localhost
-      async: 200
-      poll: 0
-      register: ping_test
-  
-    - debug:
-        var: ping_test
-    
-    - async_status:
-        jid: '{{ping_test.ansible_job_id}}'
-      register: job_result
-      until: job_result.finished
-      retries: 100
+    - name: Replace db
+      replace:
+        path: /home/ec2-user/db_1.json
+        regexp: '\"db\"\:([0-9]+)'
+        replace: '"db":9'
+
       
