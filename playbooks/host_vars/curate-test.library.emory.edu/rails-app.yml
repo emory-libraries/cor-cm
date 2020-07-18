@@ -2,7 +2,7 @@ __dlp_curate_dotenv:
   branding_path: /mnt/test_efs/uploads/dlp-curate/branding
   iiif_cookie_salt_1: '{{ vault_dlp.iiif.test.cookie.salt_1 }}'
   iiif_cookie_salt_2: '{{ vault_dlp.iiif.test.cookie.salt_2 }}'
-  lux_base_url: digital-test.library.emory.edu
+  lux_base_url: https://digital-test.library.emory.edu
   fedora_url: http://fedora-cor-test.internal.emory.edu/fcrepo/rest
   proxied_iiif_server_url: http://iiif-cor-test.internal.emory.edu/cantaloupe/iiif/2/
   solr_url: http://solr-cor-test.internal.emory.edu/solr/curate_collection

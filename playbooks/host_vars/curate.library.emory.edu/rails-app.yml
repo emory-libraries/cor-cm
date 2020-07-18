@@ -3,7 +3,7 @@ __dlp_curate_dotenv:
   iiif_cookie_salt_1: '{{ vault_dlp.iiif.prod.cookie.salt_1 }}'
   iiif_cookie_salt_2: '{{ vault_dlp.iiif.prod.cookie.salt_2 }}'
   fedora_url: http://fedora-cor.internal.emory.edu/fcrepo/rest
-  lux_base_url: digital.library.emory.edu
+  lux_base_url: https://digital.library.emory.edu
   proxied_iiif_server_url: http://iiif-cor.internal.emory.edu/cantaloupe/iiif/2/
   solr_url: http://solr-cor.internal.emory.edu/solr/curate_collection
   redis_database: 0
