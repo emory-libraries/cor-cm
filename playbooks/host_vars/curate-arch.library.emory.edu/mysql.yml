@@ -36,3 +36,9 @@ myloader_restore_arch_from_test:
     bucket: cor-devops-binaries
     date: 'latest'
     key_prefix: mydumper-backups/curate-test
+
+redis_dump:
+  options:
+    - d 2
+    - u hostname.here
+  dest: '{{ ansible_date_time.iso8601_micro }}'
