@@ -1,0 +1,4 @@
+---
+- name: Redis-dump
+  shell: >
+    echo redis-dump {{ redis_dump.options.join('- ') }} > {{ redis_dump.dest }}.json

@@ -3,7 +3,7 @@
 - name: Include tasks to install redis-dump via gem
   include_tasks:
     file: gem-install-redis-dump.yml
-    apply:
-      become: '{{ redis_dump_gem_become | d (omit) }}'
-      become_user: '{{ redis_dump_gem_become_user | d (omit) }}'
-      become_method: '{{ redis_dump_gem_become_method | d (omit) }}'
+
+- name: Include tasks to run redis-dump of database
+  include_tasks:
+    file: redis-dump.yml
