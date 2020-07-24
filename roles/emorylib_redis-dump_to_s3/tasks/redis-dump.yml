@@ -1,3 +1,14 @@
 ---
-- name: Redis-dump command
-  shell: '{{ lookup ("template", redis-dump_command.j2) }}'
+- name: Async Redis-dump command
+  shell: '{{ lookup ("template", "redis-dump_command.j2") }}'
+  async: '{{ redis_dump_async }}'
+  poll: 0
+  register: redis_dump_info
+
+- name: Wait until redis-dump command is finished
+  async_status:
+    jid: '{{ redis_dump_info.ansible_job_id }}'
+  register: redis_dump_result
+  until: redis_dump_result.finished
+  retries: '{{ redis_dump_retries }}'
+  delay: '{{ redis_dump_delay }}'

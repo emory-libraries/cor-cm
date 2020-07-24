@@ -1,1 +1,1 @@
-echo redis-dump {% for o in redis_dump.options %} -{{ o.key }} {{ o.value }} {% endfor %} > {{ redis_dump.dest }}.json
+redis-dump {% for o in redis_dump.options %}{% for k,v in o.items() %} -{{ k }} {{ v }} {% endfor %}{% endfor %}> {{ redis_dump.dest }}.json

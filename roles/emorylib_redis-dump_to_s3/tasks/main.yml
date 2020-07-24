@@ -7,3 +7,8 @@
 - name: Include tasks to run redis-dump of database
   include_tasks:
     file: redis-dump.yml
+
+- name: Include tasks to upload file to s3 bucket
+  include_tasks:
+    file: upload-to-s3.yml
+  when: redis_dump.s3 is defined
