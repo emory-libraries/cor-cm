@@ -39,6 +39,6 @@ myloader_restore_arch_from_test:
 
 redis_dump:
   options:
-    - d 2
-    - u hostname.here
+    - d: 2
+    - u: hostname.here
   dest: '{{ ansible_date_time.iso8601_micro }}'
