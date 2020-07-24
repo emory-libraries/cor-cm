@@ -1,6 +1,8 @@
 ---
 - name: Async Redis-dump command
   shell: '{{ lookup ("template", "redis-dump_command.j2") }}'
+  args:
+    executable: /bin/bash
   async: '{{ redis_dump_async }}'
   poll: 0
   register: redis_dump_info

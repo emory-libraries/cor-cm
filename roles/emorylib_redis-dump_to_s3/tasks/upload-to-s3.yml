@@ -4,4 +4,4 @@
     bucket: '{{ redis_dump.s3.bucket }}'
     file_root: '{{ redis_dump.dest }}.json'
     region: '{{ redis_dump.s3.region }}'
-    key_prefix: '{{ __mydumper_backup.s3.key_prefix }}'
+    key_prefix: '{{ redis_dump.s3.key_prefix }}'

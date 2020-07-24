@@ -1,1 +1,1 @@
-redis-dump {% for o in redis_dump.options %}{% for k,v in o.items() %} -{{ k }} {{ v }} {% endfor %}{% endfor %}> {{ redis_dump.dest }}.json
+{{ redis_dump_executable_path }} {% for o in redis_dump.options %}{% for k,v in o.items() %} -{{ k }} {{ v }} {% endfor %}{% endfor %}> {{ redis_dump.dest }}.json
