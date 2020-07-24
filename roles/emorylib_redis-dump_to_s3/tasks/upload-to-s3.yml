@@ -2,6 +2,9 @@
 - name: Upload file to s3 bucket
   s3_sync:
     bucket: '{{ redis_dump.s3.bucket }}'
-    file_root: '{{ redis_dump.dest }}.json'
+    file_root: '{{ file_root_ternary }}'
     region: '{{ redis_dump.s3.region }}'
     key_prefix: '{{ redis_dump.s3.key_prefix }}'
+    include: '{{ redis_dump.dest | basename }}'
+  vars:
+    file_root_ternary: '{{ redis_dump.dest | dirname == "" | ternary ("~/", redis_dump.dest) }}'
