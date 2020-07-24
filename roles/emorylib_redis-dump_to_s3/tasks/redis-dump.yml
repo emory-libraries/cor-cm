@@ -1,4 +1,7 @@
 ---
 - name: Redis-dump
   shell: >
-    echo redis-dump {{ redis_dump.options | join ("- ") }} > {{ redis_dump.dest }}.json
+    echo redis-dump {{ options_ternary }} > {{ redis_dump.dest }}.json
+  vars:
+    options_ternary: '{{ redis_dump.options is defined | ternary (options_defined, "") }}'
+    options_defined: '-{{ redis_dump.options | d () | join ("- ") }} '
