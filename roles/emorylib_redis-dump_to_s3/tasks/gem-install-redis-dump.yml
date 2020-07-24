@@ -1,0 +1,16 @@
+---
+- name: Gem install redis-dump
+  gem:
+      name: redis-dump # required. The name of the gem to be managed.
+      include_dependencies: '{{ redis_dump_gem.include_dependencies | d (omit) }}' # not required. Whether to include dependencies or not.
+      executable: '{{ redis_dump_gem.executable | d (omit) }}' # not required. Override the path to the gem executable
+      repository: '{{ redis_dump_gem.repository | d (omit) }}' # not required. The repository from which the gem will be installed
+      build_flags: '{{ redis_dump_gem.build_flags | d (omit) }}' # not required. Allow adding build flags for gem compilation
+      include_doc: '{{ redis_dump_gem.include_doc | d (omit) }}' # not required. Install with or without docs.
+      user_install: '{{ redis_dump_gem.user_install | d (omit) }}' # not required. Install gem in user's local gems cache or for all users
+      pre_release: '{{ redis_dump_gem.pre_release | d (omit) }}' # not required. Allow installation of pre-release versions of the gem.
+      env_shebang: '{{ redis_dump_gem.env_shebang | d (omit) }}' # not required. Rewrite the shebang line on installed scripts to use /usr/bin/env.
+      install_dir: '{{ redis_dump_gem.install_dir | d (omit) }}' # not required. Install the gems into a specific directory. These gems will be independant from the global installed ones. Specifying this requires user_install to be false.
+      state: '{{ redis_dump_gem.state | d (omit) }}' # not required. choices: present;absent;latest. The desired state of the gem. C(latest) ensures that the latest version is installed.
+      version: '{{ redis_dump_gem.version | d (omit) }}' # not required. Version of the gem to be installed/removed.
+      gem_source: '{{ redis_dump_gem.gem_source | d (omit) }}' # not required. The path to a local gem used as installation source.
