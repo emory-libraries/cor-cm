@@ -1,5 +1,6 @@
 ---
 # tasks file for emorylib_redis-dump_to_s3
+
 - name: Include tasks to install redis-dump via gem
   include_tasks:
     file: gem-install-redis-dump.yml
@@ -12,3 +13,9 @@
   include_tasks:
     file: upload-to-s3.yml
   when: redis_dump.s3 is defined
+
+- name: Delete file if selected
+  file:
+    path: '{{ redis_dump_dest }}.json'
+    state: absent
+  when: redis_dump.delete_local | d (True)

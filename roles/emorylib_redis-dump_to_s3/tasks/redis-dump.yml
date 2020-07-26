@@ -1,4 +1,10 @@
 ---
+- name: Set fact for default redis-dump destination
+  set_fact:
+    redis_dump_dest: '{{ redis_dump.dest | d (default_destination) }}'
+  vars:
+    default_destination: '/tmp/{{ ansible_date_time.iso8601_micro }}'
+    
 - name: Async Redis-dump command
   shell: '{{ lookup ("template", "redis-dump_command.j2") }}'
   args:

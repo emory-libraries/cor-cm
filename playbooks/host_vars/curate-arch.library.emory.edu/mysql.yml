@@ -37,11 +37,10 @@ myloader_restore_arch_from_test:
     date: 'latest'
     key_prefix: mydumper-backups/curate-test
 
-redis_dump:
+redis_nightly_backup:
   options:
     - d: 2
     - u: dlp-redis-003.mmsay6.0001.use1.cache.amazonaws.com
-  dest: '{{ ansible_date_time.iso8601_micro }}'
   s3:
     bucket: cor-devops-binaries
     key_prefix: redis-backups/curate-arch/

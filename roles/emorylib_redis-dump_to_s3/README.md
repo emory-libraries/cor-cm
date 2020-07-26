@@ -1,31 +1,59 @@
-Role Name
+emorylib_redis_dump_to_s3
 =========
 
-A brief description of the role goes here.
+This role will install a ruby gem called redis-dump, then use the gem to backup a redis database. Optionally it will pushed to S3 and/or deleted.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Ruby must be installed on the host running this role.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+```yaml
+### Main input variable
+redis_dump:
+  options:                                                          # Optional list of options. Please check the redis-dump documentation for examples on what each option does.
+    - d: 1                                                          # d flag specifies that database 1 will be backed up
+    - u: redis-hostname-here.com                                    # u specifies the host name of the redis instance
+  dest: '/tmp/{{ ansible_date_time.iso8601_micro }}'                # Optional, Where the outputing json file will be created.
+  delete_local: yes                                                 # Optional, will delete the local file after it's been uploaded to S3
+  s3:
+    bucket: s3_bucket_name                                          # Required if using S3
+    key_prefix: any_key_prefix_here                                 # Optional Key Prefix
+    region: us-east-1                                               # Required region of bucket
+
+### Additional variables
+redis_dump_executable_path: ~/bin/redis-dump                        # Controls the path to the redis-dump executable
+### Async Variables                                                 # Manages the async call of the role
+redis_dump_async: 3000
+redis_dump_retries: 300
+redis_dump_delay: 10
+
+```
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
-
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```yaml
+# Simple run
+- hosts: all
+  vars:
+    redis_dump:
+      options:
+        - d: 2
+        - u: redis_instance.com
+      s3:
+        bucket: test-bucket
+        region: us-west-1
+  tasks:
+    - include_role:
+        name: emorylib_redis_dump_to_s3
+```
 
 License
 -------
@@ -35,4 +63,4 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Solomon Hilliard for Emory Libraries
