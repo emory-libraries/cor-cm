@@ -1,0 +1,12 @@
+---
+# tasks file for emorylib_redis-load_from_s3
+- name: Include tasks to download from S3
+  include_tasks:
+    file: download-from-s3.yml
+  vars:
+    s3: '{{ redis_load.s3 | d () }}'
+
+- name: Include tasks to replace database field inside json file
+  include_tasks:
+    file: replace-db-field.yml
+  when: redis_load.replace_db is defined
