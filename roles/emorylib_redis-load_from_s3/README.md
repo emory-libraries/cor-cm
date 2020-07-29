@@ -1,31 +1,59 @@
-Role Name
+emorylib_redis-load_from_s3
+
 =========
 
-A brief description of the role goes here.
+This role uses the redis-dump gem's redis-load executable. It will download a redis dump json file from S3 and load it with user specified options.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+awscli must be installed on the host executing this role.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
-
-Dependencies
-------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+```yaml
+### Main Input Variable
+redis_load:
+  options:                                                           # List of options to be ran with the executable
+    - d: 9
+    - u: redis-hostname
+  s3:                                                                # Required S3 section, includes bucket and possible key prefix
+    bucket: bucket-name
+    key_prefix: /
+    date: 'latest'                                                   # Takes a date or 'latest', dates must be included in quotes
+  replace_db: 9                                                      # Optional, if present the role will replace the db field with this
+```
 
 Example Playbook
+
 ----------------
-
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```yaml
+### Restore single redis database
+- hosts: all
+  vars:
+    redis_load:
+      options:
+        - d: 1
+        - u: redis-host-003.com
+      replace_db: 1
+      s3:
+        bucket: backup-bucket
+        key-prefix: redis/db/2
+        date: '2020-07-26T23:49:03.355197Z'
+### Restore all redis databases
+  vars:
+    redis_load:
+      options:
+        - u: redis-host-003.com
+      s3:
+        bucket: full-redis-backup
+        key_prefix: /
+        date: 'latest'
+  tasks:
+    - include_role:
+        name: emorylib_redis-load_from_s3
+```
 
 License
 -------

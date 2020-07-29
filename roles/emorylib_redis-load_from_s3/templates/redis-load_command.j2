@@ -1,0 +1,1 @@
+< {{ bucket_key_path }} {{ redis_load_executable_path }} {% for o in redis_load.options %}{% for k,v in o.items() %} -{{ k }} {{ v }} {% endfor %}{% endfor %} 

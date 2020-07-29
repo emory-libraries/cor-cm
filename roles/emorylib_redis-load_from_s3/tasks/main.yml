@@ -10,3 +10,7 @@
   include_tasks:
     file: replace-db-field.yml
   when: redis_load.replace_db is defined
+
+- name: Include tasks to run redis load command
+  include_tasks:
+    file: redis-load.yml
