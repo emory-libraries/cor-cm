@@ -23,6 +23,7 @@ redis_load:
     key_prefix: /
     date: 'latest'                                                   # Takes a date or 'latest', dates must be included in quotes
   replace_db: 9                                                      # Optional, if present the role will replace the db field with this
+  delete_file: yes                                                   # Delete file after restoring, defaults to true
 ```
 
 Example Playbook

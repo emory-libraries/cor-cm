@@ -7,7 +7,7 @@
 
 - name: Get bucket key from date
   set_fact:
-    bucket_key: '{{ bucket_keys | select("equalto", s3.date) | list | last | d ("none") }}'
+    bucket_key: '{{ bucket_keys | select("contains", s3.date) | list | last | d ("none") }}'
   when: s3.date | lower != "latest"
 
 - name: Assert that date bucket key was found

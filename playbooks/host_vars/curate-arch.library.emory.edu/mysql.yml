@@ -36,22 +36,3 @@ myloader_restore_arch_from_test:
     bucket: cor-devops-binaries
     date: 'latest'
     key_prefix: mydumper-backups/curate-test
-
-redis_nightly_backup:
-  options:
-    - d: 2
-    - u: dlp-redis-003.mmsay6.0001.use1.cache.amazonaws.com
-  s3:
-    bucket: cor-devops-binaries
-    key_prefix: redis-backups/curate-arch/
-    region: us-west-1
-
-redis_load:
-  options:
-    - d: 9
-    - u: dlp-redis-003.mmsay6.0001.use1.cache.amazonaws.com
-  s3:
-    bucket: cor-devops-binaries
-    key_prefix: redis-backups/curate-arch
-    date: '2020-07-26T22:29:09.640216Z.json'
-  replace_db: 9
