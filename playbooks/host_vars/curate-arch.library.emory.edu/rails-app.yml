@@ -8,6 +8,15 @@ __dlp_curate_dotenv:
   proxied_iiif_server_url: http://iiif-cor-arch.internal.emory.edu/cantaloupe/iiif/2/
   redis_database: 2
 
+redis_nightly_backup:
+  options:
+    - d: 2
+    - u: dlp-redis-003.mmsay6.0001.use1.cache.amazonaws.com
+  s3:
+    bucket: cor-devops-binaries
+    key_prefix: redis-backups/curate-arch/
+    region: us-west-1
+
 cap_branding_symlink_path: /mnt/arch_efs/uploads/dlp-curate/branding
 
 backup_dlp_curate_efs_to_s3:
@@ -27,3 +36,13 @@ restore_efs_test:
     bucket: cor-devops-binaries
     key_prefix: file-system-backups/dlp-curate/curate-arch
     date: latest
+
+test_redis_load:
+  options:
+    - d: 9
+    - u: dlp-redis-003.mmsay6.0001.use1.cache.amazonaws.com
+  s3:
+    bucket: cor-devops-binaries
+    key_prefix: redis-backups/curate-arch
+    date: 'latest'
+  replace_db: 9

@@ -8,6 +8,15 @@ __dlp_curate_dotenv:
   solr_url: http://solr-cor.internal.emory.edu/solr/curate_collection
   redis_database: 0
 
+redis_nightly_backup:
+  options:
+    - d: 0
+    - u: dlp-redis-003.mmsay6.0001.use1.cache.amazonaws.com
+  s3:
+    bucket: cor-devops-binaries
+    key_prefix: redis-backups/curate/
+    region: us-west-1
+
 cap_branding_symlink_path: /mnt/prod_efs/uploads/dlp-curate/branding
 
 backup_dlp_curate_efs_to_s3:
