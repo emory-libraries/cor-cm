@@ -11,12 +11,12 @@ __dlp_curate_dotenv:
 redis_nightly_backup:
   options:
     - d: 1
-    - u: dlp-redis-003.mmsay6.0001.use1.cache.amazonaws.com
+    - u: '{{ dlp_curate_dotenv.redis_host }}'
   s3:
     bucket: cor-devops-binaries
     key_prefix: redis-backups/curate-test/
     region: us-west-1
-    
+
 cap_branding_symlink_path: /mnt/test_efs/uploads/dlp-curate/branding
 
 backup_dlp_curate_efs_to_s3:
