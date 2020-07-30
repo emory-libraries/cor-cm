@@ -2,11 +2,20 @@ __dlp_curate_dotenv:
   branding_path: /mnt/arch_efs/uploads/dlp-curate/branding
   iiif_cookie_salt_1: '{{ vault_dlp.iiif.arch.cookie.salt_1 }}'
   iiif_cookie_salt_2: '{{ vault_dlp.iiif.arch.cookie.salt_2 }}'
-  lux_base_url: digital-arch.library.emory.edu
+  lux_base_url: https://digital-arch.library.emory.edu
   fedora_url: http://fedora-cor-arch.internal.emory.edu/fcrepo/rest
   solr_url: http://solr-cor-arch.internal.emory.edu/solr/curate_collection
   proxied_iiif_server_url: http://iiif-cor-arch.internal.emory.edu/cantaloupe/iiif/2/
   redis_database: 2
+
+redis_nightly_backup:
+  options:
+    - d: 2
+    - u: '{{ dlp_curate_dotenv.redis_host }}'
+  s3:
+    bucket: cor-devops-binaries
+    key_prefix: redis-backups/curate-arch/
+    region: us-west-1
 
 cap_branding_symlink_path: /mnt/arch_efs/uploads/dlp-curate/branding
 
@@ -27,3 +36,13 @@ restore_efs_test:
     bucket: cor-devops-binaries
     key_prefix: file-system-backups/dlp-curate/curate-arch
     date: latest
+
+test_redis_load:
+  options:
+    - d: 9
+    - u: '{{ dlp_curate_dotenv.redis_host }}'
+  s3:
+    bucket: cor-devops-binaries
+    key_prefix: redis-backups/curate-arch
+    date: 'latest'
+  replace_db: 9

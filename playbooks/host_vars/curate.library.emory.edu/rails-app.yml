@@ -3,10 +3,19 @@ __dlp_curate_dotenv:
   iiif_cookie_salt_1: '{{ vault_dlp.iiif.prod.cookie.salt_1 }}'
   iiif_cookie_salt_2: '{{ vault_dlp.iiif.prod.cookie.salt_2 }}'
   fedora_url: http://fedora-cor.internal.emory.edu/fcrepo/rest
-  lux_base_url: digital.library.emory.edu
+  lux_base_url: https://digital.library.emory.edu
   proxied_iiif_server_url: http://iiif-cor.internal.emory.edu/cantaloupe/iiif/2/
   solr_url: http://solr-cor.internal.emory.edu/solr/curate_collection
   redis_database: 0
+
+redis_nightly_backup:
+  options:
+    - d: 0
+    - u: '{{ dlp_curate_dotenv.redis_host }}'
+  s3:
+    bucket: cor-devops-binaries
+    key_prefix: redis-backups/curate/
+    region: us-west-1
 
 cap_branding_symlink_path: /mnt/prod_efs/uploads/dlp-curate/branding
 

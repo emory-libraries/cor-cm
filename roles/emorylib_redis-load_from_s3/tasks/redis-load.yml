@@ -1,0 +1,19 @@
+- name: Async redis-load command
+  shell: '{{ lookup("template", "redis-load_command.j2") }}'
+  async: '{{ redis_load_async }}'
+  poll: 0
+  register: redis_load_info
+
+- name: Wait until redis-load command is finished
+  async_status:
+    jid: '{{ redis_load_info.ansible_job_id }}'
+  register: redis_load_result
+  until: redis_load_result.finished
+  retries: '{{ redis_load_retries }}'
+  delay: '{{ redis_load_delay }}'
+
+- name: Delete downloaded file
+  file:
+    path: '{{ bucket_key_path }}'
+    state: absent
+  when: redis_load.delete_file | d (true)

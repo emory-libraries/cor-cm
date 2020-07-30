@@ -1,0 +1,7 @@
+---
+# defaults file for emorylib_redis-load_from_s3
+redis_load_executable_path: ~/bin/redis-load
+
+redis_load_async: 3000
+redis_load_retries: 300
+redis_load_delay: 10

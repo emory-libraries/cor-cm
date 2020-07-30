@@ -1,0 +1,4 @@
+- hosts: all
+  tasks:
+    - include_role:
+        name: emorylib_redis-load_from_s3

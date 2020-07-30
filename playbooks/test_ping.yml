@@ -1,17 +1,13 @@
-- hosts: localhost
-  gather_facts: true
+- hosts: all
   tasks:
-    - shell: ping -c 10 localhost
-      async: 200
-      poll: 0
-      register: ping_test
-  
+    #- name: Replace db
+    #  replace:
+    #    path: /home/ec2-user/db_1.json
+    #    regexp: '\"db\"\:([0-9]+)'
+    #    replace: '"db":9'
     - debug:
-        var: ping_test
-    
-    - async_status:
-        jid: '{{ping_test.ansible_job_id}}'
-      register: job_result
-      until: job_result.finished
-      retries: 100
+        msg: '{{ path | basename }}'
+      vars:
+       path: '2020-07-24T21:31:13.875504Z.json'
+
       

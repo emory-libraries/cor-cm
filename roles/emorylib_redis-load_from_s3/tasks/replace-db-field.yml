@@ -1,0 +1,6 @@
+---
+- name: Replace db field with given value
+  replace:
+    path: '{{ bucket_key_path }}'
+    regexp: '\"db\"\:([0-9]+)'
+    replace: '"db":{{ redis_load.replace_db }}'
