@@ -15,7 +15,7 @@
 - name: Include tasks to get specific bucket key
   include_tasks: get-bucket-key.yml
 
-- name: Download bucket key to epoch tmp via aws s3 sync
+- name: Download bucket key to epoch tmp via aws s3 cp
   shell: >
     aws s3 cp s3://{{ s3.bucket }}/{{ s3.key_prefix | regex_replace(get_trailing_slash, "") }}/{{ bucket_key }}
     {{ download_path }}
