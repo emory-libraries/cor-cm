@@ -19,5 +19,5 @@
 
 - name: Get latest bucket_key
   set_fact:
-    bucket_key: '{{ bucket_keys[-1] }}'
-  when: s3.date | lower == "latest"
+    '{{ bucket_type }}_bucket_key': '{{ bucket_keys[-1] }}'
+  when: s3.date | lower == "latest"  

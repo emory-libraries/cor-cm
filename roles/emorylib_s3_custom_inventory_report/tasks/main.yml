@@ -7,3 +7,10 @@
   vars:
     bucket_type: source
     s3: '{{ s3_custom_report.source }}'
+  
+- name: Include tasks to get destination bucket key
+  include_tasks:
+    file: list-bucket-keys.yml
+  vars:
+    bucket_type: dest
+    s3: '{{ s3_custom_report.dest }}'
