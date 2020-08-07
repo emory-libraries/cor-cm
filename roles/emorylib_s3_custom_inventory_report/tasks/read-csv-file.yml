@@ -1,0 +1,10 @@
+---
+- name: Read {{ bucket_type }} CSV file
+  read_csv:
+    path: ' {{ csv_path }}'
+    fieldnames: '{{ source_inventory_json.fileSchema | trim }}'
+  register: read_csv_info
+
+- name: Add read csv info to list
+  set_fact:
+    '{{ bucket_type }}_csv': '{{ lookup("vars", bucket_type + "_csv", default=[]) + [read_csv_info.list] }}'

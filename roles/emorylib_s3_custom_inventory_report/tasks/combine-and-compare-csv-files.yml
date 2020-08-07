@@ -1,0 +1,20 @@
+---
+- name: Assert that the json file Schema is the same for source and dest
+  assert:
+    that:
+      - source_inventory_json.fileSchema == dest_inventory_json.fileSchema
+    quiet: yes
+    fail_msg: The file schema must match on both source and destination buckets
+
+- name: Include tasks to read csv for dest bucket
+  include_tasks:
+    file: read-csv-file.yml
+  vars:
+    bucket_type: dest
+    csv_list: '{{ dest_gz_list | regex_replace (".csv.gz", ".csv") }}'
+  loop: '{{ csv_list }}'
+  loop_control:
+    loop_var: csv_path
+
+- debug:
+    var: dest_csv | count

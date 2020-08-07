@@ -24,9 +24,27 @@
 
 - name: Set fact for download .csv.gz list
   set_fact:
-    '{{ bucket_type }}_gz_list': '{{ lookup("vars", bucket_type + "_gz_list") | d ([]) + [location] }}'
+    '{{ bucket_type }}_gz_list': '{{ lookup("vars", bucket_type + "_gz_list", default=[]) + [location] }}'
   vars:
     default_list: []
     location: '{{ download_location }}/{{ item.key | basename }}'
   loop: '{{ bucket_inventory_json.files }}'
-    
+
+- name: Stat on .csv.gz list for md5 check
+  stat:
+    path: '{{ item }}'
+    checksum_algorithm: md5
+  loop: '{{ bucket_gz_list }}'
+  register: md5_info
+
+- name: Assert that local checksum matches given value in json file
+  assert:
+    that: 
+      - item.0.MD5checksum | lower == item.1.stat.checksum | lower
+    quiet: yes
+    fail_msg: The MD5 checksum of the downloaded file(s) do not match the value in the json file
+  loop: '{{ bucket_inventory_json.files | zip(md5_info.results) | list }}'
+
+- name: Unzip the downloaded .csv.gz files
+  shell: gunzip -f {{ item }}
+  loop: '{{ bucket_gz_list }}'

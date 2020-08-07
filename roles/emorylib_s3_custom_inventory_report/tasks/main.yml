@@ -14,3 +14,7 @@
   vars:
     bucket_type: dest
     s3: '{{ s3_custom_report.dest }}'
+
+- name: Include tasks to combine and compare .csv files
+  include_tasks:
+    file: combine-and-compare-csv-files.yml

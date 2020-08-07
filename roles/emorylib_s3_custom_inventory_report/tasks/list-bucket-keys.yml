@@ -22,4 +22,6 @@
   vars:
     bucket_inventory_json: '{{ lookup("vars", bucket_type + "_inventory_json") }}'
     bucket_key: '{{ lookup ("vars", bucket_type + "_bucket_key") }}'
+    bucket_gz_list: '{{ lookup ("vars", bucket_type + "_gz_list") }}'
+    bucket_unzip_list: '{{ lookup ("vars", bucket_type + "_unzip_list") }}'
     download_location: '{{ s3_custom_report_download_location }}'
