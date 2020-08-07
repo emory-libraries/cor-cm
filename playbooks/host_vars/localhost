@@ -19,3 +19,13 @@ n2cw_cron_jobs:
     options:
       - w 15,10,5
       - c 30,25,20
+
+s3_custom_report:
+  source:
+    bucket: cor-s3-inventory-2
+    key_prefix: fedora-cor-test-binaries/manifest
+    date: 'latest'
+  dest:
+    bucket: cor-s3-inventory-2
+    key_prefix: backup-fedora-cor-test-binaries/manifest
+    date: 'latest'

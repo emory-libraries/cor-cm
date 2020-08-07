@@ -1,16 +1,23 @@
 ---
-- name: List keys for {{ bucket_type }} bucket, via awscli
-  shell: aws s3 ls {{ s3.bucket }}/{{ s3.key_prefix | d () | regex_replace(get_trailing_slash, '') }} | sed 's/PRE //g' | sed 's/.$//g' | grep -Ev "data|hive"
-  vars:
-    get_trailing_slash: \/$
-  register: bucket_key_info
+- name: Assert that at least one bucket key was found
+  assert:
+    that: bucket_keys | length > 0
+    quiet: yes
+    fail_msg: No bucket keys were found
 
-- debug:
-    var: bucket_key_info
-
-- name: Create key list for {{ bucket_type }} keys.
+- name: Get bucket key from date
   set_fact:
-    '{{ bucket_type }}_bucket_keys': '{{ bucket_key_info.stdout_lines | map("trim") | list }}'
+    bucket_key: '{{ bucket_keys | select("equalto", s3.date) | list | last | d ("none") }}'
+  when: s3.date | lower != "latest"
 
-- debug:
-    var: source_bucket_keys
+- name: Assert that date bucket key was found
+  assert:
+    that: bucket_key != "none"
+    quiet: yes
+    fail_msg: No matching date key was found
+  when: s3.date | lower != "latest"
+
+- name: Get latest bucket_key
+  set_fact:
+    bucket_key: '{{ bucket_keys[-1] }}'
+  when: s3.date | lower == "latest"
