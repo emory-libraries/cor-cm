@@ -1,13 +1,25 @@
-- hosts: all
+- hosts: localhost
   tasks:
-    #- name: Replace db
-    #  replace:
-    #    path: /home/ec2-user/db_1.json
-    #    regexp: '\"db\"\:([0-9]+)'
-    #    replace: '"db":9'
-    - debug:
-        msg: '{{ path | basename }}'
-      vars:
-       path: '2020-07-24T21:31:13.875504Z.json'
+    - name: Read source bucket csv
+      read_csv:
+        path: /home/Solomon/Code/CM/source_bucket.csv
+        fieldnames: Bucket,Key,Size,LastModifiedDate,ETag
+      register: source_bucket
+    
+    - name: Read dest bucket csv
+      read_csv:
+        path: /home/Solomon/Code/CM/dest_bucket.csv
+        fieldnames: Bucket,Key,Size,LastModifiedDate,ETag
+      register: dest_bucket
+        
+    - name: Get difference of the two lists
+      set_fact: 
+        difference: '{{ source_bucket.list | difference (dest_bucket.list) }}'
+    
+    - name: Template out new csv file
+      template:
+        dest: differnce_csv.csv
+        src: template_csv.j2
 
-      
+    - debug:
+        var: difference
