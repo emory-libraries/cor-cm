@@ -6,6 +6,16 @@
     quiet: yes
     fail_msg: The file schema must match on both source and destination buckets
 
+- name: Include tasks to read csv for source bucket
+  include_tasks:
+    file: read-csv-file.yml
+  vars:
+    bucket_type: source
+    csv_list: '{{ source_gz_list | regex_replace (".csv.gz", ".csv") }}'
+  loop: '{{ csv_list }}'
+  loop_control:
+    loop_var: csv_path
+
 - name: Include tasks to read csv for dest bucket
   include_tasks:
     file: read-csv-file.yml
@@ -16,5 +26,15 @@
   loop_control:
     loop_var: csv_path
 
+- name: Get difference between source and dest keys
+  set_fact:
+    difference: '{{ source_csv | difference(dest_csv) }}'
+
+- name: Template out new CSV with differnce keys and source bucket
+  template:
+    src: template_csv.j2
+    dest: '{{ download_location }}/{{ ansible_date_time.epoch }}.csv'
+  register: template_info
+
 - debug:
-    var: dest_csv | count
+    var: template_info

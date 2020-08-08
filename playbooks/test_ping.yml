@@ -4,22 +4,34 @@
       read_csv:
         path: /home/Solomon/Code/CM/source_bucket.csv
         fieldnames: Bucket,Key,Size,LastModifiedDate,ETag
+        key: Key
       register: source_bucket
     
     - name: Read dest bucket csv
       read_csv:
         path: /home/Solomon/Code/CM/dest_bucket.csv
         fieldnames: Bucket,Key,Size,LastModifiedDate,ETag
+        key: Key
       register: dest_bucket
-        
+    
+    - debug:
+        var: item
+      loop: '{{source_bucket.dict | dict2items }}'
+    
+    #- fail:
+
     - name: Get difference of the two lists
       set_fact: 
-        difference: '{{ source_bucket.list | difference (dest_bucket.list) }}'
+        difference: '"key": {{ source_bucket.dict | difference (dest_bucket.dict) }}'
     
-    - name: Template out new csv file
-      template:
-        dest: differnce_csv.csv
-        src: template_csv.j2
+    - name: Get union of difference and OG source
+      set_fact:
+        union: '{{ union | d([]) + source_bucket.dict | dict2items | union(difference) }}'
+    
+    #- name: Template out new csv file
+    #  template:
+    #    dest: differnce_csv.csv
+    #    src: template_csv.j2
 
     - debug:
-        var: difference
+        var: union

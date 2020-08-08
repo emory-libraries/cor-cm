@@ -1,0 +1,9 @@
+---
+- name: Gzip the csv file
+  archive:
+    dest:  '{{ download_location }}/{{ ansible_date_time.epoch }}.gz.csv'
+    path: '{{ download_location }}/{{ ansible_date_time.epoch }}.csv'
+  register: gzip_info
+
+- debug:
+    var: gzip_info

@@ -5,7 +5,7 @@
   vars:
     get_trailing_slash: \/$
     key_prefix_ternary: '{{ s3.key_prefix is defined | ternary ("/", "") }}'
-    report_prefix: '{{ s3_custom_report_prefix }}'
+    report_prefix: '{{ s3_custom_report_manifest_name }}'
 
 - name: Load s3 inventory report json into ansible
   set_fact:
@@ -26,7 +26,6 @@
   set_fact:
     '{{ bucket_type }}_gz_list': '{{ lookup("vars", bucket_type + "_gz_list", default=[]) + [location] }}'
   vars:
-    default_list: []
     location: '{{ download_location }}/{{ item.key | basename }}'
   loop: '{{ bucket_inventory_json.files }}'
 

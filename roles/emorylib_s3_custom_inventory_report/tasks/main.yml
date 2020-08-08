@@ -18,3 +18,13 @@
 - name: Include tasks to combine and compare .csv files
   include_tasks:
     file: combine-and-compare-csv-files.yml
+  vars:
+    download_location: '{{ s3_custom_report_download_location }}'
+    s3: '{{ s3_custom_report.source }}'
+
+- name: Include tasks to compress file and upload to s3
+  include_tasks:
+    file: gzip-upload-to-s3.yml
+  vars:
+    download_location: '{{ s3_custom_report_download_location }}'
+      
