@@ -1,0 +1,26 @@
+---
+- name: Calculate number of loops needed to split difference list
+  set_fact:
+    calculate_loop: '{{ (difference | count / s3_custom_report_max_csv_size ) | round (0, "ceil") | int }}'
+
+- name: Debug out number of loops needed for splitting difference variable
+  debug:
+    msg: '{{ item }}'
+  with_sequence: start=1 end='{{ calculate_loop }}'
+  register: loop_info
+
+- name: Include tasks for difference splitting loop
+  include_tasks:
+    file: difference-loop.yml
+  loop: '{{ loop_info.results }}'
+  loop_control:
+    loop_var: outer_index
+
+- name: Template out new CSV(s) with differnce keys and source bucket
+  template:
+    src: template_csv.j2
+    dest: '{{ download_location }}/{{ ansible_date_time.epoch }}-{{ lookup("password", "/dev/null length=15 chars=ascii_letters")}}.csv'
+  vars:
+    csv_input: '{{ lookup ("vars", item) }}'
+  loop: '{{ lookup("varnames", "split_list_").split(",") }}'
+  register: template_info

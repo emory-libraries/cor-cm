@@ -29,12 +29,3 @@
 - name: Get difference between source and dest keys
   set_fact:
     difference: '{{ source_csv | difference(dest_csv) }}'
-
-- name: Template out new CSV with differnce keys and source bucket
-  template:
-    src: template_csv.j2
-    dest: '{{ download_location }}/{{ ansible_date_time.epoch }}.csv'
-  register: template_info
-
-- debug:
-    var: template_info

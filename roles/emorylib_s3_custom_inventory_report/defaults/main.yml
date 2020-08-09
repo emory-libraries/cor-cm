@@ -1,2 +1,4 @@
 ---
 # defaults file for emorylib_s3_custom_inventory_report
+
+s3_custom_report_max_csv_size: 20000

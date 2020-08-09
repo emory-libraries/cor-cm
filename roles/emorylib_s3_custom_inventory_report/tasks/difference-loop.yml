@@ -1,0 +1,9 @@
+---
+- name: Set fact for split list and temp list
+  set_fact:
+    'split_list_{{ outer_index.item }}':  '{{ difference[:s3_custom_report_max_csv_size] }}'
+    tmp_list: '{{ difference[:s3_custom_report_max_csv_size] }}'
+
+- name: Create new differnce list with out the split_list entries
+  set_fact:
+    difference: '{{ difference | difference(tmp_list) }}'
