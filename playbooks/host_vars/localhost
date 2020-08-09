@@ -29,5 +29,8 @@ s3_custom_report:
     bucket: cor-s3-inventory-3
     key_prefix: backup-fedora-cor-test-binaries/manifest
     date: 'latest'
+  report:
+    bucket: cor-s3-inventory-2
+    key_prefix: fedora-cor-test-binaries-to-backup-fedora-cor-test-binaries/manifest
 s3_custom_report_manifest_name: manifest
 s3_custom_report_download_location: /tmp

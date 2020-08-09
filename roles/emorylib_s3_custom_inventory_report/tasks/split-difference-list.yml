@@ -24,3 +24,7 @@
     csv_input: '{{ lookup ("vars", item) }}'
   loop: '{{ lookup("varnames", "split_list_").split(",") }}'
   register: template_info
+
+- name: Set fact for list of csvs created
+  set_fact:
+    created_csvs: '{{ template_info.results | map (attribute="dest") | list }}'

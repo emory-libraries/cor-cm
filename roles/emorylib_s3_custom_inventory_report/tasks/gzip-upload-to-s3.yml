@@ -1,9 +1,36 @@
 ---
-- name: Gzip the csv file
+- name: Gzip csv file(s)
   archive:
-    dest:  '{{ download_location }}/{{ ansible_date_time.epoch }}.gz.csv'
-    path: '{{ download_location }}/{{ ansible_date_time.epoch }}.csv'
+    dest:  '{{ item | regex_replace(".csv", ".csv.gz") }}'
+    path: '{{ item }}'
+  loop: '{{ created_csvs }}'
   register: gzip_info
 
+- name: Set fact for created gz.csvs
+  set_fact:
+    created_csv_gzs: '{{ gzip_info.results | map (attribute="dest") | list }}'
+
+- name: Get stats on the gz.csv file(s)
+  stat:
+    checksum_algorithm: md5
+    path: '{{ item }}'
+  loop: '{{ created_csv_gzs }}'
+  register: csv_gz_info
+
+- name: Create new variable with stat info on gz.csv
+  set_fact:
+    csv_gz_stats: '{{ csv_gz_stats | d ([]) + [{"md5": item.stat.checksum, "size": item.stat.size, "path": item.stat.path}] }}'
+  loop: '{{ csv_gz_info.results }}'
+
+- name: Upload gz.csv(s) to report s3 bucket
+  shell: >
+    aws s3 cp {{ item.path }}
+    s3://{{ s3.bucket }}/{{ s3.key_prefix | d () | regex_replace(get_trailing_slash, '') }}{{ key_prefix_ternary }}data/{{ item.path | basename }}
+  loop: '{{ csv_gz_stats }}'
+  vars:
+    get_trailing_slash: \/$
+    key_prefix_ternary: '{{ s3.key_prefix is defined | ternary ("/", "") }}'
+  register: test_upload_info
+
 - debug:
-    var: gzip_info
+    var: test_upload_info
