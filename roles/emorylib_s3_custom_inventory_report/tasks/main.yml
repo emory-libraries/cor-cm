@@ -35,4 +35,7 @@
     file: gzip-upload-to-s3.yml
   vars:
     s3: '{{ s3_custom_report.report }}'
+    get_trailing_slash: \/$
+    key_prefix_ternary: '{{ s3.key_prefix is defined | ternary ("/", "") }}'
+    download_location: '{{ s3_custom_report_download_location }}'
       
