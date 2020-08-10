@@ -26,6 +26,10 @@
   loop_control:
     loop_var: csv_path
 
-- name: Get difference between source and dest keys
+- name: Set fact for difference between source and dest keys
   set_fact:
     difference: '{{ source_csv | difference(dest_csv) }}'
+
+- name: Set fact for number of difference keys
+  set_fact:
+    difference_count: '{{ difference | count }}'

@@ -1,0 +1,38 @@
+---
+- name: Set fact for manifest.json variable
+  set_fact:
+    report_manifest_json:
+      sourceBucket: '{{ s3_custom_report.source.bucket }}'
+      destinationBucket: 'arn:aws:s3:::{{ s3.bucket }}'
+      version: '2016-11-30'
+      creationTimestamp: '{{ ansible_date_time.epoch }}'
+      fileFormat: CSV
+      fileSchema: 'Bucket, Key'
+      files: '{{ manifest_files | d ([]) }}'
+
+- name: Create manifest.json on local
+  copy:
+    dest: '{{ download_location }}/manifest.json'
+    content: '{{ report_manifest_json | to_nice_json }}'
+
+- name: Get stat on manifest.json
+  stat:
+    checksum_algorithm: md5
+    path: '{{ download_location }}/manifest.json'
+  register: report_manifest_json_info
+
+- name: Create manifest.checksum on local
+  copy:
+    dest: '{{ download_location }}/manifest.checksum'
+    content: '{{ report_manifest_json_info.stat.checksum }}'
+
+- name: Upload manifest files to report s3 bucket
+  shell: >
+    aws s3 cp {{ item }}
+    s3://{{ s3.bucket }}/{{ s3.key_prefix | d () | regex_replace(get_trailing_slash, '') }}{{ key_prefix_ternary }}{{ ansible_date_time.iso8601 }}
+  vars:
+    get_trailing_slash: \/$ 
+    key_prefix_ternary: '{{ s3.key_prefix is defined | ternary ("/", "") }}'
+  loop:
+    - '{{ download_location }}/manifest.json'
+    - '{{ download_location }}/manifest.checksum'

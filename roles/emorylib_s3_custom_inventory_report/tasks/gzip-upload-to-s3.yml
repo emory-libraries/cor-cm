@@ -6,54 +6,27 @@
   loop: '{{ created_csvs }}'
   register: gzip_info
 
-- name: Set fact for created gz.csvs
+- name: Set fact for created csv.gz(s)
   set_fact:
     created_csv_gzs: '{{ gzip_info.results | map (attribute="dest") | list }}'
 
-- name: Get stats on the gz.csv file(s)
+- name: Get stats on the csv.gz file(s)
   stat:
     checksum_algorithm: md5
     path: '{{ item }}'
   loop: '{{ created_csv_gzs }}'
   register: csv_gz_info
 
-- name: Create new variables with stat info on gz.csv
+- name: Create new variables with stat info on csv.gz
   set_fact:
-    csv_gz_stats: '{{ csv_gz_stats | d ([]) + [{"md5": item.stat.checksum, "size": item.stat.size, "path": item.stat.path}] }}'
-    manifest_files_info: '{{ manifest_files_info | d ([]) + [{"MD5checksum": item.stat.checksum, "size": item.stat.size, "key": key }] }}'
+    csv_gz_paths: '{{ csv_gz_paths | d ([]) + [item.stat.path] }}'
+    manifest_files: '{{ manifest_files | d ([]) + [{"MD5checksum": item.stat.checksum, "size": item.stat.size, "key": key }] }}'
   vars:
     key: "{{ s3.bucket }}/{{ s3.key_prefix | d () | regex_replace(get_trailing_slash, '') }}{{ key_prefix_ternary }}data/{{ item.stat.path | basename }}"
   loop: '{{ csv_gz_info.results }}'
 
-- name: Upload gz.csv(s) to report s3 bucket
+- name: Upload csv.gz(s) to report s3 bucket
   shell: >
-    aws s3 cp {{ item.path }}
-    s3://{{ s3.bucket }}/{{ s3.key_prefix | d () | regex_replace(get_trailing_slash, '') }}{{ key_prefix_ternary }}data/{{ item.path | basename }}
-  loop: '{{ csv_gz_stats }}'
-
-- name: Set fact for manifest.json variable
-  set_fact:
-    report_manifest_json:
-      sourceBucket: '{{ s3_custom_report.source.bucket }}'
-      destinationBucket: 'arn:aws:s3:::{{ s3.bucket }}'
-      version: '2016-11-30'
-      creationTimestamp: '{{ ansible_date_time.epoch }}'
-      fileFormat: CSV
-      fileSchema: 'Bucket, Key'
-      files: '{{ manifest_files_info }}'
-
-- name: Create manifest.json on local
-  copy:
-    dest: '{{ download_location }}/manifest.json'
-    content: '{{ report_manifest_json | to_nice_json }}'
-
-- name: Get stat on manifest.json
-  stat:
-    checksum_algorithm: md5
-    path: '{{ download_location }}/manifest.json'
-  register: report_manifest_json_info
-
-- name: Create manifest.checksum on local
-  copy:
-    dest: '{{ download_location }}/manifest.checksum'
-    content: '{{ report_manifest_json_info.stat.checksum }}'
+    aws s3 cp {{ item }}
+    s3://{{ s3.bucket }}/{{ s3.key_prefix | d () | regex_replace(get_trailing_slash, '') }}{{ key_prefix_ternary }}data/{{ item | basename }}
+  loop: '{{ csv_gz_paths }}'

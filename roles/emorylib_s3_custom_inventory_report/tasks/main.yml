@@ -28,14 +28,21 @@
   vars:
     download_location: '{{ s3_custom_report_download_location }}'
     s3: '{{ s3_custom_report.source }}'
-  when: difference | count > 0
+  when: difference_count > 0
 
 - name: Include tasks to compress file and upload to s3
   include_tasks:
     file: gzip-upload-to-s3.yml
+  when: difference_count > 0
   vars:
     s3: '{{ s3_custom_report.report }}'
     get_trailing_slash: \/$
     key_prefix_ternary: '{{ s3.key_prefix is defined | ternary ("/", "") }}'
     download_location: '{{ s3_custom_report_download_location }}'
-      
+
+- name: Include tasks to create/upload manifest json and checksum
+  include_tasks:
+    file: create-upload-manifest-files.yml
+  vars:
+    s3: '{{ s3_custom_report.report }}'
+    download_location: '{{ s3_custom_report_download_location }}'
