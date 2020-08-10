@@ -28,12 +28,12 @@
   vars:
     download_location: '{{ s3_custom_report_download_location }}'
     s3: '{{ s3_custom_report.source }}'
-  when: difference_count > 0
+  when: difference_count | int > 0
 
 - name: Include tasks to compress file and upload to s3
   include_tasks:
     file: gzip-upload-to-s3.yml
-  when: difference_count > 0
+  when: difference_count | int > 0
   vars:
     s3: '{{ s3_custom_report.report }}'
     get_trailing_slash: \/$
