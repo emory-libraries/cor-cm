@@ -3,7 +3,11 @@
 repos: [rhel-7-server-rpms, rhel-7-server-optional-rpms. rhel-7-server-supplementary-rpms, rhel-7-server-extras-rpms ]
 repo_path: /etc/yum.repos.d/redhat.repo
 
-aws_repos: [rhui-REGION-rhel-server-releases, rhui-REGION-rhel-server-optional, rhui-REGION-rhel-server-supplementary, rhui-REGION-rhel-server-extras, rhui-REGION-rhel-server-rhscl]
+aws_repos:
+  - rhui-rhel-7-server-rhui-extras-rpms
+  - rhui-rhel-server-rhui-rhscl-7-rpms
+  - rhui-rhel-7-server-rhui-optional-rpms
+
 aws_repo_path: /etc/yum.repos.d/redhat-rhui.repo
 
 packages: [ vim, screen, unzip, lsof ]
