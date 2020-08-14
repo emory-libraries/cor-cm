@@ -75,9 +75,9 @@ iam_policies: #iam-manage-policy
     policy_template_path: iam_policy_s3_batch_operation_putcopy_json.j2
   - policy_name: S3BatchPutCopyFromFedoraTestToTestDLP
     destination_bucket: temp-bucket-dlp-test
-    source_bucket: fedora-cor-arch-binaries
+    source_bucket: fedora-cor-test-binaries
     manifest_bucket: cor-s3-inventory-2
-    report_bucket: cor-s3-inventory-2
+    report_bucket: cor-s3-inventory-2 
     policy_template_path: iam_policy_s3_batch_operation_putcopy_json.j2
   - policy_name: S3BatchPutCopyFromFedoraTestToBackupFedoraTest
     destination_bucket: backup-fedora-cor-test-binaries
@@ -105,7 +105,6 @@ iam_roles: #iam-manage-role
     description: General role for ec2
     policy_file_path: ec2_assume_role.json
   - name: s3-batch-job-role
-    purge_policies: yes
     managed_policy:
       - RHEDcloudAdministratorRolePolicy
       - rhedcloud-aws-vpc-type1-73-RHEDcloudManagementSubnetPolicy

@@ -34,3 +34,4 @@ s3_custom_report:
     key_prefix: fedora-cor-test-binaries-to-backup-fedora-cor-test-binaries/manifest
 s3_custom_report_manifest_name: manifest
 s3_custom_report_download_location: /tmp
+#s3_custom_report_source_bucket: # Will attempt to calculate this when it's not set

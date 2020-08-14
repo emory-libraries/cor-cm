@@ -2,7 +2,7 @@
 - name: Set fact for manifest.json variable
   set_fact:
     report_manifest_json:
-      sourceBucket: '{{ s3_custom_report.source.bucket }}'
+      sourceBucket: '{{ s3_custom_report_source_bucket }}'
       destinationBucket: 'arn:aws:s3:::{{ s3.bucket }}'
       version: '2016-11-30'
       creationTimestamp: '{{ ansible_date_time.epoch }}'
