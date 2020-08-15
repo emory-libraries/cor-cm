@@ -22,7 +22,7 @@
     csv_gz_paths: '{{ csv_gz_paths | d ([]) + [item.stat.path] }}'
     manifest_files: '{{ manifest_files | d ([]) + [{"MD5checksum": item.stat.checksum, "size": item.stat.size, "key": key }] }}'
   vars:
-    key: "{{ s3.bucket }}/{{ s3.key_prefix | d () | regex_replace(get_trailing_slash, '') }}{{ key_prefix_ternary }}data/{{ item.stat.path | basename }}"
+    key: "{{ s3.key_prefix | d () | regex_replace(get_trailing_slash, '') }}{{ key_prefix_ternary }}data/{{ item.stat.path | basename }}"
   loop: '{{ csv_gz_info.results }}'
 
 - name: Upload csv.gz(s) to report s3 bucket

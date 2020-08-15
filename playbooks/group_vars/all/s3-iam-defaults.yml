@@ -113,7 +113,7 @@ iam_roles: #iam-manage-role
       - S3BatchJobForFedoraCorArch
       - S3BatchPutCopyOpFromFedoraCorToFedoraCorArch
       - S3BatchPutCopyOpFromFedoraCorTestToFedoraCorArch
-      - S3BatchPutCopyFromFedoraTestToTestDLP
+      - AmazonS3FullAccess
       - S3BatchPutCopyFromFedoraTestToBackupFedoraTest
       - S3BatchPutCopyFromFedoraBinToBackupFedoraBin
     description: Controls batch operations
