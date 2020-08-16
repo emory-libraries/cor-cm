@@ -9,6 +9,7 @@
       fileFormat: CSV
       fileSchema: 'Bucket, Key'
       files: '{{ manifest_files | d ([]) }}'
+      numberObjects: '{{ difference_count }}'
 
 - name: Create manifest.json on local
   copy:

@@ -15,9 +15,14 @@
       register: dest_bucket
     
     - debug:
+        var: (source_bucket.dict | dict2items | first).value.Bucket
+
+    - debug:
         var: item
-      loop: '{{source_bucket.dict | dict2items }}'
+      loop: '{{source_bucket.dict | dict2items | first }}'
     
+    - pause:
+
     #- fail:
 
     - name: Get difference of the two lists

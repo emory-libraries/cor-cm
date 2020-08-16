@@ -25,8 +25,3 @@
     bucket_gz_list: '{{ lookup ("vars", bucket_type + "_gz_list") }}'
     bucket_unzip_list: '{{ lookup ("vars", bucket_type + "_unzip_list") }}'
     download_location: '{{ s3_custom_report_download_location }}'
-
-- name: Set fact for the source bucket which contains the files to be copied
-  set_fact:
-    s3_custom_report_source_bucket: '{{ s3_custom_report.source.key_prefix.split("/")[0] }}'
-  when: s3_custom_report_source_bucket is not defined

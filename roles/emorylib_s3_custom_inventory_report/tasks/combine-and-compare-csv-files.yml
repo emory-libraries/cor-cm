@@ -26,6 +26,11 @@
   loop_control:
     loop_var: csv_path
 
+- name: Set fact for the source bucket which contains the files to be copied
+  set_fact:
+    s3_custom_report_source_bucket: '{{ ( source_csv | dict2items | first ).value.Bucket }}'
+  when: s3_custom_report_source_bucket is not defined
+
 - name: Set fact for difference between source and dest keys
   set_fact:
     difference: '{{ source_csv | difference(dest_csv) }}'
