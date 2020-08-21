@@ -1,5 +1,12 @@
 - hosts: localhost
+  vars:
+    number1: 1_000
+    number2: 1000
   tasks:
+    - debug:
+        msg: '{{ number1 + number2 }}'
+
+    - pause:
     - name: Read source bucket csv
       read_csv:
         path: /home/Solomon/Code/CM/source_bucket.csv
@@ -21,7 +28,7 @@
         var: item
       loop: '{{source_bucket.dict | dict2items | first }}'
     
-    - pause:
+    
 
     #- fail:
 

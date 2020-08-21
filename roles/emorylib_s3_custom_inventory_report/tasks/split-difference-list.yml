@@ -16,7 +16,7 @@
   loop_control:
     loop_var: outer_index
 
-- name: Template out new CSV(s) with differnce keys and source bucket
+- name: Template new csv(s) with difference keys and source bucket
   template:
     src: template_csv.j2
     dest: '{{ download_location }}/{{ ansible_date_time.epoch }}-{{ lookup("password", "/dev/null length=15 chars=ascii_letters")}}.csv'
@@ -25,6 +25,6 @@
   loop: '{{ lookup("varnames", "split_list_").split(",") }}'
   register: template_info
 
-- name: Set fact for list of csvs created
+- name: Set fact for list of csv(s) created
   set_fact:
     created_csvs: '{{ template_info.results | map (attribute="dest") | list }}'

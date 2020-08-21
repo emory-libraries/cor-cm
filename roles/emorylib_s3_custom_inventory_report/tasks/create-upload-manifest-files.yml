@@ -9,7 +9,6 @@
       fileFormat: CSV
       fileSchema: 'Bucket, Key'
       files: '{{ manifest_files | d ([]) }}'
-      numberObjects: '{{ difference_count }}'
 
 - name: Create manifest.json on local
   copy:
@@ -21,6 +20,11 @@
     checksum_algorithm: md5
     path: '{{ download_location }}/manifest.json'
   register: report_manifest_json_info
+
+- name: Create manifest.numberObjects on local
+  copy:
+    dest: '{{ download_location }}/manifest.numberObjects'
+    content: '{{ difference_count }}'
 
 - name: Create manifest.checksum on local
   copy:
@@ -37,3 +41,4 @@
   loop:
     - '{{ download_location }}/manifest.json'
     - '{{ download_location }}/manifest.checksum'
+    - '{{ download_location }}/manifest.numberObjects'

@@ -1,5 +1,5 @@
 ---
-- name: Read {{ bucket_type }} CSV file
+- name: Read {{ bucket_type }} csv file
   read_csv:
     path: '{{ csv_path }}'
     fieldnames: '{{ source_inventory_json.fileSchema | regex_replace(" ", "") }}'
