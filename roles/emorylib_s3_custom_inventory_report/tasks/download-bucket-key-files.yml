@@ -6,6 +6,18 @@
     get_trailing_slash: \/$
     key_prefix_ternary: '{{ s3.key_prefix is defined | ternary ("/", "") }}'
 
+- name: Test out slurping file
+  slurp:
+    src: '{{ download }}'
+  vars:
+    download: '{{ download_location }}/{{ bucket_type }}.json'
+  register: slurp_test
+
+- debug:
+    var: slurp_test | b64decode 
+
+- fail:
+
 - name: Load s3 inventory report json into ansible
   set_fact:
     '{{ bucket_type }}_inventory_json': '{{ lookup ("file", download) | from_json }}'
