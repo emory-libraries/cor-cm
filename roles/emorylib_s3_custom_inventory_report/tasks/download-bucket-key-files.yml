@@ -14,7 +14,7 @@
   register: slurp_test
 
 - debug:
-    var: slurp_test | b64decode 
+    var: slurp_test['content'] | b64decode 
 
 - fail:
 
