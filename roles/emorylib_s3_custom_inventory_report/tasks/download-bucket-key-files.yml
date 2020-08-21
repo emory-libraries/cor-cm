@@ -11,18 +11,11 @@
     src: '{{ download }}'
   vars:
     download: '{{ download_location }}/{{ bucket_type }}.json'
-  register: slurp_test
-
-- debug:
-    var: slurp_test['content'] | b64decode 
-
-- fail:
+  register: slurp_file
 
 - name: Load s3 inventory report json into ansible
   set_fact:
-    '{{ bucket_type }}_inventory_json': '{{ lookup ("file", download) | from_json }}'
-  vars:
-    download: '{{ download_location }}/{{ bucket_type }}.json'
+    '{{ bucket_type }}_inventory_json': '{{ slurp_file["content"] | b64decode | from_json }}'
 
 - name: Download .csv.gz files for {{ bucket_type }}
   shell: >
