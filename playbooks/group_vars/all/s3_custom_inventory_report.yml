@@ -1,0 +1,12 @@
+temp_fedora_test:
+  source:
+    bucket: cor-s3-inventory-2
+    key_prefix: fedora-cor-binaries/manifest
+    date: 'latest'
+  dest:
+    bucket: cor-s3-inventory-2
+    key_prefix: fedora-cor-test-binaries/manifest
+    date: 'latest'
+  report:
+    bucket: cor-s3-inventory-2
+    key_prefix: fedora-cor-test-binaries-to-backup-fedora-cor-test-binaries/manifest
