@@ -20,7 +20,7 @@ n2cw_cron_jobs:
       - w 15,10,5
       - c 30,25,20
 
-s3_custom_report:
+xs3_custom_report:
   source:
     bucket: cor-s3-inventory-2
     key_prefix: fedora-cor-binaries/manifest
@@ -32,6 +32,28 @@ s3_custom_report:
   report:
     bucket: cor-s3-inventory-2
     key_prefix: fedora-cor-test-binaries-to-backup-fedora-cor-test-binaries/manifest
-s3_custom_report_download_location: /tmp
+#s3_custom_report_download_location: /tmp
 #s3_custom_report_source_bucket: # Will attempt to calculate this when it's not set
-s3_custom_report_max_csv_size: 33_000
+#s3_custom_report_max_csv_size: 33_000
+s3_custom_report: '{{ compare_prod_to_backup_prod }}'
+
+
+s3_batch_op:
+  operation:
+    S3PutObjectCopy:
+      TargetResource: arn:aws:s3:::backup-fedora-cor-binaries
+  manifest:
+    Spec:
+      Format: S3InventoryReport_CSV_20161130
+  report:
+    Bucket: arn:aws:s3:::cor-s3-inventory-2
+    Prefix: fedora-cor-binaries-to-backup-binaries/completion-report
+    Format: Report_CSV_20180820
+    Enabled: true
+    ReportScope: AllTasks
+  priority: 12
+  region: us-west-2
+  location:
+    KeyPrefix: cor-s3-inventory-3/fedora-cor-binaries-to-backup-fedora-cor-binaries/inventory-report
+    Date: latest
+  description: Ansible Managed backup job of fedora-cor-binaries

@@ -1,5 +1,6 @@
 #Test role
 - src: https://github.com/emory-libraries/emorylib_role_s3_batch_operations.git
+  version: integrate-number-objects
 - src: https://github.com/sunshine69/ansible-role-acm-cert
 - src: christiangda.amazon_cloudwatch_agent
 - src: git@github.service.emory.edu:LITS/wm_role_dynamic_aws_vars.git
