@@ -15,7 +15,7 @@ s3_batch_op_slack_token: slack/token/goes/here
 
 ### The following variables define the default message for slack, they can be overridden entirely
 s3_batch_op_slack_msg: '{{ ansible_facts.env.AWX_HOST is defined | ternary (s3_batch_op_slack_msg_awx, s3_batch_op_slack_msg_no_awx) }}'
-s3_batch_op_slack_attachments: '{{ s3_batch_op_slack_attachment_console + s3_batch_op_slack_attachment_direct }}'
+s3_batch_op_slack_attachments: '{{ s3_batch_op_slack_attachment_console + s3_batch_op_slack_attachment_direct + s3_batch_op_slack_attachment_no_job_ran }}'
 
 
 ############# Logic variables, not called directly #####################################
@@ -29,6 +29,7 @@ s3_batch_op_slack_msg_awx: |
 
 s3_batch_op_slack_attachment_console: '{{ s3_batch_op_generate_console_download | ternary (s3_batch_op_slack_attachment_console_content, []) }}'
 s3_batch_op_slack_attachment_direct: '{{ s3_batch_op_generate_direct_download | ternary (s3_batch_op_slack_attachment_direct_content, []) }}'
+s3_batch_op_slack_attachment_no_job_ran: '{{ number_objects_is_zero | ternary (s3_batch_op_slack_attachment_no_job_ran_content, []) }}'
 
 s3_batch_op_slack_attachment_console_content:
   - title: Console Link to Report CSV File
@@ -38,3 +39,6 @@ s3_batch_op_slack_attachment_direct_content:
   - title: Direct Link to Report CSV File
     title_link: '{{ report_direct_download_link | d () }}'
     text: This is a direct link to the report, links in private buckets are valid for 10 minutes
+s3_batch_op_slack_attachment_no_job_ran_content:
+  - title: No S3 Batch Operation was ran
+    text: A custom inventory was detected and the number of objects is zero, no S3 Batch Operation was run

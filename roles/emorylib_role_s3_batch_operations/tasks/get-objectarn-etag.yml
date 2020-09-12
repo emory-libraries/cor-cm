@@ -62,10 +62,16 @@
   vars:
     key: '{{ _s3_batch_op.location.KeyPrefix }}'
 
-- name: Set number of objects as a variable
+- name: Set boolean for number of objects
   set_fact:
-    number_objects: '{{ number_of_object_value.contents }}'
-  when: _s3_batch_op.number_of_objects_key
+    number_objects_is_zero: '{{ (number_objects | int == 0 ) | ternary (true, false) }}'
+  vars:
+    number_objects: {{ number_of_object_value.contents | d (100) }}'
+
+- debug:
+    var: number_objects_is_zero
+
+- fail:
 
 - name: Prep variable for submission to awscli 
   set_fact:
