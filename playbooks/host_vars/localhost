@@ -38,7 +38,7 @@ xs3_custom_report:
 s3_custom_report: '{{ compare_prod_to_backup_prod }}'
 
 
-___s3_batch_op:
+s3_batch_op:
   operation:
     S3PutObjectCopy:
       TargetResource: arn:aws:s3:::backup-fedora-cor-binaries
@@ -55,11 +55,12 @@ ___s3_batch_op:
   region: us-west-2
   location:
     KeyPrefix: cor-s3-inventory-3/fedora-cor-binaries-to-backup-fedora-cor-binaries/inventory-report
-    Date: latest
+    Date: '2020-08-28T03:21:26Z'
+    #Date: 'Latest'
   description: Ansible Managed backup job of fedora-cor-binaries
 
 
-s3_batch_op:
+__s3_batch_op:
   operation:
     S3PutObjectCopy:
       TargetResource: arn:aws:s3:::backup-fedora-cor-binaries
