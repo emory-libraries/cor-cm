@@ -67,15 +67,6 @@
     number_objects: '{{ number_of_object_value.contents }}'
   when: _s3_batch_op.number_of_objects_key
 
-- debug:
-    var: number_objects
-
-- debug:
-    msg: "Conditional works"
-  when: number_objects | int  > 0
-
-- fail:
-
 - name: Prep variable for submission to awscli 
   set_fact:
     __s3_batch_op: |

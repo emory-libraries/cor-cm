@@ -25,6 +25,7 @@
         - s3-batch-op
   tags:
     - s3-batch-op
+  when: not _s3_batch_op.number_of_objects_key or (_s3_batch_op.number_of_objects_key and number_objects | int  > 0)
 
 - name: Include tasks to generate report download links
   include_tasks:
