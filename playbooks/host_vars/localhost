@@ -3,10 +3,6 @@ ansible_become_pass: "{{ lookup('env', 'ANSIBLE_BECOME_PASS') }}"
 ansible_connection: local
 ansible_python_interpreter: '{{ ansible_playbook_python }}'
 
-aws_services:
-  - test
-  - x
-
 n2cw_cron_envs:
   - name: PATH
     value: '/home/{{ ansible_user }}/.bashrc'
@@ -19,64 +15,3 @@ n2cw_cron_jobs:
     options:
       - w 15,10,5
       - c 30,25,20
-
-xs3_custom_report:
-  source:
-    bucket: cor-s3-inventory-2
-    key_prefix: fedora-cor-binaries/manifest
-    date: 'latest'
-  dest:
-    bucket: cor-s3-inventory-2
-    key_prefix: fedora-cor-test-binaries/manifest
-    date: 'latest'
-  report:
-    bucket: cor-s3-inventory-2
-    key_prefix: fedora-cor-test-binaries-to-backup-fedora-cor-test-binaries/manifest
-#s3_custom_report_download_location: /tmp
-#s3_custom_report_source_bucket: # Will attempt to calculate this when it's not set
-#s3_custom_report_max_csv_size: 33_000
-s3_custom_report: '{{ compare_prod_to_backup_prod }}'
-
-
-_s3_batch_op:
-  operation:
-    S3PutObjectCopy:
-      TargetResource: arn:aws:s3:::backup-fedora-cor-binaries
-  manifest:
-    Spec:
-      Format: S3InventoryReport_CSV_20161130
-  report:
-    Bucket: arn:aws:s3:::cor-s3-inventory-2
-    Prefix: fedora-cor-binaries-to-backup-binaries/completion-report
-    Format: Report_CSV_20180820
-    Enabled: true
-    ReportScope: AllTasks
-  priority: 12
-  region: us-west-2
-  location:
-    KeyPrefix: cor-s3-inventory-3/fedora-cor-binaries-to-backup-fedora-cor-binaries/inventory-report
-    Date: '2020-08-28T03:21:26Z'
-    #Date: 'Latest'
-  description: Ansible Managed backup job of fedora-cor-binaries
-
-
-__s3_batch_op:
-  operation:
-    S3PutObjectCopy:
-      TargetResource: arn:aws:s3:::backup-fedora-cor-binaries
-  manifest:
-    Spec:
-      Format: S3InventoryReport_CSV_20161130
-  report:
-    Bucket: arn:aws:s3:::cor-s3-inventory-2
-    Prefix: fedora-cor-binaries/completion-report
-    Format: Report_CSV_20180820
-    Enabled: true
-    ReportScope: AllTasks
-  priority: 12
-  region: us-west-2
-  location:
-    KeyPrefix: cor-s3-inventory-2/fedora-cor-binaries/manifest/
-    Date: latest
-  description: Ansible Managed backup job of fedora-cor-binaries
-#s3_batch_op: '{{ fedora_prod_to_backup_fedora_prod_custom_inventory }}'
