@@ -1,0 +1,5 @@
+---
+- hosts: all
+  tasks:
+    - include_role:
+        name: emorylib_s3_custom_inventory_report

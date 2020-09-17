@@ -14,16 +14,18 @@
     _s3_batch_op: |
       {{ s3_batch_op | combine({"checksum_key": list_keys.s3_keys | d (False) 
       | select("contains", checksum_search) | list | last | d (False) }, {"json_key": list_keys.s3_keys | d (False) 
-      | select("contains", json_search) | list | last | d (False) }) }}
+      | select("contains", json_search) | list | last | d (False) }, {"number_of_objects_key": list_keys.s3_keys | d (False)
+      | select ("contains", number_of_objects_search) | list | last | d (False) }) }}
   vars:
     checksum_search: '{{ location_is_latest | ternary("manifest.checksum", checksum_full) }}'
-    checksum_full: '{{ location_date_string }}/manifest.checksum'
+    checksum_full: '{{ location_date }}/manifest.checksum'
     json_search: '{{ location_is_latest | ternary("manifest.json", json_full) }}'
-    json_full: '{{ location_date_string }}/manifest.json'
+    json_full: '{{ location_date }}/manifest.json'
     location: '{{ s3_batch_op.location | d () }}'
-    location_date: '{{ location.Date | d () | lower }}'
-    location_date_string: '{{ location_date }}T00-00Z'
-    location_is_latest: '{{ location_date == "latest" | d (False) }}'
+    location_date: '{{ location.Date | d () }}'
+    location_is_latest: '{{ location_date | lower == "latest" | d (False) }}'
+    number_of_objects_search: '{{ location_is_latest | ternary("manifest.numberObjects", number_of_objects_full) }}'
+    number_of_objects_full: '{{ location_date }}/manifest.numberObjects'
     manifest: '{{ s3_batch_op.manifest }}'
 
 - name: Assert that specified date is valid
@@ -48,6 +50,22 @@
   when: _s3_batch_op.checksum_key
   vars:
     key: '{{ _s3_batch_op.location.KeyPrefix }}'
+
+- name: Get number of objects as a string
+  aws_s3:
+    bucket: '{{ key.split("/")[0] }}'
+    object: '{{ _s3_batch_op.number_of_objects_key }}'
+    mode: getstr
+  register: number_of_object_value
+  when: _s3_batch_op.number_of_objects_key
+  vars:
+    key: '{{ _s3_batch_op.location.KeyPrefix }}'
+
+- name: Set boolean for number of objects
+  set_fact:
+    number_objects_is_zero: '{{ (number_objects | int == 0 ) | ternary (true, false) }}'
+  vars:
+    number_objects: '{{ number_of_object_value.contents | d (100) }}'
 
 - name: Prep variable for submission to awscli 
   set_fact:

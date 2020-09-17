@@ -1,0 +1,12 @@
+- name: Message console
+  debug:
+    msg: "The playbook has detected that no objects exist in this custom inventory report. No S3 Batch Operation was ran."
+
+- name: Set fact for attachments output
+  set_fact:
+    s3_batch_op_slack_attachments: '{{ s3_batch_op_slack_attachment_no_job_ran }}'
+
+- name: Include tasks to report to slack
+  include_tasks:
+    file: report-to-slack.yml
+  when: s3_batch_op_report_to_slack

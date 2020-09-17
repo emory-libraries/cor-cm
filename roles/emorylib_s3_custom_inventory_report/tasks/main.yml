@@ -1,0 +1,48 @@
+---
+# tasks file for emorylib_s3_custom_inventory_report
+
+- name: Include tasks to get source bucket key
+  include_tasks:
+    file: list-bucket-keys.yml
+  vars:
+    bucket_type: source
+    s3: '{{ s3_custom_report.source }}'
+  
+- name: Include tasks to get destination bucket key
+  include_tasks:
+    file: list-bucket-keys.yml
+  vars:
+    bucket_type: dest
+    s3: '{{ s3_custom_report.dest }}'
+
+- name: Include tasks to combine and compare .csv files
+  include_tasks:
+    file: combine-and-compare-csv-files.yml
+  vars:
+    download_location: '{{ s3_custom_report_download_location }}'
+    s3: '{{ s3_custom_report.source }}'
+
+- name: Include tasks to split difference list into smaller lists
+  include_tasks:
+    file: split-difference-list.yml
+  vars:
+    download_location: '{{ s3_custom_report_download_location }}'
+    s3: '{{ s3_custom_report.source }}'
+  when: difference_count | int > 0
+
+- name: Include tasks to compress file and upload to s3
+  include_tasks:
+    file: gzip-upload-to-s3.yml
+  when: difference_count | int > 0
+  vars:
+    s3: '{{ s3_custom_report.report }}'
+    get_trailing_slash: \/$
+    key_prefix_ternary: '{{ s3.key_prefix is defined | ternary ("/", "") }}'
+    download_location: '{{ s3_custom_report_download_location }}'
+
+- name: Include tasks to create/upload manifest json and checksum
+  include_tasks:
+    file: create-upload-manifest-files.yml
+  vars:
+    s3: '{{ s3_custom_report.report }}'
+    download_location: '{{ s3_custom_report_download_location }}'

@@ -25,6 +25,7 @@
         - s3-batch-op
   tags:
     - s3-batch-op
+  when: not number_objects_is_zero
 
 - name: Include tasks to generate report download links
   include_tasks:
@@ -34,7 +35,7 @@
       vars:
         report_bucket: '{{ s3_batch_op_job.Report.Bucket.split(":")[-1] }}'
         report_prefix: '{{ s3_batch_op_job.Report.Prefix }}'
-  when: s3_batch_op_generate_direct_download or s3_batch_op_generate_console_download
+  when: not number_objects_is_zero and (s3_batch_op_generate_direct_download or s3_batch_op_generate_console_download)
   tags: s3-batch-op
 
 - name: Include tasks to report job results
@@ -45,4 +46,14 @@
         - s3-batch-op
   tags:
     - s3-batch-op
-  when: not s3_batch_op_submit_only
+  when: not number_objects_is_zero and not s3_batch_op_submit_only
+
+- name: Include tasks to report no job was ran
+  include_tasks:
+    file: report-no-job-ran.yml
+    apply:
+      tags:
+        - s3-batch-op
+  tags:
+    - s3-batch-op
+  when: number_objects_is_zero

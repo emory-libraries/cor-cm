@@ -1,0 +1,25 @@
+compare_prod_to_backup_prod:
+  source:
+    bucket: cor-s3-inventory-2
+    key_prefix: fedora-cor-binaries/manifest
+    date: 'latest'
+  dest:
+    bucket: cor-s3-inventory-3
+    key_prefix: backup-fedora-cor-binaries/inventory-report
+    date: 'latest'
+  report:
+    bucket: cor-s3-inventory-3
+    key_prefix: fedora-cor-binaries-to-backup-fedora-cor-binaries/inventory-report
+
+compare_test_to_backup_test:
+  source:
+    bucket: cor-s3-inventory-2
+    key_prefix: fedora-cor-test-binaries/manifest
+    date: 'latest'
+  dest:
+    bucket: cor-s3-inventory-3
+    key_prefix: backup-fedora-cor-test-binaries/inventory-report
+    date: 'latest'
+  report:
+    bucket: cor-s3-inventory-3
+    key_prefix: fedora-cor-test-binaries-to-backup-fedora-cor-test-binaries/inventory-report

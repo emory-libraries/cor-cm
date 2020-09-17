@@ -1,0 +1,51 @@
+- name: Get bucket key json file
+  shell: >
+    aws s3 cp s3://{{ s3.bucket }}/{{ s3.key_prefix | d () | regex_replace(get_trailing_slash, '') }}{{ key_prefix_ternary }}{{ bucket_key }}/manifest.json
+    {{ download_location }}/{{ bucket_type }}.json
+  vars:
+    get_trailing_slash: \/$
+    key_prefix_ternary: '{{ s3.key_prefix is defined | ternary ("/", "") }}'
+
+- name: Slurp json file
+  slurp:
+    src: '{{ download_location }}/{{ bucket_type }}.json'
+  register: slurp_json_info
+
+- name: Load s3 inventory report json into ansible
+  set_fact:
+    '{{ bucket_type }}_inventory_json': '{{ slurp_json_info["content"] | b64decode | from_json }}'
+
+- name: Download .csv.gz files for {{ bucket_type }}
+  shell: >
+    aws s3 cp s3://{{ s3.bucket }}/{{ item.key }} {{ download_location }}/{{ item.key | basename }}
+  vars:
+    location_list: '{{ location_list | d ([]) + location }}'
+    location: '{{ download_location }}/{{ item.key | basename }}'
+  loop: '{{ bucket_inventory_json.files }}'
+  register: test_info
+
+- name: Set fact for download .csv.gz list
+  set_fact:
+    '{{ bucket_type }}_gz_list': '{{ lookup("vars", bucket_type + "_gz_list", default=[]) + [location] }}'
+  vars:
+    location: '{{ download_location }}/{{ item.key | basename }}'
+  loop: '{{ bucket_inventory_json.files }}'
+
+- name: Stat on .csv.gz list for md5 check
+  stat:
+    path: '{{ item }}'
+    checksum_algorithm: md5
+  loop: '{{ bucket_gz_list }}'
+  register: md5_info
+
+- name: Assert that local checksum matches given value in json file
+  assert:
+    that: 
+      - item.0.MD5checksum | lower == item.1.stat.checksum | lower
+    quiet: yes
+    fail_msg: The MD5 checksum of the downloaded file(s) do not match the value in the json file
+  loop: '{{ bucket_inventory_json.files | zip(md5_info.results) | list }}'
+
+- name: Unzip the downloaded .csv.gz files
+  shell: gunzip -f {{ item }}
+  loop: '{{ bucket_gz_list }}'

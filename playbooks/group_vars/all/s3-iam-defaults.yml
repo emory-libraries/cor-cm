@@ -7,7 +7,6 @@ s3_buckets: #manage-s3-bucket
   - name: cor-s3-inventory-2
     region: us-east-1
 
-
 get_s3_bucket_name: cor-devops-binaries 
 
 iam_policies: #iam-manage-policy
@@ -73,43 +72,43 @@ iam_policies: #iam-manage-policy
     manifest_bucket: cor-s3-inventory-2
     report_bucket: cor-s3-inventory-2
     policy_template_path: iam_policy_s3_batch_operation_putcopy_json.j2
+  - policy_name: S3BatchPutCopyFromFedoraTestToTestDLP
+    destination_bucket: temp-bucket-dlp-test
+    source_bucket: fedora-cor-test-binaries
+    manifest_bucket: cor-s3-inventory-2
+    report_bucket: cor-s3-inventory-2 
+    policy_template_path: iam_policy_s3_batch_operation_putcopy_json.j2
   - policy_name: S3BatchPutCopyFromFedoraTestToBackupFedoraTest
     destination_bucket: backup-fedora-cor-test-binaries
     source_bucket: fedora-cor-test-binaries
-    manifest_bucket: cor-s3-inventory-2
-    report_bucket: cor-s3-inventory-2
+    manifest_bucket: cor-s3-inventory-3
+    report_bucket: cor-s3-inventory-3
     policy_template_path: iam_policy_s3_batch_operation_putcopy_json.j2
   - policy_name: S3BatchPutCopyFromFedoraBinToBackupFedoraBin
     destination_bucket: backup-fedora-cor-binaries
     source_bucket: fedora-cor-binaries
-    manifest_bucket: cor-s3-inventory-2
-    report_bucket: cor-s3-inventory-2
+    manifest_bucket: cor-s3-inventory-3
+    report_bucket: cor-s3-inventory-3
     policy_template_path: iam_policy_s3_batch_operation_putcopy_json.j2
 
 iam_roles: #iam-manage-role
   - name: general-ec2-role
-    managed_policy: 
+    managed_policy:
+      - AmazonS3FullAccess
       - CloudWatchFullAccess
       - AllowEC2sToPrintLogs
       - AmazonEC2ReadOnlyAccess
-      - AccessToCorDevOpsBinaries
       - rhedcloud-aws-vpc-type1-73-RHEDcloudManagementSubnetPolicy
       - RHEDcloudAdministratorRolePolicy
-      - AccessToFedoraCorTestBinaries
-      - AccessToFedoraCorArchBinaries
-      - AccessToFedoraCorBinaries
+
     description: General role for ec2
     policy_file_path: ec2_assume_role.json
   - name: s3-batch-job-role
+    purge_policies: yes
     managed_policy:
       - RHEDcloudAdministratorRolePolicy
       - rhedcloud-aws-vpc-type1-73-RHEDcloudManagementSubnetPolicy
-      - S3BatchJobForFedoraCor
-      - S3BatchJobForFedoraCorTest
-      - S3BatchJobForFedoraCorArch
-      - S3BatchPutCopyOpFromFedoraCorToFedoraCorArch
-      - S3BatchPutCopyOpFromFedoraCorTestToFedoraCorArch
-      - S3BatchPutCopyFromFedoraArchToTestDLP
+      - AmazonS3FullAccess
       - S3BatchPutCopyFromFedoraTestToBackupFedoraTest
       - S3BatchPutCopyFromFedoraBinToBackupFedoraBin
     description: Controls batch operations
@@ -132,20 +131,9 @@ iam_roles: #iam-manage-role
       - AmazonS3FullAccess
       - AmazonElastiCacheFullAccess
       - AWSBackupFullAccess
-      #- AWSElasticBeanstalkFullAccess
-      - AmazonECS_FullAccess
       - CloudWatchEventsFullAccess
-      #- AWSCloudTrailFullAccess
-      #- AmazonSNSFullAccess
+      - IAMFullAccess
     policy_file_path: ec2_assume_role.json
-
-#iam_users:
-#  - name: fedora-cor-user
-#    managed_policy:
-#      - AccessToFedoraCorBucket
-#  - name: fedora-cor-test-user
-#    managed_policy:
-#      - AccessToFedoraCorTestBucket
 
 iam_certs: #manage-iam-cert
   - name: dlp-general-cert

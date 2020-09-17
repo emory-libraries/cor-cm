@@ -1,0 +1,27 @@
+---
+- name: List keys for {{ bucket_type }} bucket, via awscli
+  shell: aws s3 ls {{ s3.bucket }}/{{ s3.key_prefix | d () | regex_replace(get_trailing_slash, '') }}{{ key_prefix_ternary }} | sed 's/PRE //g' | sed 's/.$//g' | grep -Ev "data|hive"
+  vars:
+    get_trailing_slash: \/$
+    key_prefix_ternary: '{{ s3.key_prefix is defined | ternary ("/", "") }}'
+  register: bucket_key_info
+
+- name: Create key list for {{ bucket_type }} keys.
+  set_fact:
+    '{{ bucket_type }}_bucket_keys': '{{ bucket_key_info.stdout_lines | map("trim") | list }}'
+
+- name: Include tasks to get specific bucket_key
+  include_tasks:
+    file: get-bucket-key.yml
+  vars:
+    bucket_keys: '{{ lookup ("vars", bucket_type + "_bucket_keys") }}'
+  
+- name: Include tasks to download bucket key files
+  include_tasks:
+    file: download-bucket-key-files.yml
+  vars:
+    bucket_inventory_json: '{{ lookup("vars", bucket_type + "_inventory_json") }}'
+    bucket_key: '{{ lookup ("vars", bucket_type + "_bucket_key") }}'
+    bucket_gz_list: '{{ lookup ("vars", bucket_type + "_gz_list") }}'
+    bucket_unzip_list: '{{ lookup ("vars", bucket_type + "_unzip_list") }}'
+    download_location: '{{ s3_custom_report_download_location }}'

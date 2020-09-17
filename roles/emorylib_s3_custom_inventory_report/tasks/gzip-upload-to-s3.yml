@@ -1,0 +1,32 @@
+---
+- name: Gzip csv file(s)
+  archive:
+    dest:  '{{ item | regex_replace(".csv", ".csv.gz") }}'
+    path: '{{ item }}'
+  loop: '{{ created_csvs }}'
+  register: gzip_info
+
+- name: Set fact for created csv.gz(s)
+  set_fact:
+    created_csv_gzs: '{{ gzip_info.results | map (attribute="dest") | list }}'
+
+- name: Get stats on the csv.gz file(s)
+  stat:
+    checksum_algorithm: md5
+    path: '{{ item }}'
+  loop: '{{ created_csv_gzs }}'
+  register: csv_gz_info
+
+- name: Create new variables with stat info on csv.gz
+  set_fact:
+    csv_gz_paths: '{{ csv_gz_paths | d ([]) + [item.stat.path] }}'
+    manifest_files: '{{ manifest_files | d ([]) + [{"MD5checksum": item.stat.checksum, "size": item.stat.size, "key": key }] }}'
+  vars:
+    key: "{{ s3.key_prefix | d () | regex_replace(get_trailing_slash, '') }}{{ key_prefix_ternary }}data/{{ item.stat.path | basename }}"
+  loop: '{{ csv_gz_info.results }}'
+
+- name: Upload csv.gz(s) to report s3 bucket
+  shell: >
+    aws s3 cp {{ item }}
+    s3://{{ s3.bucket }}/{{ s3.key_prefix | d () | regex_replace(get_trailing_slash, '') }}{{ key_prefix_ternary }}data/{{ item | basename }}
+  loop: '{{ csv_gz_paths }}'
