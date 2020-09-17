@@ -1,7 +1,7 @@
 ---
 - name: Submit s3 batch operation via awscli
   shell: >
-    echo aws s3control create-job
+    aws s3control create-job
     --region {{ __s3_batch_op.region | d (default_s3_batch_op_region) }}
     --account-id {{ __s3_batch_op.account_id | d (default_s3_batch_op_account_id) }}
     --operation {{ __s3_batch_op.operation | to_json | quote }}
@@ -21,8 +21,6 @@
     description_query: '{{ __s3_batch_op | json_query("description") }}'
     manifest: '{{ __s3_batch_op.manifest | to_json | quote }}'
   register: batch_operation_fact
-
-- fail:
 
 - name: Set job_id
   set_fact:

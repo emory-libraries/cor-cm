@@ -38,7 +38,7 @@ xs3_custom_report:
 s3_custom_report: '{{ compare_prod_to_backup_prod }}'
 
 
-s3_batch_op:
+_s3_batch_op:
   operation:
     S3PutObjectCopy:
       TargetResource: arn:aws:s3:::backup-fedora-cor-binaries
@@ -79,3 +79,4 @@ __s3_batch_op:
     KeyPrefix: cor-s3-inventory-2/fedora-cor-binaries/manifest/
     Date: latest
   description: Ansible Managed backup job of fedora-cor-binaries
+#s3_batch_op: '{{ fedora_prod_to_backup_fedora_prod_custom_inventory }}'

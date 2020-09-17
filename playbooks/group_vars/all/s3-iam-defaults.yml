@@ -82,14 +82,14 @@ iam_policies: #iam-manage-policy
   - policy_name: S3BatchPutCopyFromFedoraTestToBackupFedoraTest
     destination_bucket: backup-fedora-cor-test-binaries
     source_bucket: fedora-cor-test-binaries
-    manifest_bucket: cor-s3-inventory-2
-    report_bucket: cor-s3-inventory-2
+    manifest_bucket: cor-s3-inventory-3
+    report_bucket: cor-s3-inventory-3
     policy_template_path: iam_policy_s3_batch_operation_putcopy_json.j2
   - policy_name: S3BatchPutCopyFromFedoraBinToBackupFedoraBin
     destination_bucket: backup-fedora-cor-binaries
     source_bucket: fedora-cor-binaries
-    manifest_bucket: cor-s3-inventory-2
-    report_bucket: cor-s3-inventory-2
+    manifest_bucket: cor-s3-inventory-3
+    report_bucket: cor-s3-inventory-3
     policy_template_path: iam_policy_s3_batch_operation_putcopy_json.j2
 
 iam_roles: #iam-manage-role
@@ -105,14 +105,10 @@ iam_roles: #iam-manage-role
     description: General role for ec2
     policy_file_path: ec2_assume_role.json
   - name: s3-batch-job-role
+    purge_policies: yes
     managed_policy:
       - RHEDcloudAdministratorRolePolicy
       - rhedcloud-aws-vpc-type1-73-RHEDcloudManagementSubnetPolicy
-      - S3BatchJobForFedoraCor
-      - S3BatchJobForFedoraCorTest
-      - S3BatchJobForFedoraCorArch
-      - S3BatchPutCopyOpFromFedoraCorToFedoraCorArch
-      - S3BatchPutCopyOpFromFedoraCorTestToFedoraCorArch
       - AmazonS3FullAccess
       - S3BatchPutCopyFromFedoraTestToBackupFedoraTest
       - S3BatchPutCopyFromFedoraBinToBackupFedoraBin

@@ -114,18 +114,42 @@ curate_arch_tagging_op:
     KeyPrefix: cor-s3-inventory-2/fedora-cor-arch-binaries/manifest/
 
 
-curate_test_acl_op:
-  - operation:
-      S3PutObjectAcl:
-        AccessControlPolicy:
-          AccessControlList:
-            Owner:
-              Id:
-              DisplayName:
-            Grants:
-              - Grantee:
-                  TypeIdentifier:
-                  Identifier:
-                  DisplayName:
-                Permission:
-          CannedAccessControlList:
+fedora_prod_to_backup_fedora_prod_custom_inventory:
+  operation:
+    S3PutObjectCopy:
+      TargetResource: arn:aws:s3:::backup-fedora-cor-binaries
+  manifest:
+    Spec:
+      Format: S3InventoryReport_CSV_20161130
+  report:
+    Bucket: arn:aws:s3:::cor-s3-inventory-3
+    Prefix: fedora-cor-binaries-to-backup-fedora-cor-binaries/completed-jobs
+    Format: Report_CSV_20180820
+    Enabled: true
+    ReportScope: AllTasks
+  priority: 12
+  region: us-west-2
+  location:
+    KeyPrefix: cor-s3-inventory-3/fedora-cor-binaries-to-backup-fedora-cor-binaries/inventory-report/
+    Date: latest
+  description: Ansible Managed backup job of fedora-cor-binaries
+
+fedora_test_to_backup_fedora_test_custom_inventory:
+  operation:
+    S3PutObjectCopy:
+      TargetResource: arn:aws:s3:::backup-fedora-cor-test-binaries
+  manifest:
+    Spec:
+      Format: S3InventoryReport_CSV_20161130
+  report:
+    Bucket: arn:aws:s3:::cor-s3-inventory-3
+    Prefix: fedora-cor-test-binaries-to-backup-fedora-cor-test-binaries/completed-jobs
+    Format: Report_CSV_20180820
+    Enabled: true
+    ReportScope: AllTasks
+  priority: 12
+  region: us-west-2
+  location:
+    KeyPrefix: cor-s3-inventory-3/fedora-cor-test-binaries-to-backup-fedora-cor-test-binaries/inventory-report/
+    Date: latest
+  description: Ansible Managed backup job of fedora-cor-binaries
