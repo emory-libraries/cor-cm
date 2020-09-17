@@ -7,7 +7,6 @@ s3_buckets: #manage-s3-bucket
   - name: cor-s3-inventory-2
     region: us-east-1
 
-
 get_s3_bucket_name: cor-devops-binaries 
 
 iam_policies: #iam-manage-policy
@@ -135,14 +134,6 @@ iam_roles: #iam-manage-role
       - CloudWatchEventsFullAccess
       - IAMFullAccess
     policy_file_path: ec2_assume_role.json
-
-#iam_users:
-#  - name: fedora-cor-user
-#    managed_policy:
-#      - AccessToFedoraCorBucket
-#  - name: fedora-cor-test-user
-#    managed_policy:
-#      - AccessToFedoraCorTestBucket
 
 iam_certs: #manage-iam-cert
   - name: dlp-general-cert
