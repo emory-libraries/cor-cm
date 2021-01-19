@@ -48,6 +48,12 @@ mydumper_backup_slack:
   msg: undefined # not required. Message to send. Note that the module does not handle escaping characters. Plain-text angle brackets and ampersands should be converted to HTML entities (e.g. & to &amp;) before sending. See Slack's documentation (U(https://api.slack.com/docs/message-formatting)) for more.
   validate_certs: yes # not required. If C(no), SSL certificates will not be validated. This should only be used on personally controlled sites using self-signed certificates.
   channel: undefined # not required. Channel to send the message to. If absent, the message goes to the channel selected for the I(token).
+
+# Optional Async Variables, please change only if you understand ansible async calls.
+
+mydumper_async: 30_000       
+mydumper_async_retries: 500
+mydumper_async_delay: 60
 ```
 
 Dependencies

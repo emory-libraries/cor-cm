@@ -3,3 +3,8 @@
 mydumper_backup_console_base_url: https://s3.console.aws.amazon.com/s3/buckets
 #mydumper_backup_slack:
 #mydumper_backup:
+
+
+mydumper_async: 30_000
+mydumper_async_retries: 500
+mydumper_async_delay: 60

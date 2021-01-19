@@ -1,5 +1,16 @@
-- name:  Run mydumper command
+- name:  Run Mydumper command (Async)
   shell: '{{ lookup("template", "mydumper_command.j2") }}'
+  async: '{{ mydumper_async }}'
+  poll: 0
+  register: mydumper_command_info
+
+- name: Wait until Mydumper command is finished
+  async_status:
+      jid: '{{ mydumper_command_info.ansible_job_id }}'
+  register: mydumper_command_result
+  until: mydumper_command_result.finished
+  retries: '{{ mydumper_async_retries }}'
+  delay: '{{ mydumper_async_delay }}'
 
 - name: Create new variable with output dir location
   set_fact:
