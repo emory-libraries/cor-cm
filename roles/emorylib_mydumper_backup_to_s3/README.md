@@ -1,4 +1,4 @@
-Role Name
+emorylib_mydumper_backup_to_s3
 =========
 
 This role will perform a mysql dump using the 3rd party tool [mydumper](https://github.com/maxbube/mydumper/). The backup folder will be pushed to s3 and/or a path on the file system.
