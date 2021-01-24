@@ -1,0 +1,3 @@
+- hosts: '{{ lookup("vars", host_names).fedora }}'
+  tasks:
+    - ansible.builtin.ping:

@@ -1,3 +1,0 @@
-- hosts: '{{ lookup("vars", host_names) }}'
-  tasks:
-    - ansible.builtin.ping:
