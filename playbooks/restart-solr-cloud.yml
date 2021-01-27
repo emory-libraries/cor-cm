@@ -1,0 +1,39 @@
+- hosts: '{{ host }}'
+  become: yes
+  tasks:
+    - name: Shutdown Apache Solr Zookeeper
+      systemd:
+        name: '{{ item }}'
+        state: stopped
+      loop:
+        - httpd
+        - solr
+        - zookeeper
+    
+    - name: Install killall
+      yum:
+        name: psmisc
+    
+    - name: Killall Solr/Zookeeper processes
+      shell: killall -w -u solr -u zookeeper 
+      failed_when: false
+    
+    - name: Mount /etc/fstab
+      shell: mount -a
+    
+    - name: Start httpd, solr, zookeeper
+      systemd:
+        name: '{{ item }}'
+        state: started
+      loop:
+        - httpd
+        - zookeeper
+        - solr
+
+    - name: Check Solr Admin page for 200 response
+      uri:
+        url: http://localhost:8983/solr/
+      register: solr_admin_page_info
+      delay: 5
+      retries: 25
+      until: solr_admin_page_info["status"] == 200

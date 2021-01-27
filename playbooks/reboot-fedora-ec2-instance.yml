@@ -1,0 +1,35 @@
+- hosts: '{{ lookup("vars", host).fedora }}'
+  gather_facts: False
+    
+  tasks:
+    - name: Restart Fedora EC2
+      ec2_instance:
+        state: restarted
+        region: '{{ aws_region }}'
+        instance_ids:
+          - '{{ hostvars[inventory_hostname]["instance_id"] }}'
+      delegate_to: localhost
+    
+    - name: Wait for EC2 (Private IP)
+      wait_for:
+        host: '{{ hostvars[inventory_hostname]["private_ip_address"] }}'
+        delay: 1
+        port: 22
+        connect_timeout: 3
+      delegate_to: localhost
+    
+    - name: Gather Facts
+      setup:
+    
+    - name: Ensure Fedora is running
+      systemd:
+        name: fedora
+        state: started
+    
+    - name: Check Fedora Rest API
+      uri:
+        url: http://localhost/fcrepo/rest/
+      register: fedora_rest_info
+      delay: 5
+      retries: 25
+      until: fedora_rest_info["status"] == 200
