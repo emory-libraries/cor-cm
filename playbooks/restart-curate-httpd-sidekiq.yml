@@ -1,0 +1,10 @@
+- hosts: '{{ lookup("vars", host).curate }}'
+  become: yes
+  tasks:
+    - name: Restart Apache and Sidekiq
+      ansible.builtin.systemd:
+        name: '{{ item }}'
+        state: restarted
+      loop:
+        - httpd
+        - sidekiq
