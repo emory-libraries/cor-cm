@@ -33,3 +33,4 @@
       delay: 5
       retries: 25
       until: fedora_rest_info["status"] == 200
+      

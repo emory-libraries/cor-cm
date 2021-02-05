@@ -1,4 +1,4 @@
-- hosts: '{{ host }}'
+- hosts: '{{ lookup("vars", host) }}'
   become: yes
   tasks:
     - name: Shutdown Apache Solr Zookeeper
