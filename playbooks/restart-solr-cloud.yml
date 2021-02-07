@@ -1,6 +1,10 @@
 - hosts: '{{ lookup("vars", host) }}'
   become: yes
   tasks:
+    - name: Install killall
+      yum:
+        name: psmisc
+    
     - name: Shutdown Apache Solr Zookeeper
       systemd:
         name: '{{ item }}'
@@ -10,16 +14,14 @@
         - solr
         - zookeeper
     
-    - name: Install killall
-      yum:
-        name: psmisc
-    
     - name: Killall Solr/Zookeeper processes
       shell: killall -w -u solr -u zookeeper 
       failed_when: false
     
     - name: Mount /etc/fstab
       shell: mount -a
+      args:
+        warn: false
     
     - name: Start httpd, solr, zookeeper
       systemd:

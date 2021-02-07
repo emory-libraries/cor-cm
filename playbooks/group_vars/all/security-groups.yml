@@ -2,14 +2,14 @@
 sg_pre: "security-group-{{ aws_region }}"
 sg_managed: "** This security group is managed by Ansible, any manual changes may be overridden **"
 ec2_groups: #manage-sg
-  - name: '{{ sg_pre }}-a-http-to-iiif'
-    description: Allows http/https to iiif arch, outgoing anywhere
+  - name: '{{ sg_pre }}-http-from-vpc'
+    description: Allow incoming http/https connections from Entire VPC range, for backend applications
     rules:
       - proto: tcp
         ports:
           - 80
           - 443
-        group_name: '{{ sg_pre }}-a-http-to-iiif'
+        cidr_ip: 10.65.88.0/23
         rule_desc: HTTP/HTTPS
     rules_egress:
       - proto: tcp
@@ -18,182 +18,14 @@ ec2_groups: #manage-sg
           - 443
         cidr_ip: 0.0.0.0/0
         rule_desc: HTTP/HTTPS
-  - name: '{{ sg_pre }}-t-http-to-iiif'
-    description: Allows http/https to iiif test, outgoing anywhere
-    rules:
-      - proto: tcp
-        ports:
-          - 80
-          - 443
-        group_name: '{{ sg_pre }}-t-http-to-iiif'
-        rule_desc: HTTP/HTTPS
+  - name: '{{ sg_pre }}-tp-ldap'
+    description: Allow LDAP connections for AWX login
     rules_egress:
       - proto: tcp
         ports:
-          - 80
-          - 443
+          - 389
         cidr_ip: 0.0.0.0/0
-        rule_desc: HTTP/HTTPS
-  - name: '{{ sg_pre }}-p-http-to-iiif'
-    description: Allows http/https to iiif prod, outgoing anywhere
-    rules:
-      - proto: tcp
-        ports:
-          - 80
-          - 443
-        group_name: '{{ sg_pre }}-p-http-to-iiif'
-        rule_desc: HTTP/HTTPS
-    rules_egress:
-      - proto: tcp
-        ports:
-          - 80
-          - 443
-        cidr_ip: 0.0.0.0/0
-        rule_desc: HTTP/HTTPS
-  - name: '{{ sg_pre }}-a-http-to-fedora'
-    description: Allows http/https to fedora arch, outgoing anywhere
-    rules:
-      - proto: tcp
-        ports:
-          - 80
-          - 443
-        group_name: '{{ sg_pre }}-a-http-to-fedora'
-        rule_desc: HTTP/HTTPS
-    rules_egress:
-      - proto: tcp
-        ports:
-          - 80
-          - 443
-        cidr_ip: 0.0.0.0/0
-        rule_desc: HTTP/HTTPS
-  - name: '{{ sg_pre }}-t-http-to-fedora'
-    description: Allows http/https to fedora test, outgoing anywhere
-    rules:
-      - proto: tcp
-        ports:
-          - 80
-          - 443
-        group_name: '{{ sg_pre }}-t-http-to-fedora'
-        rule_desc: HTTP/HTTPS
-    rules_egress:
-      - proto: tcp
-        ports:
-          - 80
-          - 443
-        cidr_ip: 0.0.0.0/0
-        rule_desc: HTTP/HTTPS
-  - name: '{{ sg_pre }}-p-http-to-fedora'
-    description: Allows http/https to fedora prod, outgoing anywhere
-    rules:
-      - proto: tcp
-        ports:
-          - 80
-          - 443
-        group_name: '{{ sg_pre }}-p-http-to-fedora'
-        rule_desc: HTTP/HTTPS
-    rules_egress:
-      - proto: tcp
-        ports:
-          - 80
-          - 443
-        cidr_ip: 0.0.0.0/0
-        rule_desc: HTTP/HTTPS
-  - name: '{{ sg_pre }}-t-http/https-to-self-arch'
-    description: Group that allows http only to other servers in group
-    rules:
-      - proto: tcp
-        ports:
-          - 80
-          - 443
-        group_name: '{{ sg_pre }}-t-http/https-to-self-arch'
-        rule_desc: HTTP/HTTPS
-    rules_egress:
-      - proto: tcp
-        ports:
-          - 80
-          - 443
-        cidr_ip: 0.0.0.0/0
-        rule_desc: HTTP/HTTPS
-  - name: '{{ sg_pre }}-a-http-to-solr'
-    description: Allows http/https to solr arch, outgoing anywhere
-    rules:
-      - proto: tcp
-        ports:
-          - 80
-          - 443
-        group_name: '{{ sg_pre }}-a-http-to-solr'
-        rule_desc: HTTP/HTTPS
-    rules_egress:
-      - proto: tcp
-        ports:
-          - 80
-          - 443
-        cidr_ip: 0.0.0.0/0
-        rule_desc: HTTP/HTTPS
-  - name: '{{ sg_pre }}-t-http-to-solr'
-    description: Allows http/https to solr test, outgoing anywhere
-    rules:
-      - proto: tcp
-        ports:
-          - 80
-          - 443
-        group_name: '{{ sg_pre }}-t-http-to-solr'
-        rule_desc: HTTP/HTTPS
-    rules_egress:
-      - proto: tcp
-        ports:
-          - 80
-          - 443
-        cidr_ip: 0.0.0.0/0
-        rule_desc: HTTP/HTTPS
-  - name: '{{ sg_pre }}-p-http-to-solr'
-    description: Allows http/https to solr prod, outgoing anywhere
-    rules:
-      - proto: tcp
-        ports:
-          - 80
-          - 443
-        group_name: '{{ sg_pre }}-p-http-to-solr'
-        rule_desc: HTTP/HTTPS
-    rules_egress:
-      - proto: tcp
-        ports:
-          - 80
-          - 443
-        cidr_ip: 0.0.0.0/0
-        rule_desc: HTTP/HTTPS
-  - name: '{{ sg_pre }}-t-http/https-to-self-test'
-    description: Group that allows http only to other servers in group
-    rules:
-      - proto: tcp
-        ports:
-          - 80
-          - 443
-        group_name: '{{ sg_pre }}-t-http/https-to-self-test'
-        rule_desc: HTTP/HTTPS
-    rules_egress:
-      - proto: tcp
-        ports:
-          - 80
-          - 443
-        cidr_ip: 0.0.0.0/0
-        rule_desc: HTTP/HTTPS
-  - name: '{{ sg_pre }}-t-http/https-to-self-prod'
-    description: Group that allows http only to other servers in group
-    rules:
-      - proto: tcp
-        ports:
-          - 80
-          - 443
-        group_name: '{{ sg_pre }}-t-http/https-to-self-prod'
-        rule_desc: HTTP/HTTPS
-    rules_egress:
-      - proto: tcp
-        ports:
-          - 80
-          - 443
-        cidr_ip: 0.0.0.0/0
-        rule_desc: HTTP/HTTPS
+        rule_desc: LDAP
   - name: '{{ sg_pre }}-tp-ssh'
     description: 'SSH {{ sg_managed }}'
     rules:
