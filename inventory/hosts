@@ -7,9 +7,6 @@ all:
             awx_instance_group_web:
               hosts:
                 awx.library.emory.edu: 
-            #awx_instance_group_task:
-              #hosts:
-                #fcor.library.emory.edu:
         curate:
           hosts:
             curate-test.library.emory.edu:
@@ -22,7 +19,6 @@ all:
             digital-arch.library.emory.edu:
         fedora:
           hosts:
-            fedora-tf.internal.emory.edu:
             fedora-cor-test.library.emory.edu:
             fedora-cor.library.emory.edu:
             fedora-cor-arch.library.emory.edu:
