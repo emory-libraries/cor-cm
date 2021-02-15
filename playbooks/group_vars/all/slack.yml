@@ -12,3 +12,8 @@ s3_batch_op_slack_channel: '#dlp-backups'
 
 copy_to_s3_slack:
   token: '{{ vault_dlp.slack.dlp_backups_file_system }}'
+
+#### S3 Key Testing Role
+s3_user_prefix: /awx_access_key_test/
+s3_user_local_support: Paul Petersen
+s3_user_slack_token: '{{ vault_dlp.slack.dlp_automation }}'
