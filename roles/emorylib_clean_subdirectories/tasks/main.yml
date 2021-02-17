@@ -1,0 +1,31 @@
+---
+# tasks file for emorylib_clean_subdirectories
+
+- name: Include tasks to check sub directories
+  include_tasks: check-subdir-paths.yml
+
+- name: Execute block if subdirectories are found
+  block: 
+    - name: Include tasks to get folder file size (Initial)
+      include_tasks: get-folder-size.yml
+      vars:
+        run: initial
+    
+    - name: Delete old subdirectories
+      file:
+        path: '{{ item }}'
+        state: absent
+      loop: '{{ sub_dir_paths }}'
+
+    - name: Include tasks to get folder file size (Final)
+      include_tasks: get-folder-size.yml
+      vars:
+        run: final
+
+    - name: Set fact for esimated deletion size
+      set_fact:
+        estimated_deletion_size: '{{ ( initial_folder_size_sum  | int - final_folder_size_sum | int) | human_readable }}'
+  when: directories_matched | int > 0
+
+- name: Include tasks for creating report and outputting to slack
+  include_tasks: create-report-output-to-slack.yml

@@ -1,0 +1,19 @@
+---
+- name: '{{ run | capitalize }} shell command to get folder sizes'
+  shell:
+    du -sb {{ item }}
+  loop: '{{ subdirectories_paths }}'
+  register: du_folder_size_info
+
+- name: '{{ run | capitalize }} set fact for raw folder size'
+  set_fact:
+    folder_raw_size_list: '{{ du_folder_size_info | json_query("results[].stdout") }}'
+
+- name: '{{ run | capitalize }} set fact for folder size list'
+  set_fact:
+    '{{ run }}_folder_size_list': '{{ folder_size_list | d ([]) + [item.split()[0]] }}'
+  loop: '{{ folder_raw_size_list }}'
+
+- name: '{{ run | capitalize }} set fact to sum list'
+  set_fact:
+   '{{ run }}_folder_size_sum': '{{ lookup("vars", run + "_folder_size_list") | map("int") | sum }}'
