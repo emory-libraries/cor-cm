@@ -1,0 +1,6 @@
+---
+- hosts: '{{ host }}'
+  become: yes
+  tasks:
+    - include_role: 
+        name: emorylib_clean_subdirectories

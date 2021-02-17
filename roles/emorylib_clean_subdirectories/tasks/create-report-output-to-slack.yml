@@ -1,0 +1,31 @@
+---
+- name: Set fact to create report and slack attachment
+  set_fact:
+    console_report: '{{ report }}'
+    slack_attachment:
+      - title: 'File Deletion Report for {{ inventory_hostname_short | capitalize }}, Directories Older Than: {{ subdirectories_age }} Days'
+        text: '{{ report }}'
+  vars:
+    report: |
+      Number of directories deleted: {{ directories_matched }}
+      Estimated file size deleted: {{ estimated_deletion_size | d ("No files were deleted!") }}
+
+- name: Debug report to console
+  debug:
+    var: console_report
+
+- name: Optional Error message to Slack
+  slack:
+    attachments: '{{ slack_attachment }}'
+    token: '{{ clean_subdir_slack_token }}'
+    msg: '{{ clean_subdir_slack_msg | d (omit) }}'
+    channel: '{{ clean_subdir_slack_channel | d (omit) }}'
+    color: '{{ clean_subdir_slack_color | d (omit) }}'
+    thread_id: '{{ clean_subdir_slack_thread_id | d (omit) }}'
+    username: '{{ clean_subdir_slack_username | d (omit) }}'
+    icon_url: '{{ clean_subdir_slack_icon_url | d (omit) }}'
+    icon_emoji: '{{ clean_subdir_slack_icon_emoji | d (omit) }}'
+    link_names: '{{ clean_subdir_slack_link_names | d (omit) }}'
+    parse: '{{ clean_subdir_slack_parse | d (omit) }}'
+  when: clean_subdir_slack_token is defined
+    

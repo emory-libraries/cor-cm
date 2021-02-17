@@ -1,0 +1,12 @@
+---
+- name: Find subdirectories older than {{ subdirectories_age }} days
+  find:
+    paths: '{{ subdirectories_paths }}'
+    file_type: directory
+    age: '{{subdirectories_age }}d'
+  register: old_directories_info
+
+- name: Set facts from subdirectories find
+  set_fact:
+    sub_dir_paths: '{{ old_directories_info | json_query("files[].path") | d (0) }}'
+    directories_matched: '{{ old_directories_info.matched }}'
