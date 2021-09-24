@@ -10,8 +10,8 @@ s3_batch_op_generate_direct_download: false
 s3_batch_op_generate_console_download: true
 s3_batch_op_report_to_slack: true
 
-s3_batch_op_describe_job_retries: 100
-s3_batch_op_describe_job_delay: 35
+s3_batch_op_describe_job_retries: 150
+s3_batch_op_describe_job_delay: 50
 
 ####### Batch Jobs ##############
 
