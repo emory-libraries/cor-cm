@@ -1,4 +1,4 @@
-- hosts: '{{ lookup("vars", host) }}'
+- hosts: "{{ lookup("vars", host) }}"
   become: yes
   tasks:
     - name: Stop Sidekiq
