@@ -1,4 +1,4 @@
-- hosts: '{{ lookup("vars", host).curate }}'
+- hosts: '{{ lookup("vars", host) }}'
   become: yes
   tasks:
     - name: Stop Sidekiq
@@ -8,4 +8,4 @@
     - name: Start Sidekiq
       ansible.builtin.systemd:
         name: sidekiq
-        state: started 
+        state: started
