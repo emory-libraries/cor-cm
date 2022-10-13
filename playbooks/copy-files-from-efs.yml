@@ -1,0 +1,19 @@
+---
+- hosts: '{{ lookup("vars", host).curate }}'
+  become: yes
+  vars: 
+    import_dir: "/opt/dlp-curate/current/imports/{{ ansible_date_time.iso8601_micro }}/files/"
+  tasks:
+    - name: debug
+      debug:
+        msg: "files will be in {{ import_dir }}"
+    - name: copy specified files from efs
+      copy:
+        src: "/mnt/import_efs/{{ imports }}/"
+        dest: "{{ import_dir }}"
+        remote_src: yes
+    - name: flatten directory
+      command: "find /{{ import_dir }} -mindepth 2 -type f -exec mv -t /{{ import_dir }} -i '{}' +"
+    - name: remove empty subdirs
+      command: "find {{ import_dir }} -empty -type d -delete"
+
