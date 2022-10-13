@@ -1,0 +1,11 @@
+- hosts: '{{ lookup("vars", host) }}'
+  become: yes
+  tasks:
+    - name: Stop Sidekiq
+      ansible.builtin.systemd:
+        name: sidekiq
+        state: stopped
+    - name: Start Sidekiq
+      ansible.builtin.systemd:
+        name: sidekiq
+        state: started
