@@ -2,14 +2,14 @@
 - hosts: '{{ lookup("vars", host) }}'
   become: yes
   vars: 
-    import_dir: "/opt/dlp-curate/current/imports/{{ ansible_date_time.iso8601_micro }}/files/"
+    import_dir: "/opt/dlp-curate/current/imports/{{ imports_dir_name  }}/files/"
   tasks:
-    - name: debug
-      debug:
-        msg: "files will be in {{ import_dir }}"
+    #- name: debug
+    #  debug:
+     #   msg: "files will be in {{ import_dir }}"
     - name: copy specified files from efs
       copy:
-        src: "/mnt/import_efs/{{ imports }}/"
+        src: "/mnt/import_efs/{{ efs_folder }}/"
         dest: "{{ import_dir }}"
         remote_src: yes
     - name: flatten directory
