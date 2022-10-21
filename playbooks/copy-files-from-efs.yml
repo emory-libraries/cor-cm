@@ -17,7 +17,7 @@
         remote_src: yes
         owner: deploy
         group: deploy
-        mode: 0644
+        mode: 0755
     - name: flatten directory
       command: "find /{{ import_dir }} -mindepth 2 -type f -exec mv -t /{{ import_dir }} -nv '{}' +"
     - name: remove empty subdirs
