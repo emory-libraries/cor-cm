@@ -4,6 +4,12 @@
   vars: 
     import_dir: "/opt/dlp-curate/current/tmp/imports/{{ imports_dir_name }}/files/"
   tasks:
+    - name: make sure imports exists
+      file: 
+        path: "/opt/dlp-curate/current/imports"
+        state: directory
+        owner: deploy
+        group: deploy
     - name: copy specified files from efs
       copy:
         src: "/mnt/import_efs/{{ efs_dir_name }}/"
