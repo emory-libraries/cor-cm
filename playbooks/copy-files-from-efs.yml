@@ -4,6 +4,8 @@
   vars: 
     import_dir: "/opt/dlp-curate/current/tmp/imports/{{ imports_dir_name }}/files/"
   tasks:
+    - debug: 
+        msg: this is a debug message!
     - name: make sure imports exists
       file: 
         path: "/opt/dlp-curate/current/imports"
