@@ -4,14 +4,14 @@
   vars: 
     import_dir: "/opt/dlp-curate/current/tmp/imports/{{ imports_dir_name }}/files/"
   tasks:
-    #- name: debug
-    #  debug:
-     #   msg: "files will be in {{ import_dir }}"
     - name: copy specified files from efs
       copy:
         src: "/mnt/import_efs/{{ efs_dir_name }}/"
         dest: "{{ import_dir }}"
         remote_src: yes
+        owner: deploy
+        group: deploy
+        mode: 0644
     - name: flatten directory
       command: "find /{{ import_dir }} -mindepth 2 -type f -exec mv -t /{{ import_dir }} -nv '{}' +"
     - name: remove empty subdirs
