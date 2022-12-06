@@ -4,8 +4,6 @@
   vars: 
     import_dir: "/opt/dlp-curate/current/tmp/imports/{{ imports_dir_name }}/files/"
   tasks:
-    - debug: 
-        msg: this is a debug message!
     - name: make sure imports exists
       file: 
         path: "/opt/dlp-curate/current/imports"
@@ -21,7 +19,7 @@
         group: deploy
         mode: 0755
     - name: flatten directory
-      command: "find /{{ import_dir }} -mindepth 2 -type f -exec mv -t /{{ import_dir }} -nv '{}' +"
+      command: "find {{ import_dir }} -mindepth 2 -type f -exec mv -t {{ import_dir }} '{}' +"
     - name: remove empty subdirs
       command: "find {{ import_dir }} -empty -type d -delete"
 
