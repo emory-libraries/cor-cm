@@ -13,7 +13,7 @@
         dest: "{{ import_dir }}"
         remote_src: yes
     - name: flatten directory
-      command: "find /{{ import_dir }} -mindepth 2 -type f -exec mv -t /{{ import_dir }} -i '{}' +"
+      command: "find /{{ import_dir }} -mindepth 2 -type f -exec mv -t /{{ import_dir }} -nv '{}' +"
     - name: remove empty subdirs
       command: "find {{ import_dir }} -empty -type d -delete"
 
