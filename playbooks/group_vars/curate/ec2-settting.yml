@@ -10,5 +10,5 @@ ec2_default_volume:
 subdirectories_paths:
   - /opt/curate/upload/hyrax/uploaded_file/intermediate_file
   - /opt/curate/upload/hyrax/uploaded_file/preservation_master_file
-  - /opt/dlp-curate/current/tmp/imports
+  - /opt/dlp-curate/current/tmp/imports/*
 subdirectories_age: 7
