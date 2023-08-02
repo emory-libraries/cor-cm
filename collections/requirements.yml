@@ -1,0 +1,5 @@
+- include: playbooks/requirements/ucla-samvera.yml
+- include: playbooks/requirements/dce-forks.yml
+- include: playbooks/requirements/aws-management.yml
+- include: playbooks/requirements/emory_wh.yml
+- include: playbooks/requirements/dce-utility.yml
