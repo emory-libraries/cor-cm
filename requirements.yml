@@ -3,4 +3,5 @@
 - include: playbooks/requirements/dce-utility.yml
 - include: playbooks/requirements/aws-management.yml
 - include: playbooks/requirements/emory_wh.yml
-
+- src: https://github.com/emory-libraries/emorylib_clean_subdirectories.git
+  version: directory_empty_error_handling
