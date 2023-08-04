@@ -1,7 +1,7 @@
 ---
 - name: '{{ run | capitalize }} shell command to get folder sizes'
   shell:
-    du -sb {{ item }}
+    du -sb {{ item }} 2>/dev/null
   loop: '{{ subdirectories_paths }}'
   register: du_folder_size_info
 

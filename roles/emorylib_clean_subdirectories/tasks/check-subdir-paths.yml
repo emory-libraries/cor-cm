@@ -5,6 +5,7 @@
     file_type: directory
     age: '{{subdirectories_age }}d'
   register: old_directories_info
+  ignore_errors: true
 
 - name: Set facts from subdirectories find
   set_fact:
