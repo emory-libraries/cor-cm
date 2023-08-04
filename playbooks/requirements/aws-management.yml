@@ -47,5 +47,4 @@
 - src: https://github.com/emory-libraries/emorylib_copy_from_s3.git
 - src: https://github.com/emory-libraries/emorylib_refresh_inventory.git
 - src: https://github.com/emory-libraries/emorylib_s3_test_access_key.git
-- src: https://github.com/emory-libraries/emorylib_clean_subdirectories.git
-  version: directory_empty_error_handling
+- src: https://github.com/emory-libraries/emorylib_clean_subdirectories.git,directory_empty_error_handling
