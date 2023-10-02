@@ -1,6 +1,6 @@
 ---
 - name: List keys for {{ bucket_type }} bucket, via awscli
-  shell: aws s3 ls {{ s3.bucket }}/{{ s3.key_prefix | d () | regex_replace(get_trailing_slash, '') }}{{ key_prefix_ternary }} | sed 's/PRE //g' | sed 's/.$//g' | grep -Ev "data|hive"
+  shell: aws s3 ls {{ s3.bucket }}/{{ s3.key_prefix | d () | regex_replace(get_trailing_slash, '') }}{{ key_prefix_ternary }} | sed 's/PRE //g' | sed 's/.$//g' | grep -Ev "data|hive" | sort -r
   vars:
     get_trailing_slash: \/$
     key_prefix_ternary: '{{ s3.key_prefix is defined | ternary ("/", "") }}'
