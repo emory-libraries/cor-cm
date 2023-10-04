@@ -1,7 +1,6 @@
 ---
 - name: Read {{ bucket_type }} csv file
-  async: 500
-  poll: 45
+  timeout: 8000
   read_csv:
     path: '{{ csv_path }}'
     fieldnames: '{{ source_inventory_json.fileSchema | regex_replace(" ", "") }}'
@@ -9,6 +8,5 @@
   register: read_csv_info
 
 - name: Add read csv info to list
-  poll: 0
   set_fact:
     '{{ bucket_type }}_csv': '{{ lookup("vars", bucket_type + "_csv", default={}) | combine (read_csv_info.dict) }}'
