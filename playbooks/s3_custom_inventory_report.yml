@@ -1,5 +1,7 @@
 ---
 - hosts: all
+  async: 500
+  poll: 0
   tasks:
     - include_role:
         name: emorylib_s3_custom_inventory_report
