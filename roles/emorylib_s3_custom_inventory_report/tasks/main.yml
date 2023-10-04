@@ -2,7 +2,6 @@
 # tasks file for emorylib_s3_custom_inventory_report
 
 - name: Include tasks to get source bucket key
-  poll: 0 
   include_tasks:
     file: list-bucket-keys.yml
   vars:
@@ -10,7 +9,6 @@
     s3: '{{ s3_custom_report.source }}'
   
 - name: Include tasks to get destination bucket key
-  poll: 0
   include_tasks:
     file: list-bucket-keys.yml
   vars:
@@ -18,7 +16,6 @@
     s3: '{{ s3_custom_report.dest }}'
 
 - name: Include tasks to combine and compare .csv files
-  poll: 0
   include_tasks:
     file: combine-and-compare-csv-files.yml
   vars:
@@ -26,7 +23,6 @@
     s3: '{{ s3_custom_report.source }}'
 
 - name: Include tasks to split difference list into smaller lists
-  poll: 0
   include_tasks:
     file: split-difference-list.yml
   vars:
@@ -35,7 +31,6 @@
   when: difference_count | int > 0
 
 - name: Include tasks to compress file and upload to s3
-  poll: 0
   include_tasks:
     file: gzip-upload-to-s3.yml
   when: difference_count | int > 0
@@ -46,7 +41,6 @@
     download_location: '{{ s3_custom_report_download_location }}'
 
 - name: Include tasks to create/upload manifest json and checksum
-  poll: 0
   include_tasks:
     file: create-upload-manifest-files.yml
   vars:
