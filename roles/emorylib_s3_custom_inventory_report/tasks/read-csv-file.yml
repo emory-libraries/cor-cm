@@ -1,6 +1,7 @@
 ---
 - name: Read {{ bucket_type }} csv file
-  poll: 0
+  async: 500
+  poll: 45
   read_csv:
     path: '{{ csv_path }}'
     fieldnames: '{{ source_inventory_json.fileSchema | regex_replace(" ", "") }}'
