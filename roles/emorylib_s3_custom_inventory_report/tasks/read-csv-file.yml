@@ -1,12 +1,19 @@
 ---
 - name: Read {{ bucket_type }} csv file
   async: 900
-  poll: 60
+  poll: 0
   read_csv:
     path: '{{ csv_path }}'
     fieldnames: '{{ source_inventory_json.fileSchema | regex_replace(" ", "") }}'
     key: Key
   register: read_csv_info
+- name: Check if we read this csv
+  async_status:
+    jid: "{{ read {{ bucket_type }} csv file }}"
+  register: job_result
+  until: job_result.finished
+  delay: 30
+  retries: 300
 
 - name: Add read csv info to list
   set_fact:
