@@ -1,5 +1,5 @@
 ---
-- name: Read {{ bucket_type }} csv file
+- name: Read bucket_type csv file
   async: 900
   poll: 0
   read_csv:
@@ -9,7 +9,7 @@
   register: read_csv_info
 - name: Check if we read this csv
   async_status:
-    jid: "{{ read {{ bucket_type }} csv file }}"
+    jid: "{{ Read bucket_type csv file }}"
   register: job_result
   until: job_result.finished
   delay: 30
