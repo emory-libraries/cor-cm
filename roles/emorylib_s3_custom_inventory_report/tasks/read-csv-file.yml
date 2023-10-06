@@ -7,13 +7,6 @@
     fieldnames: '{{ source_inventory_json.fileSchema | regex_replace(" ", "") }}'
     key: Key
   register: read_csv_info
-- name: Check if we read this csv
-  async_status:
-    jid: "{{ read_csv_info.ansible_job_id }}"
-  register: job_result
-  until: job_result.finished
-  delay: 30
-  retries: 300
 
 - name: Add read csv info to list
   set_fact:
