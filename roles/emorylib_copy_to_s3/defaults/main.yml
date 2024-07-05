@@ -2,5 +2,5 @@
 # defaults file for emorylib_copy_to_s3
 
 copy_to_s3_async: 18000
-copy_to_s3_retries: 400
-copy_to_s3_delay: 70
+copy_to_s3_retries: 800
+copy_to_s3_delay: 80
