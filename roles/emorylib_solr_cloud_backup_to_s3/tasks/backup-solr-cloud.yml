@@ -20,6 +20,7 @@
 
 - name: Wait for temp directory to become available
   wait_for:
+    timeout: 1200
     path: '{{ temp_dir }}'
 
 - name: Ensure temp directory has not be written to for at least 5 seconds
