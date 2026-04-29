@@ -41,7 +41,7 @@ all:
                 solr-cor-test-[1:3].library.emory.edu:
             solr_arch:
               hosts:
-                solr-arch-3
+                solr-arch-3:
                 solr-cor-arch-[1:2].library.emory.edu:
         s3_iam:
           hosts:
