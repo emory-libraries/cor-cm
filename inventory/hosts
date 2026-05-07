@@ -10,7 +10,7 @@ all:
         curate:
           hosts:
             curate-test.library.emory.edu:
-            curate.library.emory.edu:
+            curate-prod.library.emory.edu:
             curate-arch.library.emory.edu:
         lux:
           hosts:
