@@ -2,11 +2,11 @@
 - hosts: '{{ lookup("vars", host) }}'
   become: yes
   vars: 
-    import_dir: "/opt/dlp-curate/current/imports/{{ imports_dir_name }}/files/"
+    import_dir: "/opt/dlp-curate/current/tmp/imports/{{ imports_dir_name }}/files/"
   tasks:
     - name: make sure imports exists
       file: 
-        path: "/opt/dlp-curate/current/imports"
+        path: "/opt/dlp-curate/current/tmp/imports"
         state: directory
         owner: deploy
         group: deploy
